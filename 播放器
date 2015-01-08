@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="这是一个测试">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <link rel="stylesheet" href="css/animate.css">
+  <title>一个播放器</title>
+  <style type="text/css">
+	  *{margin:0;padding:0;font-size:12px;}
+	  img{display:block;border:0;}
+	  .lyricArea p{line-height:1.5em;min-height:1.5em;}
+	  .currentLyric{font-size:18px;color:red; }
+
+	  .wrap{display:inline-block;width:300px;height:500px;position:relative;overflow:hidden;background:rgb(0,255,255);}
+	  .lyricArea{width:288px;padding:250px 0;box-sizing:border-box;text-align:center;position:relative;}
+	  .myScrollbar{position:absolute;right:0;top:0;width:4px;height:100%;background:rgba(255,0,0,0.2);padding:0 4px 0 10px;background-clip:content-box;cursor:default;}
+  </style>
+ </head>
+ <body>
+	<audio src="kong.mp3" id="audio" controls loop></audio>
+	<div id="wrap" class="wrap">
+		<div id="lyricArea" class="lyricArea"></div>
+		<div id="myScrollbar" class="myScrollbar"></div>
+	</div>
+<script type="text/javascript"src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> 
+  <script type="text/javascript">
+	$(function(){
+		var timeTag ;
+		var lyricArea = document.getElementById('lyricArea');
+		var audio = document.getElementById('audio');
+		var lyricDrop = false ;
+		var lyricWheel = false ;
+		var lyricStr = '[00:01.92]半城烟沙[00:03.27]词曲：许嵩[00:09.30]演唱：许嵩[00:11.13][00:34.49]有些爱像断线纸鸢结局悲余手中线[00:42.69]有些恨像是一个圈冤冤相报不了结[00:50.05]只为了完成一个夙愿还将付出几多鲜血[00:58.30]忠义之言自欺欺人的谎言[01:07.64]有些情入苦难回绵窗间月夕夕成玦[01:15.81]有些仇心藏却无言腹化风雪为刀剑[01:23.28]只为了完成一个夙愿荒乱中邪正如何辨[01:30.99]飞沙狼烟将乱我徒有悲添[01:39.74]半城烟沙兵临池下[01:43.55]金戈铁马替谁争天下[01:47.49]一将成万骨枯多少白发送走黑发[01:55.09]半城烟沙随风而下[02:00.72]手中还有一缕牵挂[02:05.40]只盼归田卸甲还能捧回你沏的茶[02:11.98][02:47.07]有些情入苦难回绵窗间月夕夕成玦[02:54.98]有些仇心藏却无言腹化风雪为刀剑[03:05.15]只为了完成一个夙愿荒乱中邪正如何辨[03:10.75]飞沙狼烟将乱我徒有悲添[03:19.01]半城烟沙兵临池下[03:22.99]金戈铁马替谁争天下[03:27.07]一将成万骨枯多少白发送走黑发[03:35.54]半城烟沙随风而下[03:39.60]手中还有一缕牵挂[03:43.91]只盼归田卸甲还能捧回你沏的茶[03:52.37]半城烟沙兵临池下[03:58.12]金戈铁马替谁争天下[04:00.74]一将成万骨枯多少白发送走黑发[04:08.95]半城烟沙血泪落下[04:12.98]残骑裂甲铺红天涯[04:17.63]转世燕还故榻为你衔来二月的花[04:28.23]' ;
+		geci(lyricStr);
+		var $lyricArea = $('#lyricArea'),$myScrollbar = $('#myScrollbar');
+		var lyricAreaMinTop = $('#wrap').height() - ( $lyricArea.height() + 500);
+		var $p = $('p')
+		$myScrollbar.height($myScrollbar.height()*$myScrollbar.height()/($lyricArea.height()+500));
+		var biLi = ($lyricArea.height()+500-$('#wrap').height())/($('#wrap').height()-$myScrollbar.height()) ; //lyricArea的Top变化值与myScrollbar的Top变化值的比
+		drag('myScrollbar');
+		audio.ontimeupdate = function(e){ //audio时间更新时间
+			for (var i=1;i<timeTag.length;i++ )
+			{
+				if (audio.currentTime>=timeTag[i] && audio.currentTime<timeTag[i+1])
+				{
+					$p.eq(i).addClass('currentLyric').siblings().removeClass('currentLyric');
+					var top = 250-$p.eq(i).position().top ;
+					if (!lyricDrop && !lyricWheel && top<=0 && top>=lyricAreaMinTop)
+					{
+						$lyricArea.css({'top':top}).siblings().css({'top':-top/biLi});
+						break;
+					}
+				}
+			}
+		}
+		lyricArea.addEventListener('mousewheel',function(e){ //鼠标滚动事件
+			lyricWheel = true ;
+			if(typeof(tuichi)!='undefined')
+			{
+				clearTimeout(tuichi);
+			}
+			var data = e.detail || e.wheelDelta ;
+			if (data>0)
+			{
+				data = 5 ;
+			}
+			else { data= -5 ;}
+			var top = $lyricArea.position().top -data*18 ;
+			if( top<=0 && top>=lyricAreaMinTop)
+			{
+					$lyricArea.css({'top':top}).siblings().css({'top':-top/biLi});
+			}
+			else if (top>0)
+			{
+				$lyricArea.css({'top':0}).siblings().css({'top':0});
+			} 
+			else if( top<lyricAreaMinTop )
+			{
+				$lyricArea.css({'top':lyricAreaMinTop}).siblings().css({'top':-lyricAreaMinTop/biLi});
+			}
+			tuichi = setTimeout(function(){
+				lyricWheel = false ;
+			},3000);
+		}); 
+		function geci(lyricStr){
+			//将歌词中的时间标签去除，依次排列，将其包裹上p标签，然后添加到歌词显示单元
+			//记录时间标签，然后再执行歌词高亮等程序
+			 var lyric = lyricStr ;
+			 var arr = lyric.split(/\[[^\]]*\]/g);
+			 var str ='';
+			 for (i=1;i<arr.length ;i++ )
+			 {
+				 str = str+'<p>'+arr[i]+'</p>'
+			 }
+			 lyricArea.innerHTML = str ;
+			 timeTag = lyric.match(/\[[^\]]*\]/g); 
+			 for (t=0;t<timeTag.length ;t++) //去除中括号 再将获得的字符串打散为数组
+			 {
+				var time = timeTag[t].replace(/[\[\]]/g,'').split(':');
+				timeTag[t] = parseInt(time[0],10)*60+parseFloat(time[1]);
+			 }
+			 return timeTag ;
+		}
+		function drag(id){ //滚动条拖动事件
+			var id =document.getElementById(id);
+			var xx,yy,xX,yY,idX,idY,lyricAreaTop;
+			var idMove = false ;
+			id.addEventListener('mousedown',function(e){
+				xx = e.pageX ;
+				yy = e.pageY ;
+				yY = yy ;
+				xX =xx ;
+				idX = id.offsetLeft ;
+				idY = id.offsetTop ;
+				idMove = true ;
+				lyricDrop = true;
+				lyricAreaTop = $('#lyricArea').position().top ;
+			});
+			document.addEventListener('mousemove',function(e){
+				xX = e.pageX ;
+				yY = e.pageY ;
+				if (yY - yy + idY >= 0 && yY - yy + idY <= $('#wrap').height() - $('#myScrollbar').height() && idMove)
+				{
+					id.style.top = (yY - yy + idY)+'px' ;
+					$('#lyricArea').css({'top':lyricAreaTop-(yY-yy)*biLi});
+				}
+			});
+			document.addEventListener('mouseup',function(e){
+				idMove = false ;
+				lyricDrop = false;
+			});
+		}
+	});
+</script>
+ </body>
+</html>
