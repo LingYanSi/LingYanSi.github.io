@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title>西厢</title>
+  <style type="text/css">
+	  html{overflow-y:hidden;overflow-x:hidden;}
+	  .wrap{}
+	  .main{padding-top:0;background:rgb(239,239,239);position:relative;display:none;}
+	  
+	  .wheel{position:relative;width:100%;height:100%;}
+	  .wheel-item{position:absolute;top:0;left:0;font-size:100px;text-align:center;color:rgb(255,255,255);overflow:hidden;min-height:400px;min-width:400px;}
+	  .wheel-item-current{top:0;}
+	  .wheel-item-transition{transition:top 1s;-webkit-transition:top 1s;-moz-transition:top 1s;-ms-transition:top 1s;}
+	  .color-2{background-color:rgb(23,44,60);}
+	  .color-3{background-color:rgb(131,175,155);}
+	  .color-4{background-color:rgb(249,205,173);}
+	  .color-5{background-color:rgb(247,104,104);}
+
+	  .top{}
+	  .yuan{width:50px;height:50px;border-radius:50px;background:rgba(255,255,255,0.5);z-index:1000;position:absolute;left:50px;top:-50px;transition:top 0.8s;-webkit-animation:nihao 4s infinite alternate;-moz-animation:nihao 4s infinite alternate;-ms-animation:nihao 4s infinite alternate;}
+	  .yuan:before{content:"";display:block;position:absolute;height:1000px;width:0;border:1px solid rgba(255,255,255,0.5);bottom:100%;left:50%;}
+	  .yuan-drop{top:100px;}
+
+	  @-webkit-keyframes nihao
+	  {
+		 from{background:rgba(247,104,104,1)}
+		 to{background:rgba(0,255,255,1)}
+	  }
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<div id="" class="wheel">
+				<div class="wheel-item color-2 ">杨花落尽子规啼</div>
+				<div class="wheel-item color-3">朝闻道</div>
+				<div class="wheel-item color-4">铜雀春深锁二乔</div>
+				<div class="wheel-item color-5">Zhe shi yi ju ying yu</div>
+			</div>
+			<div id="top" class="top">
+				<div id="" class="yuan"></div>
+			</div>
+		</div>
+	</div>
+ <script src="js/jquery-1.11.2.min.js"></script>
+ <script src="js/global.js"></script>
+ <script type="text/javascript">
+	$(function(){
+		var winHeight,winWidth ;
+		setStyle();
+		windowWheel();
+		//alert(navigator.userAgent)
+		function setStyle(){
+			winHeight = $(window).height();
+			winWidth = $(window).width();
+			$('.wheel').height(winHeight);
+			$('.wheel-item').css({'height':winHeight,'width':winWidth,'line-height':winHeight+'px','top':winHeight}).eq(0).css({'top':0});
+			$('#main').css({'opacity':1});
+		}
+		window.onresize = function(){
+			winHeight = $(window).height();
+			winWidth = $(window).width();
+			$('.wheel').height(winHeight);
+			$('.wheel-item').css({'height':winHeight,'width':winWidth,'line-height':winHeight+'px'});
+		}
+		setTimeout(function(){
+			dropYuan()
+		},500);
+
+		function dropYuan(){
+			var len = Math.floor(winWidth/100) ;
+			for (var i=0;i<len ;i++ )
+			{
+				$('#top').append($('.yuan').eq(0).clone());
+			}
+			$('.yuan').each(function(){
+				$(this).css({'left':100*$(this).index()});
+				$(this).show().css({'top':Math.random()*200+30});
+			});
+		}
+	    function windowWheel(){
+			var currentPage = 0 ;
+			var currentPagePrev,currentPageNext ;
+			var len = $('.wheel-item').length ;
+			var wheelTime = new Date().getTime();
+			wheelEvent(document,wheel);
+			function wheelEvent(dom,doWhat){
+				if(dom.addEventListener && !dom.attachEvent) 
+				{ 
+					dom.addEventListener('mousewheel',doWhat); 
+				//FF绑定滚动事件 
+					dom.addEventListener('DOMMouseScroll',doWhat); 
+				} 
+				//IE 
+				else if(dom.attachEvent && !dom.addEventListener){ //IE9一下
+					dom.attachEvent('onmousewheel',doWhat); 
+				}else{ 
+					dom.onmousewheel = doWhat; 
+				}
+			}
+			function wheel(event){ //监听window的滚轮事件，不过此处有较多的兼容性需要解决
+									//比如说ie9一下的事件event，需要window.event，Firefox需要DOMMouseScroll来监听滚轮事件，并且要e.delta来获取滚动值
+				if (new Date().getTime()-wheelTime>1000)
+				{
+					wheelTime = new Date().getTime();
+					var e = event || window.event; //IE9一下的事件监听用的是window.event
+					//获取滚动距离(FF每次滚动 data为3或者-3，其他为120或者-120) 
+					var delta = e.detail || -e.wheelDelta; 
+
+					var time = 1000 ;
+					if (delta<0) //向上滑动
+					{
+						$('.wheel-item').removeClass('wheel-item-transition');
+						currentPageNext = currentPage+1 ;
+						currentPageNext = setPage(currentPageNext,len) ;
+						console.log(currentPageNext)
+						//$('.wheel-item').eq(currentPage).show().addClass('wheel-item-transition').css({'top':'-100%'});
+						//$('.wheel-item').eq(currentPageNext).css({'top':'100%'}).show().addClass('wheel-item-transition').css({'top':0});
+
+						$('.wheel-item').eq(currentPage).show().animate({'top':'-100%'},time);
+						$('.wheel-item').eq(currentPageNext).css({'top':'100%'}).show().animate({'top':0},time);
+						currentPage++;
+						currentPage = setPage(currentPage,len) ;
+					}else{ //向下滑动
+						$('.wheel-item').removeClass('wheel-item-transition');
+						currentPagePrev = currentPage-1 ;
+						currentPagePrev = setPage(currentPagePrev,len) ;
+						console.log(currentPagePrev)
+						//$('.wheel-item').eq(currentPagePrev).css({'top':'-100%'}).show().addClass('wheel-item-transition').css({'top':0})
+						//$('.wheel-item').eq(currentPage).show().addClass('wheel-item-transition').css({'top':'100%'});
+
+						$('.wheel-item').eq(currentPage).show().animate({'top':'100%'},time);
+						$('.wheel-item').eq(currentPagePrev).css({'top':'-100%'}).show().animate({'top':0},time);
+						currentPage--;
+						currentPage = setPage(currentPage,len) ;
+					}
+					console.log(currentPage);
+				}
+			}
+		}
+		function setPage(page,maxLen){ //设置page
+			if (page>maxLen-1)
+			{
+				page=0;
+			}else if (page<0)
+			{
+				page=maxLen-1;
+			}
+			return page ;
+		}
+		document.getElementById('wrap').style.opacity = 1;
+	})
+ </script>
+ </body>
+</html>
