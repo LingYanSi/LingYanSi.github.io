@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;}
+		#golist {display: none;}
+		@media (max-device-width: 780px){#golist{display: block !important;}}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?type=quick&ak=483CGdNSIa79oDuNXZXfbXXz&v=1.0"></script>
+	<title>地图导航</title>
+</head>
+<body>
+	<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	document.title = '百度地图';
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(116.417854,39.921988); //中心位置坐标
+	map.centerAndZoom(point, 15);
+	map.addControl(new BMap.ZoomControl());       
+
+	var data_info = [[116.417854,39.921988,'<div style="width:100%;height:300px;"></div>'],
+					 [116.406605,39.921585,"地址：北京市东城区东华门大街"], 
+					 [116.412222,39.912345,"地址：北京市东城区正义路甲5号"]
+					]; //所有坐标的关联数组
+	var opts = {
+				width : 250,     // 信息窗口宽度
+				//           height: 80,     // 信息窗口高度
+				title : "信息窗口" , // 信息窗口标题
+				enableMessage:true//设置允许信息窗发送短息
+			   };
+	for(var i=0;i<data_info.length;i++){
+		var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]));  // 创建标注
+		var content = data_info[i][2];
+		map.addOverlay(marker);               // 将标注添加到地图中
+		addClickHandler(content,marker);
+	}
+	function addClickHandler(content,marker){
+		marker.addEventListener("click",function(e){
+			openInfo(content,e)}
+		);
+	}
+	function openInfo(content,e){
+		var p = e.target;
+		var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+		var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
+		map.openInfoWindow(infoWindow,point); //开启信息窗口
+	}
+	/*
+	function fff(){ //获取当前经纬度
+		//getlngLat()
+		var currentPosition = new Object();
+		function getlngLat(){
+			if (navigator.geolocation)
+			{
+				navigator.geolocation.getCurrentPosition(showPosition);
+			}
+		}
+		function showPosition(position)
+		{
+			 currentPosition.latitude = position.coords.latitude ,
+			 currentPosition.longitude = position.coords.longitude ;
+		}
+		//http://api.map.baidu.com/marker?location=39.916979519873,116.41004950566&title=我的位置&content=百度奎科大厦&output=html
+	
+	}
+
+	function addNewMarker(){
+		var pt = new BMap.Point(116.417, 39.909);
+		var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif", new BMap.Size(300,157));
+		var marker2 = new BMap.Marker(point,{icon:myIcon});  // 创建标注
+		map.addOverlay(marker2); 
+	}  
+	*/
+</script>
