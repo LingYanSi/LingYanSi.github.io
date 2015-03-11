@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  .main{padding-top:0;background:rgb(239,239,239);}
+	  
+	  
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<img src="img/134.jpg" alt="" id="imageSource" height="300" width="600"/>
+		<canvas id="myCanvas"></canvas>
+	</div>
+ <script type="text/javascript">
+	//-------------------------------做一个基于canvas的【图片上传，剪切】的插件
+		window.onload = function() { 
+			var canvas = document.getElementById("myCanvas"); 
+			var image = document.getElementById("imageSource"); 
+			// re-size the canvas deminsion 
+			console.log(image.width)
+			canvas.width = image.width; 
+			canvas.height = image.height; 
+			// get 2D render object 
+			var context = canvas.getContext("2d"); 
+			context.drawImage(image, 0, 0,canvas.width,canvas.height); 
+			var canvasData = context.getImageData(0, 0, canvas.width, canvas.height); 
+			alert(canvasData.width.toString()); 
+			alert(canvasData.height.toString()); 
+			// gray filter 
+			for ( var x = 0; x < canvasData.width; x++) { 
+				for ( var y = 0; y < canvasData.height; y++) { 
+				// Index of the pixel in the array 
+					var idx = (x + y * canvasData.width) * 4; 
+					var r = canvasData.data[idx + 0]; 
+					var g = canvasData.data[idx + 1]; 
+					var b = canvasData.data[idx + 2]; 
+					// calculate gray scale value 
+					var gray = .299 * r + .587 * g + .114 * b; 
+					// assign gray scale value 
+					canvasData.data[idx + 0] = gray; // Red channel 
+					canvasData.data[idx + 1] = gray; // Green channel 
+					canvasData.data[idx + 2] = gray; // Blue channel 
+					canvasData.data[idx + 3] = 255; // Alpha channel 
+					// add black border 
+					if(x < 8 || y < 8 || x > (canvasData.width - 8) || y > (canvasData.height - 8)) 
+					{ 
+						canvasData.data[idx + 0] = 0; 
+						canvasData.data[idx + 1] = 0; 
+						canvasData.data[idx + 2] = 0; 
+					} 
+				} 
+			} 
+			context.putImageData(canvasData, 0, 0); // at coords 0,0 
+		}; 
+	
+ </script>
+ </body>
+</html>
