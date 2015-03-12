@@ -26,7 +26,7 @@
 		var winHeight = $(window).height() ;
 		var winWidth = $(window).width() ;
 		
-		console.log(.99)//输出0.99，因此这个'.'就表示小数的意思
+		console.log(.99)//输出
 		document.getElementById('wrap').style.opacity = 1;
 	})
  </script>
