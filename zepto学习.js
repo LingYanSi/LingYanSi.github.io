@@ -15,6 +15,19 @@
             this.elements.push(element);
         }
 	}
+
+	1.选择器
+		juery提供的选择器有class,id,tag,属性等等，
+		并且这里面有可能会有个递进关系 $('.bit>.dulala'),还要考虑的是$('.bit.bulu')同级也就是同时含有两个class的元素
+		还要考虑的是同级问题$('.bit,.bulu')
+		也就是说，我们要先对arguments[0]做一个处理
+		var elements = [];
+		var selector = arguments[0];
+		if (selector.indeOf(','))
+		{
+			selector.splite(',')
+		}
+		arguments[0].split(',');
 // -----------在dom中获取元素-----------------------------------------------------------------
 	document.getElementById(id)
 	document.getElementsByClassName(classname)//html5新增特性

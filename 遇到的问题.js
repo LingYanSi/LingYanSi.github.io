@@ -277,3 +277,22 @@
 			swipeX = false ;
 		}
 	})
+
+	-----------------------------------------------------------------------------------
+	在dom不没加载完的时候，使用可以往【代码所处script区下面写，且不会清空dom】
+	document.write()
+	<script type="text/javascript">
+		document.write('<script type="text/javascript" src="js/jquery.10.0.min.js"></script>');
+	</script>
+	/*  执行结果类似这样
+		<script type="text/javascript">
+			document.write('<script type="text/javascript" src="js/jquery.10.0.min.js"></script>');
+		</script>
+		<script type="text/javascript" src="js/jquery.10.0.min.js"></script>
+	*/
+	反则会清空dom，
+	因此在jquery的
+
+	$(function(){
+		//这里不可使用document.write(),否则会情况dom
+	})
