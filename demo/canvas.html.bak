@@ -32,8 +32,8 @@
 			var context = canvas.getContext("2d"); 
 			context.drawImage(image, 0, 0,canvas.width,canvas.height); 
 			var canvasData = context.getImageData(0, 0, canvas.width, canvas.height); 
-			alert(canvasData.width.toString()); 
-			alert(canvasData.height.toString()); 
+			//alert(canvasData.width.toString()); 
+			//alert(canvasData.height.toString()); 
 			// gray filter 
 			for ( var x = 0; x < canvasData.width; x++) { 
 				for ( var y = 0; y < canvasData.height; y++) { 
@@ -48,7 +48,7 @@
 					canvasData.data[idx + 0] = gray; // Red channel 
 					canvasData.data[idx + 1] = gray; // Green channel 
 					canvasData.data[idx + 2] = gray; // Blue channel 
-					canvasData.data[idx + 3] = 255; // Alpha channel 
+					canvasData.data[idx + 3] = 100; // Alpha channel 
 					// add black border 
 					if(x < 8 || y < 8 || x > (canvasData.width - 8) || y > (canvasData.height - 8)) 
 					{ 

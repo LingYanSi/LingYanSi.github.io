@@ -360,5 +360,3 @@
 ----------------------------------------------------------------------------------------------------------
 	JSON.parse(jsonstr); //可以将json字符串转换成json对象 
 	JSON.stringify(jsonobj); //可以将json对象转换成json对符串 
-
-	$.parseJSON( jsonstr ); //jQuery.parseJSON(jsonstr),可以将json字符串转换成json对象 

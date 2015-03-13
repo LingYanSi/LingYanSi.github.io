@@ -58,7 +58,7 @@ console.log(x instanceof Object) ;//输出为true
 function instance(){
 	console.log(arguments[0])
 	console.log(typeof(arguments)) ;//输出为Object
-	console.log(arguments instanceof Array) //输出为false,也就是说【arguments】只是一个对象，而不是一个数组，但是他却有数组的某些特性
+	console.log(arguments instanceof Array) //输出为false,也就是说【arguments】只是一个对象，而不是一个数组，但是他却有数组的某些特性,可称之为类数组
 }
 instance('haha')
 

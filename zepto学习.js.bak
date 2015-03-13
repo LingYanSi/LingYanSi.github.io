@@ -27,7 +27,7 @@
 		{
 			selector.splite(',')
 		}
-		arguments[0].split(',')
+		arguments[0].split(',');
 // -----------在dom中获取元素-----------------------------------------------------------------
 	document.getElementById(id)
 	document.getElementsByClassName(classname)//html5新增特性
