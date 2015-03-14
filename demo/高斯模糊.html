@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  body{background:rgb(247,104,104)}
+	  .main{padding-top:0;background:rgb(239,239,239);}
+	  
+	  
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<img src="img/12338563.jpg" alt="" id="imageSource" height="500" width="800"/>
+		<canvas id="myCanvas"></canvas>
+	</div>
+ <script type="text/javascript">
+	//-------------------------------做一个基于canvas的【图片上传，剪切】的插件
+	//---------------------------------测试需在服务器环境下
+		window.onload = function() { 
+			var canvas = document.getElementById("myCanvas"); 
+			var image = document.getElementById("imageSource"); 
+			// re-size the canvas deminsion 
+			console.log(image.width)
+			canvas.width = image.width; 
+			canvas.height = image.height; 
+			// get 2D render object 
+			var context = canvas.getContext("2d"); 
+			context.drawImage(image, 0, 0,canvas.width,canvas.height); 
+			var canvasData = context.getImageData(0, 0, canvas.width, canvas.height); 
+
+			function gaosi(x,y,a){
+				var e = Math.E ;
+				var pi = Math.PI ;
+				return 1/(2*pi*a*a)*Math.pow(e,-((x*x+y*y)/(2*a*a)))
+			}
+			//假设radius=x,那么会获得一个(2*x+1)×(2*x+1)的数组矩阵
+			//数组第一个元素的坐标是【-x,x】
+			
+			function getQuan(radius){
+				var quan = []
+				for (var i=-radius;i<=radius ;i++ )
+				{
+					for (var j=radius;j>=-radius ;j-- )
+					{
+						quan.push(gaosi(i,j,20));
+					}
+				}
+				return quan ;
+			}
+			function ArrSub(arr){
+				var sub = 0 ;
+				for (var i=0,len=quan.length;i<len ;i++ )
+				{
+					sub += quan[i] ;
+				}
+				return sub ;
+			}
+			function jiaQuan(arr,quanSub){
+				for (var i=0,len=arr.length;i<len ;i++ )
+				{
+					arr[i] = arr[i]/quanSub;
+				}
+				return arr ;
+			}
+			function getValue(x,y,index,quan){
+				var imgdata = getInfoArr(x,y,index)
+				var value = 0 ;
+				for (var i=0,len=imgdata.length;i<len ;i++ )
+				{
+					value += imgdata[i]*quan[i] ;
+				}
+				//console.log(imgdata)
+				return Math.round(value) ;
+			}
+
+			function getInfo(x,y,index){
+				if (x<0)
+				{
+					x=-x
+				}else if (x>width-1)
+				{
+					x=2*(width-1)-x
+				}
+				if (y<0)
+				{
+					y=-y
+				}else if (y>height-1)
+				{
+					y=2*(height-1)-y
+				}
+				var i = (width*4)*y+x*4+index;
+				return canvasData.data[i]
+			}
+			function getInfoArr(x,y,index){
+				var arr = [];
+				for (var i=x-radius;i<=x+radius ;i++ )
+				{
+					for (var j=y+radius;j>=y-radius ;j-- )
+					{
+						arr.push(getInfo(i,j,index))
+					}
+				}
+				return arr ;
+			}
+			//对于一个数组来说，它的每一个元素并不拥有坐标，因此需要写一个方法，也就是告诉【x,y,radius】，就会返还一个数组，当然首先要确定的是【width，height】因为只有这样才能够给数组一个坐标
+			//对于canvas来说，确定【width，height】就确定了【canvasData.data】的长度为【width*height*4】
+			//但是坐标范围用width,height来固定
+			
+			
+			var radius = 20 ;
+			var quan = getQuan(radius);
+			var quanSub = ArrSub(quan);
+			quan = jiaQuan(quan,quanSub);
+
+			var imgdata = [];
+			//var value = getValue(150,50,3,quan);
+			var canvasDataCtrl = canvasData ;
+			var width = canvas.width ,
+				height = canvas.height ;
+			console.log(new Date().getSeconds())
+			for (var i=0;i<width ;i++ )
+			{
+				for (var j=0;j<height ;j++ )
+				{
+					var index= (width*4)*j+i*4;
+					imgdata.push( getValue(i,j,0,quan));
+				}
+			}
+			console.log(new Date().getSeconds())
+			//console.log(value)
+			console.log('模糊完成')
+			context.putImageData(canvasDataCtrl, 0, 0);
+			// value值为获得的高斯模糊值
+		}; 
+	
+ </script>
+ </body>
+</html>
