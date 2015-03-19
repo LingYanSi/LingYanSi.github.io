@@ -360,3 +360,72 @@
 ----------------------------------------------------------------------------------------------------------
 	JSON.parse(jsonstr); //可以将json字符串转换成json对象 
 	JSON.stringify(jsonobj); //可以将json对象转换成json对符串 
+
+	$.parseJSON( jsonstr ); //jQuery.parseJSON(jsonstr),可以将json字符串转换成json对象 
+
+---------------------------------------------------------------------------------------------------------------------
+	【localStorage】html5新提供的新特性
+	浏览器支持IE8
+
+	localStorage.setItem('bitch','周恩来');//存储一个
+	console.log(localStorage.getItem('virgn'))//如果该key不存在，则返回null
+	localStorage.removeItem('bitch'); //takes a single argument — the key of the data item you want to remove — and removes it from the storage object for that domain.
+	localStorage.clear();//清楚所有数据
+	console.log(localStorage)//输出为object
+
+	也可以通过 localStorage.key 或者localStorage[key]的形式【赋值/获取】
+	如果要想使用localStorage存储图片的话，需要对文件进行编码【base64】
+
+	Responding to storage changes with the StorageEvent
+	The StorageEvent is fired whenever a change is made to the Storage object. 
+	This won't work on the same page that is making the changes — it is really a way for other pages on the domain using the storage to sync any changes that are made. 
+	Pages on other domains can't access the same storage objects.
+	大致意思是可以监听localStorage的key-value变化，但所产生的变化不会发生在本页面上，但在其他页面上可以发生。
+
+	window.addEventListener('storage', function(e) {  
+	  document.querySelector('.my-key').textContent = e.key;
+	  document.querySelector('.my-old').textContent = e.oldValue;
+	  document.querySelector('.my-new').textContent = e.newValue;
+	  document.querySelector('.my-url').textContent = e.url;
+	  document.querySelector('.my-storage').textContent = e.storageArea;
+	});
+
+-------------------------------------------------------------------------------------------------------------------
+	select
+	获取select标签内部的option 这里有详细介绍 【http://www.w3school.com.cn/jsref/dom_obj_select.asp】
+	$(select).find('option:selected')//获取选中的option
+	在移动端定义select的位置宽高会有一些bug，值不准确
+	解决方法是：在select外部包裹一个div，定义div的宽高位置，然后让select的css{width:100%;height:100%;}
+	如果定义div的width:auto;或导致当option的宽度比select的默认宽度宽的时候，出现select宽被撑开的现象，因此需要定义div的宽度
+
+---------------------------------------------------------------------------------------------------------------
+	Ajax非异步加载数据
+	var paren = function(){
+		$.ajax({
+			sccess:function(){
+				child();
+			}
+		})
+	}
+	var child = function(){
+		$.ajax({
+			sccess:function(){
+				console.log(t2 = new Date().getTime());
+			}
+		})
+	}
+	
+	parent();
+	console.log(t1 = new Date().getTime());
+	//-----------------------------------结果显示t2>t1
+	这说明js并非按行执行
+
+	如果说在parent();执行后，要调用child的加载到的数据，就需要使用callback
+	直接 
+	parent(); 
+	doSth(); //这样是不行的，因为js会在执行child
+
+------------------------------------------------------------------------------------------------------------------
+	.99 表示0.99
+	number>>2 表示将其二进制数据右移两位
+	number>>2 表示将其二进制数据右移两位
