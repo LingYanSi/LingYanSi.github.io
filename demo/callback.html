@@ -28,6 +28,15 @@
 		
 		console.log(.99)//输出0.99，因此这个'.'就表示小数的意思
 		document.getElementById('wrap').style.opacity = 1;
+
+		var bitch = function(callback){
+			if (callback)
+			{
+				callback();
+			}
+			console.log(typeof(callback))
+		}
+		bitch()
 	})
  </script>
  </body>

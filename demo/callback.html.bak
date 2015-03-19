@@ -26,8 +26,17 @@
 		var winHeight = $(window).height() ;
 		var winWidth = $(window).width() ;
 		
-		console.log(.99)//Êä³ö0.99£¬Òò´ËÕâ¸ö'.'¾Í±íÊ¾Ğ¡ÊıµÄÒâË¼
+		console.log(.99)//è¾“å‡º0.99ï¼Œå› æ­¤è¿™ä¸ª'.'å°±è¡¨ç¤ºå°æ•°çš„æ„æ€
 		document.getElementById('wrap').style.opacity = 1;
+
+		var bitch = function(callback){
+			if (callback)
+			{
+				callback();
+			}
+			console.log()
+		}
+		bitch()
 	})
  </script>
  </body>

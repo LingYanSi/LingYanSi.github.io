@@ -425,6 +425,17 @@
 	parent(); 
 	doSth(); //这样是不行的，因为js会在执行child
 
+	var bitch = function(callback){
+		if (callback) //先判断参数是否进来
+		{
+			callback();
+		}
+		console.log(typeof(callback))
+	}
+	bitch(function(){
+		console.log('我进来了')
+	})
+
 ------------------------------------------------------------------------------------------------------------------
 	.99 表示0.99
 	number>>2 表示将其二进制数据右移两位
