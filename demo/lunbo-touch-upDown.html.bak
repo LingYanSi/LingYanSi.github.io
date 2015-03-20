@@ -21,9 +21,7 @@
 	  .color-3{background:rgb(131,175,155);}
 	  .color-4{background:rgb(23,44,60);}
 		
-	  .change{-webkit-transition:left 0.2s;}
-
-	  #inner{width:50%;}
+	  .change{-webkit-transition:all 0.2s;}
 
 	  .dian{position:absolute;width:100%;height:20px;text-align:center;overflow:hidden;bottom:0;}
 	  .dian-item{display:inline-block;height:10px;width:10px;border-radius:10px;background:rgba(255,255,255,0.3);}
@@ -33,21 +31,10 @@
  </head>
  <body>
 	<div id="" class="main">
-		<div id="sass" class="sass">
-			<div id="" class="sass-wrap">
-				<div class="sass-item color-1">
-					<div id="inner" class="sass">
-						<div id="" class="sass-wrap">
-							<div class="sass-item color-1"></div>
-							<div class="sass-item color-2"></div>
-							<div class="sass-item color-3"></div>
-							<div class="sass-item color-4"></div>
-						</div>
-					</div>
-				</div>
-				<div class="sass-item color-2"></div>
-				<div class="sass-item color-3"></div>
-				<div class="sass-item color-4"></div>
+		<div id="" class="nav" style="height:100px;width:100%;position:fixed;z-index:1000;top:0;left:0;">
+			<div id="" style="background:rgba(255,255,255,0.3);-webkit-filter:blur(2px);height:100px;width:100%;position:absolute;top:0;left:0;"></div>
+			<div id="" style="height:100%;width:100%;position:absolute;top:0;left:0;text-align:center;font-size:20px;">
+				念去去，千里烟波,暮霭沉沉楚天阔
 			</div>
 		</div>
 		<div id="less" class="sass">
@@ -58,34 +45,32 @@
 				<div class="sass-item color-4"></div>
 			</div>
 		</div>
-		
-	</div>
-	<div id="" class="" style="height:500px;width:100%;">
-		
 	</div>
 <script type="text/javascript"src="js/jquery-1.11.2.min.js"></script> 
   <script type="text/javascript">
 	$(function(){
 		var winHeight =$(window).height();
 		var winWidth =$(window).width();
-
-		lunbo('sass',false);
-		lunbo('inner',false);
-		lunbo('less',true,bitch);
-		function bitch(index){
+		$('#less').height(winHeight)
+		lunbo('less',false,cb);
+		function cb(index){
 			console.log(index)
 		}
 		function lunbo(idname,autoPlay,callback){
 			var $id = $('#'+idname);
 			var $item = $('#'+idname+'>div>div');
-			var idWidth = $id.width();
+			var idWidth = $id.width(),
+				idHeight = $id.height();
 			var leftMin = -idWidth ,
 			    leftCurrent = 0 ,
 			    leftMax = idWidth ,
+				topMin = -idHeight ,
+			    topCurrent = 0 ,
+			    topMax = idHeight ,
 			    len = $item.length ,
 			    timeIn ,
 			    currentPage = 0 ;
-			$item.not(':first').css({'left':leftMax});
+			$item.not(':first').css({'top':topMax});
 			appendDian();
 			var $dianItem = $('#'+idname+'>.dian>.dian-item');
 			dianMove();
@@ -118,17 +103,17 @@
 				$item.removeClass('change');
 				if (currentPage < len-1)
 				{
-					$item.eq(currentPage+1).css({'left':leftMax});
+					$item.eq(currentPage+1).css({'top':topMax});
 					$item.show().addClass('change');
-					//console.log($item.eq(currentPage+1).offset().left)
-					$item.eq(currentPage).css({'left':leftMin});
-					$item.eq(currentPage+1).css({'left':0});
+					//console.log($item.eq(currentPage+1).offset().top)
+					$item.eq(currentPage).css({'top':topMin});
+					$item.eq(currentPage+1).css({'top':0});
 					currentPage++;
 				}else{
-					$item.eq(0).css({'left':leftMax});
-					$item.show().addClass('change'); //为什么$item.eq(0).css({'left':leftMax});$item.addClass('change');前一语句不能正常执行
-					$item.eq(currentPage).css({'left':leftMin});
-					$item.eq(0).css({'left':0});
+					$item.eq(0).css({'top':topMax});
+					$item.show().addClass('change'); //为什么$item.eq(0).css({'top':topMax});$item.addClass('change');前一语句不能正常执行
+					$item.eq(currentPage).css({'top':topMin});
+					$item.eq(0).css({'top':0});
 					currentPage=0;
 				}
 				dianMove()
@@ -144,9 +129,9 @@
 					XX = xx ;
 					YY = yy ;
 					$prev = $item.eq(currentPage-1)[0]?$item.eq(currentPage-1):$item.eq(len-1);
-					$prev.css({'left':leftMin});
+					$prev.css({'top':topMin});
 					$next = $item.eq(currentPage+1)[0]?$item.eq(currentPage+1):$item.eq(0);
-					$next.css({'left':leftMax});
+					$next.css({'top':topMax});
 					swipeX = true ;
 					swipeY = true ;
 				});
@@ -156,49 +141,61 @@
 					if (swipeX && Math.abs(XX-xx)-Math.abs(YY-yy)>0)
 					{
 						swipeY = false ;
-						event.stopPropagation();
-						event.preventDefault();
-						if (XX-xx>0)
-						{
-							$item.eq(currentPage).css({'left':leftCurrent+XX-xx});
-							$prev.css({'left':leftMin+XX-xx});
-							$next.css({'left':leftMax});
-						}else if (XX-xx<0)
-						{
-							$item.eq(currentPage).css({'left':leftCurrent+XX-xx});
-							$next.css({'left':leftMax+XX-xx});
-							$prev.css({'left':leftMin});
-						}
 					}else if(swipeY && Math.abs(XX-xx)-Math.abs(YY-yy)<0){
 						swipeX = false
+						event.stopPropagation();
+						event.preventDefault();
+						if (YY-yy>0)
+						{
+							$item.eq(currentPage).css({'top':topCurrent+YY-yy});
+							$prev.css({'top':topMin+YY-yy});
+							$next.css({'top':topMax});// 避免因为滑动过快引起的bug
+						}else if (YY-yy<=0)
+						{
+							$item.eq(currentPage).css({'top':topCurrent+YY-yy});
+							$next.css({'top':topMax+YY-yy});
+							$prev.css({'top':topMin});// 避免因为滑动过快引起的bug
+						}
 					}
 				});
 				id.addEventListener('touchend',function(event){
 					$item.addClass('change');
-					if (swipeX)
+					if (swipeY)
 					{
-						if (XX-xx>0)
+						if (YY-yy>0)
 						{
-							$item.eq(currentPage).css({'left':leftMax});
-							$prev.css({'left':leftCurrent});
-							currentPage--;
-							setPage(currentPage);
-						}else if (XX-xx<0)
+							if (YY-yy>50)
+							{
+								$item.eq(currentPage).css({'top':topMax});
+								$prev.css({'top':topCurrent});
+								currentPage--;
+								setPage(currentPage);
+							}else{
+								$item.eq(currentPage).css({'top':topCurrent});
+								$prev.css({'top':topMin});
+							}
+						}else if (YY-yy<=0)
 						{
-							$item.eq(currentPage).css({'left':leftMin});
-							$next.css({'left':leftCurrent});
-							currentPage++;
-							setPage(currentPage);
+							if (YY-yy<-50)
+							{
+								$item.eq(currentPage).css({'top':topMin});
+								$next.css({'top':topCurrent});
+								currentPage++;
+								setPage(currentPage);
+							}else{
+								$item.eq(currentPage).css({'top':topCurrent});
+								$next.css({'top':topMax});
+							}
 						}
 					}
 					if (autoPlay)
 					{
 						start();
 					}
-					dianMove()
+					dianMove();
 					if (callback)
 					{
-						callback(currentPage);//执行回调函数
+						callback(currentPage);
 					}
 				});
 			}

@@ -93,8 +93,8 @@
 				if(dom.addEventListener && !dom.attachEvent) 
 				{ 
 					dom.addEventListener('mousewheel',doWhat); 
-				
-					dom.addEventListener('DOMMouseScroll',doWhat); //FF绑定滚动事件 
+				//FF绑定滚动事件 
+					dom.addEventListener('DOMMouseScroll',doWhat); 
 				} 
 				//IE 
 				else if(dom.attachEvent && !dom.addEventListener){ //IE9一下

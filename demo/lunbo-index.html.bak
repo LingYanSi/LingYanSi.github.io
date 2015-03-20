@@ -73,7 +73,7 @@
 		lunbo('inner',false);
 		lunbo('less',true,bitch);
 		function bitch(index){
-			console.log(index)
+			console.log(1111)
 		}
 		function lunbo(idname,autoPlay,callback){
 			var $id = $('#'+idname);
