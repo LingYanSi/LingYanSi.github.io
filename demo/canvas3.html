@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  html{overflow-y:hidden;}
+	  body{background:rgb(247,104,104)}
+	  .main{padding-top:0;background:rgb(239,239,239);}
+	  
+	  #myCanvas{height:100%;width:100%;position:fixed;top:0;left:0;}
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<img src="img/134.jpg" alt="" id="imageSource" height="800" width="1000"/>
+		<canvas id="myCanvas" height="500" width="1800"></canvas>
+	</div>
+ <script type="text/javascript">
+	//-------------------------------做一个基于canvas的【图片上传，剪切】的插件
+	//---------------------------------测试需在服务器环境下
+		window.onload = function(){
+			myCanvas = document.getElementById('myCanvas');
+			myCanvas.width = window.screen.width ;
+			myCanvas.height = window.screen.height ;
+			stackblur('imageSource','myCanvas',20);
+			console.log('网页加载完毕')
+		}
+		function stackblur(imgId,canvasId,radius) { 
+			
+			
+			/**高斯模糊有两种形式
+			   1.高斯二维模糊
+			   2.高斯一维模糊
+			   对比两者，二维模糊需要的时间相对要长很多，模糊效果差不多。
+			*/
+			var img = document.getElementById(imgId);
+			var canvas = document.getElementById(canvasId);
+			var context = canvas.getContext('2d');
+			if (img.complete) //图片已加载完成
+			{
+				gaosi();
+			}
+			else{
+				img.onload = function(){ //或者等待图片加载完成
+					gaosi();
+				}
+			}
+			function gaosi(){
+				context.clearRect(0,0,canvas.width,canvas.height);//清除以前数据
+				context.drawImage(img,0,0,canvas.width,canvas.height);//重新写入
+				var canvasData = context.getImageData(0, 0, canvas.width, canvas.height); 
+				var copy = process(canvasData,20);
+				context.putImageData(copy,0,0);
+			}
+			function process(canvasData,radius){
+				var copyData = canvasData.data ;
+				var gaosiArr = [],
+					a,g,b,a,i,k,j,len,
+					gaosiSum = 0 ;
+
+				var sigma = radius ;
+				var width = canvas.width ,
+					height = canvas.height ;
+				
+				for ( i=0,x=-radius;x<=radius;i++,x++)//生成高斯数组
+				{
+					g = Math.exp(-x*x/(2*sigma*sigma))/(Math.sqrt(2*Math.PI)*sigma) ;
+					gaosiArr[i] = g ;
+					gaosiSum += g ;
+				}
+				for ( i = 0, len = gaosiArr.length; i < len; i++) { //均权，使高斯数组的和【=1】
+					gaosiArr[i] /= gaosiSum ;
+				}
+				//console.log(gaosiArr[0])
+				for ( y=0;y<height ;y++ ) //x循环
+				{
+					for ( x=0;x<width ;x++ )
+					{
+						r=g=b=a=0;					
+						gaosiSum = 0 ;
+						for ( j=-radius;j<=radius ;j++ )
+						{
+							k = x + j;
+							if (k>=0 && k<width)
+							{
+								i = (y * width + k) * 4;
+								r += copyData[i]*gaosiArr[j + radius] ;
+								g += copyData[i+1]*gaosiArr[j + radius] ;
+								b += copyData[i+2]*gaosiArr[j + radius] ;
+								//a += copy[i+3]*gaosiArr[j + radius] ;
+								gaosiSum += gaosiArr[j + radius] ;
+							}
+							i = (y * width + x) * 4;
+							copyData[i] = r/gaosiSum ;
+							copyData[i+1] = g/gaosiSum ;
+							copyData[i+2] = b/gaosiSum ;
+							//copyData[i+3] = a/gaosiSum ;
+						}
+					}
+				}
+				for ( x=0;x<width ;x++ ) //y循环
+				{
+					for ( y=0;y<height ;y++ )
+					{
+						r=g=b=a=0;					
+						gaosiSum = 0 ;
+						for ( j=-radius;j<=radius ;j++ )
+						{
+							k = y + j;
+							if (k>=0 && k<height)
+							{
+								i = (k * width + x) * 4;
+								r += copyData[i]*gaosiArr[j + radius] ;
+								g += copyData[i+1]*gaosiArr[j+ radius] ;
+								b += copyData[i+2]*gaosiArr[j + radius] ;
+								//a += copy[i+3]*gaosiArr[j + radius] ;
+								gaosiSum += gaosiArr[j + radius] ;
+							}
+							i = (y * width + x) * 4;
+							copyData[i] = r/gaosiSum ;
+							copyData[i+1] = g/gaosiSum ;
+							copyData[i+2] = b/gaosiSum ;
+							//copyData[i+3] = a/gaosiSum ;
+						}
+					}
+				}
+				canvasData.data = copyData ;
+				return canvasData ;
+			}
+		}; 
+	
+ </script>
+ </body>
+</html>

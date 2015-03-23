@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+ </head>
+ <body>
+  <div ng-app="app" ng-init="comments=['哈哈哈','你大爷','bitch']" ng-controller="woShi">
+		<input type="text" ng-model="name">
+		<p ng-bind="name"></p>
+		<p>{{name}}</p>
+		<li ng-repeat="x in comments">{{x}}</li>
+		<p>{{firstName+""+secName}}</p>
+	</div>
+	<script src="angular.min.js"></script>
+	<script type="text/javascript">
+		var app = angular.module('app',[]);
+		app.controller('woShi',function($scope){
+			$scope.firstName = "紫";
+			$scope.secName = function(){
+				var x = $scope.firstName ;
+				return '日照香炉'
+			}
+		});
+	</script>
+ </body>
+</html>
