@@ -5,21 +5,31 @@ ng-model
 ng-bind
 	ng-bind="name" //负责展现数据
 ng-repeat
-	//会重复展现一个HTML元素，很明显就是为json数据提供的啊，应用在类似【评论】
+	//会重复展现一个HTML元素，很明显就是为json数据提供的啊，应用在类似【评论】ng-repeat
 ng-controller //定义应用程序控制器
+
+ng-click //点击事件
+
+
 eg:
-	<div ng-app="google" ng-init="comments=['哈哈哈','你大爷','bitch']" ng-controller="woShi">
+	<div ng-app="google" ng-init="" ng-controller="woShi">
 		<input type="text" ng-model="name">
 		<p ng-bind="name"></p>
 		<p>{{name}}</p> //也可以使用双大括号{{}}的形式来数据绑定
 		<li ng-repeat="x in comments">{{x}}</li>
-		<p>{{firstName+''+secName}}</p>
+		<p ng-click="doSth($event);$event.stopPropagation();">{{firstName+''+secName}}</p> //$event.stopPropagation() 组织冒泡
 	</div>
 	<script type="text/javascript">
 		function woShi($scope){
+			$scope.comments = ['哈哈哈','你大爷','bitch','哈哈哈','你大爷','bitch']
 			$scope.firstName = "紫";
 			$scop.secName = function(){
-			
+				var x = $scope.firstName ;
+				return x+'日照香炉'
+			}
+			$scope.doSth = function(event){
+				console.log(angular.element(event.target).text()) //angular.element()是angular内置的一个阉割版jquery，如果说在angular.min.js之前已经引入jquery文件，angular.element会自动切换到jquery模式
+																//jqLt提供的功能相见angular文档
 			}
 		}
 	</script>

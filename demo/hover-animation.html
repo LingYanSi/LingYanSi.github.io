@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  *{margin:0;padding:0;}
+	  .main{padding-top:0;background:rgb(239,239,239);}
+	  
+	  .animation{width:600px;height:600px;overflow:hidden;}
+	  .animation-item{width:200px;height:200px;float:left;box-sizing:border-box;border:1px solid rgb(186,147,147);display:inline-block;position:relative;overflow:hidden;
+   -webkit-backface-visibility: visible;
+   -webkit-perspective-origin: 100% 100%;
+   -webkit-transform-style: preserve-3d;
+    perspective: 500px;}
+
+	.animation-layer{transition:all 0.8s;width:100%;height:100%;position:absolute;top:100%;left:0;background:rgb(147,105,105);transform:rotateY(0deg);transform-origin:left;}
+	.to-left{left:100%;}
+	.to-right{left:0;}
+	.to-top{top:100%;}
+	.to-bottom{top:0;}
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<div id="animation" class="animation">
+				<div class="animation-item"></div>
+				<div class="animation-item"></div>
+				<div class="animation-item"></div>
+				<div class="animation-item"></div>
+				<div class="animation-item"></div>
+				<div class="animation-item"></div>
+				<div class="animation-item"></div>
+				<div class="animation-item"></div>
+				<div class="animation-item"></div>
+			</div>
+		</div>
+	</div>
+ <script src="js/jquery-1.11.2.min.js"></script>
+ <script id="yuan" src="js/global.js"></script>
+ <script type="text/javascript">
+	$(function(){
+		var winHeight = $(window).height() ;
+		var winWidth = $(window).width() ;
+		
+		console.log(.99)//输出0.99，因此这个'.'就表示小数的意思
+		document.getElementById('wrap').style.opacity = 1;
+
+		$('.animation-item').append('<div class="animation-layer">国家文物局，表示要追回肉身古佛</div>');
+		
+		var formWhich = 0 ;
+		var positionArr = [] ;
+		var aiWidth = $('.animation-item').eq(0).width(),
+			aiHeight = $('.animation-item').eq(0).height();
+		$('.animation-item').each(function(){
+			var thisObj = {};
+			thisObj.left = $(this).offset().left
+			thisObj.top = $(this).offset().top
+			positionArr.push(thisObj)
+		})
+		console.log(positionArr)
+		$('.animation-item').on('mouseover',function(event){
+			$(this).find('.animation-layer').css({'top':'0'});
+			//console.log(event.pageX)
+		}).on('mouseout',function(){
+			$(this).find('.animation-layer').css({'top':'100%'});
+			//console.log(event.pageX)
+		});
+
+		var $ai = $('.animation-item');
+		var cureent,before ;
+			cureent = before = 0 ;
+		$('#animation').on('mousemove',function(event){
+			var x = event.pageX ;
+			var y =event.pageY ;
+			for (var i=0,len=positionArr.length;i<len ;i++ )
+			{
+				if (x>=positionArr[i].left && x<positionArr[i].left+aiWidth && y>=positionArr[i].top && y<positionArr[i].top+aiHeight)
+				{
+					if (cureent != before)
+					{
+						console.log(cureent+'--'+before)
+					}
+					before = cureent ;
+					cureent = i ;
+					break
+				}
+			}
+		})
+		
+		function get(current,before){
+			var width = 3 ;
+			var height = 3;
+			[current%width,Math.floor(current/width)]//cureent坐标
+			[before%width,Math.floor(before/width)]//before坐标
+			//还需要考虑直接出去的情况，也就是current=0,before=0;的情况
+		}
+		var zhuangtai = [[-1,1]];
+	})
+ </script>
+ </body>
+</html>
