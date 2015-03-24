@@ -64,42 +64,53 @@
 		})
 		console.log(positionArr)
 		$('.animation-item').on('mouseover',function(event){
-			$(this).find('.animation-layer').css({'top':'0'});
+			var oX = $(this).offset().left,
+				oY = $(this).offset().top ;
+			var aX = event.pageX,
+				aY = event.pageY ;
+			var height = $(this).height(),
+				width = $(this).width();
+			var k = height/width ;
+			var c = (aX-oX)*k - (aY-oY) ,
+				d = -(aX-oX)*k+height-(aY-oY) ;//使用了一个简单的二维象限，然后判断点的位置
+			if (c>=0 && d>=0)
+			{
+				console.log('top')
+			}else if (c>0 && d<0)
+			{
+				console.log('right')
+			}else if (c<0 && d>=0)
+			{
+				console.log('left') ;
+			}else{
+				console.log('bottom') ;
+			}
 			//console.log(event.pageX)
 		}).on('mouseout',function(){
-			$(this).find('.animation-layer').css({'top':'100%'});
-			//console.log(event.pageX)
-		});
-
-		var $ai = $('.animation-item');
-		var cureent,before ;
-			cureent = before = 0 ;
-		$('#animation').on('mousemove',function(event){
-			var x = event.pageX ;
-			var y =event.pageY ;
-			for (var i=0,len=positionArr.length;i<len ;i++ )
+			var oX = $(this).offset().left,
+				oY = $(this).offset().top ;
+			var aX = event.pageX,
+				aY = event.pageY ;
+			var height = $(this).height(),
+				width = $(this).width();
+			var k = height/width ;
+			var c = (aX-oX)*k - (aY-oY) ,
+				d = -(aX-oX)*k+height-(aY-oY) ;
+			if (c>=0 && d>=0)
 			{
-				if (x>=positionArr[i].left && x<positionArr[i].left+aiWidth && y>=positionArr[i].top && y<positionArr[i].top+aiHeight)
-				{
-					if (cureent != before)
-					{
-						console.log(cureent+'--'+before)
-					}
-					before = cureent ;
-					cureent = i ;
-					break
-				}
+				console.log('top')
+			}else if (c>0 && d<0)
+			{
+				console.log('right')
+			}else if (c<0 && d>=0)
+			{
+				console.log('left') ;
+			}else{
+				console.log('bottom') ;
 			}
-		})
+		});
 		
-		function get(current,before){
-			var width = 3 ;
-			var height = 3;
-			[current%width,Math.floor(current/width)]//cureent坐标
-			[before%width,Math.floor(before/width)]//before坐标
-			//还需要考虑直接出去的情况，也就是current=0,before=0;的情况
-		}
-		var zhuangtai = [[-1,1]];
+		
 	})
  </script>
  </body>
