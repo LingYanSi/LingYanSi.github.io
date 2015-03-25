@@ -443,4 +443,9 @@
 
 ------------------------------------------------------------------------------------------------------------------------
 	css3
-	-webkit-filter:blur(5px)
+	-webkit-filter:blur(5px) 对于任何元素都可以 IE不支持
+
+-----------------------------------------------------------------------------------------------------------------------
+	var bitch = window.open(url,name,'width=500,height=500');
+	bitch.document.getElementById('id').dosth ;//父窗口，访问子窗口
+	window.opener.document.getElementById('id').dosth ;

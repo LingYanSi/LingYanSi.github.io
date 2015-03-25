@@ -10,14 +10,12 @@
 	  *{margin:0;padding:0;}
 	  .main{padding-top:0;background:rgb(239,239,239);}
 	  
-	  .animation{width:600px;height:600px;overflow:hidden;}
-	  .animation-item{width:200px;height:200px;float:left;box-sizing:border-box;border:1px solid rgb(186,147,147);display:inline-block;position:relative;overflow:hidden;
-   -webkit-backface-visibility: visible;
-   -webkit-perspective-origin: 100% 100%;
-   -webkit-transform-style: preserve-3d;
-    perspective: 500px;}
+	  .animation{width:600px;height:600px;overflow:hidden;margin:0 auto;}
+	  .animation-item{width:200px;height:200px;float:left;box-sizing:border-box;border:1px solid rgb(186,147,147);display:inline-block;position:relative;overflow:hidden;}
 
-	.animation-layer{transition:all 0.8s;width:100%;height:100%;position:absolute;top:100%;left:0;background:rgb(147,105,105);transform:rotateY(0deg);transform-origin:left;}
+	.animation-layer{width:100%;height:100%;position:absolute;top:100%;left:0;background:rgb(247,105,105);transform:rotateY(0deg);transform-origin:left;text-align:center;font-size:20px;line-height:50px;}
+	.layer-item{width:100%;height:100%;position:absolute;top:0;left:0;}
+	.change{transition:all 0.8s;}
 	.to-left{left:100%;}
 	.to-right{left:0;}
 	.to-top{top:100%;}
@@ -28,15 +26,15 @@
 	<div id="wrap" class="wrap">
 		<div id="main" class="main">
 			<div id="animation" class="animation">
-				<div class="animation-item"></div>
-				<div class="animation-item"></div>
-				<div class="animation-item"></div>
-				<div class="animation-item"></div>
-				<div class="animation-item"></div>
-				<div class="animation-item"></div>
-				<div class="animation-item"></div>
-				<div class="animation-item"></div>
-				<div class="animation-item"></div>
+				<div class="animation-item"><div class="animation-layer">国家文物局，表示要追回肉身古佛</div></div>
+				<div class="animation-item"><div class="animation-layer">欧洲表示，不明白中国政府的意图</div></div>
+				<div class="animation-item"><div class="animation-layer">何为肉身古佛，走进科学</div></div>
+				<div class="animation-item"><div class="animation-layer">半夜养猪场为何，连连看I按发出惨叫</div></div>
+				<div class="animation-item"><div class="animation-layer">女生宿舍，为何频频失窃</div></div>
+				<div class="animation-item"><div class="animation-layer">这到底是谁的过错？</div></div>
+				<div class="animation-item"><div class="animation-layer">请关注CCTV-焦点访谈</div></div>
+				<div class="animation-item"><div class="animation-layer">习近平的不归之路</div></div>
+				<div class="animation-item"><div class="animation-layer">习明泽的哈佛生活</div></div>
 			</div>
 		</div>
 	</div>
@@ -50,20 +48,9 @@
 		console.log(.99)//输出0.99，因此这个'.'就表示小数的意思
 		document.getElementById('wrap').style.opacity = 1;
 
-		$('.animation-item').append('<div class="animation-layer">国家文物局，表示要追回肉身古佛</div>');
+		$('.animation-item').append('<div class="layer-item"></div>');
 		
-		var formWhich = 0 ;
-		var positionArr = [] ;
-		var aiWidth = $('.animation-item').eq(0).width(),
-			aiHeight = $('.animation-item').eq(0).height();
-		$('.animation-item').each(function(){
-			var thisObj = {};
-			thisObj.left = $(this).offset().left
-			thisObj.top = $(this).offset().top
-			positionArr.push(thisObj)
-		})
-		console.log(positionArr)
-		$('.animation-item').on('mouseover',function(event){
+		$('.layer-item').on('mouseover',function(event){
 			var oX = $(this).offset().left,
 				oY = $(this).offset().top ;
 			var aX = event.pageX,
@@ -72,18 +59,36 @@
 				width = $(this).width();
 			var k = height/width ;
 			var c = (aX-oX)*k - (aY-oY) ,
-				d = -(aX-oX)*k+height-(aY-oY) ;
+				d = -(aX-oX)*k+height-(aY-oY) ;//使用了一个简单的二维象限，然后判断点的位置
+			var $layer = $(this).siblings('.animation-layer');
+			$layer.removeClass('change');
 			if (c>=0 && d>=0)
 			{
-				console.log('top')
+				console.log('top');
+				
+				$layer.css({'left':'0','top':'-100%'}).show();
+				$layer.addClass('change');
+				$layer.css({'left':'0','top':'0'});
 			}else if (c>0 && d<0)
 			{
 				console.log('right')
+				
+				$layer.css({'left':'100%','top':'0'}).show();
+
+				$layer.addClass('change');
+				$layer.css({'left':'0','top':'0'});
 			}else if (c<0 && d>=0)
 			{
 				console.log('left') ;
-			}else{
+				
+				$layer.css({'left':'-100%','top':'0'}).show();
+				$layer.addClass('change');
+				$layer.css({'left':'0','top':'0'});
+			}else if(c<0 && d<0){
 				console.log('bottom') ;
+				$layer.css({'left':'0','top':'100%'}).show();
+				$layer.addClass('change');
+				$layer.css({'left':'0','top':'0'});
 			}
 			//console.log(event.pageX)
 		}).on('mouseout',function(){
@@ -96,17 +101,22 @@
 			var k = height/width ;
 			var c = (aX-oX)*k - (aY-oY) ,
 				d = -(aX-oX)*k+height-(aY-oY) ;
+			var $layer = $(this).siblings('.animation-layer');
 			if (c>=0 && d>=0)
 			{
-				console.log('top')
+				console.log('top');
+				$layer.css({'left':'0','top':'-100%'});
 			}else if (c>0 && d<0)
 			{
 				console.log('right')
+				$layer.css({'left':'100%','top':'0'});
 			}else if (c<0 && d>=0)
 			{
 				console.log('left') ;
-			}else{
+				$layer.css({'left':'-100%','top':'0'});
+			}else if(c<0 && d<0){
 				console.log('bottom') ;
+				$layer.css({'left':'0','top':'100%'});
 			}
 		});
 		
