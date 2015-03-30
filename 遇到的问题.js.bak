@@ -448,4 +448,103 @@
 -----------------------------------------------------------------------------------------------------------------------
 	var bitch = window.open(url,name,'width=500,height=500');
 	bitch.document.getElementById('id').dosth ;//父窗口，访问子窗口
-	window.opener.document.getElementById('id').dosth ;
+	window.opener.document.getElementById('id').dosth ;//子窗口，访问父窗口
+
+----------------------------------------------------------------------------------------------
+	
+	js原型模式的执行流程：
+
+	1.先查找构造函数实例里的属性或方法，如果有，就立即返回。
+	2.如果构造函数的实例没有，就去它的原型对象里找，如果有，就立即返回
+
+	第一题
+
+	var fun = function(){
+		this.name = 'peter';
+		return {
+		name: 'jack'
+		};
+	}
+
+	var p = new fun();
+	//请问p.name是： jack
+	第二题
+
+	var fun = function(){
+		this.name = 'peter';
+
+		return 'jack';    
+		}
+
+	var p = new fun();
+	//请问p.name是： peter
+	第三题
+
+	var fun = function(){}
+
+	fun.prototype = {
+		info : {
+		name : 'peter',
+		age : 25
+		}
+	}
+
+	var a = new fun();
+	var b = new fun();
+
+	a.info.name = 'jack';
+	b.info.name = 'tom';
+
+	//请问a.info.name和b.info.name分别是：tom,tom
+	第四题
+
+	var fun = function(){
+		this.info = {
+		name : 'peter',
+		age : 25
+		}
+	}
+
+	var a = new fun();
+	var b = new fun();
+
+	a.info.name = 'jack';
+	b.info.name = 'tom';
+	//请问a.info.name和b.info.name分别是：jack tom
+	第五题
+
+	var fun = function(){}
+
+	fun.prototype = {    
+		name : 'peter',    
+		age : 25    
+	}
+
+	var a = new fun();
+	var b = new fun();
+
+	a.name = 'jack';
+	b.name = 'tom';
+	//请问a.name和b.name分别是： jack tom
+	第六题
+
+	var fun = function(){
+		this.info = {
+		name : 'peter',
+		age : 25
+		}
+	}
+
+	fun.prototype = {
+		info : {
+		name : 'peter',
+		age : 25
+		}
+	}
+
+	var a = new fun();
+	var b = new fun();
+
+	a.info.name = 'jack';
+	b.info.name = 'tom';
+	//请问a.info.name和b.info.name分别是：

@@ -19,11 +19,11 @@
 	<div id="wrap" class="wrap">
 		<div id="main" class="main">
 			<div id="" class="item">
-				<input type="text" id="rgb-16" /> 输入十六进制
+				<input type="text" id="rgb-16" />输入十六进制
 				<div id="rgb" class="present"></div>
 			</div>
 			<div id="" class="">
-				<input type="text" id="rgb-input" /> 输入rgb
+				<input type="text" id="rgb-input" />输入rgb
 				<div id="sixth" class="present"></div>
 			</div>
 		</div>
