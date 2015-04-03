@@ -217,11 +217,11 @@
 				if (index>currentPage)
 				{
 					$item.eq(index).css({'top':topMax});
-					$item.show().addClass('change');
+					$item.addClass('change');
 					$item.eq(currentPage).css({'top':topMin})
 				}else{
 					$item.eq(index).css({'top':topMin});
-					$item.show().addClass('change');
+					$item.addClass('change');
 					$item.eq(currentPage).css({'top':topMax})
 				}
 				$item.eq(index).css({'top':0})
