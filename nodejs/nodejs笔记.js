@@ -117,12 +117,24 @@
 				}
 				var req = http.request(options, function (res) {  
 					res.setEncoding('utf8'); 
-						res.on('data',function(bitch){
-							json = JSON.stringify(bitch) ;
-							//console.log(json)
-							parRes.render('index', { title: 'Express',tips:json });
-						})
-					});  
+					var str = '';
+					res.on('data',function(bitch){
+						str+=data ; //读取参数流转化为字符串
+					});
+					res.on('end',function(){ //读取参数流结束后将转化的字符串解析成 JSON 格式
+						str = str.replace(/[\r\n\t]/g,''); //去除换行符，回车符，以免影响字符串转json对象
+						str = str.slice(1,-1);//去除两边()
+						var json = {};
+						try
+						{
+							json.JSON.parse(str);
+						}catch (err)
+						{
+						}
+						parRes.render('index', { title: json.code });
+					});
+				
+				});  
 				  
 				req.on('error', function (e) {  
 					console.log('problem with request: ' + e.message);  
