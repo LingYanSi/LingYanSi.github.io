@@ -548,3 +548,21 @@
 	a.info.name = 'jack';
 	b.info.name = 'tom';
 	//请问a.info.name和b.info.name分别是： jack tom
+
+	----------------------------------------------------------------------------------------
+	segmentfalut 上看到的一个问题
+	var array = [1,2,3];
+	function clear(arr){
+		arr = []
+	}
+	console.log(array) // 结果为[1,2,3]
+	//为什么array的值没有变化呢？
+	//在JS中，除了undefined、null、boolean、string、number这五种原始数据类型，其他的都是对象数据类型，也就是说，array、function、date等等这些其实本质上都是JS对象。
+    //使用等号（=）将 a 数组赋值到 ary ，等于是 ary 对数组 a 的引用，同理再将 ary = []，改变的是 ary 的引用，不是改变 a 数组本身。
+	更进一步来说
+	//array = [1,2,3]
+	array是对内存中[1,2,3]的地址引用，类似于指针
+	在function clear(arr){}中
+	形参arr和变量array一样,都是类指针，一开始也指向[1,2,3]
+	arr=[];//arr指向一个空数组，并没有对[1,2,3]进行任何操作
+	arr.length = 0 ;//arr操作了被引用的数组，而array也引用了这个数组，因此array也会改变

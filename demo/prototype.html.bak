@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  .main{padding-top:0;background:rgb(239,239,239);}
+	  
+	  
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			
+		</div>
+	</div>
+ <script type="text/javascript">
+	function bitch(){
+		this.name = '江青';
+		bitch.prototype.writeName = function(){
+			console.log('毛主席的老婆'+this.name)
+		}
+	}
+	var hey = new bitch() ;
+	hey.writeName();
+	bitch.prototype.writeName = function(){
+		console.log(this.name)
+	}
+	hey.writeName();
+	bitch.prototype.writeName = (function(){
+		console.log('我是属性')
+	}()) //此乃一种模式，会立马执行内部方法，但是输出的时候，会显示该属性undefined
+	hey.writeName ;// 可以像调用属性一样调用方法
+
+	bitch.prototype.dosth = function(){ //原型对象会及时的应用在所有的实例上
+		console.log('Dallas')
+	}
+	hey.writeName = function(){ //当我们修改实例的属性时，并不会修改到原型对象上
+								//当我们调用一个实例的属性时，会优先调用 私有属性》原型对象的属性
+		return 1+1 ;
+	}
+	var bye = new bitch() ;
+	var sass = Object.getPrototypeOf(bye);
+	sass.haha = "周恩来" ;
+	console.log(bye.haha)
+	console.log(hey.constructor.prototype)
+	// --------------------------------------------------
+	// hey._proto_ === bitch.prototype 
+	/*
+		__proto__ 可以访问到对象的原型，那么为什么禁止在实际中使用呢？
+		这是一个设计上的失误，导致 __proto__ 属性是可以被修改的，同时意味着 JavaScript 的属性查找机制会因此而“瘫痪”，所以强烈的不建议使用它。
+		如果你确实要通过一个对象访问其原型，ES5 提供了一个新方法：
+		Object.getPrototypeOf(bye)  //获取原型对象
+	*/
+	var a = [1,2,3];
+	var b =a ;
+	b=[45];
+	console.log(b)
+ </script>
+ </body>
+</html>

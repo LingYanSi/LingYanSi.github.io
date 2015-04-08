@@ -14,7 +14,7 @@
 	  img{display:block;border:0;}
 	  
 	  .sass{height:300px;width:100%;position:relative;overflow:hidden;}
-	  .sass-item{height:100%;width:100%;position:absolute;top:0;left:0;}
+	  .sass-item{height:100%;width:100%;position:absolute;top:topCurrent;left:0;}
 
 	  .color-1{background:rgb(254,67,101);}
 	  .color-2{background:rgb(249,205,173);}
@@ -31,9 +31,9 @@
  </head>
  <body>
 	<div id="" class="main">
-		<div id="" class="nav" style="height:100px;width:100%;position:fixed;z-index:1000;top:0;left:0;">
-			<div id="" style="background:rgba(255,255,255,0.5);-webkit-filter:blur(2px);height:100px;width:100%;position:absolute;top:0;left:0;"></div>
-			<div id="" style="height:100%;width:100%;position:absolute;top:0;left:0;text-align:center;font-size:20px;line-height:100px;">
+		<div id="" class="nav" style="height:100px;width:100%;position:fixed;z-index:1000;top:topCurrent;left:0;">
+			<div id="" style="background:rgba(255,255,255,0.5);-webkit-filter:blur(2px);height:100px;width:100%;position:absolute;top:topCurrent;left:0;"></div>
+			<div id="" style="height:100%;width:100%;position:absolute;top:topCurrent;left:0;text-align:center;font-size:20px;line-height:100px;">
 				念去去，千里烟波,暮霭沉沉楚天阔
 			</div>
 		</div>
@@ -45,32 +45,63 @@
 				<div class="sass-item color-4"></div>
 			</div>
 		</div>
+		<div id="prev" style="height:50px;width:50px;background:red;">
+			
+		</div>
+		<div id="next" style="height:50px;width:50px;background:green;">
+			
+		</div>
+		<div style="height:1000px;width:100%;background:yellow;"></div>
 	</div>
 <script type="text/javascript"src="js/jquery-1.11.2.min.js"></script> 
   <script type="text/javascript">
 	$(function(){
 		var winHeight =$(window).height();
 		var winWidth =$(window).width();
-		$('#less').height(winHeight)
-		lunbo('less',false,cb);
+		$('#less').height(200);
 		function cb(index){
 			console.log(index)
 		}
-		function lunbo(idname,autoPlay,callback){
+		lunbo({idname:'less',top:'left',autoPlay:false,callback:cb,buttPrev:'prev',buttNext:'next'});
+		function lunbo(arg){ //以对象形式传递参数
+			var idname = arg.idname,
+				top = arg.top,
+				autoPlay = arg.autoPlay,
+				callback = arg.callback,
+				buttPrev = arg.buttPrev,
+				buttNext = arg.buttNext;
+			/*
+			*idname 父元素id名
+			*top 默认为上下滑动
+			*autoplay是否要自动滑动
+			*callback回调事件
+			*buttPrev/buttNext左右点击事件的元素id
+			*/
 			var $id = $('#'+idname);
 			var $item = $('#'+idname+'>div>div');
 			var idWidth = $id.width(),
 				idHeight = $id.height();
-			var leftMin = -idWidth ,
-			    leftCurrent = 0 ,
-			    leftMax = idWidth ,
-				topMin = -idHeight ,
+			var topMin = -idHeight ,
 			    topCurrent = 0 ,
 			    topMax = idHeight ,
+				leftMin = 0 ,
+				leftMax = 0 ,
+				leftCurrent = 0 ,
+				toLeft = false ,
 			    len = $item.length ,
-			    timeIn ,
+			    timeIn , //自动轮播
 			    currentPage = 0 ;
-			$item.not(':first').css({'top':topMax});
+			if (top == 'left') //左右滑动
+			{
+				toLeft = true ,
+				topMin = 0 ,
+				topMax = 0 ,
+				topCureent = 0 ,
+				leftMin = -idWidth ,
+				leftMax = idWidth ,
+				leftCurrent = 0 ;
+			}
+			$item.not(':first').css({top:topMax,left:leftMax}); //设置元素初始位置
 			appendDian();
 			var $dianItem = $('#'+idname+'>.dian>.dian-item');
 			dianMove();
@@ -80,13 +111,27 @@
 				start();
 			}
 			touchMove(idname);//touch事件
-			$('.nav').click(function(){
-				toWhere(2)
-			})
-			function dianMove(){
+			if (buttPrev)
+			{
+				$('#'+buttPrev).click(function(){
+					console.log(currentPage);
+					var index = currentPage-1 ;
+					index = setPage(index);
+					toWhere(index);
+				});
+			}
+			if (buttNext)
+			{
+				$('#'+buttNext).click(function(){
+					var index = currentPage+1 ;
+					index = setPage(index);
+					toWhere(index);
+				});
+			}
+			function dianMove(){ //下面小点的运动
 				$dianItem.eq(currentPage).addClass('dian-item-current').siblings().removeClass('dian-item-current');
 			}
-			function appendDian(){
+			function appendDian(){ //添加点
 				var dian = '';
 				for (var i=0;i<len ;i++ )
 				{
@@ -95,32 +140,32 @@
 				$id.append('<div class="dian">'+dian+'</div>');
 			}
 
-			function start(){
+			function start(){ //自动轮播
 				timeIn=setInterval(move,2000);
 			}
-			function stop(){
+			function stop(){ //清除自动轮播
 				clearInterval(timeIn);
 			}
-			function move(){
+			function move(){ 
 				$item.removeClass('change');
 				if (currentPage < len-1)
 				{
-					$item.eq(currentPage+1).css({'top':topMax});
+					$item.eq(currentPage+1).css({top:topMax,left:leftMax});
 					$item.show().addClass('change');
 					//console.log($item.eq(currentPage+1).offset().top)
-					$item.eq(currentPage).css({'top':topMin});
-					$item.eq(currentPage+1).css({'top':0});
+					$item.eq(currentPage).css({top:topMin,left:leftMin});
+					$item.eq(currentPage+1).css({top:topCurrent,left:leftCurrent});
 					currentPage++;
 				}else{
-					$item.eq(0).css({'top':topMax});
-					$item.show().addClass('change'); //为什么$item.eq(0).css({'top':topMax});$item.addClass('change');前一语句不能正常执行
-					$item.eq(currentPage).css({'top':topMin});
-					$item.eq(0).css({'top':0});
+					$item.eq(0).css({top:topMax,left:leftMax});
+					$item.show().addClass('change'); //为什么$item.eq(0).css({top:topMax});$item.addClass('change');前一语句不能正常执行
+					$item.eq(currentPage).css({top:topMin,left:leftMin});
+					$item.eq(0).css({top:topCurrent,left:leftCurrent});
 					currentPage=0;
 				}
 				dianMove()
 			}
-			function touchMove(idname){
+			function touchMove(idname){ //触摸事件
 				var id = document.getElementById(idname);
 				var xx,XX,$prev,$next,swipeX,swipeY;
 				id.addEventListener('touchstart',function(event){
@@ -131,62 +176,103 @@
 					XX = xx ;
 					YY = yy ;
 					$prev = $item.eq(currentPage-1)[0]?$item.eq(currentPage-1):$item.eq(len-1);
-					$prev.css({'top':topMin});
+					$prev.css({top:topMin,left:leftMin});
 					$next = $item.eq(currentPage+1)[0]?$item.eq(currentPage+1):$item.eq(0);
-					$next.css({'top':topMax});
+					$next.css({top:topMax,left:leftMax});
 					swipeX = true ;
 					swipeY = true ;
 				});
 				id.addEventListener('touchmove',function(event){
 					XX = event.targetTouches[0].screenX;
 					YY = event.targetTouches[0].screenY;
-					if (swipeX && Math.abs(XX-xx)-Math.abs(YY-yy)>0)
+					if (swipeX && Math.abs(XX-xx)-Math.abs(YY-yy)>0 && toLeft)
 					{
 						swipeY = false ;
-					}else if(swipeY && Math.abs(XX-xx)-Math.abs(YY-yy)<0){
+						event.stopPropagation();
+						event.preventDefault();
+						if (XX-xx>0)
+						{
+							$item.eq(currentPage).css({left:leftCurrent+XX-xx});
+							$prev.css({left:leftMin+XX-xx});
+							$next.css({left:leftMax});// 避免因为滑动过快引起的bug
+						}else if (XX-xx<=0)
+						{
+							$item.eq(currentPage).css({left:leftCurrent+XX-xx});
+							$next.css({left:leftMax+XX-xx});
+							$prev.css({left:leftMin});// 避免因为滑动过快引起的bug
+						}
+					}else if(swipeY && Math.abs(XX-xx)-Math.abs(YY-yy)<0 && !toLeft){
 						swipeX = false
 						event.stopPropagation();
 						event.preventDefault();
 						if (YY-yy>0)
 						{
-							$item.eq(currentPage).css({'top':topCurrent+YY-yy});
-							$prev.css({'top':topMin+YY-yy});
-							$next.css({'top':topMax});// 避免因为滑动过快引起的bug
+							$item.eq(currentPage).css({top:topCurrent+YY-yy});
+							$prev.css({top:topMin+YY-yy});
+							$next.css({top:topMax});// 避免因为滑动过快引起的bug
 						}else if (YY-yy<=0)
 						{
-							$item.eq(currentPage).css({'top':topCurrent+YY-yy});
-							$next.css({'top':topMax+YY-yy});
-							$prev.css({'top':topMin});// 避免因为滑动过快引起的bug
+							$item.eq(currentPage).css({top:topCurrent+YY-yy});
+							$next.css({top:topMax+YY-yy});
+							$prev.css({top:topMin});// 避免因为滑动过快引起的bug
 						}
 					}
 				});
 				id.addEventListener('touchend',function(event){
 					$item.addClass('change');
-					if (swipeY)
+					if (swipeY && !toLeft)
 					{
 						if (YY-yy>0)
 						{
 							if (YY-yy>50)
 							{
-								$item.eq(currentPage).css({'top':topMax});
-								$prev.css({'top':topCurrent});
+								$item.eq(currentPage).css({top:topMax});
+								$prev.css({top:topCurrent});
 								currentPage--;
-								setPage(currentPage);
+								currentPage = setPage(currentPage);
 							}else{
-								$item.eq(currentPage).css({'top':topCurrent});
-								$prev.css({'top':topMin});
+								$item.eq(currentPage).css({top:topCurrent});
+								$prev.css({top:topMin});
 							}
 						}else if (YY-yy<=0)
 						{
 							if (YY-yy<-50)
 							{
-								$item.eq(currentPage).css({'top':topMin});
-								$next.css({'top':topCurrent});
+								$item.eq(currentPage).css({top:topMin});
+								$next.css({top:topCurrent});
 								currentPage++;
-								setPage(currentPage);
+								currentPage = setPage(currentPage);
 							}else{
-								$item.eq(currentPage).css({'top':topCurrent});
-								$next.css({'top':topMax});
+								$item.eq(currentPage).css({top:topCurrent});
+								$next.css({top:topMax});
+							}
+						}
+					}
+					if (swipeX && toLeft)
+					{
+						if (XX-xx>0)
+						{
+							if (XX-xx>50)
+							{
+								$item.eq(currentPage).css({left:leftMax});
+								$prev.css({left:leftCurrent});
+								currentPage--;
+								currentPage = setPage(currentPage);
+							}else{
+								$item.eq(currentPage).css({left:leftCurrent});
+								$prev.css({left:leftMin});
+							}
+						}else if (XX-xx<=0)
+						{
+							if (XX-xx<-50)
+							{
+								$item.eq(currentPage).css({left:leftMin});
+								$next.css({left:leftCurrent});
+								currentPage++;
+								currentPage = setPage(currentPage);
+							}else{
+								$item.eq(currentPage).css({left:leftCurrent});
+								$next.css({left:leftMax});
 							}
 						}
 					}
@@ -202,29 +288,30 @@
 				});
 			}
 			function setPage(page){ //设置page
-				if (currentPage>len-1)
+				if (page>len-1)
 				{
-					currentPage=0;
-				}else if (currentPage<0)
+					page=0;
+				}else if (page<0)
 				{
-					currentPage=len-1;
+					page=len-1;
 				}
+				return page ;
 			}
-			function toWhere(index){
+			function toWhere(index){ //主要是给左右点击事件使用
 				if (index === currentPage) return
 				stop();
 				$item.removeClass('change');
-				if (index>currentPage)
+				if ((index>currentPage && !(index ==len-1 && currentPage ===0))|| (index===0 && currentPage === len-1)) //下一张
 				{
-					$item.eq(index).css({'top':topMax});
+					$item.eq(index).css({top:topMax,left:leftMax});
 					$item.show().addClass('change');
-					$item.eq(currentPage).css({'top':topMin})
-				}else{
-					$item.eq(index).css({'top':topMin});
+					$item.eq(currentPage).css({top:topMin,left:leftMin});
+				}else{                                                 // 上一张
+					$item.eq(index).css({top:topMin,left:leftMin});
 					$item.show().addClass('change');
-					$item.eq(currentPage).css({'top':topMax})
+					$item.eq(currentPage).css({top:topMax,left:leftMax});
 				}
-				$item.eq(index).css({'top':0})
+				$item.eq(index).css({top:topCurrent,left:leftCurrent});
 				currentPage = index ;
 				dianMove();
 			}
