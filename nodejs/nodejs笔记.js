@@ -107,6 +107,9 @@
 		   那么如何调用呢
 
 		   router.get('/', function(req, res, next) {
+			   //获取请求的useragent
+			   console.log(req.headers['user-agent'])
+				console.log(Object.getOwnPropertyNames(req))//打印出所有属性
 			  var parRes = res ; // 保存响应
 			  var json ;
 			  var http = require('http') ;
@@ -141,3 +144,4 @@
 				}); 
 				req.end(); 
 			});
+
