@@ -14,7 +14,7 @@
 	  img{display:block;border:0;}
 	  
 	  .sass{height:300px;width:100%;position:relative;overflow:hidden;}
-	  .sass-item{height:100%;width:100%;position:absolute;top:topCurrent;left:0;}
+	  .sass-item{height:100%;width:100%;position:absolute;top:topCurrent;left:0;perspective:5000;-webkit-perspective:5000;}
 
 	  .color-1{background:rgb(254,67,101);}
 	  .color-2{background:rgb(249,205,173);}
@@ -41,8 +41,6 @@
 			<div id="" class="sass-wrap">
 				<div class="sass-item color-1"></div>
 				<div class="sass-item color-2"></div>
-				<div class="sass-item color-3"></div>
-				<div class="sass-item color-4"></div>
 			</div>
 		</div>
 		<div id="prev" style="height:50px;width:50px;background:red;">
@@ -194,12 +192,16 @@
 						{
 							$item.eq(currentPage).css({left:leftCurrent+XX-xx});
 							$prev.css({left:leftMin+XX-xx});
-							$next.css({left:leftMax});// 避免因为滑动过快引起的bug
+							if (len>2)
+							{
+								$next.css({left:leftMax});// 避免因为滑动过快引起的bug
+							}
 						}else if (XX-xx<=0)
 						{
 							$item.eq(currentPage).css({left:leftCurrent+XX-xx});
 							$next.css({left:leftMax+XX-xx});
-							$prev.css({left:leftMin});// 避免因为滑动过快引起的bug
+							if (len>2)
+								$prev.css({left:leftMin});// 避免因为滑动过快引起的bug
 						}
 					}else if(swipeY && Math.abs(XX-xx)-Math.abs(YY-yy)<0 && !toLeft){
 						swipeX = false
@@ -209,13 +211,18 @@
 						{
 							$item.eq(currentPage).css({top:topCurrent+YY-yy});
 							$prev.css({top:topMin+YY-yy});
-							$next.css({top:topMax});// 避免因为滑动过快引起的bug
+							if (len>2)
+								$next.css({top:topMax});// 避免因为滑动过快引起的bug
 						}else if (YY-yy<=0)
 						{
 							$item.eq(currentPage).css({top:topCurrent+YY-yy});
 							$next.css({top:topMax+YY-yy});
-							$prev.css({top:topMin});// 避免因为滑动过快引起的bug
+							if (len>2)
+								$prev.css({top:topMin});// 避免因为滑动过快引起的bug
 						}
+					}else{
+						swipeX = false ;
+						swipeY = false ;
 					}
 				});
 				id.addEventListener('touchend',function(event){
@@ -301,7 +308,7 @@
 				if (index === currentPage) return
 				stop();
 				$item.removeClass('change');
-				if ((index>currentPage && !(index ==len-1 && currentPage ===0))|| (index===0 && currentPage === len-1)) //下一张
+				if ((index>currentPage)) //下一张
 				{
 					$item.eq(index).css({top:topMax,left:leftMax});
 					$item.show().addClass('change');

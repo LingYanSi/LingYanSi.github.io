@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  .main{padding-top:0;background:rgb(239,239,239);}
+	  
+	  .scale{height:300px;width:100%;position:absolute;background:rgba(247,105,105,1);}
+	  #console{position:absolute;top:0;}
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<div id="scale" class="scale">
+			</div>
+			<div id="console"></div>
+		</div>
+	</div>
+ <script src="js/jquery-1.11.2.min.js"></script>
+ <script id="yuan" src="js/global.js"></script>
+ <script type="text/javascript">
+	$(function(){
+		var winHeight = $(window).height() ;
+		var winWidth = $(window).width() ;
+		scale();
+		function scale(){
+			var $scale = $('#scale')[0];
+			var $log = $('#console');
+			var singleF;//单指
+			var doubleF;// 双指
+			$scale.addEventListener('touchstart',function(event){
+				var touch0 = event.targetTouches[0] ;
+				var touch1 = event.targetTouches[1] ;
+				var touch2 = event.targetTouches[2] ;
+				singleF = false ;
+				doubleF = false ;
+				if (touch0 && !touch1)
+				{
+					singleF = true ;
+					$log.text('单指触摸');
+				}
+				if (touch1 && !touch2)
+				{
+					doubleF = true ;
+					$log.text('双指触摸');
+				}
+			},false);
+			$scale.addEventListener('touchmove',function(event){
+				event.stopPropagation();
+				event.preventDefault();
+				if (singleF)
+				{
+					$log.text('单指')
+				}
+				if (doubleF)
+				{
+					$log.text('双指')
+				}
+			},false);
+			$scale.addEventListener('touchend',function(event){
+				
+			},false);
+		}
+		document.getElementById('wrap').style.opacity = 1;
+	})
+ </script>
+ </body>
+</html>

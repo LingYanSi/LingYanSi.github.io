@@ -640,7 +640,7 @@
 	 作用域：
 	 (function() {
 		console.log(a); // undefined 这是因为【变量，函数的定义】会先提升到运行环境的顶部 因此不会显示 a is not defined [a没有被定义]
-		console.log(haha()); // '我笑诸葛亮少智，周公瑾无谋' ; a is undefined ;c is not defined ; 由此可见变量要先于function 不然a应该显示a is not defined?
+		console.log(haha()); // '我笑诸葛亮少智，周公瑾无谋' ; a is undefined ;c is not defined ; 由此可见变量要先于function
 		var a = b = 5;
 		function haha(){
 			console.log('我笑诸葛亮少智，周公瑾无谋');

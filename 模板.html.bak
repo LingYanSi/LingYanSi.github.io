@@ -45,7 +45,7 @@
 	 (function() {
 		(function haha(){
 			console.log('我笑诸葛亮少智，周公瑾无谋');
-			console.log(c)
+			console.log(a)
 			return 1
 		})();
 		console.log(a); // undefined 这是因为【变量，函数的定义】会先提升到运行环境的顶部 因此不会显示 a is not defined
