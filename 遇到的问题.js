@@ -21,6 +21,25 @@
 	本文来源：http://developer.51cto.com/art/201009/226852.htm
 
 	-------------------------------------------------------------------------------
+	css媒体查询
+
+	媒体查询 包含了一个媒体类型和至少一个使用如宽度、高度和颜色等媒体属性来限制样式表范围的表达式。CSS3加入的媒体查询使得无需修改内容便可以使样式应用于某些特定的设备范围。
+	//<!-- link元素中的CSS媒体查询 -->
+	<link rel="stylesheet" media="(max-width: 800px)" href="example.css" />
+
+	//<!-- 样式表中的CSS媒体查询 -->
+	<style>
+	@media (max-width: 600px) { //宽度小于600px的设备
+	  .facet_sidebar {
+		display: none;
+	  }
+	}
+	@media screen and (min-width: 500px) and (max-width: 800px) { //宽度在500到800之间的设备
+	
+	}
+	</style>
+
+	--------------------------------------------------------------------------------------
 
 	box-sizing:border-box;padding:10px;width:100%;
 
@@ -665,7 +684,7 @@
 		}
 		console.log(a); 
 		console.log(haha()); 
-		var a = b = 5;
+		a = b = 5;
 	  })();
 	 
 	 严格模式下的写法
@@ -677,3 +696,29 @@
 	形式参数：函数定义时声明的形式参数会作为变量被 hoisting 至该函数的作用域内。所以形式参数是本地的，不是外部的或者全局的。当然你可以在执行函数的时候把外部变量传进来，但是传进来之后就是本地的了
 	函数声明：函数体内部还可以声明函数，不过它们也都是本地的了
 	变量声明：这个优先级其实还是最低的，不过它们也都是最常用的
+
+		var x =1000;
+		function a(x,y){
+			y = function(){ x = 2};
+			(function(){
+				var x =3;
+				y();
+				console.log(x); // 3
+			}).apply(this) // this指向环境a
+			this.x = 50
+			console.log(x) // 2
+		}
+		a();
+		console.log(x) //50
+
+	-----------------------------------------------------------------------------------------
+	html5 history
+
+	history.forward();
+	history.back();
+	history.go();
+	history.pushState(null,'',url); //添加一个
+	history.replaceStateState(null,'',url); //替换当前
+	window.onpopstate = function(event){ // 点击浏览器【返回、下一页】时触发
+		//根据已改变的url，做一些事情
+	}

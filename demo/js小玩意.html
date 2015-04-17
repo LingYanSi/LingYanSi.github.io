@@ -25,17 +25,7 @@
 	$(function(){
 		var winHeight = $(window).height() ;
 		var winWidth = $(window).width() ;
-		var x =1000;
-		function a(x,y){
-			y = function(){ x = 2};
-			return function(){
-				var x =3;
-				y();
-				console.log(x);
-			}.apply(this,arguments)
-		}
-		//a();
-		//console.log(x)
+		
 		function c(){x=2}
 		function b(){
 			var x=3;
@@ -46,6 +36,21 @@
 		console.log(x)
 		document.getElementById('wrap').style.opacity = 1;
 	})
+
+	var x =1000;
+		function a(x,y){
+			y = function(){ x = 2};
+			(function(){
+				var x =3;
+				y();
+				console.log(x);
+			}).apply(this)
+			this.x = 50
+			console.log(this.x)
+			console.log(x)
+		}
+		a();
+		console.log(this.x === x)
  </script>
  </body>
 </html>
