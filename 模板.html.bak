@@ -53,6 +53,7 @@
 		console.log(a,b)
 		return a-b ;
 	})
+	console.log(arr.join(''))
 	</script>
  </body>
 </html>

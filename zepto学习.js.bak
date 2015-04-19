@@ -67,22 +67,6 @@
 		方法
 		item ( idx )
 		返回NodeList对象中指定索引的节点,如果索引越界,则返回null.也可以简写为nodeList[idx].
-
-	//-- 关于【HTMLCollection】的介绍
-		var c = document.forms;//这是 form 元素的一个 HTMLCollection 对象
-		var firstform = c[0];//能够以数字数组来使用
-		var lastform = c[c.length-1];//length 属性返回元素数
-		var address = c["address"];//能够以关联数组来使用
-		var address = c.address;//JavaScript 允许这样的表示法
-
-	// --- HTMLCollection与NodeList有很大部分相似性
-	/* 相同点:
-		1、都是类数组对象,都有length属性，可以通过for循环迭代
-		2、都是只读的
-		3、都是实时的，即文档的更改会立即反映到相关对象上面,有一个例外，就是document.querySelectorAll返回的NodeList不是实时的
-		5、可以通过属性的方式访问元素，如document.forms.f1（f1为form的id）
-		不同点:
-	*/
 //--------------------------------------------------------------------------------------------
 
 instanceof // instanceof 用于判断一个变量是否某个对象的实例
@@ -120,6 +104,22 @@ instance('haha')
 	 }
 	
 	console.log($('item')[0].innerHTML)
+
+	//-- 关于【HTMLCollection】的介绍
+		var c = document.forms;//这是 form 元素的一个 HTMLCollection 对象
+		var firstform = c[0];//能够以数字数组来使用
+		var lastform = c[c.length-1];//length 属性返回元素数
+		var address = c["address"];//能够以关联数组来使用
+		var address = c.address;//JavaScript 允许这样的表示法
+
+	// --- HTMLCollection与NodeList有很大部分相似性
+	/* 相同点:
+		1、都是类数组对象,都有length属性，可以通过for循环迭代
+		2、都是只读的
+		3、都是实时的，即文档的更改会立即反映到相关对象上面,有一个例外，就是document.querySelectorAll返回的NodeList不是实时的
+		5、可以通过属性的方式访问元素，如document.forms.f1（f1为form的id）
+		不同点:
+	*/
 
 // ----------------------------------------------------------------------------------------------
 	function a(name){
