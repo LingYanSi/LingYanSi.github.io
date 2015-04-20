@@ -21,25 +21,38 @@
  <script id="yuan" src="js/global.js"></script>
  <script type="text/javascript">
 
- function addScriptTag(src){
+ function addScriptTag(url,data,sccess,error){
     var script = document.createElement('script');
     script.setAttribute("type","text/javascript");
+	console.log(Object.getOwnPropertyNames(data))
 	script.id = '1233333';
-    script.src = src;
+    script.src = url;
     document.body.appendChild(script);
+	 //自定义的回调函数result
+	 if (sccess)
+	 {
+		window.result = sccess;
+	 }
+	setTimeout(function(){
+		document.body.removeChild(script);
+		if (error)
+		{
+			error();
+		}
+	},3000)
 }
 
  window.onload = function(){
      //将自定义的回调函数名result传入callback参数中
-     addScriptTag("http://app.nacute.com/api/ajax/chosen/detail/600/?callback=result");
+     addScriptTag("http://app.nacute.com/api/ajax/chosen/detail/600/?callback=result",{a:'bitch'},function(data){
+		console.log(data)
+	 });
 
 }
- //自定义的回调函数result
- function result(data) {
-     //我们就简单的获取数据
-	$('#1233333').remove();
-    console.log(data);
- }
+window.addEventListener('message',function(event){
+	console.log(event.data)
+	event.source.postMessage('holla back youngin!',event.origin);
+})
  </script>
  </body>
 </html>
