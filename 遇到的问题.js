@@ -132,8 +132,14 @@
 			}
 		}
 		var bitch1 = new bitch(1,2,3); //arguments.length = 3
-		var allProperty = Object.getOwnPropertyNames(bitch1);//获取对象所有属性，以数组形式返回
+		var allProperty = Object.getOwnPropertyNames(bitch1);//获取对象所有属性【可枚举，不可枚举】，以数组形式返回 不可枚举指的是内建对象的属性
+															//我们能创建的对象，都是内建对象的一个引用（的引用（的引用。。。）），都是可以枚举的……
 		var keys = Object.keys(bitch1) ; //获取对象可枚举的属性，以数组形式返回
+										//数组中属性名的排列顺序和使用for-in循环遍历该对象时返回的顺序一致（两者的主要区别是 for-in 还会遍历出一个对象从其原型链上继承到的可枚举属性）。
+		Object.freeze(object) // 方法可以冻结一个对象。冻结对象是指那些不能添加新的属性，不能修改已有属性的值，不能删除已有属性，以及不能修改已有属性的可枚举性、可配置性、可写性的对象。
+								//也就是说，这个对象永远是不可变的。该方法返回被冻结的对象。
+		Object.isFreeze(object) // 判断对象是否冻结
+
 		bitch1.log(bitch1.name); 
 		bitch1.log(allProperty); 
 		bitch1.log(keys);
@@ -180,6 +186,29 @@
 		array.shift();// shift() 方法将删除 arrayObject 的第一个元素，把数组长度减 1，并且返回它删除的元素的值。如果数组已经为空，则 pop() 不改变数组，并返回 undefined 值。
 		array.join('-----');//如果没有参数，默认逗号分隔元素
 		array.toString();//元素间以逗号分隔
+
+		array.sort() //如果没有回调函数，会对数组进行【万国码排序？】
+					// eg:[1,0,5,21] 结果[0,1,21,5]
+			对数组按大小排序
+				array.sort(function(a,b){
+					return a-b
+				})
+			随机排序
+				array.sort(function(a,b){
+					return Math.random()>.5 ? -1 : 1; 
+				})
+	ecmascript5
+		array.filter(function(element){ //按条件对元素进行过滤，返回一个新数组
+			return true/false
+		});
+		array.map(function(element,index,array){
+			//map() 方法返回一个由原数组中的每个元素调用一个指定方法后的返回值组成的新数组。
+			//callback 函数会被自动传入三个参数：数组元素，元素索引，原数组本身
+			return sth ;
+		})
+		array.forEach(function(element,index,array){
+			//forEach() 方法让数组的每一项都执行一次给定的函数。
+		})
 
    --------------------------------------------------------------------------
    max-width\max-height /min-height/min-width 非css3啊，我去你大爷的

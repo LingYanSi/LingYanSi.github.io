@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  .main{padding-top:0;background:rgb(239,239,239);}
+	  
+	  
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+		
+		</div>
+		<div id="history" style="height:50px;width:50px;background:rgb(257,105,105);"></div>
+	</div>
+ <script type="text/javascript">
+	var agent = navigator.userAgent.toLowerCase();
+	document.getElementById('main').innerHTML = agent
+
+	document.querySelector('#history').onclick = function(){
+		window.history.pushState(null, "", 'amap.html');
+		//window.history.replaceState(null, "", 'amap.html');
+	}
+	window.onpopstate = function(event){
+		console.log(event)
+		console.log(location.href)
+	}
+	console.log(history)
+ </script>
+ </body>
+</html>

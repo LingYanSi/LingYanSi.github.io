@@ -53,6 +53,24 @@
 		console.log(a,b)
 		return a-b ;
 	})
+	var str = '123'
+	console.log(Object.getOwnPropertyNames(location))
+	console.log(location.pathname)
+	var obj = {};
+	Object.defineProperties(obj, {
+	  "property1": {
+		value: true,
+		writable: true
+	  },
+	  "property2": {
+		value: "Hello",
+		writable: false
+	  }
+	  // 等等.
+	});
+	console.log(obj.property2)
+	obj.property2 = 'bye'
+	console.log(obj.property2)
 	</script>
  </body>
 </html>

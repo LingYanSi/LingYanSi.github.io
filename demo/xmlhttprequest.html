@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  
+	  
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			
+		</div>
+	</div>
+ <script src="js/jquery-1.11.2.min.js"></script>
+ <script id="yuan" src="js/global.js"></script>
+ <script type="text/javascript">
+
+ function addScriptTag(src){
+    var script = document.createElement('script');
+    script.setAttribute("type","text/javascript");
+	script.id = '1233333';
+    script.src = src;
+    document.body.appendChild(script);
+}
+
+ window.onload = function(){
+     //将自定义的回调函数名result传入callback参数中
+     addScriptTag("http://app.nacute.com/api/ajax/chosen/detail/600/?callback=result");
+
+}
+ //自定义的回调函数result
+ function result(data) {
+     //我们就简单的获取数据
+	$('#1233333').remove();
+    console.log(data);
+ }
+ </script>
+ </body>
+</html>
