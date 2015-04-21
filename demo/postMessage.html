@@ -21,9 +21,8 @@
  <script src="js/jquery-1.11.2.min.js"></script>
  <script id="yuan" src="js/global.js"></script>
  <script type="text/javascript">
-	var iframe = document.getElementById('bitch').contentWindow
 	setInterval(function(){
-		iframe.postMessage('hello','http://localhost/xixiang/xmlhttprequest.html')
+		window.postMessage('hello','http://localhost/xixiang/xmlhttprequest.html')
 	
 	},3000)
  </script>

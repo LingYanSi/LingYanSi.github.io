@@ -21,38 +21,74 @@
  <script id="yuan" src="js/global.js"></script>
  <script type="text/javascript">
 
- function addScriptTag(url,data,sccess,error){
-    var script = document.createElement('script');
-    script.setAttribute("type","text/javascript");
-	console.log(Object.getOwnPropertyNames(data))
-	script.id = '1233333';
-    script.src = url;
-    document.body.appendChild(script);
-	 //自定义的回调函数result
-	 if (sccess)
-	 {
-		window.result = sccess;
+	var ling = {};
+	ling.jsonp = function(arg){
+		var script = document.createElement('script');
+		script.setAttribute("type","text/javascript");
+		script.id = '1233333';
+
+		var cbFunction = 'Jquery'+new Date().getTime();
+		var url = arg.url + '?callback=' + cbFunction ;
+		script.src = url ;
+		document.head.appendChild(script);
+		 //自定义的回调函数result
+		 if (arg.success)
+		 {
+			window[cbFunction] = arg.success;
+		 }
+		setTimeout(function(){
+			document.head.removeChild(script);
+			if (arg.error)
+			{
+				arg.error();
+			}
+		},3000)
+	}
+	 window.onload = function(){
+		 //将自定义的回调函数名result传入callback参数中
+		 ling.jsonp({
+			 url:"http://app.nacute.com/api/ajax/chosen/detail/600/",
+			 data:{a:'bitch'},
+			 success:function(data){
+				console.log(data)
+			 }
+		 });
+		 ling.ajax({
+			 asyn:true,
+			 type:'POST',
+			 url:"http:",
+			 data:{a:'bitch'},
+			 success:function(data){
+				console.log(data)
+			 }
+		 });
 	 }
-	setTimeout(function(){
-		document.body.removeChild(script);
-		if (error)
-		{
-			error();
+	 ling.ajax = function(arg){
+		var xhr = new XMLHttpRequest();
+		var type = arg.type || 'POST' ,
+			url = arg.url ,
+			asyn = arg.asyn || true ;
+		xhr.open(arg.type,arg.url,arg.asyn);
+		xhr.timeout=1;//设置响应时间
+		xhr.ontimeout = function(){
+			alert('请求超时');
 		}
-	},3000)
-}
+		xhr.onreadystatechange = function(){ // readystate变化时触发
+			if (xhr.readyState===2)//
+			{
+				console.log('以获取相应')
+			}else if (xhr.readyState === 4)
+			{
+					console.log(xhr.responseType,xhr.responseText)
+			}
+		}
+		xhr.send();//可发送Array，string，document，blob，formdata
+	}
 
- window.onload = function(){
-     //将自定义的回调函数名result传入callback参数中
-     addScriptTag("http://app.nacute.com/api/ajax/chosen/detail/600/?callback=result",{a:'bitch'},function(data){
-		console.log(data)
-	 });
-
-}
-window.addEventListener('message',function(event){
-	console.log(event.data)
-	event.source.postMessage('holla back youngin!',event.origin);
-})
+	window.addEventListener('message',function(event){
+		console.log(event.data)
+		event.source.postMessage('holla back youngin!',event.origin);
+	})
  </script>
  </body>
 </html>
