@@ -9,12 +9,17 @@
   <title></title>
   <style type="text/css">
 	  
+	  
   </style>
  </head>
  <body>
 	<div id="wrap" class="wrap">
 		<div id="main" class="main">
-			
+			<div id="" class="heihei" style="height:500px;width:100%;background:rgb(247,105,105);">
+				<div id="absolute" class="" style="height:50px;width:100%;background:blue;bottom:0;position:fixed;">
+					
+				</div>
+			</div>
 		</div>
 	</div>
  <script src="js/jquery-1.11.2.min.js"></script>
@@ -24,6 +29,19 @@
 		var winHeight = $(window).height() ;
 		var winWidth = $(window).width() ;
 		document.getElementById('wrap').style.opacity = 1;
+
+		document.querySelector('#absolute').addEventListener('click',function(){
+			alert('你大爷')
+		});
+		document.querySelector('#heihei').addEventListener('click',function(){
+			alert('不能点击')
+		})
+		var heihei = document.createElement('div');
+		heihei.style.height = "500px" ;
+		heihei.style.width = "500px" ;
+		heihei.style.background = "red" ;
+		heihei.id = 'heihei';
+		document.body.appendChild(heihei);
 	})
  </script>
  </body>

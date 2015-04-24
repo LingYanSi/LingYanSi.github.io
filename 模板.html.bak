@@ -55,7 +55,7 @@
 	})
 	var str = '123'
 	console.log(Object.getOwnPropertyNames(location))
-	console.log()
+	console.log(location.pathname)
 	var obj = {};
 	Object.defineProperties(obj, {
 	  "property1": {
@@ -71,6 +71,8 @@
 	console.log(obj.property2)
 	obj.property2 = 'bye'
 	console.log(obj.property2)
+
+	console.log(!1 == false)
 	</script>
  </body>
 </html>
