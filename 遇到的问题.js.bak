@@ -664,7 +664,6 @@
 			name:'abc',
 			method:{
 				log:function(){
-					this.name = '111'
 					console.log(this.name);
 				},
 				name:'周恩来'
@@ -718,7 +717,7 @@
 		*/
 	 console.log(a); // a is not defined 因为a是一个局部变量
 
-	 (function() {
+	 (function() { // IIFE （Imdiately Invoked Function Expression 立即执行的函数表达式）。
 		var a ;
 		function haha(){
 			console.log('我笑诸葛亮少智，周公瑾无谋')
@@ -751,6 +750,26 @@
 		}
 		a();
 		console.log(x) //50
+	 IIFE （Imdiately Invoked Function Expression 立即执行的函数表达式）。
+
+	 方式1，调用函数，得到返回值。强制运算符使函数调用执行
+
+	(function(x,y){
+		alert(x+y);
+		return x+y;
+	}(3,4)); 
+	方式2，调用函数，得到返回值。强制函数直接量执行再返回一个引用，引用再去调用执行
+
+	(function(x,y){
+		alert(x+y);
+		return x+y;
+	})(3,4);
+	方式3，使用void
+
+	void function(x) {
+		  x = x-1;
+		  alert(x);
+	}(9);
 
 	-----------------------------------------------------------------------------------------
 	html5 history
@@ -832,7 +851,7 @@
 		upload
 			可以在 upload 上添加一个事件监听来跟踪上传过程。
 			req.upload.addEventListener("progress", updateProgress, false); //上传中
-			req.upload.addEventListener("load", transferComplete, false); //上传完
+			req.upload.addEventListener("load", transferComplete, false); //上传完成
 			req.upload.addEventListener("error", transferFailed, false); //上传出错
 			req.upload.addEventListener("abort", transferCanceled, false); //上传中断
 
@@ -859,4 +878,34 @@
 		xhr.send();//可发送Array，string，document，blob，formdata
 	}
 		
-		
+---------------------------------------------------------------------------------------------------
+!!强制转boolen
+强制将语句转为表达式 ：
+
+语句值为number：
+
+!!1 // true
+!!(4-2) // true
+!!(4-4) // false
+语句值为string：
+
+!!"str" // true
+!!""    // false
+语句值为object:
+
+var obj = {}
+!!obj // true
+obj = null
+!!obj // false
+语句值未定义 undefined：
+
+var temp;
+!!temp // false
+temp = 1;
+!!temp // true
+语句值为null ：
+
+!!null // false
+原因：
+
+"解析器"没有想象中智能，所以用这种方式来告诉"它"。

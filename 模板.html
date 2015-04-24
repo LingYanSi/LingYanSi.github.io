@@ -42,21 +42,20 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-	  console.log('querySelectorAll',document.querySelectorAll('div'))
-	   console.log('querySelector',document.querySelector('div'))
-	   console.log('getElementsByClassName',document.getElementsByClassName('content-item'))
-	    console.log('getElementsByName',document.getElementsByName('haha'))
-		 console.log('getElementsByTagName',document.getElementsByTagName('div'))
-	
-	var arr = [0,20,1,15];
-	arr.sort(function(a,b){
-		console.log(a,b)
-		return a-b ;
-	})
-	var str = '123'
-	console.log(Object.getOwnPropertyNames(location))
-	console.log(location.pathname)
-	var obj = {};
+	 var name = "蒋中正"
+		var obj = {
+			name:'abc',
+			method:{
+				log:function(){
+					console.log(this.name);
+				},
+				name:'周恩来'
+			}
+		}
+		obj.method.log(); //周恩来 在method对象中调用log方法，this指向method，其实this就是method的克隆
+		var song = obj.method.log; 
+		song(); //蒋中正 在window中运行log方法，this指向window
+		var bitch = new obj.method.log(); //uindefined 直接新建了一个log方法，无运行环境？
 	Object.defineProperties(obj, {
 	  "property1": {
 		value: true,

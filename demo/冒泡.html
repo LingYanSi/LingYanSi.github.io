@@ -41,6 +41,10 @@
 		document.body.appendChild(heihei);
 		document.querySelector('#heihei').addEventListener('click',function(){
 			alert('不能点击')
+		});
+		var hei = document.querySelector('.heihei');
+		hei.addEventListener('touchend',function(){
+			console.log('我被滑动了')
 		})
 	})
  </script>

@@ -4,23 +4,31 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-  <link rel="stylesheet" href="css/reset.css">
   <link rel="shortcut icon" href="" />
   <title></title>
   <style type="text/css">
+	  *{margin:0;padding:0;}
 	  .main{padding-top:0;background:rgb(239,239,239);}
 	  
-	  .scale{height:300px;width:100%;position:absolute;background:rgba(247,105,105,1);}
-	  #console{position:absolute;top:0;}
+	  .scale{height:100%;width:100%;position:absolute;overflow:hidden;background:rgba(247,105,105,1);}
+	  .scale>img{height:100%;width:100%;}
+	  .info{position:absolute;}
+
+	  #can{position:absolute;background:#ffffff;display:none;}
   </style>
  </head>
  <body>
 	<div id="wrap" class="wrap">
 		<div id="main" class="main">
 			<div id="scale" class="scale">
+				<img src="img/sunset.jpg" alt="" />
 			</div>
-			<div id="console"></div>
+			<div id="" class="info">
+				<div id="console"></div>
+				<div id="length"></div>
+			</div>
 		</div>
+		<canvas id="can" height="300" width='500'></canvas>
 	</div>
  <script src="js/jquery-1.11.2.min.js"></script>
  <script id="yuan" src="js/global.js"></script>
@@ -30,44 +38,156 @@
 		var winWidth = $(window).width() ;
 		scale();
 		function scale(){
-			var $scale = $('#scale')[0];
+			var $scale = $('#scale>img')[0];
 			var $log = $('#console');
-			var singleF;//单指
-			var doubleF;// 双指
+			var $length = $('#length');
+			var singleF,singleFM;//单指
+			var doubleF,doubleFM;// 双指
+								 // 需要注意的是当图片在往下一个切换的时候，关闭缩放功能
+			var t1,t2 ;
+			t1 = t2 =0 ;
+			var xx1,yy1,XX1,YY1,xx2,yy2,XX2,YY2 ;
+			var len1,len2 ;
+			var center1=[],center2=[],center=[] ;
+			var k = 1,intK = 1;
+			var transX = 0,transY = 0 ;
+			var imgMarTop,imgMarLeft ;
+			var imgMarTopMax,imgMarTopMin,imgMarLeftMax,imgMarLeftMin ;
+			var $thisImg ;
+			var scaleMin = true ;
 			$scale.addEventListener('touchstart',function(event){
+				event.stopPropagation();
+				event.preventDefault();
+
+				$thisImg = $(this).find('img') ;
+				if (!$thisImg.load())
+				{
+					return ;
+				}
+				imgMarTop = transY;
+				imgMarLeft = transX;
+				imgMarTopMax = 0 ;
+				imgMarTopMin = $(this).height() - $thisImg.height() ;
+				imgMarLeftMax = 0 ;
+				imgMarLeftMin = $(this).width() - $thisImg.width() ;
 				var touch0 = event.targetTouches[0] ;
 				var touch1 = event.targetTouches[1] ;
 				var touch2 = event.targetTouches[2] ;
-				singleF = false ;
-				doubleF = false ;
-				if (touch0 && !touch1)
+				if (event.targetTouches.length === 1)
 				{
-					singleF = true ;
+					singleFM = true ;
+					doubleFM = false ;
 					$log.text('单指触摸');
+					XX1 = xx1 = touch0.screenX ;
+					YY1 = yy1 = touch0.screenY ;
 				}
-				if (touch1 && !touch2)
+				if (event.targetTouches.length === 2)
 				{
-					doubleF = true ;
+					doubleFM = true ;
+					singleFM = false ;
 					$log.text('双指触摸');
+					XX1 = xx1 = touch0.screenX ;
+					YY1 = yy1 = touch0.screenY ;
+					XX2 = xx2 = touch1.screenX ;
+					YY2 = yy2 = touch1.screenY ;
+					len2 = len1 = getLen([xx1,yy1],[xx2,yy2]);
+					center2 = center1 = getCenter([xx1,yy1],[xx2,yy2]);
+				}
+				if (event.targetTouches.length >= 3 )
+				{
+					$log.text('三个手指头啦')
 				}
 			},false);
 			$scale.addEventListener('touchmove',function(event){
 				event.stopPropagation();
 				event.preventDefault();
-				if (singleF)
+				if (singleFM && event.targetTouches.length === 1)
 				{
-					$log.text('单指')
+					doubleFM = false ;
+					singleFM = true ;
+					XX1 = event.targetTouches[0].screenX ;
+					YY1 = event.targetTouches[0].screenY ;
+					var marTop = imgMarTop+YY1-yy1 ;
+					var marLeft = imgMarLeft+XX1-xx1 ;
+					this.style.webkitTransform = 'scale3d('+k+','+k+',1) translate('+(marLeft/k)+'px,'+(marTop/k)+'px)'
 				}
-				if (doubleF)
+				if (event.targetTouches.length === 2	)
 				{
-					$log.text('双指')
+					//$log.text('双指移动了'+k);
+					touch0 = event.targetTouches[0] ;
+					touch1 = event.targetTouches[1] ;
+					doubleFM = true ;
+					singleFM = false ;
+					center1 = center2 ;
+					XX1 = touch0.screenX ;
+					YY1 = touch0.screenY ;
+					XX2 = touch1.screenX ;
+					YY2 = touch1.screenY ;
+					len2 = getLen([XX1,YY1],[XX2,YY2]);
+					center1 = center2 ;
+					center2 = getCenter([XX1,YY1],[XX2,YY2]);
+					k = intK * len2/len1 ;
+					center[0] = k*center1[0] + (1-k)*center2[0];
+					center[1] = k*center1[1] + (1-k)*center2[1];
+					this.style.webkitTransformOrigin = center[0]+'px '+center[1]+'px' ;
+					this.style.webkitTransform = 'scale3d('+k+','+k+',1) translate('+(transX)+'px,'+(transY)+'px)' ;
 				}
+				$length.text(event.targetTouches.length)
 			},false);
 			$scale.addEventListener('touchend',function(event){
-				
+				if (singleFM)
+				{
+					transY = imgMarTop+YY1-yy1 ;
+					transX = imgMarLeft+XX1-xx1 ;
+					doubleTap(this);
+					singleF = false ;
+					singleFM = false ;
+				}
+				if (doubleFM)
+				{
+					intK = k ;
+					$log.text('有一根手指离开了');
+					doubleFM = false ;
+					doubleF = false ;
+				}
+				$length.text(event.targetTouches.length);
 			},false);
+			function doubleTap(dom){
+				t1 = t2 ;
+				t2 = new Date().getTime();
+				if (t2 - t1 <300)
+				{
+					t1 = t2 = 0 ;
+					dosth(dom);
+				}
+			}
+			function dosth(dom){ // 放大缩小，如果有一个属性用来记录是否打到过最大最小，如果最大，双击就缩小，否则放大
+				var height = $(dom).height();
+				var width = $(dom).width();
+				if (scaleMin)
+				{
+					intK = k = 2 ;
+					transX = 0 ;
+					transY = 0 ;
+					scaleMin = false ;
+					$(dom).css({'transform':'scale3d(2,2,1) translate('+(transX)+'px,'+(transY)+'px)'});
+				}else{
+					intK = k = 1 ;
+					transX = 0 ;
+					transY = 0 ;
+					scaleMin = true ;
+					$(dom).css({'transform':'scale3d(1,1,1) translate(0,0)'});
+				}
+			}
+			function getCenter(arr1,arr2){
+				return [(arr1[0]+arr2[0])/2 ,(arr1[1]+arr2[1])/2] ;
+			}
+			function getLen(arr1,arr2){
+				return Math.sqrt(Math.pow(arr1[0]-arr2[0],2)+Math.pow(arr1[1]-arr2[1],2));
+			}
 		}
 		document.getElementById('wrap').style.opacity = 1;
+
 	})
  </script>
  </body>

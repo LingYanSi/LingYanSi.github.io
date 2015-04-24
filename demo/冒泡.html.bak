@@ -33,15 +33,19 @@
 		document.querySelector('#absolute').addEventListener('click',function(){
 			alert('你大爷')
 		});
-		document.querySelector('#heihei').addEventListener('click',function(){
-			alert('不能点击')
-		})
 		var heihei = document.createElement('div');
 		heihei.style.height = "500px" ;
 		heihei.style.width = "500px" ;
 		heihei.style.background = "red" ;
 		heihei.id = 'heihei';
 		document.body.appendChild(heihei);
+		document.querySelector('#heihei').addEventListener('click',function(){
+			alert('不能点击')
+		});
+		var hei = document.querySelector('.heihei');
+		hei.addEventListener('touchend',function(){
+			console.log()
+		})
 	})
  </script>
  </body>
