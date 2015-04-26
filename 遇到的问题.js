@@ -909,3 +909,19 @@
 	原因：
 
 	"解析器"没有想象中智能，所以用这种方式来告诉"它"。
+
+-------------------------------------------------------------------------------
+	音乐播放器
+	首先要在普通页面，点击链接的时候，判断播放页面是否打开
+	可以通过过localStorage来判断
+		具体做法是，如果播放页面存在，就每隔1000ms，向localStorage内写值【时间戳】
+		但点击链接的时候，用当前事件减去从localStorage中获取到的时间戳，如果小于1000ms，说明页面存在，反则不存在 //这个判断规则有点问题
+	通信问题，就是播放某首歌【音乐id】
+		也可以通过将其写入localStorage，让后让播放页面监听storage的变化，来更新页面的当前播放曲目
+		window.addEventListener('srorage',function(e){
+			if (e.key=='curentSongId')
+			{
+				// doSth
+				//e.key,e.oldValue,e.newValue,e.url,e.storageArea
+			}
+		})

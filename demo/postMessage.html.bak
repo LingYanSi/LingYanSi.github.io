@@ -17,18 +17,17 @@
 			
 		</div>
 	</div>
+ <script src="js/jquery-1.11.2.min.js"></script>
+ <script id="yuan" src="js/global.js"></script>
  <script type="text/javascript">
 	setInterval(function(){
-		window.postMessage('hello','http://localhost:3000/xmlHttpRequest')
-		console.log('消息已发送')
+		window.postMessage('hello','http://localhost/xixiang/xmlhttprequest.html')
+	
 	},3000);
 	setInterval(function(){
 		var time = new Date().getTime() ;
-		localStorage.setItem('player',time);
-	},1000);
-	window.addEventListener('storage',function(e){
-		console.log('storageChange',e.key,e.oldValue,e.newValue,e.url,e.storageArea)
-	})
+		localStorage.setItem('player',);
+	},1000)
  </script>
  </body>
 </html>

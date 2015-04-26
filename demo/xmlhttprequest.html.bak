@@ -14,13 +14,22 @@
  <body>
 	<div id="wrap" class="wrap">
 		<div id="main" class="main">
-			
+			<a id="player" href="postMessage" target="_blank">播放器</a>
 		</div>
 	</div>
  <script src="js/jquery-1.11.2.min.js"></script>
  <script id="yuan" src="js/global.js"></script>
  <script type="text/javascript">
-
+	document.getElementById('player').addEventListener('click',function(event){
+		var time = new Date().getTime();
+		console.log(localStorage.player)
+		var playerTime = localStorage.player ;
+		if (time - playerTime =< 1000 )
+		{
+			console.log('播放器已经打开了');
+			event.preventDefault();
+		}
+	})
 	var ling = {};
 	ling.jsonp = function(arg){
 		var script = document.createElement('script');
@@ -69,7 +78,7 @@
 			url = arg.url ,
 			asyn = arg.asyn || true ;
 		xhr.open(arg.type,arg.url,arg.asyn);
-		xhr.timeout=3000;//设置响应时间
+		xhr.timeout=1;//设置响应时间
 		xhr.ontimeout = function(){
 			alert('请求超时');
 		}

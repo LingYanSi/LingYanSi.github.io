@@ -42,12 +42,14 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+	 window.onbeforeunload = function(e){
+	 
+	 }
 	 var name = "蒋中正"
 		var obj = {
 			name:'abc',
 			method:{
 				log:function(){
-					this.name = '111'
 					console.log(this.name);
 				},
 				name:'周恩来'

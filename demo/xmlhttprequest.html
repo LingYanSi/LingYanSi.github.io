@@ -14,13 +14,22 @@
  <body>
 	<div id="wrap" class="wrap">
 		<div id="main" class="main">
-			
+			<a id="player" href="postMessage" target="player" target="_blank">播放器</a>
 		</div>
 	</div>
- <script src="js/jquery-1.11.2.min.js"></script>
- <script id="yuan" src="js/global.js"></script>
  <script type="text/javascript">
-
+	document.getElementById('player').addEventListener('click',function(event){
+		var time = new Date().getTime();
+		localStorage.setItem('haha',time)
+		localStorage.setItem('nimei',time)
+		var playerTime = parseInt(localStorage.player,10) ;
+		
+		if (time - playerTime <= 1000 )
+		{
+			console.log('播放器已经打开了');
+			event.preventDefault();
+		}
+	})
 	var ling = {};
 	ling.jsonp = function(arg){
 		var script = document.createElement('script');
