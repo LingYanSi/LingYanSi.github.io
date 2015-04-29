@@ -12,7 +12,7 @@
 		}else if (dom instanceof HTMLElement)
 		{
 			this.elements = [dom] ;
-		}else if (typeof(dom) == 'array')
+		}else if (Array.isArray(dom))
 		{
 			this.elements = dom ;
 		}
@@ -151,7 +151,16 @@
 			if (typeof(str) == 'string')
 			{
 				this.elements.forEach(function(element){
-					element.parentNode.appendChild =  str + element.parentNode.innerHTML;
+					element.outerHTML =  element.outerHTML + str ;
+				})
+			}
+			return this ;
+		},
+		before:function(str){
+			if (typeof(str) == 'string')
+			{
+				this.elements.forEach(function(element){
+					element.outerHTML = str +  element.outerHTML ;
 				})
 			}
 			return this ;

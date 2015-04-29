@@ -2,7 +2,9 @@
 	function _$(dom){
 		if (typeof(dom) == 'string')
 		{
-			var arr = document.querySelectorAll(dom);
+			if (/^\.\w+$/.test(dom)) var arr = document.getElementsByClassName(dom);
+			else if(/^\w+$/) var arr = document.getElementByTagName(dom);
+			else var arr = document.querySelectorAll(dom);
 			this.elements = [].slice.call(arr);
 		}else if (typeof(dom) == 'function')
 		{
@@ -12,7 +14,7 @@
 		}else if (dom instanceof HTMLElement)
 		{
 			this.elements = [dom] ;
-		}else if (typeof(dom) == 'array')
+		}else if (Array.isArray(dom))
 		{
 			this.elements = dom ;
 		}
@@ -151,7 +153,16 @@
 			if (typeof(str) == 'string')
 			{
 				this.elements.forEach(function(element){
-					element.parentNode.innerHTML =  str + element.parentNode.innerHTML;
+					element.outerHTML =  element.outerHTML + str ;
+				})
+			}
+			return this ;
+		},
+		before:function(str){
+			if (typeof(str) == 'string')
+			{
+				this.elements.forEach(function(element){
+					element.outerHTML = str +  element.outerHTML ;
 				})
 			}
 			return this ;

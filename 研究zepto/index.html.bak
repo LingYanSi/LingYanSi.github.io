@@ -31,7 +31,7 @@
 		$('.content').append('<div class="bitch">你说什么呢</div>')
 		$('.content').find('.bitch').css({'background':'pink'}).before('<p>你是在作死啊</p>');
 		$('.content').on('click','div',function(){
-			$(this).text('去你大爷').css({'color':'white'});
+			//$(this).text('去你大爷').css({'color':'white'});
 		});
 	</script>
  </body>
