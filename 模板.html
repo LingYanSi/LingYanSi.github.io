@@ -43,7 +43,7 @@
 	</div>
 	<script type="text/javascript">
 	 window.onbeforeunload = function(e){
-		return '真的要关闭页面？'
+		//return '真的要关闭页面？'
 	 }
 	 var name = "蒋中正"
 		var obj = {
@@ -75,6 +75,8 @@
 	console.log(obj.property2)
 
 	console.log('非1',!1 == false)
+
+	console.log(/^[\u4e00-\u9fa5]+$/.test('你是谁啊'))
 	</script>
  </body>
 </html>

@@ -21,15 +21,17 @@
 			<div class="content-item">
 				<h1>学习目录</h1>
 			</div>
+			<div class="bitch">你在说什么</div>
 		</div>
 	</div>
 	<script src="ku.js"></script>
 	<script type="text/javascript">
 		console.log($('.content'))
 		console.log($('.content').find('.content-item').text())
-		$('.content').dbTap(function(){
-			console.log('被双击了')
-		})
+		$('.content').append('<div class="bitch">你说什么呢</div>')
+		$('.content').on('click','div',function(){
+			$(this).text('去你大爷').css({'color':'white'});
+		});
 	</script>
  </body>
 </html>

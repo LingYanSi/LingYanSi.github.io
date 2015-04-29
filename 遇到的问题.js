@@ -61,6 +61,32 @@
 	jquery 提供的伪类选择器都是针对html元素的，而 css 中 :after 和 :before 这些是伪元素，jquery 中并不能获取这些伪元素。
 	
     -----------------------------------------------------------------------------------
+	
+	图片自适应
+
+	图片会按自身比例比例自适应
+	{max-width:100%;max-height:100%;height:auto;width:auto;margin:0 auto;display:block;}
+
+	-----------------------------------------------------------------------------------------
+
+	正则运算
+
+	正则匹配中文
+		/^[\u4e00-\u9fa5]+$/.test('你是谁啊a') 
+
+	在js unicode编码 中，中文编码是范围【u4e00-u9fa5】
+	('你大爷').charCodeAt(0) // 返回在指定的位置的字符的 Unicode 编码。
+	
+	\w	匹配包括下划线的任何单词字符。等价于'[A-Za-z0-9_]'
+	\d 任何数字，等价于'[0-9]'
+	/\w{6,18}/.test('nidaye12') // 匹配密码
+	/^1[\d]{10}$/.test('18668055229') // 匹配手机号
+
+	这里介绍得挺详细 → http://segmentfault.com/a/1190000000699097
+					 → http://www.css119.com/book/RegExp/
+
+	----------------------------------------------------------------------------------
+
 	js获取高度:
 
 	obj.style.width(height);//除非在css中设置了width，才能获取到
@@ -925,3 +951,14 @@
 				//e.key,e.oldValue,e.newValue,e.url,e.storageArea
 			}
 		})
+----------------------------------------------------------------------------------
+	instanceof typeof
+	dom instanceof HTMLElement ; // 判断是不是一个dom对象
+	typeof(string) // string 
+	typeof(boolean) // boolean 
+	typeof(function) // function 
+	typeof(obj) // obj 
+	typeof dom // obj
+	typeof(array) // array 
+	typeof(Number) // Number 
+	typeof(undefined) // undefined 
