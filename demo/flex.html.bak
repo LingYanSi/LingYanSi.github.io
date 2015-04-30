@@ -9,7 +9,7 @@
   <style type="text/css">
 	  *{padding:0;margin:0;}
 	  
-	  .flex{display:flex;display:-webkit-flex;display: -ms-flexbox;height:300px;}
+	  .flex{display:flex;display:-webkit-flex;display: -ms-flexbox;height:300px;box:flexbox;}
 	  .item:nth-child(1){-webkit-flex-basis:50px;-ms-flex:1;background:red;}
 	  .item:nth-child(2){-webkit-flex:10;-ms-flex:2;background:blue;}
 	  .item:nth-child(3){-webkit-flex:10;-ms-flex:2;background:yellow;}

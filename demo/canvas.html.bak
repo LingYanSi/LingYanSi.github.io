@@ -58,7 +58,7 @@
 			  }
 			}
 			draw();
-			setInterval(draw,1000/30);
+			setInterval(draw,1000/3);
 
 		}
  </script>

@@ -9,7 +9,7 @@
   <title>灵岩</title>
   <style type="text/css">
 	 body{font-size:14px;}
-	 .main{max-width:1000px;margin:0 auto;overflow:hidden;}
+	 .main{max-width:1000px;margin:0 auto;}
 	 .content{height:200px;background:red;}
 	 .content-item{line-height:1.5em;padding:0 2em 1em;border-bottom:1px dashed rgb(147,147,147);}
 	 .content-item a{text-decoration:none;color:rgb(247,105,105);}
@@ -29,10 +29,35 @@
 		console.log($('.content'))
 		console.log($('.content').find('.content-item').text())
 		$('.content').append('<div class="bitch">你说什么呢</div>')
-		$('.content').find('.bitch').css({'background':'pink'}).before('<p>你是在作死啊</p>');
+		console.log($('.content').find('.bitch').css({'background':'pink'}).append('<p>你是在作死啊</p>').before('<p>我在后面</p>').elements[0].parentNode);
 		$('.content').on('click','div',function(){
-			//$(this).text('去你大爷').css({'color':'white'});
+			$(this).text('去你大爷').css({'color':'white'});
 		});
+		$.ajax({
+			 asyn:true,
+			 type:'POST',
+			 url:"http://localhost:3000/ajax/name?nidaye=wocao",
+			 data:{a:'bitch'},
+			 success:function(data){
+				console.log(data)
+			 }
+		 });
+		 $.jsonp({
+			 url:"http://app.nacute.com/api/ajax/chosen/detail/600/",
+			 data:{a:'bitch'},
+			 success:function(data){
+				console.log(data)
+			 }
+		 });
+
+		 document.addEventListener('visibilitychange',function(){
+			if (document.hidden)
+			{
+				console.log('我刚才被隐藏了；额')
+			}else{
+				console.log('我又出来了，哈哈哈')
+			}
+		 })
 	</script>
  </body>
 </html>

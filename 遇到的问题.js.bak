@@ -988,7 +988,7 @@
 	Visibility 页面可见性
 		H5新API，切换标签页的时候触发
 		这两个属性会变化 
-			document.visibilityState  有四个状态 hidden visible prerender【页面在后台加载的，对用户不可见】 unloaded【页面即将关闭（用户正在从当前页面跳转到其他页面）】
+			document.visibilityState  有四个状态 hidden visible prerender【页面在后台加载的，对用户不可见】 unloaded【】
 			document.hidden 有两个状态 true false
 	 document.addEventListener('visibilitychange',function(){
 		if (document.hidden)

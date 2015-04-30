@@ -2,10 +2,8 @@
 	function _$(dom){
 		if (typeof(dom) == 'string')
 		{
-			if (/^\.\w+$/.test(dom)) var arr = document.getElementsByClassName(dom);
-			else if(/^\w+$/) var arr = document.getElementByTagName(dom);
-			else var arr = document.querySelectorAll(dom);
-			this.elements = [].slice.call(arr);
+			var arr = document.querySelector(dom);
+			this.elements = [arr];
 		}else if (typeof(dom) == 'function')
 		{
 			$(document).ready(function(){
@@ -24,16 +22,6 @@
 			this.elements.forEach(function(element){
 				fun.call(element)
 			});
-		},
-		find:function(dom){
-			var arr = [];
-			this.elements.forEach(function(element,index,array){
-				var arrDom = element.querySelectorAll(dom);
-				var haha = [].slice.call(arrDom) ;
-				arr = arr.concat(haha);
-			});
-			this.elements = arr ;
-			return this ;
 		},
 		addClass:function(className){
 			this.elements.forEach(function(element,index,array){
@@ -130,12 +118,23 @@
 				return this ;
 			}
 		},
+		//--------------------- parent/find/child/parents 
+		find:function(dom){
+			var arr = [];
+			this.elements.forEach(function(element,index,array){
+				var arrDom = element.querySelectorAll(dom);
+				var haha = [].slice.call(arrDom) ;
+				arr = arr.concat(haha);
+			});
+			this.elements = arr ;
+			return this ;
+		},
 		//----------------- append/prepend/wrap/empty/remove
 		append:function(str){
 			if (typeof(str) == 'string')
 			{
 				this.elements.forEach(function(element){
-					element.parentNode.innerHTML = element.parentNode.innerHTML + str;
+					element.innerHTML = element.innerHTML + str;
 				})
 			}
 			return this ;
@@ -144,7 +143,7 @@
 			if (typeof(str) == 'string')
 			{
 				this.elements.forEach(function(element){
-					element.parentNode.innerHTML =  str + element.parentNode.innerHTML;
+					element.innerHTML =  str + element.innerHTML;
 				})
 			}
 			return this ;
@@ -175,7 +174,7 @@
 		},
 		remove:function(){
 			this.elements.forEach(function(element){
-				element.parentNode.removeChild(elements);
+				element.parentNode.removeChild(element);
 			})
 		},
 		//---------------- hide show
@@ -236,8 +235,81 @@
 				});
 			});
 		}
+		// ------------------------------ ajax ----------
 	}
 	 window.$ = function(arguments) {
 		 return new _$(arguments);
 	 }
+
+	 // ------------- ajax ----------------------------
+	 window.$.ajax = function(arg){
+			if (typeof(arg) == "object"){
+				var xhr = new XMLHttpRequest();
+				var type = arg.type || 'POST' ,
+					url = arg.url ,
+					asyn = arg.asyn || true ;
+				xhr.open(arg.type,arg.url,arg.asyn);
+				xhr.timeout= 3000;//设置响应时间
+				xhr.ontimeout = function(){ // 请求超时的处理
+					xhr.abort() // 终止请求
+					console.log('请求超时');
+				}
+				xhr.responseType = "json";  // 设置返回数据
+				xhr.onreadystatechange = function(){ // readystate变化时触发
+					if (xhr.readyState===2)//
+					{
+						//console.log('以获取相应')
+					}else if (xhr.readyState === 4) // 请求成功
+					{
+						//console.log(xhr.responseType,xhr.responseText)
+						if (arg.success) arg.success(xhr.response) //将返回的数据，传入回调函数
+					}
+				}
+				var formId = arg.formId ,formData,formObj; // 使用formdata 发送数 ， 优点在于可以多文件异步上传
+				if (typeof(formId)=='string')
+				{
+					formObj = document.getElementById(formId)
+					formData = new FormData(formObj);
+				}else{
+					formData = new FormData();
+				}
+
+				var data = arg.data ;
+				if (typeof(data) == 'object')
+				{
+					for (key in data)
+					{
+						formData.append(key,data[key])
+					}
+				}
+
+				xhr.send(formData);//可发送Array，string，document，blob，formdata
+			}
+		}
+	//---------------------------- jsonp --------------------------
+	window.$.jsonp = function(arg){
+		var script = document.createElement('script') ,
+		    cbFunction = 'Jquery'+new Date().getTime() ,
+		    url = arg.url + '?callback=' + cbFunction  ,
+		    data = arg.data ;
+
+		if (data) // 如果需要传递数据，就将数据添加到url 后面
+		{ 
+			for (key in data)
+			{
+				url = url +'&'+key+'='+data[key]
+			}
+		}
+		script.setAttribute("type","text/javascript");
+		script.src = url ;
+		document.head.appendChild(script); // 启动请求
+		 //自定义的回调函数result
+		 if (arg.success)  window[cbFunction] = arg.success; 
+
+		setTimeout(function(){ 
+			document.head.removeChild(script);
+			if (arg.error) arg.error(); // 请求失败
+		},3000); // 设置请求时间
+	}
+
 })();
