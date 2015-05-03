@@ -16,9 +16,9 @@
 		}
 	}
 	var audio = document.createElement('audio');
-		audio.volume = 0.2 ;
+		audio.volume = 0.5 ;
 		audio.autoplay = 'true' ;
-	var currentItem = 0 ,timeTagArr;
+	var currentItem = 0 ,timeTagArr ,$jinduLoad = $('#jindu-load');
 	var model = 0 ;
 	$('#model').attr('data-model',model);
 
@@ -94,7 +94,7 @@
 		},
 		lyric:function(str){ // 对歌词字符串进行解析
 			var $lyric = $('#lyric');
-			$lyric.empty();
+			$lyric.empty().css({'top':0}); //清空原有歌词，top回0
 			var contentArr = str.split(/\[[^\]]+\]/g); //获取所有歌词
 			var timeArr = str.match(/\[[^\]]+\]/g) ; // 获取时间
 			contentArr.forEach(function(element){
@@ -137,6 +137,7 @@
 		var currentTime = audio.currentTime ;
 		var $lyricItemCurrent ;
 		$currentTime.text(mxPlayer.setTime(currentTime));
+		$jinduLoad.css({'width':audio.buffered.end(0)/duration*100+'%'});
 		if( currentTime == duration ) mxPlayer.next(null,'next','auto');
 		else{
 			// doSth() 歌词同步，进度条同步，时间同步

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-cn">
  <head>
    <meta charset="UTF-8">
   <meta name="Generator" content="EditPlus®">
@@ -7,8 +7,7 @@
   <meta name="Keywords" content="">
   <meta name="Description" content="这是一个测试">
    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" name="viewport" />
-
-  <title>Document</title>
+  <title>听，这个世界</title>
   <style type="text/css">
 	  *{padding:0;margin:0;}
 	  .music-player-box{position:fixed;top:0;left:0;height:100%;width:100%; display:flex; flex-direction:column ;}
@@ -36,8 +35,9 @@
 	  
 	  .jindu-wrap{flex:3;display:flex;}
 	  #currentTime,#duration{width:3em;height:50px;line-height:50px;text-align:center;background:red;}
-	  #jindu{height:10px;background:pink;margin:0 10px;margin-top:20px;flex:1;}
-	  #jindu-current{width:0px;height:10px;background:rgb(247,105,105);position:relative;}
+	  #jindu{height:10px;background:pink;margin:0 10px;margin-top:20px;flex:1;position:relative;}
+	  #jindu-load{position:relative;height:10px;width:0; background-color:rgba(0,105,105,0.5);}
+	  #jindu-current{width:0px; height:10px; background:rgb(247,105,105); position:absolute; top:0; left:0;}
 	  #jindu-circle{position:absolute;top:0;right:-5px;width:10px;height:10px;background:black;}
 	  
 	  .volume-wrap{flex:1;display:flex;margin:0 20px;}
@@ -72,8 +72,8 @@
 		<div id="" class="music-bott">
 			<!-- 歌曲播放次序 -->
 			<div id="" class="play-prev-next">
-				<div id="play" class="ppn-item" style="color:rgb(111,249,193);">播</div>
 				<div id="prev" class="ppn-item" style="color:rgb(52,158,105);">上</div>
+				<div id="play" class="ppn-item" style="color:rgb(111,249,193);">播</div>
 				<div id="next" class="ppn-item"  style="color:rgb(179,255,188);">下</div>
 				<div id="model" class="ppn-item">顺序</div>
 			</div>
@@ -81,6 +81,7 @@
 			<div id="" class="jindu-wrap">
 				<div id="currentTime"></div>
 				<div id="jindu">
+					<div id="jindu-load"></div>
 					<div  id="jindu-current">
 						<div id="jindu-circle"></div>
 					</div>
