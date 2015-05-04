@@ -148,7 +148,7 @@
 				{
 					$lyricItemCurrent = $lyricItem.eq(i);
 					$lyricItemCurrent.addClass('lyric-item-current').siblings().removeClass('lyric-item-current');
-					if(mxPlayer.lyricAuto) lyricScroll.setTop((mxPlayer.lyricTop-$lyricItemCurrent.position().top-$lyricItemCurrent[0].offsetHeight/2))
+					if(mxPlayer.lyricAuto) lyricScroll.setTop((mxPlayer.lyricTop-$lyricItemCurrent.position().top-$lyricItemCurrent[0].offsetHeight/2)),console.log()
 					break ;
 				}
 			}
@@ -190,7 +190,7 @@
 	})
 
 	// ---------------------------- 进度条拖 ---------------------------
-	function dragCircle(dom,parent,grad,callback){
+	function dragCircle(dom,parent,grad,reset,callback){
 		var xx,yy,XX,YY ,
 			$dom = $('#'+dom),
 			$parent = $('#'+parent),
@@ -198,6 +198,7 @@
 			parentWidth,
 			gradWidth = $grad.width();
 		var idmove ;
+		this.reset = reset;
 		$dom.on('mousedown',function(event){
 			parentWidth = $parent.width();
 			XX = xx = event.pageX ;
@@ -251,6 +252,7 @@
 			sbTopMin = 0 ;
 			biliTop = -sbTopMax/childtopMin ;
 			if (sbHeight != thisHeight) $sb.height(sbHeight);
+			else $sb.height(0);
 		}
 		this.setTop = function(childTop,sbTop){
 			if (childTop)
@@ -263,6 +265,22 @@
 				$sb.css({'top':sbTop});
 				$child.css({'top':-sbTop/biliTop});
 				return ;
+			}
+		}
+		this.resetTop = function(childTop,sbTop){
+			var childTop = $child.position().top ;
+			var childHeightStore = childHeight ;
+			var biliTopStore = biliTop ;
+			this.init();
+			var biliLC = childHeightStore/childHeight ;
+			if (childHeight>thisHeight)
+			{
+				$child.css({'top':childTop*biliLC});
+				$sb.css({'top':-childTop*biliLC*biliTopStore});
+			}else{
+				childTop = 0 ;
+				$child.css({'top':childTop*biliLC});
+				$sb.css({'top':-childTop*biliLC*biliTopStore});
 			}
 		}
 		dragSb($sb);

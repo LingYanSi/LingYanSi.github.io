@@ -110,10 +110,20 @@
 		var lyricScroll = new scrollbar('lyric-wrap') ;
 		lyricScroll.init();
 		
-		var dragJdt = new dragCircle('jindu-circle','jindu-current','jindu',function(width1,width2){
+		var dragJdt = new dragCircle('jindu-circle','jindu-current','jindu',function(){
+			if (audio)
+			{
+			   $('#jinduCurrent').css({'width':audio.currentTime/audio.duration*100+'%'});
+			}
+		},function(width1,width2){
 				audio.currentTime = width1/width2*duration ;
 		});
-		var dragJdt1 = new dragCircle('volume-circle','volume-current','volume',function(width1,width2){
+		var dragJdt1 = new dragCircle('volume-circle','volume-current','volume',function(){
+			if (audio)
+			{
+			   $('#volumeCurrent').css({'width':audio.volume*100+'%'});
+			}
+		},function(width1,width2){
 				audio.volume = width1/width2 ;
 		});
 
@@ -132,10 +142,15 @@
 		}
 		
 		mxPlayer.init();
+		musicScroll.resetTop();
+		lyricScroll.resetTop();
 
 		window.onresize = function(){
-			musicScroll.init();
-			lyricScroll.init();
+			musicScroll.resetTop();
+			lyricScroll.resetTop();
+			mxPlayer.setLyricTop();
+			dragJdt.reset();
+			dragJdt1.reset();
 		}
 </script>
  </body>
