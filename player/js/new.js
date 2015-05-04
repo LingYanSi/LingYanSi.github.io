@@ -159,9 +159,6 @@
 			}
 		}
 	}
-	audio.onpause = function(){
-		mxPlayer.pause();
-	}
 	$('#play').on('click',function(){
 		mxPlayer.play();
 	});
