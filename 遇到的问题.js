@@ -1,52 +1,52 @@
 	
-	��cssѡ���������ȼ�
+	在css选择器的优先级
 
-	����Ѿ���.polaris����span�ڵ��������óɺ�ɫ��
+	如果已经把.polaris下面span内的字体设置成红色：
 
 	.polaris span {color:red;} 
-	��ʱ�����Ҫ�ı�.beijixing����ɫΪ��ɫ��������������ǲ���ʵ�ֵģ�
+	这时，如果要改变.beijixing的颜色为蓝色，用下面的命令是不能实现的：
 
 	.beijixing {color:blue;} 
-	�����������������Ϊ��һ����������ȼ������������໥��ͻ����ʽ���ã������ֻ��ִ�����ȼ��ϸߵ��Ǹ���
+	出现这种情况就是因为后一个命令的优先级不够，两条相互冲突的样式设置，浏览器只会执行优先级较高的那个。
 
-	һ����ԣ�ѡ����Խ���⣬�������ȼ�Խ�ߡ�Ҳ����ѡ����ָ���Խ׼ȷ���������ȼ���Խ�ߡ�
-	ͨ��������1��ʾ��ǩ��ѡ���������ȼ�����10��ʾ��ѡ���������ȼ�����100��ʾIDѡ���������ȼ���
-	������������ .polaris span {color:red;}��ѡ�������ȼ��� 10 + 1 Ҳ����11���� .polaris �����ȼ���10���������Ȼ����ʾ��ɫ���֡�
-	�������������֮����������ȼ������������練�ƣ�
+	一般而言，选择器越特殊，它的优先级越高。也就是选择器指向的越准确，它的优先级就越高。
+	通常我们用1表示标签名选择器的优先级，用10表示类选择器的优先级，用100标示ID选择器的优先级。
+	比如上例当中 .polaris span {color:red;}的选择器优先级是 10 + 1 也就是11；而 .polaris 的优先级是10；浏览器自然会显示红色的字。
+	理解了这个道理之后下面的优先级计算自是易如反掌：
 
-	div.test1 .span var ���ȼ� 1+10 +10 +1  
-	span#xxx .songs li ���ȼ�1+100 + 10 + 1  
-	#xxx li ���ȼ� 100 +1 
+	div.test1 .span var 优先级 1+10 +10 +1  
+	span#xxx .songs li 优先级1+100 + 10 + 1  
+	#xxx li 优先级 100 +1 
 
-	������Դ��http://developer.51cto.com/art/201009/226852.htm
+	本文来源：http://developer.51cto.com/art/201009/226852.htm
 
-	//���ȼ�������ǿ
-	ͨ��ѡ������*��
-	Ԫ��(����)ѡ����
-	��ѡ����
-	����ѡ����
-	α��
-	ID ѡ����
-	������ʽ
+	//优先级依次增强
+	通用选择器（*）
+	元素(类型)选择器
+	类选择器
+	属性选择器
+	伪类
+	ID 选择器
+	内联样式
 
 	https://developer.mozilla.org/zh-CN/docs/Web/CSS/Specificity
 
 
 	-------------------------------------------------------------------------------
-	cssý���ѯ
+	css媒体查询
 
-	ý���ѯ ������һ��ý�����ͺ�����һ��ʹ������ȡ��߶Ⱥ���ɫ��ý��������������ʽ����Χ�ı���ʽ��CSS3�����ý���ѯʹ�������޸����ݱ����ʹ��ʽӦ����ĳЩ�ض����豸��Χ��
-	//<!-- linkԪ���е�CSSý���ѯ -->
+	媒体查询 包含了一个媒体类型和至少一个使用如宽度、高度和颜色等媒体属性来限制样式表范围的表达式。CSS3加入的媒体查询使得无需修改内容便可以使样式应用于某些特定的设备范围。
+	//<!-- link元素中的CSS媒体查询 -->
 	<link rel="stylesheet" media="(max-width: 800px)" href="example.css" />
 
-	//<!-- ��ʽ���е�CSSý���ѯ -->
+	//<!-- 样式表中的CSS媒体查询 -->
 	<style>
-	@media (max-width: 600px) { //����С��600px���豸
+	@media (max-width: 600px) { //宽度小于600px的设备
 	  .facet_sidebar {
 		display: none;
 	  }
 	}
-	@media screen and (min-width: 500px) and (max-width: 800px) { //������500��800֮����豸
+	@media screen and (min-width: 500px) and (max-width: 800px) { //宽度在500到800之间的设备
 	
 	}
 	</style>
@@ -55,79 +55,94 @@
 
 	box-sizing:border-box;padding:10px;width:100%;
 
-	���û����css����height��������js���ã���ôdiv�ĸ߶�Ϊheight+padding��Ҳ����˵��ʱborder-box��height�����padding�Ѳ�����Լ����
+	如果没有用css设置height，而是用js设置，那么div的高度为height+padding，也就是说此时border-box对height方向的padding已不再有约束力
 
-	js���޷���ȡ����:before��֮���ΪԪ�ص�
-	jquery �ṩ��α��ѡ�����������htmlԪ�صģ��� css �� :after �� :before ��Щ��αԪ�أ�jquery �в����ܻ�ȡ��ЩαԪ�ء�
+	js是无法获取到【:before】之类的为元素的
+	jquery 提供的伪类选择器都是针对html元素的，而 css 中 :after 和 :before 这些是伪元素，jquery 中并不能获取这些伪元素。
+
+	//伪类是一个真实 HTML 元素上的一个特殊的状态。可以认为是浏览器在特定条件下将一个虚拟的类自动应用于某个元素。
+
+	//伪元素是 HTML 文档的一部分，尽管它不是真实的 HTML 元素，但是 CSS 允许你为它设置样式。就像是虚拟的 HTML 元素——尽管它没有真实的 HTML 标签，但你仍可以为其添加样式。
+    -----------------------------------------------------------------------------------
+
+	line-height
+	接收四种值 normal、2、2em、200%
+	其中2em和200%等同表示line-height为其font-size的2倍，因为line-height会自动继承父类，也就是说他的子元素的line-height会被固定下来，如果子元素中的font-size是父元素的4倍，就会导致文字显示不全
+	数值2表示line-height/font-size = 2 ，他就不会上面的情况
+
+	<div style="font-size:16px;line-height:2em;">
+		好时代发生的发更何况是发给克己奉公
+		<p style="font-size:50px;overflow:hidden;">你们的身份根深蒂固首付大概是否更换束带结发</p> //此行文本居中，部分被隐藏
+	</div>
 	
     -----------------------------------------------------------------------------------
 	
-	ͼƬ����Ӧ
+	图片自适应
 
-	ͼƬ�ᰴ����������������Ӧ
+	图片会按自身比例比例自适应
 	{max-width:100%;max-height:100%;height:auto;width:auto;margin:0 auto;display:block;}
 
 	-----------------------------------------------------------------------------------------
 
-	��ȡ��ǰcss��ʽ
+	获取当前css样式
 
 	window.getComputedStyle(element,null).getPropertyValue('height'); 
 
-	element.style.height //ֻ�᷵��dom����style�����ڶ������ʽ���������õ�css�ļ��������ʽ�ǻ�ȡ������
+	element.style.height //只会返回dom树中style属性内定义的样式，对于引用的css文件定义的样式是获取不到的
 
 	--------------------------------------------------------------------------------------------
 
-	window ����
+	window 宽高
 
-	window.innerHeight / window.innerWidth // �ĵ���ʾ���Ŀ��ߣ�������״̬�����˵�����
+	window.innerHeight / window.innerWidth // 文档显示区的宽高，不包括状态栏、菜单栏等
 
-	window.outerHeight / window.outerWidth // ����������Ŀ���
+	window.outerHeight / window.outerWidth // 整个浏览器的宽高
 
-	window.screen.availHeight / window.screen.avialWidth // �����������Ŀ���
+	window.screen.availHeight / window.screen.avialWidth // 除了任务栏的宽高
 
-	window.screen.height / window.screen.width // ��ʾ���ĸ߿�
+	window.screen.height / window.screen.width // 显示器的高宽
 
 	------------------------------------------------------------------------------------------------
 
-	��������
+	正则运算
 
-	����ƥ������
-		/^[\u4e00-\u9fa5]+$/.test('����˭��a') 
+	正则匹配中文
+		/^[\u4e00-\u9fa5]+$/.test('你是谁啊a') 
 
-	��js unicode���� �У����ı����Ƿ�Χ��u4e00-u9fa5��
-	('���ү').charCodeAt(0) // ������ָ����λ�õ��ַ��� Unicode ���롣
+	在js unicode编码 中，中文编码是范围【u4e00-u9fa5】
+	('你大爷').charCodeAt(0) // 返回在指定的位置的字符的 Unicode 编码。
 	
-	\w	ƥ������»��ߵ��κε����ַ����ȼ���'[A-Za-z0-9_]'
-	\d �κ����֣��ȼ���'[0-9]'
-	/\w{6,18}/.test('nidaye12') // ƥ������
-	/^1[\d]{10}$/.test('18668055229') // ƥ���ֻ���
+	\w	匹配包括下划线的任何单词字符。等价于'[A-Za-z0-9_]'
+	\d 任何数字，等价于'[0-9]'
+	/\w{6,18}/.test('nidaye12') // 匹配密码
+	/^1[\d]{10}$/.test('18668055229') // 匹配手机号
 
-	������ܵ�ͦ��ϸ �� http://segmentfault.com/a/1190000000699097
-					 �� http://www.css119.com/book/RegExp/
+	这里介绍得挺详细 → http://segmentfault.com/a/1190000000699097
+					 → http://www.css119.com/book/RegExp/
 
 	----------------------------------------------------------------------------------
 
-	js��ȡ�߶�:
+	js获取高度:
 
-	obj.style.width(height);//������css��������width�����ܻ�ȡ��
+	obj.style.width(height);//除非在css中设置了width，才能获取到
 
-	obj.offsetWidth(offsetHeight); //offsetWidth�õ�����widthֵ+paddingֵ+borderֵ
+	obj.offsetWidth(offsetHeight); //offsetWidth得到的是width值+padding值+border值
 
-	obj.clientWidth(clientHeight); //offsetWidth�õ�����widthֵ+paddingֵ
+	obj.clientWidth(clientHeight); //offsetWidth得到的是width值+padding值
 
-	getComputedStyle �� currentStyle; //getComputedStyle �� currentStyle�Ǵ��������Ե�������������ȡ����ֵ����ͼƬ����Ļ����ʾ�Ľ���ͼƬ�ĸ߿�ֵ�������ȡ��img��ǩ��padding��borderֵ��������getComputedStyle������Firefox/IE9/Safari/Chrome/Opera�������currentStyle������IE6/7/8���������img��ǩ��ʹû������style����Ҳû��������ʽ������ôֻ��getComputedStyle�ܻ�ȡ��ֵ����ΪͼƬ�����߿�ֵ��currentStyle�򷵻�auto��
+	getComputedStyle 与 currentStyle; //getComputedStyle 与 currentStyle是处理兼容性的两个方法，获取到的值都是图片在屏幕上显示的仅仅图片的高宽值，不会获取到img标签的padding及border值；但其中getComputedStyle适用于Firefox/IE9/Safari/Chrome/Opera浏览器，currentStyle适用于IE6/7/8。但是如果img标签即使没有设置style属性也没有引入样式表，那么只有getComputedStyle能获取到值，即为图片本身高宽值，currentStyle则返回auto。
 
-	obj.naturalWidth(naturalHeight); //����HTML5�������ӵ�һ����ȡԪ�ظ߿��ķ�������ֻ������Firefox/IE9/Safari/Chrome/Opera�������
+	obj.naturalWidth(naturalHeight); //这是HTML5里新添加的一个获取元素高宽的方法，但只适用于Firefox/IE9/Safari/Chrome/Opera浏览器。
 
-	ע��: ���һ��ͼƬû�м�����ϣ����޷���ȡ�����ĸ߶ȵģ�
+	注意: 如果一个图片没有加载完毕，是无法获取到他的高度的！
 
 	--------------------------------------------------------------------------------------------
-	placeholder��ʽ�趨
-	[placeholder] { font-family: 'Microsoft yahei'; } //����
+	placeholder样式设定
+	[placeholder] { font-family: 'Microsoft yahei'; } //字体
 	::-moz-placeholder {
-		color: mediumvioletred; //��ɫֵ
-		text-indent: 5px; /* û���� */
-		opacity: 1!important; //͸���ȣ�
+		color: mediumvioletred; //颜色值
+		text-indent: 5px; /* 没有用 */
+		opacity: 1!important; //透明度？
 	}
 	:-ms-input-placeholder {
 		color: mediumvioletred;
@@ -135,42 +150,42 @@
 	}
 	::-webkit-input-placeholder {
 		color: mediumvioletred;
-		text-indent: 5px; //����˼�壬placeholder������
+		text-indent: 5px; //顾名思义，placeholder的缩进
 	}
 
 	-----------------------------------------------------------------------------------------------
 
-	css�ı��������ʾʡ�Ժ�
-	{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;height:100px;width:100px;} /* �߶��Ǳ���� */
+	css文本溢出后，显示省略号
+	{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;height:100px;width:100px;} /* 高度是必需的 */
 
-	overflow:hidden;;/* ���ݳ�������ʱ���س������ֵ����� */
-	text-overflow:ellipsis;;/* ���������ı����ʱ��ʾʡ�Ա��(...) ������overflow:hidden;һ��ʹ�á�*/
-	white-space:nowrap;/* ������ */
+	overflow:hidden;;/* 内容超出宽度时隐藏超出部分的内容 */
+	text-overflow:ellipsis;;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+	white-space:nowrap;/* 不换行 */
 
-	�����ֻ�����ڵ����ı�
-	�����ı����·���
+	上面的只适用于但行文本
+	多行文本用下方法
 
 	overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient: vertical; text-overflow: ellipsis;
-	-webkit-line-clamp:2;���ֱ�ʾ����
+	-webkit-line-clamp:2;数字表示行数
 
 	-----------------------------------------------------------------------------------------------
 
-	ɾ����������
+	删除对象属性
 	bitch = new Object();
 	bitch.name = 'nihao';
 
-	��������ɾ��bitch��name���ԣ�����delete����
+	现在我想删除bitch的name属性，就用delete方法
 	delete bitch.name
-	console.log(typeof(bitch.name)) //���undefined
+	console.log(typeof(bitch.name)) //输出undefined
 
-	ֱ����delelteɾ�����˱���
-    ɾ������ԭ�����еı���
+	直接用delelte删除不了变量
+    删除不了原型链中的变量
 
-	����һ������ �����á�new Object()��
-	Ҳ�����ú�������һ�� 
+	创建一个对象 可以用【new Object()】
+	也可以用函数构造一个 
 	
 		function bitch(){
-			console.log(arguments.length)//��������βθ���
+			console.log(arguments.length)//输出函数形参个数
 			this.name = "nihao";
 			this.log = function (str){
 				console.log(str);
@@ -178,151 +193,151 @@
 			}
 		}
 		var bitch1 = new bitch(1,2,3); //arguments.length = 3
-		var allProperty = Object.getOwnPropertyNames(bitch1);//��ȡ�����������ԡ���ö�٣�����ö�١�����������ʽ���� ����ö��ָ�����ڽ����������
-															//�����ܴ����Ķ��󣬶����ڽ������һ�����ã������ã������á��������������ǿ���ö�ٵġ���
-		var keys = Object.keys(bitch1) ; //��ȡ�����ö�ٵ����ԣ���������ʽ����
-										//������������������˳���ʹ��for-inѭ�������ö���ʱ���ص�˳��һ�£����ߵ���Ҫ������ for-in ���������һ���������ԭ�����ϼ̳е��Ŀ�ö�����ԣ���
-		Object.freeze(object) // �������Զ���һ�����󡣶��������ָ��Щ���������µ����ԣ������޸��������Ե�ֵ������ɾ���������ԣ��Լ������޸��������ԵĿ�ö���ԡ��������ԡ���д�ԵĶ���
-								//Ҳ����˵�����������Զ�ǲ��ɱ�ġ��÷������ر�����Ķ���
-		Object.isFreeze(object) // �ж϶����Ƿ񶳽�
+		var allProperty = Object.getOwnPropertyNames(bitch1);//获取对象所有属性【可枚举，不可枚举】，以数组形式返回 不可枚举指的是内建对象的属性
+															//我们能创建的对象，都是内建对象的一个引用（的引用（的引用。。。）），都是可以枚举的……
+		var keys = Object.keys(bitch1) ; //获取对象可枚举的属性，以数组形式返回
+										//数组中属性名的排列顺序和使用for-in循环遍历该对象时返回的顺序一致（两者的主要区别是 for-in 还会遍历出一个对象从其原型链上继承到的可枚举属性）。
+		Object.freeze(object) // 方法可以冻结一个对象。冻结对象是指那些不能添加新的属性，不能修改已有属性的值，不能删除已有属性，以及不能修改已有属性的可枚举性、可配置性、可写性的对象。
+								//也就是说，这个对象永远是不可变的。该方法返回被冻结的对象。
+		Object.isFreeze(object) // 判断对象是否冻结
 
 		bitch1.log(bitch1.name); 
 		bitch1.log(allProperty); 
 		bitch1.log(keys);
 
 		var ni = new String();
-		console.log(ni.hasOwnProperty('length')); //�½���string����ӵ���Լ���length����
-		console.log(ni.hasOwnProperty('substring')); //�½���string��ӵ��substring����
-		console.log(String.prototype.hasOwnProperty('substring')); //stringԭ��ӵ��substring����
+		console.log(ni.hasOwnProperty('length')); //新建的string对象拥有自己的length属性
+		console.log(ni.hasOwnProperty('substring')); //新建的string不拥有substring属性
+		console.log(String.prototype.hasOwnProperty('substring')); //string原型拥有substring属性
 
-		var input = document.createElement('input');//��js����һ��dom����
+		var input = document.createElement('input');//用js创建一个dom对象
 		console.log('type' in input);
 		console.log(input.hasOwnProperty('placeholder'));
 
-		Object.defineProperties//��ʱ����msdn�Ͽ�һ������Ҫ�����ڶ������Եĸ��� 
-		//getOwnPropertyNames,keys��ECMAScript5����
+		Object.defineProperties//有时间再msdn上看一看，主要是用于对象属性的更改 
+		//getOwnPropertyNames,keys是ECMAScript5新增
 
-		�ж϶����Ƿ�ӵ��һ������
-		���ַ����� object.hasOwnProperty(proName) ���� proName in object //proNameΪ�ַ���
-		������и����ԣ�����true�����򷵻�false
+		判断对象是否拥有一个属性
+		两种方法： object.hasOwnProperty(proName) 或者 proName in object //proName为字符串
+		如果含有该属性，返回true，否则返回false
 
-		//����һ�����ɱ����ĵ�����
+		//设置一个不可被更改的属性
 	--------------------------------------------------------------------------
 	
-	����Array
+	数组Array
 
-	ֱ����ĩ������Ԫ��,������������º�ĳ��� array.push()
-	ֱ�����׶�����Ԫ��,������������º�ĳ��� array.unshift()
+	直接在末端添加元素,并返回素组更新后的长度 array.push()
+	直接在首端添加元素,并返回素组更新后的长度 array.unshift()
 	array[index] = bula
 
-	array.slice(start,end) ����һ��������end����ѡ,���û����һֱ����β��������������end��
-	array.splice(index,howmany,item1,item2��������) ��index��ʼɾ��Ԫ�أ�howmany��ʾҪɾ�����ٸ�Ԫ�ء���Ϊ0����item��ʾ������indexλ�õ�Ԫ��
+	array.slice(start,end) 返回一个子数组end【可选,如果没有则一直到结尾处】，不包含【end】
+	array.splice(index,howmany,item1,item2····) 从index开始删除元素，howmany表示要删除多少个元素【可为0】，item表示插入再index位置的元素
 
-	array.join('�ָ���')	�����������Ԫ�ط���һ���ַ�����Ԫ��ͨ��ָ���ķָ������зָ���
-	array.concat(array1/item1) ���ӡ�����/�����ֵ��
+	array.join('分隔符')	把数组的所有元素放入一个字符串。元素通过指定的分隔符进行分隔。
+	array.concat(array1/item1) 连接【数组/具体的值】
 
-	array.reverse() ��ת����
+	array.reverse() 反转数组
 
 	eg: array = [0,1,2];
 		array.splice(1,0,'a','b','c');
-		console.log(array);//���[0,'a','b','c',1,2]
+		console.log(array);//输出[0,'a','b','c',1,2]
 		array[10]=1;
-		console.log(array.length);//���Ϊ11��Ҳ����˵��ʱ���鱻������array[7]=undefined
-		array.pop();// pop() ������ɾ�� arrayObject �����һ��Ԫ�أ������鳤�ȼ� 1�����ҷ�����ɾ����Ԫ�ص�ֵ����������Ѿ�Ϊ�գ��� pop() ���ı����飬������ undefined ֵ��
-		array.shift();// shift() ������ɾ�� arrayObject �ĵ�һ��Ԫ�أ������鳤�ȼ� 1�����ҷ�����ɾ����Ԫ�ص�ֵ����������Ѿ�Ϊ�գ��� pop() ���ı����飬������ undefined ֵ��
-		array.join('-----');//���û�в�����Ĭ�϶��ŷָ�Ԫ��
-		array.toString();//Ԫ�ؼ��Զ��ŷָ�
+		console.log(array.length);//输出为11，也就是说此时数组被拉长，array[7]=undefined
+		array.pop();// pop() 方法将删除 arrayObject 的最后一个元素，把数组长度减 1，并且返回它删除的元素的值。如果数组已经为空，则 pop() 不改变数组，并返回 undefined 值。
+		array.shift();// shift() 方法将删除 arrayObject 的第一个元素，把数组长度减 1，并且返回它删除的元素的值。如果数组已经为空，则 pop() 不改变数组，并返回 undefined 值。
+		array.join('-----');//如果没有参数，默认逗号分隔元素
+		array.toString();//元素间以逗号分隔
 
-		array.sort() //���û�лص����������������С���������򣿡�
-					// eg:[1,0,5,21] ���[0,1,21,5]
-			�����鰴��С����
+		array.sort() //如果没有回调函数，会对数组进行【万国码排序？】
+					// eg:[1,0,5,21] 结果[0,1,21,5]
+			对数组按大小排序
 				array.sort(function(a,b){
 					return a-b
 				})
-			�������
+			随机排序
 				array.sort(function(a,b){
 					return Math.random()>.5 ? -1 : 1; 
 				})
 	ecmascript5
-		array.filter(function(element){ //��������Ԫ�ؽ��й��ˣ�����һ��������
+		array.filter(function(element){ //按条件对元素进行过滤，返回一个新数组
 			return true/false
 		});
 		array.map(function(element,index,array){
-			//map() ��������һ����ԭ�����е�ÿ��Ԫ�ص���һ��ָ��������ķ���ֵ��ɵ������顣
-			//callback �����ᱻ�Զ�������������������Ԫ�أ�Ԫ��������ԭ���鱾��
+			//map() 方法返回一个由原数组中的每个元素调用一个指定方法后的返回值组成的新数组。
+			//callback 函数会被自动传入三个参数：数组元素，元素索引，原数组本身
 			return sth ;
 		})
 		array.forEach(function(element,index,array){
-			//forEach() �����������ÿһ�ִ��һ�θ����ĺ�����
+			//forEach() 方法让数组的每一项都执行一次给定的函数。
 		})
 
    --------------------------------------------------------------------------
-   max-width\max-height /min-height/min-width ��css3������ȥ���ү��
-   max-width��max-width����ʹ��
+   max-width\max-height /min-height/min-width 非css3啊，我去你大爷的
+   max-width和max-width联合使用
 
-   background-size,background-clip,background-orign����css��������
+   background-size,background-clip,background-orign属于css新增属性
 
-   �鼶Ԫ��margin����
+   块级元素margin问题
    <div id="parent" class="" style="">
 		<div id="child" class="" style="margin:50px 0;height:50px;background:pink;width:100%;"></div>
 		<div id="child2" class="" style="margin:50px 0;height:50px;background:pink;width:100%;"></div>
 		<div id="child3" class="" style="margin:40px 0;height:50px;background:pink;width:100%;"></div>
 		<div id="child4" class="" style="margin:150px 0;height:50px;background:pink;width:100%;"></div>
 	</div>
-	���֡�child����margin-top,margin-bottomð�ݵ���parent��������console.logһ��parent��margin-topΪ0px//���������Ϊ����Ԫ�����ӡ�padding:1px/border:1px���ɽ�������Ƕ���û��padding/border�ĸ���Ԫ���ء�����ͨ��float����position:absolute���
-	��child���͡�child2�����margin����50+50=100 ,��Ȼ��50px
+	发现【child】的margin-top,margin-bottom冒泡到【parent】，但是console.log一下parent的margin-top为0px//解决方法是为父级元素添加【padding:1px/border:1px】可解决，但是对于没有padding/border的父级元素呢、可以通过float或者position:absolute解决
+	【child】和【child2】间的margin不是50+50=100 ,依然是50px
 
 
-	�����˵���У���collapsing margins�����۵�margin������˼�ǣ�2�������Ϻ�ģ��֮�䣨��ϵ���������ڻ�Ƕ�ף����ڵ�margin���ԣ���֮�䲻���зǿ����ݡ�padding����border�߿�
-	��ʹ��������뷽������ϱ�ʾΪһ��������margin��
-	��css2.1�У�ˮƽ��margin���ᱻ�۵���
-	��ֱmargin������һЩ��ģ���б��۵���
-	1���ڳ����ĵ����У�2�������ϵĿ鼶��ģ�����ڵĴ�ֱmargin�ᱻ�۵���
-	���յ�marginֵ���㷽�����£�
-	a��ȫ����Ϊ��ֵ��ȡ����ߣ�
-	b����ȫ����ֵ����ȡ����ֵ��Ȼ������ֵ��ȥ���ֵ��
-	c��û����ֵ����ȡ����ֵ��Ȼ����0��ȥ���ֵ��
-	ע�⣺���ڵĺ�ģ�Ϳ�����DOMԪ�ض�̬������û�����ڻ�̳й�ϵ��
-	2�����ڵĺ�ģ���У�������е�һ���Ǹ����ģ�floated������ֱmargin���ᱻ�۵�������һ�������ĺ�ģ�ͺ�������Ԫ��֮��Ҳ��������
-	3��������overflow���Ե�Ԫ�غ�������Ԫ��֮���margin���ᱻ�۵���overflowȡֵΪvisible���⣩��
-	4�������˾��Զ�λ��position:absolute���ĺ�ģ�ͣ���ֱmargin���ᱻ�۵������������ǵ���Ԫ��֮��Ҳ��һ����
-	5��������display:inline-block��Ԫ�أ���ֱmargin���ᱻ�۵������������ǵ���Ԫ��֮��Ҳ��һ����
-	6�����һ����ģ�͵�����margin���ڣ���ʱ����margin�����۵����ǣ�collapse through����������������£�Ԫ�ص�λ�ã�position��ȡ������������Ԫ�ص�margin�Ƿ��۵���
-	a�����Ԫ�ص�margin�����ĸ�Ԫ�ص�margin-top�۵���һ�𣬺�ģ��border-top�ı߽綨������ĸ�Ԫ����ͬ��
-	b�����⣬����Ԫ�صĸ�Ԫ�ز�����margin���۵�������˵ֻ�и�Ԫ�ص�margin-bottom�ǲ������ġ����Ԫ�ص�border-top���㣬��ôԪ�ص�border-top�߽�λ�ú�ԭ��һ����
-	һ��Ӧ�������������Ԫ�ص�margin-top����������Ŀ鼶��Ԫ�ص�margin-bottom�۵���
-	ע�⣬��Щ�Ѿ����۵����ǵ�Ԫ�ص�λ�ö������Ѿ����۵���Ԫ�ص�λ��û���κ�Ӱ�죻ֻ���ڶ���ЩԪ�ص���Ԫ�ض�λʱ��border-top�߽�λ�ò��Ǳ���ġ�
-	7����Ԫ�صĴ�ֱmargin���ᱻ�۵���
-	�����Ŀ鼶Ԫ�ص�margin-bottom������������ĸ����鼶�ֵ�Ԫ�أ�floated next in-flow block-level sibling����margin-top���ڣ������Ǹ�ͬ��Ԫ��ʹ�������������
-	�����Ŀ鼶Ԫ�ص�margin-top�����ĵ�һ�������鼶��Ԫ�أ�floated first in-flow block-level child����margin-top���ڣ������Ԫ��û��border-top��û��padding-top��������Ԫ��û��ʹ�������������
-	�����Ŀ鼶Ԫ�ص�margin-bottom�������������������ô�����������һ�������鼶��Ԫ�ص�margin-bottom���ڣ������Ԫ��û��ָ��padding-bottom��border����
-	a��ָ����height:auto
-	b��min-heightС��Ԫ�ص�ʵ��ʹ�ø߶ȣ�height��
-	c��max-height����Ԫ�ص�ʵ��ʹ�ø߶ȣ�height��
-	���һ��Ԫ�ص�min-height��������Ϊ0����ô����ӵ�е�margin�����ڵģ���������û��border-top��border- bottom��Ҳû��padding-top��padding-bottom������height���Կ�����0��auto�������ܰ���һ�������ĺ�ģ�� ��line box���������еĸ�����Ԫ�أ�����еĻ�����marginҲ�������ڵġ�
-	��һ��Ԫ��ӵ�е�margin�۵��ˣ�������ʹ���������������ô����margin-top��ͽ��������ֵ�Ԫ�ص�����margin�۵��������������margin���޷�����鼶��Ԫ�ص�margin-bottom�۵���
-	�۵���������padding��margin��border��ֵΪ�����ģ��������������������Щֵ֮�󣩣��۵����margin���㽫������ʹ�õĲ�ͬmargin��ֵ��
+	在这个说明中，“collapsing margins”（折叠margin）的意思是：2个或以上盒模型之间（关系可以是相邻或嵌套）相邻的margin属性（这之间不能有非空内容、padding区域、border边框
+	或使用清除分离方法）结合表示为一个单独的margin。
+	在css2.1中，水平的margin不会被折叠。
+	垂直margin可能在一些盒模型中被折叠：
+	1、在常规文档流中，2个或以上的块级盒模型相邻的垂直margin会被折叠。
+	最终的margin值计算方法如下：
+	a、全部都为正值，取最大者；
+	b、不全是正值，则都取绝对值，然后用正值减去最大值；
+	c、没有正值，则都取绝对值，然后用0减去最大值。
+	注意：相邻的盒模型可能由DOM元素动态产生并没有相邻或继承关系。
+	2、相邻的盒模型中，如果其中的一个是浮动的（floated），垂直margin不会被折叠，甚至一个浮动的盒模型和它的子元素之间也是这样。
+	3、设置了overflow属性的元素和它的子元素之间的margin不会被折叠（overflow取值为visible除外）。
+	4、设置了绝对定位（position:absolute）的盒模型，垂直margin不会被折叠，甚至和他们的子元素之间也是一样。
+	5、设置了display:inline-block的元素，垂直margin不会被折叠，甚至和他们的子元素之间也是一样。
+	6、如果一个盒模型的上下margin相邻，这时它的margin可能折叠覆盖（collapse through）它。在这种情况下，元素的位置（position）取决于它的相邻元素的margin是否被折叠。
+	a、如果元素的margin和它的父元素的margin-top折叠在一起，盒模型border-top的边界定义和它的父元素相同。
+	b、另外，任意元素的父元素不参与margin的折叠，或者说只有父元素的margin-bottom是参与计算的。如果元素的border-top非零，那么元素的border-top边界位置和原来一样。
+	一个应用了清除操作的元素的margin-top绝不会和它的块级父元素的margin-bottom折叠。
+	注意，那些已经被折叠覆盖的元素的位置对其他已经被折叠的元素的位置没有任何影响；只有在对这些元素的子元素定位时，border-top边界位置才是必需的。
+	7、根元素的垂直margin不会被折叠。
+	浮动的块级元素的margin-bottom总是与它后面的浮动块级兄弟元素（floated next in-flow block-level sibling）的margin-top相邻，除非那个同级元素使用了清除操作。
+	浮动的块级元素的margin-top和它的第一个浮动块级子元素（floated first in-flow block-level child）的margin-top相邻（如果该元素没有border-top，没有padding-top，并且子元素没有使用清除操作）。
+	浮动的块级元素的margin-bottom如果符合下列条件，那么它和它的最后一个浮动块级子元素的margin-bottom相邻（如果该元素没有指定padding-bottom或border）：
+	a、指定了height:auto
+	b、min-height小于元素的实际使用高度（height）
+	c、max-height大于元素的实际使用高度（height）
+	如果一个元素的min-height属性设置为0，那么它所拥有的margin是相邻的，并且它既没有border-top和border- bottom，也没有padding-top和padding-bottom，它的height属性可以是0或auto，它不能包含一个内联的盒模型 （line box），它所有的浮动子元素（如果有的话）的margin也都是相邻的。
+	当一个元素拥有的margin折叠了，并且它使用了清除操作，那么它的margin-top会和紧随其后的兄弟元素的相邻margin折叠，但结果是它的margin将无法和其块级父元素的margin-bottom折叠。
+	折叠操作是以padding、margin、border的值为基础的（即在浏览器解析所有这些值之后），折叠后的margin计算将覆盖已使用的不同margin的值。
 
 	-------------------------------------------------------------------------------------------------------------------------
-	���ⱻ˫��ѡ��Ԫ��
-	����ie��chrome��Safari�������� onselectstart="return false;" 
-	����Firefox������ʽ style="-moz-user-select:none;"
+	避免被双击选中元素
+	对于ie和chrome、Safari添加属性 onselectstart="return false;" 
+	对于Firefox添加样式 style="-moz-user-select:none;"
 
 	----------------------------------------------------------
-	�����ֻ��˿���ʱ�򣬽��������ؼ��Ĳ�������С�
-	�ֻ���Ĭ�������С��16px����ô��������������һ��12px�����壬������line-height��Ȼ��16px
-	��ʵ�����˶��ģ��ʶ���������Ԫ�ص��������ø�������line-height���Է���һ
+	在做手机端开发时候，渐渐对像素级的差别变得敏感、
+	手机端默认字体大小是16px，那么假设我们设置了一个12px的字体，那他的line-height依然是16px
+	这实在令人恶心，故而当设置了元素的字体后，最好跟上他的line-height，以防万一
 	font-size:12px;line-height:12px;
-    Ҫע�⡾line-height���ļ̳�����
+    要注意【line-height】的继承问题
 	------------------------------------------------------------------
-	�����ֻ��˵Ļ�������
-	event.stopPropagation()��ֹð��
-	event.preventDefault() ��ֹĬ���¼����ڻ���������Ҫ��������ṩ��Ĭ���¼������緵����һҳ�ȡ�
-	���尲����������
+	关于手机端的滑动问题
+	event.stopPropagation()阻止冒泡
+	event.preventDefault() 阻止默认事件【在滑动方面主要是浏览器提供的默认事件，比如返回上一页等】
+	具体安排是这样的
 	id.addEventListener('touchstart',function(event){
 		event.stopPropagation();
-		event.targetTouches[0].screenX //��ȡX����
-		event.targetTouches[0].screenY //��ȡY����
+		event.targetTouches[0].screenX //获取X坐标
+		event.targetTouches[0].screenY //获取Y坐标
 	});
 	id.addEventListener('touchmove',function(event){
 		event.stopPropagation();
@@ -333,35 +348,35 @@
 	});
 
 	----------------------------------------------------
-	����cookie�洢���ĵ�����
-	��������cookie����js�ڲ��ṩ�Ķ���escape�ȡ��������ģ��洢���ڻ�ȡ�����룬�������롣
-	�ڡ�segmentfault���Ͽ���Ҫʹ�á�Base64��������롣//����Ϊʲô�أ�
+	关于cookie存储中文的问题
+	经过测试cookie经过js内部提供的对象【escape等】编码中文，存储，在获取，解码，还是乱码。
+	在【segmentfault】上看到要使用【Base64】来编解码。//这是为什么呢？
 
-	cookie������
-	�������ԡ�base64��Ҳ��������⣬��Ҫ����Ϊ���ڡ���ĸ�����֡��Ľ������⣬��ʱ����ں������һ������ȫ�ַ��� //�ʶ�����ʱ�仹��Ҫ�о�һ�±��뷽ʽ�ġ���һ���й����ⷽ��Ĳ��͡�
+	cookie编码续
+	经过测试【base64】也会出现问题，主要是因为对于【字母，数字】的解码问题，有时候会在后面跟上一个【补全字符】 //故而，有时间还是要研究一下编码方式的【阮一峰有关于这方面的博客】
 
-	���Ľ������: ����Ҫ�洢���ַ������б��봦��������ֱ�Ӵ洢����ȡ��ʱ����С�unescape�����룬�Ϳ��Եõ��������ַ�����  //����Ӣ�Ļ���Ҳ��Ч
-	�ѵ��ⲻ����ΪĬ�϶��ַ���������escape������
+	最后的解决方是: 不对要存储的字符串进行编码处理，而是直接存储，提取的时候进行【unescape】解码，就可以得到正常的字符串了  //对中英文混输也有效
+	难道这不是因为默认对字符串进行了escape处理吗？
 
 	---------------------------------------------------------------------------
 
-	ajax����
-	ajax ����ɷ�Ϊ��get/post������
-	post�Դ������ݴ�Сû�����ƣ���get��
-	postĬ��ʹ��utf-8���룬��get����,�������д������ĵ���Ҫ��ʹ��post��Ҳ���Լ��� contentType:'application/x-www-form-urlencoded; charset=UTF-8'��//��application/x-www-form-urlencoded����ʲô��˼��
-	���ڿ���������Ҫʹ��jsonp��dateType:jsonp��
-	post��֧�ֿ�������get֧�֡�����chrome�ϲ��Է���post��������ᱻת��get����
+	ajax请求
+	ajax 请求可分为【get/post】两类
+	post对传递数据大小没有限制，而get有
+	post默认使用utf-8编码，而get不是,因此如果有传递中文的需要可使用post【也可以加上 contentType:'application/x-www-form-urlencoded; charset=UTF-8'】//【application/x-www-form-urlencoded】是什么意思呢
+	关于跨域请求需要使用jsonp【dateType:jsonp】
+	post不支持跨域请求，get支持。【在chrome上测试发现post跨域请求会被转成get请求】
 
-	ʹ��post��������
-	�ִ����������ת����get���󣬶�����Ϊget����Ĭ�ϵĲ���utf-8���룬�ʶ���ʱ����������ģ��ڷ������˽��ܵ��Ľ�������
-	�����Ҫ���ϡ�contentType:'application/x-www-form-urlencoded; charset=UTF-8'��
+	使用post跨域请求
+	现代浏览器将其转换成get请求，而又因为get请求默认的不是utf-8编码，故而此时如果传递中文，在服务器端接受到的将是乱码
+	因此需要加上【contentType:'application/x-www-form-urlencoded; charset=UTF-8'】
 
-	����ֱ�� ��encodeURI(str)��//�Կ��ܺ��������ַ����ַ������б��룬�Է����̨����
+	或者直接 【encodeURI(str)】//对可能含有中文字符的字符串进行编码，以方面后台解码
 
 -------------------------------------------------------------------------------------------------
-	��������
-	��ǰ������Ϊ�����һ��div�������һ�������ô�������»����Ͳ���ʹ���������Ĭ���¼���
-	���շ��´��ӡ�
+	滑动问题
+	以前总是以为，如果一个div可以左右滑动，那么他的上下滑动就不能使用浏览器的默认事件了
+	今日发下错矣。
 	var xx,yy,XX,YY,swipeX,swipeY;
 	div.addEventListener('touchstart',function(event){
 		xx = event.targetTouches[0].screenX;
@@ -385,35 +400,35 @@
 	})
 
 	-----------------------------------------------------------------------------------
-	��dom��û�������ʱ��ʹ�ÿ���������������script������д���Ҳ������dom��
+	在dom不没加载完的时候，使用可以往【代码所处script区下面写，且不会清空dom】
 	document.write()
 	<script type="text/javascript">
 		document.write('<script type="text/javascript" src="js/jquery.10.0.min.js"></script>');
 	</script>
-	/*  ִ�н����������
+	/*  执行结果类似这样
 		<script type="text/javascript">
 			document.write('<script type="text/javascript" src="js/jquery.10.0.min.js"></script>');
 		</script>
 		<script type="text/javascript" src="js/jquery.10.0.min.js"></script>
 	*/
-	��������dom��
-	�����jquery��
+	反则会清空dom，
+	因此在jquery的
 
 	$(function(){
-		//���ﲻ��ʹ��document.write(),��������dom
+		//这里不可使用document.write(),否则会情况dom
 	})
 
 	--------------------------------------------------------------------------------------------------------------------
-	�ƶ�����ε��input���������������
-	������type="tel"��ʵ��
-	<input type="tel" placeholder="�����ֻ���"/> 
+	移动端如何点击input弹出数字输入界面
+	可以用type="tel"来实现
+	<input type="tel" placeholder="输入手机号"/> 
 
-	����input��һЩ����
-	�ϴ�ͼƬ
+	关于input的一些介绍
+	上传图片
 	<input type="file" accept="image/*"/> 
 
-	�ļ�����������ͬʱ�첽�ϴ���Ҫ�õ�html5������ FormData
-	����ÿ����Ҫ�ϴ����ݵ�input��name
+	文件和其他数据同时异步上传，要用到html5新特性 FormData
+	设置每个需要上传数据的input的name
 	<form id="info">
 		<input type="file" name="file1" accept="image/*"/> 
 		<input type="file" name="file2" accept="image/*"/> 
@@ -422,71 +437,71 @@
 		<div contentEidtable="true" id="message"></div>
 	</form>
 
-	var formdata = new FormData(document.getElementById('info'));//�˳�ʼ�����԰����д���name���Ե�input����������Ϣ����
-	//�����ͬʱ�ϴ���message��text()����Ҫ�õ�formdata�ġ�append������
+	var formdata = new FormData(document.getElementById('info'));//此初始化可以把所有带有name属性的input所包含的信息带上
+	//如果想同时上传【message的text()】，要用到formdata的【append】方法
 	var message = $('#message').text();
-	//����
-	formdata.append('message',message);//������ڣ���value������һ��value�������ھ�����һ��
-	//ɾ��������delete����
+	//添加
+	formdata.append('message',message);//如果存在，在value后新增一个value，不存在就新增一个
+	//删除可以用delete方法
 	formdata.delete('message');
-	//��ѯ�Ƿ��Ѿ�����
-	formdata.has('message');//����һ��booleanֵ
-	//����
-	formdata.set('message','12333');//���key���ڣ��͸�дvalue����������ھ�����һ��
-	//��ȡ
-	formdata.get('message');//��ȡ��һ��valueֵ
-	formdata.getAll('message');//��������ʽ���ش�key��Ӧ������valueֵ
+	//查询是否已经含有
+	formdata.has('message');//返回一个boolean值
+	//设置
+	formdata.set('message','12333');//如果key存在，就复写value，如果不存在就新增一个
+	//获取
+	formdata.get('message');//或取第一个value值
+	formdata.getAll('message');//以数组形式返回此key对应的所有value值
 		
-	ԭ����������---------------------------------------------------------------------------------------
+	原生处理方法---------------------------------------------------------------------------------------
 
 	var xhr = new XMLHttpRequest();
-����xhr.open('POST', $(this).attr('action'));
-��������// �����ϴ���ɺ�Ļص�����
-����xhr.onload = function () {
-��������if (xhr.status === 200) {
-������������console.log('�ϴ��ɹ�');
-��������} else {
-��������������console.log('������');
-��������}
-����};
-����xhr.send(formdata);
+　　xhr.open('POST', $(this).attr('action'));
+　　　　// 定义上传完成后的回调函数
+　　xhr.onload = function () {
+　　　　if (xhr.status === 200) {
+　　　　　　console.log('上传成功');
+　　　　} else {
+　　　　　　　console.log('出错了');
+　　　　}
+　　};
+　　xhr.send(formdata);
 
-	jquery��������	-----------------------------------------------------------------------------------------
+	jquery处理方法	-----------------------------------------------------------------------------------------
 
 	$.ajax({
 	  url: "http://192.168.16.13:8080/master/api/merchant/register.op",
 	  type: "POST",
 	  data: formdata,
-	  processData: false,  // ����jQuery��Ҫȥ�������͵�����
-	  contentType: false ,  // ����jQuery��Ҫȥ����Content-Type����ͷ
+	  processData: false,  // 告诉jQuery不要去处理发送的数据
+	  contentType: false ,  // 告诉jQuery不要去设置Content-Type请求头
 	  success:function(data){
 		location.href="register-next.html?"+data.merchantId;
 	  }
 	});
 ----------------------------------------------------------------------------------------------------------
-	JSON.parse(jsonstr); //���Խ�json�ַ���ת����json���� 
-	JSON.stringify(jsonobj); //���Խ�json����ת����json�Է��� 
+	JSON.parse(jsonstr); //可以将json字符串转换成json对象 
+	JSON.stringify(jsonobj); //可以将json对象转换成json对符串 
 
-	$.parseJSON( jsonstr ); //jQuery.parseJSON(jsonstr),���Խ�json�ַ���ת����json���� 
+	$.parseJSON( jsonstr ); //jQuery.parseJSON(jsonstr),可以将json字符串转换成json对象 
 
 ---------------------------------------------------------------------------------------------------------------------
-	��localStorage��html5���ṩ��������
-	�����֧��IE8
+	【localStorage】html5新提供的新特性
+	浏览器支持IE8
 
-	localStorage.setItem('bitch','�ܶ���');//�洢һ��
-	console.log(localStorage.getItem('virgn'))//�����key�����ڣ��򷵻�null
-	localStorage.removeItem('bitch'); //takes a single argument �� the key of the data item you want to remove �� and removes it from the storage object for that domain.
-	localStorage.clear();//�����������
-	console.log(localStorage)//���Ϊobject
+	localStorage.setItem('bitch','周恩来');//存储一个
+	console.log(localStorage.getItem('virgn'))//如果该key不存在，则返回null
+	localStorage.removeItem('bitch'); //takes a single argument — the key of the data item you want to remove — and removes it from the storage object for that domain.
+	localStorage.clear();//清楚所有数据
+	console.log(localStorage)//输出为object
 
-	Ҳ����ͨ�� localStorage.key ����localStorage[key]����ʽ����ֵ/��ȡ��
-	���Ҫ��ʹ��localStorage�洢ͼƬ�Ļ�����Ҫ���ļ����б��롾base64��
+	也可以通过 localStorage.key 或者localStorage[key]的形式【赋值/获取】
+	如果要想使用localStorage存储图片的话，需要对文件进行编码【base64】
 
 	Responding to storage changes with the StorageEvent
 	The StorageEvent is fired whenever a change is made to the Storage object. 
-	This won't work on the same page that is making the changes �� it is really a way for other pages on the domain using the storage to sync any changes that are made. 
+	This won't work on the same page that is making the changes — it is really a way for other pages on the domain using the storage to sync any changes that are made. 
 	Pages on other domains can't access the same storage objects.
-	������˼�ǿ��Լ���localStorage��key-value�仯�����������ı仯���ᷢ���ڱ�ҳ���ϣ���������ҳ���Ͽ��Է�����
+	大致意思是可以监听localStorage的key-value变化，但所产生的变化不会发生在本页面上，但在其他页面上可以发生。
 
 	window.addEventListener('storage', function(e) {  
 	  document.querySelector('.my-key').textContent = e.key;
@@ -498,14 +513,14 @@
 
 -------------------------------------------------------------------------------------------------------------------
 	select
-	��ȡselect��ǩ�ڲ���option ��������ϸ���� ��http://www.w3school.com.cn/jsref/dom_obj_select.asp��
-	$(select).find('option:selected')//��ȡѡ�е�option
-	���ƶ��˶���select��λ�ÿ��߻���һЩbug��ֵ��׼ȷ
-	��������ǣ���select�ⲿ����һ��div������div�Ŀ���λ�ã�Ȼ����select��css{width:100%;height:100%;}
-	�������div��width:auto;���µ�option�Ŀ��ȱ�select��Ĭ�Ͽ��ȿ���ʱ�򣬳���select�����ſ������������Ҫ����div�Ŀ���
+	获取select标签内部的option 这里有详细介绍 【http://www.w3school.com.cn/jsref/dom_obj_select.asp】
+	$(select).find('option:selected')//获取选中的option
+	在移动端定义select的位置宽高会有一些bug，值不准确
+	解决方法是：在select外部包裹一个div，定义div的宽高位置，然后让select的css{width:100%;height:100%;}
+	如果定义div的width:auto;或导致当option的宽度比select的默认宽度宽的时候，出现select宽被撑开的现象，因此需要定义div的宽度
 
 ---------------------------------------------------------------------------------------------------------------
-	Ajax���첽��������
+	Ajax非异步加载数据
 	var paren = function(){
 		$.ajax({
 			sccess:function(){
@@ -523,47 +538,47 @@
 	
 	parent();
 	console.log(t1 = new Date().getTime());
-	//-----------------------------------�����ʾt2>t1
-	��˵��js���ǰ���ִ��
+	//-----------------------------------结果显示t2>t1
+	这说明js并非按行执行
 
-	���˵��parent();ִ�к�Ҫ����child�ļ��ص������ݣ�����Ҫʹ��callback
-	ֱ�� 
+	如果说在parent();执行后，要调用child的加载到的数据，就需要使用callback
+	直接 
 	parent(); 
-	doSth(); //�����ǲ��еģ���Ϊjs����ִ��child
+	doSth(); //这样是不行的，因为js会在执行child
 
 	var bitch = function(callback){
-		if (callback) //���жϲ����Ƿ����
+		if (callback) //先判断参数是否进来
 		{
 			callback();
 		}
 		console.log(typeof(callback))
 	}
 	bitch(function(){
-		console.log('�ҽ�����')
+		console.log('我进来了')
 	})
 
 ------------------------------------------------------------------------------------------------------------------
-	.99 ��ʾ0.99
-	number>>2 ��ʾ�������������������λ
-	number>>2 ��ʾ�������������������λ
+	.99 表示0.99
+	number>>2 表示将其二进制数据右移两位
+	number>>2 表示将其二进制数据左移两位
 
 ------------------------------------------------------------------------------------------------------------------------
 	css3
-	-webkit-filter:blur(5px) �����κ�Ԫ�ض����� IE��֧��
+	-webkit-filter:blur(5px) 对于任何元素都可以 IE不支持
 
 -----------------------------------------------------------------------------------------------------------------------
 	var bitch = window.open(url,name,'width=500,height=500');
-	bitch.document.getElementById('id').dosth ;//�����ڣ������Ӵ���
-	window.opener.document.getElementById('id').dosth ;//�Ӵ��ڣ����ʸ�����
+	bitch.document.getElementById('id').dosth ;//父窗口，访问子窗口
+	window.opener.document.getElementById('id').dosth ;//子窗口，访问父窗口
 
 ----------------------------------------------------------------------------------------------
 	
-	jsԭ��ģʽ��ִ�����̣�
+	js原型模式的执行流程：
 
-	1.�Ȳ��ҹ��캯��ʵ��������Ի򷽷�������У����������ء�
-	2.������캯����ʵ��û�У���ȥ����ԭ�Ͷ������ң�����У�����������
+	1.先查找构造函数实例里的属性或方法，如果有，就立即返回。
+	2.如果构造函数的实例没有，就去它的原型对象里找，如果有，就立即返回
 
-	��һ��
+	第一题
 
 	var fun = function(){
 		this.name = 'peter';
@@ -573,8 +588,8 @@
 	}
 
 	var p = new fun();
-	//����p.name�ǣ� jack
-	�ڶ���
+	//请问p.name是： jack
+	第二题
 
 	var fun = function(){
 		this.name = 'peter';
@@ -583,8 +598,8 @@
 		}
 
 	var p = new fun();
-	//����p.name�ǣ� peter
-	������
+	//请问p.name是： peter
+	第三题
 
 	var fun = function(){}
 
@@ -601,8 +616,8 @@
 	a.info.name = 'jack';
 	b.info.name = 'tom';
 
-	//����a.info.name��b.info.name�ֱ��ǣ�tom,tom
-	������
+	//请问a.info.name和b.info.name分别是：tom,tom
+	第四题
 
 	var fun = function(){
 		this.info = {
@@ -616,8 +631,8 @@
 
 	a.info.name = 'jack';
 	b.info.name = 'tom';
-	//����a.info.name��b.info.name�ֱ��ǣ�jack tom
-	������
+	//请问a.info.name和b.info.name分别是：jack tom
+	第五题
 
 	var fun = function(){}
 
@@ -631,8 +646,8 @@
 
 	a.name = 'jack';
 	b.name = 'tom';
-	//����a.name��b.name�ֱ��ǣ� jack tom
-	������
+	//请问a.name和b.name分别是： jack tom
+	第六题
 
 	var fun = function(){
 		this.info = {
@@ -653,75 +668,75 @@
 
 	a.info.name = 'jack';
 	b.info.name = 'tom';
-	//����a.info.name��b.info.name�ֱ��ǣ� jack tom
+	//请问a.info.name和b.info.name分别是： jack tom
 
 	----------------------------------------------------------------------------------------
-	segmentfalut �Ͽ�����һ������
+	segmentfalut 上看到的一个问题
 	var array = [1,2,3];
 	function clear(arr){
 		arr = []
 	}
-	console.log(array) // ���Ϊ[1,2,3]
-	//Ϊʲôarray��ֵû�б仯�أ�
-	//��JS�У�����undefined��null��boolean��string��number������ԭʼ�������ͣ������Ķ��Ƕ����������ͣ�Ҳ����˵��array��function��date�ȵ���Щ��ʵ�����϶���JS����
-    //ʹ�õȺţ�=���� a ���鸳ֵ�� ary �������� ary ������ a �����ã�ͬ���ٽ� ary = []���ı���� ary �����ã����Ǹı� a ���鱾����
-	����һ����˵
+	console.log(array) // 结果为[1,2,3]
+	//为什么array的值没有变化呢？
+	//在JS中，除了undefined、null、boolean、string、number这五种原始数据类型，其他的都是对象数据类型，也就是说，array、function、date等等这些其实本质上都是JS对象。
+    //使用等号（=）将 a 数组赋值到 ary ，等于是 ary 对数组 a 的引用，同理再将 ary = []，改变的是 ary 的引用，不是改变 a 数组本身。
+	更进一步来说
 	//array = [1,2,3]
-	array�Ƕ��ڴ���[1,2,3]�ĵ�ַ���ã�������ָ��
-	��function clear(arr){}��
-	�β�arr�ͱ���arrayһ��,������ָ�룬һ��ʼҲָ��[1,2,3]
-	arr=[];//arrָ��һ�������飬��û�ж�[1,2,3]�����κβ���
-	arr.length = 0 ;//arr�����˱����õ����飬��arrayҲ������������飬���arrayҲ��ı�
+	array是对内存中[1,2,3]的地址引用，类似于指针
+	在function clear(arr){}中
+	形参arr和变量array一样,都是类指针，一开始也指向[1,2,3]
+	arr=[];//arr指向一个空数组，并没有对[1,2,3]进行任何操作
+	arr.length = 0 ;//arr操作了被引用的数组，而array也引用了这个数组，因此array也会改变
 
 	----------------------------------------------------------------------------------------------------------
-	����
+	多列
 	column
-	column-count	�涨Ԫ��Ӧ�ñ��ָ���������	
-	column-fill	�涨�������С�	
-	column-gap	�涨��֮��ļ����	
-	column-rule	�������� column-rule-* ���Եļ�д���ԡ�	
-	column-rule-color	�涨��֮��������ɫ��	
-	column-rule-style	�涨��֮��������ʽ��	
-	column-rule-width	�涨��֮�����Ŀ��ȡ�	
-	column-span	�涨Ԫ��Ӧ�ú���������	
-	column-width	�涨�еĿ��ȡ�	
-	columns	�涨���� column-width �� column-count �ļ�д���ԡ�
+	column-count	规定元素应该被分隔的列数。	
+	column-fill	规定如何填充列。	
+	column-gap	规定列之间的间隔。	
+	column-rule	设置所有 column-rule-* 属性的简写属性。	
+	column-rule-color	规定列之间规则的颜色。	
+	column-rule-style	规定列之间规则的样式。	
+	column-rule-width	规定列之间规则的宽度。	
+	column-span	规定元素应该横跨的列数。	
+	column-width	规定列的宽度。	
+	columns	规定设置 column-width 和 column-count 的简写属性。
 
 	--------------------------------------------------------------------------------
-	դ���ṹ
-	��Ԫ�� { display:flex ; display:-webkit-flex ; display: -ms-flex ; display:-moz-flex ; }
-	��Ԫ�� { flex:auto; flex:20%; flex:1; flex:1em; flex:100px; }
+	栅栏结构
+	父元素 { display:flex ; display:-webkit-flex ; display: -ms-flex ; display:-moz-flex ; }
+	子元素 { flex:auto; flex:20%; flex:1; flex:1em; flex:100px; }
 
 	--------------------------------------------------------------------------
-	α��
-	α��:nth-clild(an+b)ƥ�����ĵ�����ǰ����an+b-1���ֵ�Ԫ�ص�Ԫ�أ���ʱn���ڻ����0�����Ҹ�Ԫ�ؾ��и�Ԫ�ء������֮����ѡ����ƥ����λ������an+b����Ԫ�ء���һ����Ԫ�ص�λ��Ϊ1
-	:nth-child(3) ��ʾ������Ԫ��
-	:nth-child(odd) ������Ԫ�� 1,3,5
-	:nth-child(2n+1) ������Ԫ�� 1,3,5
-	:nth-child(even) ����żԪ�� 2,4,6
-	:nth-child(2n) ����żԪ�� 2,4,6
+	伪类
+	伪类:nth-clild(an+b)匹配在文档树中前面有an+b-1个兄弟元素的元素，此时n大于或等于0，并且该元素具有父元素。简而言之，该选择器匹配多个位置满足an+b的子元素。第一个子元素的位置为1
+	:nth-child(3) 表示第三个元素
+	:nth-child(odd) 所有奇元素 1,3,5
+	:nth-child(2n+1) 所有奇元素 1,3,5
+	:nth-child(even) 所有偶元素 2,4,6
+	:nth-child(2n) 所有偶元素 2,4,6
 
 	---------------------------------------------------------------------------------
-	this ָ�룬ָ��ǰ���л���
-	�����javascript������û��ͨ��new�������������������壩��call��apply�ı亯����thisָ�룬������thisָ�붼��ָ��window�ġ�
-	һ������
-		var name = "������"
+	this 指针，指向当前运行环境
+	如果在javascript语言里没有通过new（包括对象字面量定义）、call和apply改变函数的this指针，函数的this指针都是指向window的。
+	一个例子
+		var name = "蒋中正"
 		var obj = {
 			name:'abc',
 			method:{
 				log:function(){
 					console.log(this.name);
 				},
-				name:'�ܶ���'
+				name:'周恩来'
 			}
 		}
-		obj.method.log(); //�ܶ��� ��method�����е���log������thisָ��method����ʵthis����method�Ŀ�¡
+		obj.method.log(); //周恩来 在method对象中调用log方法，this指向method，其实this就是method的克隆
 		var song = obj.method.log; 
-		song(); //������ ��window������log������thisָ��window
-		var bitch = new obj.method.log(); //uindefined ֱ���½���һ��log�����������л�����
+		song(); //蒋中正 在window中运行log方法，this指向window
+		var bitch = new obj.method.log(); //uindefined 直接新建了一个log方法，无运行环境？
 
-	call,apply �ı亯����thisָ��
-		������һ����ֻ�ǲ�����ʽ��������
+	call,apply 改变函数的this指针
+		其作用一样，只是参数形式有所区别
 		call(obj,arguments[0],arguments[1],arguments[2])
 		apply(obj,[arguments[0],arguments[1],arguments[2]])
 
@@ -729,59 +744,59 @@
 			this.b = xx;
 		}
 		var o = {};
-		a.apply(o, [5]); //���Ƚ�a��ָ��thisָ��0����ִ�з���a(),a�Ĳ���xx=5��Ҳ����Ϊo������һ��property��b=5��
-		alert(b);    // undefined ��˲�û�и�a��property��b����ֵ 
+		a.apply(o, [5]); //首先将a的指针this指向【0】，执行方法a(),a的参数xx=5，也就是为o添加了一个property【b=5】
+		alert(b);    // undefined 因此并没有给a的property【b】赋值 
 		alert(o.b);    // 5
-		a('���ү');
-		console.log(b) //ȫ�ֶ���window�µı��� b='���ү' ; ��ͬ�� console.log(window.b)
+		a('你大爷');
+		console.log(b) //全局对象window下的变量 b='你大爷' ; 等同于 console.log(window.b)
 
-	 "use strict" //ʹ���ϸ�ģʽ
-	 ������ģʽ�£�js ��������Щ��û��������ʹ�õı�������ʵ�Ƿ��ʵ�ȫ�ֶ�������ԣ�
-	 ����˵���������������õ�ʱ�򣬺������ this ���ͷ��ʵ���ȫ�ֶ���
-	 �������ϸ�ģʽ�£������������﷨�����б���������Ҫ��ʾ������
-	 ��������㲻�� call() ���� this �������������ô�ͻᱨ���ˡ�
+	 "use strict" //使用严格模式
+	 在正常模式下，js 函数里那些你没有声明就使用的变量，其实是访问的全局对象的属性，
+	 比如说上面正常函数调用的时候，函数里的 this ，就访问的是全局对象。
+	 但是在严格模式下，不允许这种语法，所有变量都必须要显示声明，
+	 所以如果你不用 call() 传递 this 给这个函数，那么就会报错了。
 
 	 --------------------------------------------------------------------------------------------------------
-	 ������
+	 作用域：
 	 (function() {
-		console.log(a); // undefined ������Ϊ�������������Ķ��塿�������������л����Ķ��� ��˲�����ʾ a is not defined [aû�б�����]
-		console.log(haha()); // '��Ц��������ǣ��ܹ����ı' ; a is undefined ;c is not defined ; �ɴ˿ɼ�����Ҫ����function ��ȻaӦ����ʾa is not defined?
+		console.log(a); // undefined 这是因为【变量，函数的定义】会先提升到运行环境的顶部 因此不会显示 a is not defined [a没有被定义]
+		console.log(haha()); // '我笑诸葛亮少智，周公瑾无谋' ; a is undefined ;c is not defined ; 由此可见变量要先于function 不然a应该显示a is not defined?
 		var a = b = 5;
 		function haha(){
-			console.log('��Ц��������ǣ��ܹ����ı');
+			console.log('我笑诸葛亮少智，周公瑾无谋');
 			console.log(a)
 			console.log(c)
 		}
-	  })();//д����ͬ��һ��
+	  })();//写法等同于一下
 		 
 	 console.log(b); // b=5 
 		/*
-			var a = b = 5;  //��ͬ��,
+			var a = b = 5;  //等同于,
 			var a ;
 			b = 5 ;
 			a = b ;
 		*/
-	 console.log(a); // a is not defined ��Ϊa��һ���ֲ�����
+	 console.log(a); // a is not defined 因为a是一个局部变量
 
-	 (function() { // IIFE ��Imdiately Invoked Function Expression ����ִ�еĺ�������ʽ����
+	 (function() { // IIFE （Imdiately Invoked Function Expression 立即执行的函数表达式）。
 		var a ;
 		function haha(){
-			console.log('��Ц��������ǣ��ܹ����ı')
+			console.log('我笑诸葛亮少智，周公瑾无谋')
 		}
 		console.log(a); 
 		console.log(haha()); 
 		a = b = 5;
 	  })();
 	 
-	 �ϸ�ģʽ�µ�д��
+	 严格模式下的写法
 	 (function() {
 		var a = window.b = 5;
 	  })();
 
-	���Զ�������������� this ���� arguments�������������������ڶ���Ч�����ȼ���ߣ��������κεط��㶼���ܰѱ�������Ϊ this ֮��ģ�������û�������
-	��ʽ��������������ʱ��������ʽ��������Ϊ������ hoisting ���ú������������ڡ�������ʽ�����Ǳ��صģ������ⲿ�Ļ���ȫ�ֵġ���Ȼ�������ִ�к�����ʱ����ⲿ���������������Ǵ�����֮����Ǳ��ص���
-	�����������������ڲ�������������������������Ҳ���Ǳ��ص���
-	����������������ȼ���ʵ������͵ģ���������Ҳ������õ�
+	语言定义的命名：比如 this 或者 arguments，它们在所有作用域内都有效且优先级最高，所以在任何地方你都不能把变量命名为 this 之类的，这样是没有意义的
+	形式参数：函数定义时声明的形式参数会作为变量被 hoisting 至该函数的作用域内。所以形式参数是本地的，不是外部的或者全局的。当然你可以在执行函数的时候把外部变量传进来，但是传进来之后就是本地的了
+	函数声明：函数体内部还可以声明函数，不过它们也都是本地的了
+	变量声明：这个优先级其实还是最低的，不过它们也都是最常用的
 
 		var x =1000;
 		function a(x,y){
@@ -790,27 +805,27 @@
 				var x =3;
 				y();
 				console.log(x); // 3
-			}).apply(this) // thisָ�򻷾�a
+			}).apply(this) // this指向环境a
 			this.x = 50
 			console.log(x) // 2
 		}
 		a();
 		console.log(x) //50
-	 IIFE ��Imdiately Invoked Function Expression ����ִ�еĺ�������ʽ����
+	 IIFE （Imdiately Invoked Function Expression 立即执行的函数表达式）。
 
-	 ��ʽ1�����ú������õ�����ֵ��ǿ�������ʹ��������ִ��
+	 方式1，调用函数，得到返回值。强制运算符使函数调用执行
 
 	(function(x,y){
 		alert(x+y);
 		return x+y;
 	}(3,4)); 
-	��ʽ2�����ú������õ�����ֵ��ǿ�ƺ���ֱ����ִ���ٷ���һ�����ã�������ȥ����ִ��
+	方式2，调用函数，得到返回值。强制函数直接量执行再返回一个引用，引用再去调用执行
 
 	(function(x,y){
 		alert(x+y);
 		return x+y;
 	})(3,4);
-	��ʽ3��ʹ��void
+	方式3，使用void
 
 	void function(x) {
 		  x = x-1;
@@ -823,25 +838,25 @@
 	history.forward();
 	history.back();
 	history.go();
-	history.pushState(null,'',url); //����һ��
-	history.replaceStateState(null,'',url); //�滻��ǰ
-	window.onpopstate = function(event){ // �������������ء���һҳ��ʱ����
-		//�����Ѹı��url����һЩ����
+	history.pushState(null,'',url); //添加一个
+	history.replaceStateState(null,'',url); //替换当前
+	window.onpopstate = function(event){ // 点击浏览器【返回、下一页】时触发
+		//根据已改变的url，做一些事情
 	}
 
 ----------------------------------------------------------------------------------------------------------------
-	ajax��ʵ��
+	ajax的实现
 
-	1.jsonp����
+	1.jsonp跨域
 	/*
-	// ��������ΪͬԴ���Ե����ƣ�����jsֻ�ܻ�ȡͬ���µĴ�������
-	// ������ȡ��ͬ��վ�µ���Դ������Ҫ�õ�����
-	// html��script��ǩ���Կ�����ʣ�jquery��zepto������ôʵ�ֿ����
-	// script������ʣ��᷵��һ��js���룬����Ҫ������������Ӧ�����
-	// url?callback=callbackFun һ�������ͨ��url.search ȥ���ݲ������������Ὣ�ַ��������� key=value&key=value&key=value 
-	// �������ڽ���search�ַ����������callback���᷵��һ�δ�����������
-	// ����Ϊ���ص�js������ȫ�ֵģ���callbackFun��һ��ȫ�ֶ���
-	// ����ڻص���ʱ�����Ҫ����һ��ȫ�ֵĶ��������գ�window����ȫ��
+	// 跨域是因为同源策略的限制，导致js只能获取同域下的窗口属性
+	// 如果想获取不同网站下的资源，就需要用到跨域
+	// html的script标签可以跨域访问，jquery、zepto就是这么实现跨域的
+	// script跨域访问，会返回一段js代码，这需要服务器端做相应的配合
+	// url?callback=callbackFun 一般而言是通过url.search 去传递参数，服务器会将字符串做解析 key=value&key=value&key=value 
+	// 服务器在解析search字符串如果含有callback，会返回一段处理过的数据
+	// 又因为返回的js数据是全局的，即callbackFun是一个全局对象
+	// 因此在回调的时候可需要定义一个全局的对象来接收，window就是全局
 	*/
 	var ling = {};
 	ling.jsonp = function(arg){
@@ -853,7 +868,7 @@
 		var url = arg.url + '?callback=' + cbFunction ;
 		script.src = url ;
 		document.head.appendChild(script);
-		 //�Զ���Ļص�����result
+		 //自定义的回调函数result
 		 if (arg.success)
 		 {
 			window[cbFunction] = arg.success;
@@ -877,29 +892,29 @@
 		 });
 	 }
 
-	 2.�ڷ����������� Access-Control-Allow-Origin
-		���ַ�ʽֻҪ����˰�response��headerͷ������Access-Control-Allow-OriginΪ�ƶ�������ǰ���������ݵ��������ɡ�һ���������Ϊ���ɡ������ͻ��˾Ͳ���Ҫʹ��jsonp����ȡ���ݡ�
+	 2.在服务器端设置 Access-Control-Allow-Origin
+		这种方式只要服务端把response的header头中设置Access-Control-Allow-Origin为制定可请求当前域名下数据的域名即可。一般情况下设为即可。这样客户端就不需要使用jsonp来获取数据。
 
 	3.xmlhttprequest
-		readysate�ļ���״̬
-			0	UNSENT (δ��)	open()������δ������.
-			1	OPENED  (δ����)	send()������δ������.
-			2	HEADERS_RECEIVED (�ѻ�ȡ��Ӧͷ)	send()�����Ѿ�������, ��Ӧͷ����Ӧ״̬�Ѿ�����.
-			3	LOADING (����������Ӧ��)	��Ӧ��������; responseText���Ѿ���ȡ�˲�������.
-			4	DONE (�������)	������������Ѿ����.
+		readysate的几种状态
+			0	UNSENT (未打开)	open()方法还未被调用.
+			1	OPENED  (未发送)	send()方法还未被调用.
+			2	HEADERS_RECEIVED (已获取响应头)	send()方法已经被调用, 响应头和响应状态已经返回.
+			3	LOADING (正在下载响应体)	响应体下载中; responseText中已经获取了部分数据.
+			4	DONE (请求完成)	整个请求过程已经完毕.
 
 		responseText
-			�˴��������ӦΪ�ı������ǵ�����δ�ɹ���δ����ʱΪ null��ֻ����
+			此次请求的响应为文本，或是当请求未成功或还未发送时为 null。只读。
 
 		response
-			��Ӧʵ��������� responseType ��ָ���� ������ ArrayBuffer�� Blob�� Document�� JavaScript ���� (�� "json")�� �������ַ������������δ��ɻ�ʧ�ܣ����ֵΪ null��
+			响应实体的类型由 responseType 来指定， 可以是 ArrayBuffer， Blob， Document， JavaScript 对象 (即 "json")， 或者是字符串。如果请求未完成或失败，则该值为 null。
 
 		upload
-			������ upload ������һ���¼������������ϴ����̡�
-			req.upload.addEventListener("progress", updateProgress, false); //�ϴ���
-			req.upload.addEventListener("load", transferComplete, false); //�ϴ����
-			req.upload.addEventListener("error", transferFailed, false); //�ϴ�����
-			req.upload.addEventListener("abort", transferCanceled, false); //�ϴ��ж�
+			可以在 upload 上添加一个事件监听来跟踪上传过程。
+			req.upload.addEventListener("progress", updateProgress, false); //上传中
+			req.upload.addEventListener("load", transferComplete, false); //上传完成
+			req.upload.addEventListener("error", transferFailed, false); //上传出错
+			req.upload.addEventListener("abort", transferCanceled, false); //上传中断
 
 	ling.ajax = function(arg){
 		var xhr = new XMLHttpRequest();
@@ -907,63 +922,63 @@
 			url = arg.url ,
 			asyn = arg.asyn || true ;
 		xhr.open(arg.type,arg.url,arg.asyn);
-		xhr.responseType = "json" // json arraybuffer text document blob ���÷��صļ�������
-		xhr.timeout=3000;//������Ӧʱ��
+		xhr.responseType = "json" // json arraybuffer text document blob 设置返回的几种类型
+		xhr.timeout=3000;//设置响应时间
 		xhr.ontimeout = function(){
-			alert('����ʱ');
+			alert('请求超时');
 		}
-		xhr.onreadystatechange = function(){ // readystate�仯ʱ����
+		xhr.onreadystatechange = function(){ // readystate变化时触发
 			if (xhr.readyState===2)//
 			{
-				console.log('�Ի�ȡ��Ӧ')
+				console.log('以获取相应')
 			}else if (xhr.readyState === 4)
 			{
 					console.log(xhr.responseType,xhr.responseText)
 			}
 		}
-		xhr.send();//�ɷ���Array��string��document��blob��formdata
+		xhr.send();//可发送Array，string，document，blob，formdata
 	}
 		
 ---------------------------------------------------------------------------------------------------
-!!ǿ��תboolen
-	ǿ�ƽ����תΪ����ʽ ��
+!!强制转boolen
+	强制将语句转为表达式 ：
 
-	���ֵΪnumber��
+	语句值为number：
 
 	!!1 // true
 	!!(4-2) // true
 	!!(4-4) // false
-	���ֵΪstring��
+	语句值为string：
 
 	!!"str" // true
 	!!""    // false
-	���ֵΪobject:
+	语句值为object:
 
 	var obj = {}
 	!!obj // true
 	obj = null
 	!!obj // false
-	���ֵδ���� undefined��
+	语句值未定义 undefined：
 
 	var temp;
 	!!temp // false
 	temp = 1;
 	!!temp // true
-	���ֵΪnull ��
+	语句值为null ：
 
 	!!null // false
-	ԭ��
+	原因：
 
-	"������"û�����������ܣ����������ַ�ʽ������"��"��
+	"解析器"没有想象中智能，所以用这种方式来告诉"它"。
 
 -------------------------------------------------------------------------------
-	���ֲ�����
-	����Ҫ����ͨҳ�棬������ӵ�ʱ���жϲ���ҳ���Ƿ��
-	����ͨ����localStorage���ж�
-		���������ǣ��������ҳ����ڣ���ÿ��1000ms����localStorage��дֵ��ʱ�����
-		��������ӵ�ʱ���õ�ǰ�¼���ȥ��localStorage�л�ȡ����ʱ��������С��1000ms��˵��ҳ����ڣ����򲻴��� //����жϹ����е�����
-	ͨ�����⣬���ǲ���ĳ�׸衾����id��
-		Ҳ����ͨ������д��localStorage���ú��ò���ҳ�����storage�ı仯��������ҳ��ĵ�ǰ������Ŀ
+	音乐播放器
+	首先要在普通页面，点击链接的时候，判断播放页面是否打开
+	可以通过过localStorage来判断
+		具体做法是，如果播放页面存在，就每隔1000ms，向localStorage内写值【时间戳】
+		但点击链接的时候，用当前事件减去从localStorage中获取到的时间戳，如果小于1000ms，说明页面存在，反则不存在 //这个判断规则有点问题
+	通信问题，就是播放某首歌【音乐id】
+		也可以通过将其写入localStorage，让后让播放页面监听storage的变化，来更新页面的当前播放曲目
 		window.addEventListener('srorage',function(e){
 			if (e.key=='curentSongId')
 			{
@@ -973,7 +988,7 @@
 		})
 ----------------------------------------------------------------------------------
 	instanceof typeof
-	dom instanceof HTMLElement ; // �ж��ǲ���һ��dom����
+	dom instanceof HTMLElement ; // 判断是不是一个dom对象
 	typeof(string) // string 
 	typeof(boolean) // boolean 
 	typeof(function) // function 
@@ -985,16 +1000,16 @@
 
 ----------------------------------------------------------------------------
 	
-	Visibility ҳ��ɼ���
-		H5��API���л���ǩҳ��ʱ�򴥷�
-		���������Ի�仯 
-			document.visibilityState  ���ĸ�״̬ hidden visible prerender��ҳ���ں�̨���صģ����û����ɼ��� unloaded��ҳ�漴���رգ��û����ڴӵ�ǰҳ����ת������ҳ�棩��
-			document.hidden ������״̬ true false
+	Visibility 页面可见性
+		H5新API，切换标签页的时候触发
+		这两个属性会变化 
+			document.visibilityState  有四个状态 hidden visible prerender【页面在后台加载的，对用户不可见】 unloaded【页面即将关闭（用户正在从当前页面跳转到其他页面）】
+			document.hidden 有两个状态 true false
 	 document.addEventListener('visibilitychange',function(){
 		if (document.hidden)
 		{
-			console.log('�Ҹղű������ˣ���')
+			console.log('我刚才被隐藏了；额')
 		}else{
-			console.log('���ֳ����ˣ�������')
+			console.log('我又出来了，哈哈哈')
 		}
 	})

@@ -46,10 +46,15 @@
 			if (audio.paused === true) 
 			{
 				audio.play();
+				$('#play').text('pause');
 			}else if (audio.paused === false)
 			{
-				audio.pause();
+				this.pause();
 			}
+		},
+		pause:function(){
+			audio.pause();
+			$('#play').text('play');
 		},
 		next:function(index,prevNext,auto){ // 无论是上一首，下一首，当前重放，都在next属性中
 			if (model === 0)
@@ -153,6 +158,9 @@
 				}
 			}
 		}
+	}
+	audio.onpause = function(){
+		mxPlayer.pause();
 	}
 	$('#play').on('click',function(){
 		mxPlayer.play();
