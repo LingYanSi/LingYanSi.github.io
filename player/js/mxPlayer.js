@@ -115,7 +115,7 @@
 		lyricAuto:true ,
 		model:['顺序','随机','loop'],
 		setModel:function(index){
-			if (index>this.model.length) index = 0;
+			if (index>=this.model.length) index = 0;
 			return index ;
 		},
 		setLyricTop:function(){
@@ -172,7 +172,6 @@
 		model = parseInt($(this).attr('data-model'),10);
 		model++ ;
 		model = mxPlayer.setModel(model);
-		console.log('蓦地his',model)
 		$(this).text(mxPlayer.model[model]).attr('data-model',model)
 	});
 	$('#music-list').on('dblclick','.music-list-item',function(){
