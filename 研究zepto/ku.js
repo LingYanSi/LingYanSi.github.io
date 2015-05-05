@@ -18,6 +18,19 @@
 		}
 	}
 	_$.prototype = {
+		selector:function(str){
+			if( /\.[\w]+/.test(str) )
+			{
+				return 'class';
+			}else if (/\#[\w]+/.test(str))
+			{
+				return 'id'
+			}else if ( /\w+/.test(str))
+			{
+				return 'tagName'
+			}
+			return false ;
+		},
 		each:function(fun){
 			this.elements.forEach(function(element){
 				fun.call(element)
@@ -191,33 +204,100 @@
 			})
 		},
 		// --------- event ----------
-		on:function(type,children,fun){
-			this.elements.forEach(function(element){
-				// 需要先获取子元素，然后判断当前对象是不是子元素的 子元素 ，但这样的弊端在于新添加的元素怎么处理
-				var haha =	$(element).find(children);
-				element.addEventListener(type,function(e){
-					haha.elements.forEach(function(element){
-						if (e.target && element.contains(e.target))
-						{
-							fun.call(element);//指针指向element
-						}
+		on:function(type,children,fun){ // 事件委托的实现
+			if (!(!!fun)) // 如果没有后代
+			{
+				this.elements.forEach(function(element){
+					element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
+							console.log(e)
+						children.call(this);//指针指向被点击对象
+						//	console.log(element.events['click'])
 					});
 				});
-			});
+			}else{
+				if (this.selector(children) == 'id')
+				{
+					this.elements.forEach(function(element){
+						element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
+							if (e.target.id == children.slice(1) )
+							{
+								fun.call(e.target);//指针指向被点击对象
+							}
+						});
+					});
+				}else if (this.selector(children) == 'class')
+				{
+					this.elements.forEach(function(element){
+						element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
+							if (e.target.classList.contains(children.slice(1)))
+							{
+								fun.call(e.target);//指针指向被点击对象
+							}
+						});
+					});
+				}else if (this.selector(children) == 'tagName')
+				{
+					children = children.toUpperCase();
+					this.elements.forEach(function(element){
+						element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
+							if (e.target.tagName == children )
+							{
+								fun.call(e.target);//指针指向被点击对象
+							}
+						});
+					});
+				}
+			}
+			return this ;
+		},
+		off:function(type,children,fun){ // 如何删除事件匿名函数
+			if (!(!!fun)) // 如果没有后代
+			{
+				this.elements.forEach(function(element){
+					element.removeEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
+						children.call(this);//指针指向被点击对象
+					});
+				});
+			}else{
+				if (this.selector(children) == 'id')
+				{
+					this.elements.forEach(function(element){
+						element.removeEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
+							if (e.target.id == children.slice(1) )
+							{
+								fun.call(e.target);//指针指向被点击对象
+							}
+						});
+					});
+				}else if (this.selector(children) == 'class')
+				{
+					this.elements.forEach(function(element){
+						element.removeEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
+							if (e.target.classList.contains(children.slice(1)))
+							{
+								fun.call(e.target);//指针指向被点击对象
+							}
+						});
+					});
+				}else if (this.selector(children) == 'tagName')
+				{
+					children = children.toUpperCase();
+					this.elements.forEach(function(element){
+						element.removeEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
+							if (e.target.tagName == children )
+							{
+								fun.call(e.target);//指针指向被点击对象
+							}
+						});
+					});
+				}
+			}
 			return this ;
 		},
 		tap:function(dosth){
 			this.elements.forEach(function(element){
-				var timeStart,timeEnd ;
-				element.addEventListener('touchstart',function(event){
-					timeStart = new Date().getTime();
-				});
 				element.addEventListener('touchend',function(event){
-					timeEnd = new Date().getTime();
-					if (timeEnd - timeStart<100)
-					{
-						dosth.call(element); 
-					}
+						dosth.call(this); 
 				});
 			});
 		},

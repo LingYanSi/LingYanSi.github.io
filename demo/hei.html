@@ -16,11 +16,17 @@
 	  .sass{height:300px;width:100%;position:relative;overflow:hidden;}
 	  .sass-item{height:100%;width:100%;position:absolute;top:0;left:0;}
 
-		.sass-item{background-size:100% auto;}
+	  .sass-item{background-size:100% auto;}
 	  .color-1{background-color:rgb(254,67,101);background-image:url(img/ju-info/moudle1/1.png);}
 	  .color-2{background-color:rgb(249,205,173);background-image:url(img/ju-info/moudle1/2.png);}
 	  .color-3{background-color:rgb(131,175,155);background-image:url(img/ju-info/moudle1/3.png);}
 	  .color-4{background-color:rgb(23,44,60);background-image:url(img/ju-info/moudle1/4.jpg);}
+
+	  
+	  .color-11{background-color:rgb(254,67,101);}
+	  .color-21{background-color:rgb(249,205,173);}
+	  .color-31{background-color:rgb(131,175,155);}
+	  .color-41{background-color:rgb(23,44,60);}
 		
 	  .change{-webkit-transition:all 0.2s;}
 
@@ -40,7 +46,16 @@
 		</div>
 		<div id="less" class="sass">
 			<div id="" class="item-wrap">
-				<div class="sass-item color-1"></div>
+				<div class="sass-item color-1">
+					<div id="bitch" class="sass">
+						<div id="" class="item-wrap">
+							<div class="sass-item color-1"></div>
+							<div class="sass-item color-2"></div>
+							<div class="sass-item color-3"></div>
+							<div class="sass-item color-4"></div>
+						</div>
+					</div>
+				</div>
 				<div class="sass-item color-2"></div>
 				<div class="sass-item color-3"></div>
 				<div class="sass-item color-4"></div>
@@ -55,6 +70,7 @@
 		var winWidth =$(window).width();
 		$('#less').height(winHeight)
 		lunbo({idname:'less',top:'top',autoPlay:false,loop:false,buttPrev:'prev',buttNext:'next'});
+		lunbo({idname:'bitch',top:'left',autoPlay:false,loop:true});
 
 	});
 </script>

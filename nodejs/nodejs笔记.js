@@ -157,3 +157,5 @@
 	npm uninstall xxx  (-g) 卸载模块
 
 	npm cache clean 清理缓存
+	
+	运行 npm install <module> –save-dev，不仅会安装指定的 <module> 模块，还会自动添加到 devDependencies 区域中，且包括 版本范围。

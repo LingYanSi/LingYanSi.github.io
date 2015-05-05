@@ -1,0 +1,2 @@
+this.request.accept.headers
+{"host":"localhost:3000","connection":"keep-alive","cache-control":"max-age=0","accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8","user-agent":"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36","accept-encoding":"gzip, deflate, sdch","accept-language":"zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4,pt;q=0.2"}
