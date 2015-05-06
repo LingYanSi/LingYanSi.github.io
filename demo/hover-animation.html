@@ -85,29 +85,24 @@
 			$layer.removeClass('change');
 			if (c>=0 && d>=0)
 			{
-				//console.log('top');
 				$layer.css({'left':'0','top':'-100%'}).show();
 				$layer.addClass('change');
 				$layer.css({'left':'0','top':'0'});
 			}else if (c>0 && d<0)
 			{
-				//console.log('right')
 				$layer.css({'left':'100%','top':'0'}).show();
 				$layer.addClass('change');
 				$layer.css({'left':'0','top':'0'});
 			}else if (c<0 && d>=0)
 			{
-				//console.log('left') ;
 				$layer.css({'left':'-100%','top':'0'}).show();
 				$layer.addClass('change');
 				$layer.css({'left':'0','top':'0'});
 			}else if(c<0 && d<0){
-				//console.log('bottom') ;
 				$layer.css({'left':'0','top':'100%'}).show();
 				$layer.addClass('change');
 				$layer.css({'left':'0','top':'0'});
 			}
-			//console.log(event.pageX)
 		},function(){
 			var oX = $(this).offset().left,
 				oY = $(this).offset().top ;
@@ -119,22 +114,10 @@
 			var c = (aX-oX)*k - (aY-oY) ,
 				d = -(aX-oX)*k+height-(aY-oY) ;
 			var $layer = $(this).find('.animation-layer');
-			if (c>=0 && d>=0)
-			{
-				//console.log('top');
-				$layer.css({'left':'0','top':'-100%'});
-			}else if (c>0 && d<0)
-			{
-				//console.log('right')
-				$layer.css({'left':'100%','top':'0'});
-			}else if (c<0 && d>=0)
-			{
-				//console.log('left') ;
-				$layer.css({'left':'-100%','top':'0'});
-			}else if(c<0 && d<0){
-				//console.log('bottom') ;
-				$layer.css({'left':'0','top':'100%'});
-			}
+			if (c>=0 && d>=0) $layer.css({'left':'0','top':'-100%'});
+			else if (c>0 && d<0) $layer.css({'left':'100%','top':'0'});
+			else if (c<0 && d>=0) $layer.css({'left':'-100%','top':'0'});
+			else if(c<0 && d<0) $layer.css({'left':'0','top':'100%'});
 		});
 		
 		

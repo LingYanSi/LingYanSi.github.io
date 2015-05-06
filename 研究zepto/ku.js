@@ -12,11 +12,12 @@
 		}else if (dom instanceof HTMLElement)
 		{
 			this.elements = [dom] ;
-		}else if (Array.isArray(dom))
+		}else if (Array.isArray(dom)) // 其实这里还是要判断，此对象是不是这个库原型的实例
 		{
 			this.elements = dom ;
 		}
 	}
+	// 要把，所有的时间函数存储起来
 	_$.prototype = {
 		selector:function(str){
 			if( /\.[\w]+/.test(str) )

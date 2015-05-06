@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  img{display:block;}
+	  .main{width:900px;margin:0 auto;}
+	  .main img{max-width:100%;height:auto;}
+	  #layer-imgBox{position:fixed;top:0;left:0;height:100%;width:100%;background-color:rgba(0,0,0,0.8);display:none;}
+	  #layer-imgBox img{max-height:100%;max-width:100%;width:auto;height:auto;margin:0 auto;}
+	  #layer-imgBox-container{position:absolute;left:0;top:0;height:100%;width:100%;}
+	  #layer-imgBox-next,#layer-imgBox-prev,#layer-imgBox-close{display:block;height:50px;width:50px;background-color:rgba(0,255,255,1);position:absolute;text-decoration:none;color:rgb(0,0,0);text-align:center;line-height:50px;}
+	  #layer-imgBox-next{top:50%;right:0;margin-top:-25px;}
+	  #layer-imgBox-prev{top:50%;left:0;margin-top:-25px;}
+	  #layer-imgBox-close{top:0;left:0;}
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<img src="img/1234.jpg" width="1680" height="944" border="0" alt="">
+			<img src="img/134.jpg" width="1081" height="888" border="0" alt="">
+			<img src="img/d01b58e53934d20eb19cc957722553c6_r.jpg" width="750" height="423" border="0" alt="">
+			<img src="img/sunset.jpg" width="750" height="1000" border="0" alt="">
+			<img src="img/long.jpg" width="600" height="1750" border="0" alt="">
+			<img src="img/1 (2).jpg" width="1680" height="1269" border="0" alt="">
+		</div>
+	</div>
+	<div id="layer-imgBox">
+		<div id="layer-imgBox-container" class=""></div>
+		<a href="javascript:void(0)" id="layer-imgBox-next">next</a>
+		<a href="javascript:void(0)" id="layer-imgBox-prev">prev</a>
+		<a href="javascript:void(0)" id="layer-imgBox-close">close</a>
+	</div>
+ <script src="js/jquery-1.11.2.min.js"></script>
+ <script type="text/javascript">
+	$(function(){
+		var winHeight = $(window).height() ;
+		var winWidth = $(window).width() ;
+		document.getElementById('wrap').style.opacity = 1;
+		imgLayer();
+		function imgLayer(){
+			var $img = $('#main img');
+			var imgIndex = 0 ;
+			var layer = {
+				setIndex:function (index){
+					var len = $('#main img').length ;
+					if (index>len-1) index = 0 
+					else if(index<0) index = len-1 
+					return index ;
+				},
+				beCenter:function (){
+					$('#layer-imgBox-container').find('img').each(function(){
+						$(this).css({'margin-top':($('#layer-imgBox-container').height()-$(this).height())/2+'px'})
+					})
+				},
+				hide:function (){
+					$('#layer-imgBox-container').empty().parent().hide();
+					this.isShow = false ;
+				},
+				show:function(that){
+					imgIndex = $(that).index();
+					$(that).clone().appendTo($('#layer-imgBox-container'));
+					$('#layer-imgBox').show();
+					this.beCenter();
+					this.isShow = true ;
+				},
+				next:function(){
+					imgIndex++ ;
+					imgIndex = this.setIndex(imgIndex) ;
+					$('#layer-imgBox-container').empty().append($img.eq(imgIndex).clone());
+					this.beCenter();
+				},
+				prev:function(){
+					imgIndex-- ;
+					imgIndex = this.setIndex(imgIndex) ;
+					$('#layer-imgBox-container').empty().append($img.eq(imgIndex).clone());
+					this.beCenter();
+				},
+				isShow:false
+			}
+			$img.on('click',function(){
+				layer.show(this)
+			});
+			$('#layer-imgBox-next').on('click',function(){
+				layer.next();
+			});
+			$('#layer-imgBox-prev').on('click',function(){
+				layer.prev();
+			});
+			$('#layer-imgBox-close').on('click',function(){
+				layer.hide();
+			});
+			$(window).resize(function(){
+				layer.beCenter();
+			});
+			$(window)[0].addEventListener('keyup',function(key){
+				console.log(key.keyCode)
+				if (layer.isShow)
+				{
+					if(key.keyCode == 27) layer.hide()
+					else if (key.keyCode == 37) layer.prev();
+					else if (key.keyCode == 39) layer.next();
+				}
+			})
+		}
+	})
+ </script>
+ </body>
+</html>
