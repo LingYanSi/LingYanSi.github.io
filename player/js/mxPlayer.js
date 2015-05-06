@@ -63,11 +63,13 @@
 				if (typeof(index)!='number'){
 					if( prevNext == 'next') currentItem++;
 					else if( prevNext == 'prev' ) currentItem--;
-				}  
+				}else currentItem = index 
+
 			}else if (model === 1)
 			{
 				// 随即播放
 				if (typeof(index)!='number')  currentItem = Math.round(Math.random()*($('.music-list-item').length-1)),console.log('无需',currentItem) ;
+				else currentItem = index 
 			}else if (model === 2)
 			{
 				// 重复播放
@@ -76,10 +78,10 @@
 					if (typeof(index)!='number'){
 						if( prevNext == 'next') currentItem++;
 						else if( prevNext == 'prev' ) currentItem--;
-					}
+					}else currentItem = index 
 				}
 			}
-			mxPlayer.init(currentItem);
+			mxPlayer.init();
 		},
 		checkIndex:function(index){ // 对currentItem进行校验
 			var len = $('.music-list-item').length
