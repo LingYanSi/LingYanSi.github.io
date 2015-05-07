@@ -204,97 +204,6 @@
 				//先要判断其是否可见，如果可见，不做处理，如果不可见，获取data-display值，因此需要将其display值保存到哪个地方
 			})
 		},
-		// --------- event ----------
-		on:function(type,children,fun){ // 事件委托的实现
-			if (!(!!fun)) // 如果没有后代
-			{
-				this.elements.forEach(function(element){
-					element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
-							console.log(e)
-						children.call(this);//指针指向被点击对象
-						//	console.log(element.events['click'])
-					});
-				});
-			}else{
-				if (this.selector(children) == 'id')
-				{
-					this.elements.forEach(function(element){
-						element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
-							if (e.target.id == children.slice(1) )
-							{
-								fun.call(e.target);//指针指向被点击对象
-							}
-						});
-					});
-				}else if (this.selector(children) == 'class')
-				{
-					this.elements.forEach(function(element){
-						element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
-							if (e.target.classList.contains(children.slice(1)))
-							{
-								fun.call(e.target);//指针指向被点击对象
-							}
-						});
-					});
-				}else if (this.selector(children) == 'tagName')
-				{
-					children = children.toUpperCase();
-					this.elements.forEach(function(element){
-						element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
-							if (e.target.tagName == children )
-							{
-								fun.call(e.target);//指针指向被点击对象
-							}
-						});
-					});
-				}
-			}
-			return this ;
-		},
-		off:function(type,children,fun){ // 如何删除事件匿名函数
-			if (!(!!fun)) // 如果没有后代
-			{
-				this.elements.forEach(function(element){
-					element.removeEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
-						children.call(this);//指针指向被点击对象
-					});
-				});
-			}else{
-				if (this.selector(children) == 'id')
-				{
-					this.elements.forEach(function(element){
-						element.removeEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
-							if (e.target.id == children.slice(1) )
-							{
-								fun.call(e.target);//指针指向被点击对象
-							}
-						});
-					});
-				}else if (this.selector(children) == 'class')
-				{
-					this.elements.forEach(function(element){
-						element.removeEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
-							if (e.target.classList.contains(children.slice(1)))
-							{
-								fun.call(e.target);//指针指向被点击对象
-							}
-						});
-					});
-				}else if (this.selector(children) == 'tagName')
-				{
-					children = children.toUpperCase();
-					this.elements.forEach(function(element){
-						element.removeEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
-							if (e.target.tagName == children )
-							{
-								fun.call(e.target);//指针指向被点击对象
-							}
-						});
-					});
-				}
-			}
-			return this ;
-		},
 		tap:function(dosth){
 			this.elements.forEach(function(element){
 				element.addEventListener('touchend',function(event){
@@ -318,6 +227,82 @@
 		}
 		// ------------------------------ ajax ----------
 	}
+	;(function($){
+		var _zid = 1 ,handlers={};
+		function zid(element){
+			return element._zid || (element._zid = _zid++ );
+		}
+		// --------- event ----------
+			// 现在利用event.target可以实现事件委托了，但如说是添加的事件函数是匿名的，要想removeEventListener怎么办呢
+			// zepto的解决方案是，把所有的时间函数，都存储到一个对象handlers里
+			// 当需要执行的时候，从handlers内部查找，然后遍历出所有的方法，再执行
+			// 步骤1：为对象添加唯一的标识符，也就是给对象添加一个对象【_zid=唯一Id】，当为对象添加事件的时候，先判断下对象时候存在这个【_zid】，存在的话就给对象添加事件【click】、【fun】
+			// 步骤2：事件移除，removeEventListener(type,functionName)//如果是匿名的函数，那么就没有函数名了，只能将这个时间的所有响应函数移除掉
+		function appendHanlder(type,element,fun){
+			var id = zid(element);
+			var handler = {};
+			handler.fun = fun ;
+			handler.funName = fun.name ;
+			handler.type = type ;
+			if (handlers[id]) handlers[id].push(handler)
+			else{
+				handlers[id] = [handler];
+			}
+			handler.proxy = function(e){ // 在代理处要考虑四种情况，1，没有selector、selector为id、selector为class、selector为tagName
+				fun.call(element)
+			}
+			return handler.proxy ;
+		}
+		$.prototype.on=function(type,children,fun){ // 事件委托的实现
+			if (!(!!fun)) // 如果没有后代
+			{
+				fun = children ,children = undefined ;
+				this.elements.forEach(function(element){
+					var hei = appendHanlder(type,element,fun);
+					element.addEventListener(type,hei);
+				});
+			}else{
+				if (this.selector(children) == 'id')
+				{
+					this.elements.forEach(function(element){
+						element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
+							if (e.target.id == children.slice(1) )
+							{
+								fun.call(e.target);//指针指向被点击对象
+							}
+						});
+					});
+				}else if (this.selector(children) == 'class')
+				{
+					this.elements.forEach(function(element){
+						element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
+							if (e.target.classList.contains(children.slice(1)))
+							{
+								fun.call(e.target);//指针指向被点击对象
+							}
+						});
+					});
+				}else if (this.selector(children) == 'tagName')
+				{
+					children = children.toUpperCase();
+					this.elements.forEach(function(element){
+						element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
+							if (e.target.tagName == children )
+							{
+								fun.call(e.target);//指针指向被点击对象
+							}
+						});
+					});
+				}
+			}
+			return this ;
+		}
+		$.prototype.off = function(type,children,fun){ // 如何删除事件匿名函数
+			
+			
+			return this ;
+		}
+	})(_$);
 	 window.$ = function(arguments) {
 		 return new _$(arguments);
 	 }

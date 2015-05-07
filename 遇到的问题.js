@@ -831,6 +831,19 @@
 		  x = x-1;
 		  alert(x);
 	}(9);
+	---------------------------------------------------------------------------------------
+
+	闭包
+	var hei={} ;
+	(function($){
+		var nidaye = 1 ;
+		$.jia = function(){ nidaye++,console.log(nidaye)}
+		console.log('立即执行')
+	})(hei);
+	hei.jia(); // 2 
+	var nidaye = 1000 ;
+	hei.jia(); // 3
+	//变量nidaye会一直在内存中驻留，不被回收
 
 	-----------------------------------------------------------------------------------------
 	html5 history
@@ -1015,7 +1028,24 @@
 	})
 
 
-	-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+
+	js在新标签页打开一个页面
+
+	//var b = $('<a href="http:/www.baidu.com" target="_blank"></a>')[0];
+	var a = document.createDocumentFragment();
+	var anch = document.createElement('a');
+	anch.href = 'http:/www.baidu.com' ;
+	anch.target = 'baidu' ;
+	a.appendChild(anch)
+	var b = a.querySelector('a');
+
+	creatEvent
+	var e = document.createEvent('MouseEvents');  
+	e.initEvent('click',true,true); // 初始化事件
+	b.dispatchEvent(e) // 执行事件
+
+-------------------------------------------------------------------------------
 		<div id="main"></div>
 		document.getElementById('main').addEventListener('click',function(event){
 			console.log(event)
@@ -1198,3 +1228,17 @@
 					webkitdropzone: ""
 					__proto__: HTMLDivElement
 		})
+	-------------------------------------------------------
+	Object.keys(document.querySelector('div')).toString()
+	打印出所有的属性
+		align,onautocompleteerror,onautocomplete,onwaiting,onvolumechange,ontoggle,ontimeupdate,onsuspend,onsubmit,
+		onstalled,onshow,onselect,onseeking,onseeked,onscroll,onresize,onreset,onratechange,onprogress,onplaying,onplay,
+		onpause,onmousewheel,onmouseup,onmouseover,onmouseout,onmousemove,onmouseleave,onmouseenter,onmousedown,onloadstart,
+		onloadedmetadata,onloadeddata,onload,onkeyup,onkeypress,onkeydown,oninvalid,oninput,onfocus,onerror,onended,onemptied,
+		ondurationchange,ondrop,ondragstart,ondragover,ondragleave,ondragenter,ondragend,ondrag,ondblclick,oncuechange,oncontextmenu,
+		onclose,onclick,onchange,oncanplaythrough,oncanplay,oncancel,onblur,onabort,spellcheck,isContentEditable,contentEditable,outerText,
+		innerText,accessKey,hidden,webkitdropzone,draggable,tabIndex,dir,translate,lang,title,childElementCount,lastElementChild,firstElementChild,
+		children,nextElementSibling,previousElementSibling,onwebkitfullscreenerror,onwebkitfullscreenchange,onwheel,onselectstart,onsearch,onpaste,
+		oncut,oncopy,onbeforepaste,onbeforecut,onbeforecopy,shadowRoot,dataset,classList,className,outerHTML,scrollHeight,scrollWidth,scrollTop,scrollLeft,
+		clientHeight,clientWidth,clientTop,clientLeft,offsetParent,offsetHeight,offsetWidth,offsetTop,offsetLeft,localName,prefix,namespaceURI,
+		style,attributes,tagName,parentElement,textContent,nodeType,nodeValue,nodeName

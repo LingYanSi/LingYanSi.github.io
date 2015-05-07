@@ -889,11 +889,11 @@ window.$ === undefined && (window.$ = Zepto)
       slice = Array.prototype.slice,
       isFunction = $.isFunction,
       isString = function(obj){ return typeof obj == 'string' },
-      handlers = {},
       specialEvents={},
       focusinSupported = 'onfocusin' in window,
       focus = { focus: 'focusin', blur: 'focusout' },
-      hover = { mouseenter: 'mouseover', mouseleave: 'mouseout' }
+      hover = { mouseenter: 'mouseover', mouseleave: 'mouseout' };
+      handlers = {};
 
   specialEvents.click = specialEvents.mousedown = specialEvents.mouseup = specialEvents.mousemove = 'MouseEvents'
 

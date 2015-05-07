@@ -32,23 +32,8 @@
 		console.log($('.content').find('.bitch').css({'background':'pink'}).append('<p>你是在作死啊</p>').before('<p>我在后面</p>').elements[0].parentNode);
 		$('.content').on('click',function(){
 			$(this).text('去你大爷').css({'color':'white'});
+			console.log(this)
 		});
-		$.ajax({
-			 asyn:true,
-			 type:'POST',
-			 url:"http://localhost:3000/ajax/name?nidaye=wocao",
-			 data:{a:'bitch'},
-			 success:function(data){
-				console.log(data)
-			 }
-		 });
-		 $.jsonp({
-			 url:"http://app.nacute.com/api/ajax/chosen/detail/600/",
-			 data:{a:'bitch'},
-			 success:function(data){
-				console.log(data)
-			 }
-		 });
 	</script>
  </body>
 </html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<div class="creat" style="height:50px;width:50px;background-color:red;"></div>
+			<div class="hei" style="height:50px;width:50px;background-color:green;"></div>
+		</div>
+	</div>
+ <script src="js/jquery-1.11.2.min.js"></script>
+ <script type="text/javascript">
+	$(function(){
+		var winHeight = $(window).height() ;
+		var winWidth = $(window).width() ;
+		document.getElementById('wrap').style.opacity = 1;
+
+		$('.creat').click(function(){
+			//var a = $('<a href="http:/www.baidu.com" target="_blank"></a>')[0];
+			var a = document.createDocumentFragment();
+			var anch = document.createElement('a');
+			anch.href = 'http:/www.baidu.com' ;
+			anch.target = 'baidu' ;
+			a.appendChild(anch)
+			var b = a.querySelector('a');
+
+			console.log(b)
+			var e = document.createEvent('MouseEvents');  
+
+			e.initEvent('click',true,true);
+			b.dispatchEvent(e)
+			console.log('我被点击过了')
+		})
+		document.querySelector('.hei').addEventListener('click',function(){
+			console.log('我被电了一次',1)
+		})
+		document.querySelector('.hei').addEventListener('click',function(){
+			console.log('我被电了一次',2)
+		})
+		var x = document.createDocumentFragment();
+		console.log(x);
+	})
+ </script>
+ </body>
+</html>

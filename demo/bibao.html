@@ -23,6 +23,19 @@
 		var winHeight = $(window).height() ;
 		var winWidth = $(window).width() ;
 		document.getElementById('wrap').style.opacity = 1;
+		var hei={} ;
+		(function($){
+			var nidaye = 1 ;
+			$.jia = function(){ nidaye++,console.log(nidaye)}
+			console.log('立即执行')
+		})(hei);
+		hei.jia();
+		var nidaye = 1000 ;
+		hei.jia();
+
+		var yy =function (){
+			this.name = 'woshi'
+		};
 	})
  </script>
  </body>
