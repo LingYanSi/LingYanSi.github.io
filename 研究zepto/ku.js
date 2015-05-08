@@ -2,8 +2,8 @@
 	function _$(dom){
 		if (typeof(dom) == 'string')
 		{
-			var arr = document.querySelector(dom);
-			this.elements = [arr];
+			var arr = document.querySelectorAll(dom);
+			this.elements = [].slice.call(arr);
 		}else if (typeof(dom) == 'function')
 		{
 			$(document).ready(function(){
@@ -82,7 +82,8 @@
 		height:function(str){
 			if (str === undefined)
 			{
-				return this.elements[0].offsetHeight;
+				return this.elements[0].offsetHeight ;
+
 			}else{
 				this.each(function(){
 					this.style.height = str ;
@@ -162,16 +163,28 @@
 			}
 			return this ;
 		},
+		fragment:function(html){
+			var fragment = document.createDocumentFragment();
+			var div = document.createElement('div');
+			div.innerHTML = html ;
+				console.log(div)
+			return [].slice.call(div.childNodes);
+		},
 		after:function(str){
 			if (typeof(str) == 'string')
 			{
+				var html = this.fragment(str);
 				this.each(function(){
-					this.outerHTML =  this.outerHTML + str ;
+					var that = this ;
+					html.forEach(function(ele){
+						that.parentNode.insertBefore(ele,that)
+					});
+					//this.outerHTML =  this.outerHTML + str ;
 				})
 			}
 			return this ;
 		},
-		before:function(str){
+		before:function(str){ //不能去改变outerHTML，因为这样原来this的已经改变了，zepto的方案是将传入的字符串进行解析生成【documentFragment】然后再操作
 			if (typeof(str) == 'string')
 			{
 				this.each(function(){
@@ -256,13 +269,13 @@
 					{
 						if(isId.test(selector))
 						{
-							if(event.target.id === selector) fun.call(that,event)
+							if(event.target.id === selector) fun.call(event.target,event)
 						}else if (isClass.test(selector))
 						{
-							if(event.target.classList.contains(selector)) fun.call(that,event)
+							if(event.target.classList.contains(selector)) fun.call(event.target,event)
 						}else if (isTagName.test(selector))
 						{
-							if(event.target.tagName.toLowerCase() === selector.toLowerCase()) fun.call(that,event)
+							if(event.target.tagName.toLowerCase() === selector.toLowerCase()) fun.call(event.target,event)
 						}
 					}else fun.call(that,event)
 				}
