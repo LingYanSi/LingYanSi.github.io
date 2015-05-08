@@ -36,6 +36,25 @@
 		var yy =function (){
 			this.name = 'woshi'
 		};
+
+		 var gei = function(){
+			this.ni = function(){
+				console.log('我不是属性')
+			}
+		 };
+		 gei.prototype = {
+			ni:function(){
+				console.log(this)
+			  }
+		 }
+		 gei.fn = {}
+		 gei.fn.bi = 'bi';
+		 gei.fn.hah = function(){
+			console.log(this)
+		 }
+		var time = gei.fn.hah;
+		time();
+		var lod = new gei();
 	})
  </script>
  </body>

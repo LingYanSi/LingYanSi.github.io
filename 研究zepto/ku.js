@@ -20,13 +20,13 @@
 	// 要把，所有的时间函数存储起来
 	_$.prototype = {
 		selector:function(str){
-			if( /\.[\w]+/.test(str) )
+			if( /^\.[\w-]+$/.test(str) )
 			{
 				return 'class';
-			}else if (/\#[\w]+/.test(str))
+			}else if (/^\#[\w-]+$/.test(str))
 			{
 				return 'id'
-			}else if ( /\w+/.test(str))
+			}else if ( /^\w+$/.test(str))
 			{
 				return 'tagName'
 			}
@@ -34,18 +34,18 @@
 		},
 		each:function(fun){
 			this.elements.forEach(function(element){
-				fun.call(element)
+				fun.call(element);
 			});
 		},
 		addClass:function(className){
-			this.elements.forEach(function(element,index,array){
-				element.classList.add(className)
+			this.each(function(){
+				this.classList.add(className)
 			});
 			return this ;
 		},
 		removeClass:function(className){
-			this.elements.forEach(function(element,index,array){
-				element.classList.remove(className)
+			this.each(function(){
+				this.classList.remove(className)
 			});
 			return this ;
 		},
@@ -55,10 +55,10 @@
 				return window.getComputedStyle(this.elements[0],null).getPropertyValue(obj); 
 			}else if (obj instanceof Object)
 			{
-				this.elements.forEach(function(element,index,array){
+				this.each(function(){
 					for (key in obj)
 					{
-						element.style[key] = obj[key]
+						this.style[key] = obj[key]
 					}
 				});
 				return this ;
@@ -67,10 +67,10 @@
 		attr:function(obj){
 			if (typeof(obj) =="object")
 			{
-				this.elements.forEach(function(element,index,array){
+				this.each(function(){
 					for (key in obj)
 					{
-						element.setAttribute(key,obj[key]);
+						this.setAttribute(key,obj[key]);
 					}
 				});
 				return this ;
@@ -84,8 +84,8 @@
 			{
 				return this.elements[0].offsetHeight;
 			}else{
-				this.elements.forEach(function(element){
-					element.style.height = str ;
+				this.each(function(){
+					this.style.height = str ;
 				});
 			}
 		},
@@ -94,8 +94,8 @@
 			{
 				return this.elements[0].offsetWidth;
 			}else{
-				this.elements.forEach(function(element){
-					element.style.width = str ;
+				this.each(function(){
+					this.style.width = str ;
 				});
 			}
 		},
@@ -104,8 +104,8 @@
 			{
 				return this.elements[0].innerHTML 
 			}else{
-				this.elements.forEach(function(element){
-					element.innerHTML = str
+				this.each(function(element){
+					this.innerHTML = str
 				});
 				return this ;
 			}
@@ -115,8 +115,8 @@
 			{
 				return this.elements[0].textContent 
 			}else{
-				this.elements.forEach(function(element){
-					element.textContent = str
+				this.each(function(element){
+					this.textContent = str
 				});
 				return this ;
 			}
@@ -126,8 +126,8 @@
 			{
 				return this.elements[0].value() ;
 			}else{
-				this.elements.forEach(function(element){
-					element.value(str);
+				this.each(function(){
+					this.value(str);
 				});
 				return this ;
 			}
@@ -135,8 +135,8 @@
 		//--------------------- parent/find/child/parents 
 		find:function(dom){
 			var arr = [];
-			this.elements.forEach(function(element,index,array){
-				var arrDom = element.querySelectorAll(dom);
+			this.each(function(){
+				var arrDom = this.querySelectorAll(dom);
 				var haha = [].slice.call(arrDom) ;
 				arr = arr.concat(haha);
 			});
@@ -147,8 +147,8 @@
 		append:function(str){
 			if (typeof(str) == 'string')
 			{
-				this.elements.forEach(function(element){
-					element.innerHTML = element.innerHTML + str;
+				this.each(function(){
+					this.innerHTML = this.innerHTML + str;
 				})
 			}
 			return this ;
@@ -156,8 +156,8 @@
 		prepend:function(str){
 			if (typeof(str) == 'string')
 			{
-				this.elements.forEach(function(element){
-					element.innerHTML =  str + element.innerHTML;
+				this.each(function(){
+					this.innerHTML =  str + this.innerHTML;
 				})
 			}
 			return this ;
@@ -165,8 +165,8 @@
 		after:function(str){
 			if (typeof(str) == 'string')
 			{
-				this.elements.forEach(function(element){
-					element.outerHTML =  element.outerHTML + str ;
+				this.each(function(){
+					this.outerHTML =  this.outerHTML + str ;
 				})
 			}
 			return this ;
@@ -174,61 +174,65 @@
 		before:function(str){
 			if (typeof(str) == 'string')
 			{
-				this.elements.forEach(function(element){
-					element.outerHTML = str +  element.outerHTML ;
+				this.each(function(){
+					this.outerHTML = str +  this.outerHTML ;
 				})
 			}
 			return this ;
 		},
 		empty:function(){
-			this.elements.forEach(function(element){
-				element.innerHTML =  null;
+			this.each(function(){
+				this.innerHTML =  null;
 			})
 			return this ;
 		},
 		remove:function(){
-			this.elements.forEach(function(element){
-				element.parentNode.removeChild(element);
+			this.each(function(){
+				this.parentNode.removeChild();
 			})
 		},
 		//---------------- hide show
 		hide:function(){
-			this.elements.forEach(function(element){
-				element.style.display = "node"
+			this.each(function(){
+				this.style.display = "node"
 			})
 		},
 		show:function(){
-			this.elements.forEach(function(element){
-				element.style.display = "block"
+			this.each(function(){
+				this.style.display = "block"
 				//这里有坑，如果是行内元素，show()岂不是要溢出，
 				//先要判断其是否可见，如果可见，不做处理，如果不可见，获取data-display值，因此需要将其display值保存到哪个地方
 			})
 		},
 		tap:function(dosth){
-			this.elements.forEach(function(element){
-				element.addEventListener('touchend',function(event){
+			this.each(function(){
+				this.addEventListener('touchend',function(event){
 						dosth.call(this); 
 				});
 			});
 		},
 		dbTap:function(dosth){
-			this.elements.forEach(function(element){
+			this.each(function(){
 				var timeEnd1,timeEnd2 ;
 				timeEnd1 = timeEnd2 = 0 ;
-				element.addEventListener('touchend',function(event){
+				this.addEventListener('touchend',function(event){
 					timeEnd2 = timeEnd1 ;
 					timeEnd1 = new Date().getTime();
 					if (timeEnd1 - timeEnd2<300)
 					{
-						dosth.call(element); 
+						dosth.call(this); 
 					}
 				});
 			});
 		}
-		// ------------------------------ ajax ----------
 	}
+		// ------------------------------ event ----------
 	;(function($){
 		var _zid = 1 ,handlers={};
+		var isId = /^#[\w-]+$/ ;
+		var isClass = /^\.[\w-]+$/ ;
+		var isTagName = /^[\w]+$/ ;
+
 		function zid(element){
 			return element._zid || (element._zid = _zid++ );
 		}
@@ -238,68 +242,88 @@
 			// 当需要执行的时候，从handlers内部查找，然后遍历出所有的方法，再执行
 			// 步骤1：为对象添加唯一的标识符，也就是给对象添加一个对象【_zid=唯一Id】，当为对象添加事件的时候，先判断下对象时候存在这个【_zid】，存在的话就给对象添加事件【click】、【fun】
 			// 步骤2：事件移除，removeEventListener(type,functionName)//如果是匿名的函数，那么就没有函数名了，只能将这个时间的所有响应函数移除掉
-		function appendHanlder(type,element,fun){
-			var id = zid(element);
-			var handler = {};
-			handler.fun = fun ;
-			handler.funName = fun.name ;
-			handler.type = type ;
-			if (handlers[id]) handlers[id].push(handler)
-			else{
-				handlers[id] = [handler];
+		function appendHanlder(type,that,selector,fun){ //新增监听
+			var id = zid(that);
+			if (!!fun) // 事件监听
+			{
+				var handler = {};
+				handler.fun = fun ;
+				handler.funName = fun.name ;
+				handler.type = type ;
+				handler.selector = selector ;
+				handler.proxy = function(event){ // 在代理处要考虑四种情况，1，没有selector、selector为id、selector为class、selector为tagName
+					if (!!selector)
+					{
+						if(isId.test(selector))
+						{
+							if(event.target.id === selector) fun.call(that,event)
+						}else if (isClass.test(selector))
+						{
+							if(event.target.classList.contains(selector)) fun.call(that,event)
+						}else if (isTagName.test(selector))
+						{
+							if(event.target.tagName.toLowerCase() === selector.toLowerCase()) fun.call(that,event)
+						}
+					}else fun.call(that,event)
+				}
+				if (handlers[id]) handlers[id].push(handler)
+				else{
+					handlers[id] = [handler];
+				}
+				that.addEventListener(type,handler.proxy);
+			}else{ //直接触发事件
+				(handlers[id] || []).forEach(function(element){
+					var type = element.type ;
+					var event = document.createEvent('Event');
+					event.initEvent(type,true,true,null,null); // 初始化时间
+					!!type && that.dispatchEvent(event) ; // 派发事件，事件立即执行
+				})
 			}
-			handler.proxy = function(e){ // 在代理处要考虑四种情况，1，没有selector、selector为id、selector为class、selector为tagName
-				fun.call(element)
+		}
+		function removeHanlder(type,that,selector,funName){ //移除事件
+			var id = zid(that);
+			var handler = handlers[id] ;
+			if (!!funName)
+			{
+				handler = (handler || []).filter(function(element){
+					if(element.type === type && element.selector === selector && element.funName === funName){
+						that.removeEventListener(type,element.proxy)
+						return false 
+					}
+					return true ;
+				 })
+			}else{
+				 handler = (handler || []).filter(function(element){
+					if(element.type === type && element.selector === selector){
+						that.removeEventListener(type,element.proxy)
+						return false 
+					}
+					return true ;
+				 })
 			}
-			return handler.proxy ;
+			handlers[id] = handler ;
+		}
+		$.prototype.click = function(fun){
+			this.each(function(){
+				appendHanlder('click',this,null,fun);
+			});
+		}
+		$.prototype.dblclick = function(fun){
+			this.each(function(){
+				appendHanlder('dblclick',this,null,fun);
+			});
 		}
 		$.prototype.on=function(type,children,fun){ // 事件委托的实现
-			if (!(!!fun)) // 如果没有后代
-			{
-				fun = children ,children = undefined ;
-				this.elements.forEach(function(element){
-					var hei = appendHanlder(type,element,fun);
-					element.addEventListener(type,hei);
-				});
-			}else{
-				if (this.selector(children) == 'id')
-				{
-					this.elements.forEach(function(element){
-						element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
-							if (e.target.id == children.slice(1) )
-							{
-								fun.call(e.target);//指针指向被点击对象
-							}
-						});
-					});
-				}else if (this.selector(children) == 'class')
-				{
-					this.elements.forEach(function(element){
-						element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
-							if (e.target.classList.contains(children.slice(1)))
-							{
-								fun.call(e.target);//指针指向被点击对象
-							}
-						});
-					});
-				}else if (this.selector(children) == 'tagName')
-				{
-					children = children.toUpperCase();
-					this.elements.forEach(function(element){
-						element.addEventListener(type,function(e){  // 选择器就那几种 tagName,class,id,name 然后就可以判断选择器是哪一种，
-							if (e.target.tagName == children )
-							{
-								fun.call(e.target);//指针指向被点击对象
-							}
-						});
-					});
-				}
-			}
+			if (!(!!fun))  fun = children ,children = undefined ;
+			this.each(function(){
+					appendHanlder(type,this,children,fun);
+			});
 			return this ;
 		}
-		$.prototype.off = function(type,children,fun){ // 如何删除事件匿名函数
-			
-			
+		$.prototype.off = function(type,children,funName){ // 如何删除事件匿名函数
+			this.each(function(){
+				removeHanlder(type,this,children,funName);
+			})
 			return this ;
 		}
 	})(_$);
