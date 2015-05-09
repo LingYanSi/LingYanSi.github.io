@@ -30,7 +30,7 @@
 		console.log($('.content'))
 		console.log($('.content').find('.content-item').text())
 		$('.content').append('<div class="bitch">第二个</div>')
-		console.log($('.content').find('.bitch').css({'background':'pink'}).append('<p>你是在作死啊</p>').after('<p>测试一下</p>').height())
+		console.log($('.content').find('.bitch').css({'background':'pink'}).append('<p>你是在作死啊</p>').after('<p>测试一下</p><p>在测试一下</p>').after('<h1 style="background:pink;">多行不义必自毙</h1>'))
 		$('.content').on('click','h1',function(){
 			$(this).text('去你大爷').css({'color':'white'});
 			console.log(this)
@@ -40,7 +40,7 @@
 			$(this).text('去你大爷').css({'color':'white'});
 			event.stopPropagation();
 		});
-		$('#cunt').dblclick(function(){
+		$('#cunt').dblTap(function(){
 			alert('我是一个简易电击事件')
 		});
 		console.log($('#cunt').elements[0].offsetHeight)

@@ -166,29 +166,43 @@
 		fragment:function(html){
 			var fragment = document.createDocumentFragment();
 			var div = document.createElement('div');
+			fragment.appendChild(div);
+			var div = fragment.querySelector('div');
 			div.innerHTML = html ;
-				console.log(div)
 			return [].slice.call(div.childNodes);
 		},
-		after:function(str){
+		before:function(str){
 			if (typeof(str) == 'string')
 			{
-				var html = this.fragment(str);
+				var _this = this ;
 				this.each(function(){
+					var html = _this.fragment(str); // 之所以每次都要生成一个新的DocumentFragment是因为，insertBefore所新增的节点，同一个节点一次只能添加一个，负责会覆盖掉前面的
 					var that = this ;
 					html.forEach(function(ele){
 						that.parentNode.insertBefore(ele,that)
 					});
-					//this.outerHTML =  this.outerHTML + str ;
 				})
 			}
 			return this ;
 		},
-		before:function(str){ //不能去改变outerHTML，因为这样原来this的已经改变了，zepto的方案是将传入的字符串进行解析生成【documentFragment】然后再操作
+		after:function(str){ //不能去改变outerHTML，因为这样原来this的已经改变了，zepto的方案是将传入的字符串进行解析生成【documentFragment】然后再操作
+			/*
 			if (typeof(str) == 'string')
 			{
 				this.each(function(){
 					this.outerHTML = str +  this.outerHTML ;
+				})
+			}
+			*/
+			if (typeof(str) == 'string')
+			{
+				var _this = this ;
+				this.each(function(){
+					var html = _this.fragment(str);
+					var that = this ;
+					html.forEach(function(ele){
+						that.parentNode.insertBefore(ele,that.nextSibling)
+					});
 				})
 			}
 			return this ;
@@ -201,13 +215,13 @@
 		},
 		remove:function(){
 			this.each(function(){
-				this.parentNode.removeChild();
+				this.parentNode.removeChild(this);
 			})
 		},
 		//---------------- hide show
 		hide:function(){
 			this.each(function(){
-				this.style.display = "node"
+				this.style.display = "none"
 			})
 		},
 		show:function(){
@@ -216,27 +230,6 @@
 				//这里有坑，如果是行内元素，show()岂不是要溢出，
 				//先要判断其是否可见，如果可见，不做处理，如果不可见，获取data-display值，因此需要将其display值保存到哪个地方
 			})
-		},
-		tap:function(dosth){
-			this.each(function(){
-				this.addEventListener('touchend',function(event){
-						dosth.call(this); 
-				});
-			});
-		},
-		dbTap:function(dosth){
-			this.each(function(){
-				var timeEnd1,timeEnd2 ;
-				timeEnd1 = timeEnd2 = 0 ;
-				this.addEventListener('touchend',function(event){
-					timeEnd2 = timeEnd1 ;
-					timeEnd1 = new Date().getTime();
-					if (timeEnd1 - timeEnd2<300)
-					{
-						dosth.call(this); 
-					}
-				});
-			});
 		}
 	}
 		// ------------------------------ event ----------
@@ -316,16 +309,6 @@
 			}
 			handlers[id] = handler ;
 		}
-		$.prototype.click = function(fun){
-			this.each(function(){
-				appendHanlder('click',this,null,fun);
-			});
-		}
-		$.prototype.dblclick = function(fun){
-			this.each(function(){
-				appendHanlder('dblclick',this,null,fun);
-			});
-		}
 		$.prototype.on=function(type,children,fun){ // 事件委托的实现
 			if (!(!!fun))  fun = children ,children = undefined ;
 			this.each(function(){
@@ -338,6 +321,36 @@
 				removeHanlder(type,this,children,funName);
 			})
 			return this ;
+		}
+		$.prototype.click = function(fun){
+			this.each(function(){
+				appendHanlder('click',this,null,fun);
+			});
+		}
+		$.prototype.dblclick = function(fun){
+			this.each(function(){
+				appendHanlder('dblclick',this,null,fun);
+			});
+		}
+		$.prototype.tap = function(fun){
+			this.each(function(){
+				appendHanlder('touchend',this,null,fun);
+			});
+			return this ;
+		}
+		$.prototype.dblTap = function(dosth){
+			this.each(function(){
+				var timeEnd1,timeEnd2 ;
+				timeEnd1 = timeEnd2 = 0 ;
+				this.addEventListener('touchend',function(event){
+					timeEnd2 = timeEnd1 ;
+					timeEnd1 = new Date().getTime();
+					if (timeEnd1 - timeEnd2<300)
+					{
+						dosth.call(this); 
+					}
+				});
+			});
 		}
 	})(_$);
 	 window.$ = function(arguments) {
