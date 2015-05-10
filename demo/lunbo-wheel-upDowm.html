@@ -22,14 +22,19 @@
 	  .color-5{background-color:rgb(247,104,104);}
 
 	  .top{}
-	  .yuan{width:50px;height:50px;border-radius:50px;background:rgba(255,255,255,0.5);z-index:1000;position:absolute;left:50px;top:-50px;transition:top 0.8s;-webkit-animation:nihao 4s infinite alternate;-moz-animation:nihao 4s infinite alternate;-ms-animation:nihao 4s infinite alternate;}
+	  .yuan{width:50px;height:50px;border-radius:50px;background:rgba(255,255,255,0.5);z-index:1000;position:absolute;left:50px;top:-50px;transition:top 0.8s;
+	  animation:nihao 4s infinite alternate;
+	  -webkit-animation:nihao 4s infinite alternate;
+	  -moz-animation:nihao 4s infinite alternate;
+	  -ms-animation:nihao 4s infinite alternate;
+	  }
 	  .yuan:before{content:"";display:block;position:absolute;height:1000px;width:0;border:1px solid rgba(255,255,255,0.5);bottom:100%;left:50%;}
 	  .yuan-drop{top:100px;}
 
 	  @-webkit-keyframes nihao
 	  {
-		 from{background:rgba(247,104,104,1)}
-		 to{background:rgba(0,255,255,1)}
+		 from{background:rgba(247,104,104,0.4)}
+		 to{background:rgba(255,255,255,0.5)}
 	  }
   </style>
  </head>
@@ -85,18 +90,26 @@
 		}
 	    function windowWheel(){
 			var currentPage = 0 ;
+			var time = 800 ;
+			var loop = true ;
 			var currentPagePrev,currentPageNext ;
 			var len = $('.wheel-item').length ;
 			var wheelTime = new Date().getTime();
-			wheelEvent(document,wheel);
+			wheelEvent(window,wheel);
+			window.addEventListener('keyup',function(event){
+				if (new Date().getTime()-wheelTime>1000)
+				{
+					wheelTime = new Date().getTime();
+					if (event.keyCode == 40) toDown();
+					else if (event.keyCode == 38) toUp();
+				}
+			}); 
 			function wheelEvent(dom,doWhat){
 				if(dom.addEventListener && !dom.attachEvent) 
 				{ 
-					dom.addEventListener('mousewheel',doWhat); 
-				
+					dom.addEventListener('mousewheel',doWhat);
 					dom.addEventListener('DOMMouseScroll',doWhat); //FF绑定滚动事件 
 				} 
-				//IE 
 				else if(dom.attachEvent && !dom.addEventListener){ //IE9一下
 					dom.attachEvent('onmousewheel',doWhat); 
 				}else{ 
@@ -111,43 +124,44 @@
 					var e = event || window.event; //IE9一下的事件监听用的是window.event
 					//获取滚动距离(FF每次滚动 data为3或者-3，其他为120或者-120) 
 					var delta = e.detail || -e.wheelDelta; 
-
-					var time = 1000 ;
-					if (delta<0) //向上滑动
-					{
-						$('.wheel-item').removeClass('wheel-item-transition');
-						currentPageNext = currentPage+1 ;
-						currentPageNext = setPage(currentPageNext,len) ;
-						//$('.wheel-item').eq(currentPage).show().addClass('wheel-item-transition').css({'top':'-100%'});
-						//$('.wheel-item').eq(currentPageNext).css({'top':'100%'}).show().addClass('wheel-item-transition').css({'top':0});
-
-						$('.wheel-item').eq(currentPage).show().animate({'top':'-100%'},time);
-						$('.wheel-item').eq(currentPageNext).css({'top':'100%'}).show().animate({'top':0},time);
-						currentPage++;
-						currentPage = setPage(currentPage,len) ;
-					}else{ //向下滑动
-						$('.wheel-item').removeClass('wheel-item-transition');
-						currentPagePrev = currentPage-1 ;
-						currentPagePrev = setPage(currentPagePrev,len) ;
-
-						$('.wheel-item').eq(currentPage).show().animate({'top':'100%'},time);
-						$('.wheel-item').eq(currentPagePrev).css({'top':'-100%'}).show().animate({'top':0},time);
-						currentPage--;
-						currentPage = setPage(currentPage,len) ;
-					}
-					console.log(currentPage);
+					if (delta>0) toDown()//向下滑动
+					else toUp() //向下上滑动
 				}
 			}
-		}
-		function setPage(page,maxLen){ //设置page
-			if (page>maxLen-1)
-			{
-				page=0;
-			}else if (page<0)
-			{
-				page=maxLen-1;
+			function toDown(){
+				if(!loop && currentPage+1>len-1) return // 如果不loop,直接return
+				$('.wheel-item').removeClass('wheel-item-transition');
+				currentPageNext = currentPage+1 ;
+				currentPageNext = setPage(currentPageNext,len) ;
+				//$('.wheel-item').eq(currentPage).show().addClass('wheel-item-transition').css({'top':'-100%'});
+				//$('.wheel-item').eq(currentPageNext).css({'top':'100%'}).show().addClass('wheel-item-transition').css({'top':0});
+
+				$('.wheel-item').eq(currentPage).show().animate({'top':'-100%'},time);
+				$('.wheel-item').eq(currentPageNext).css({'top':'100%'}).show().animate({'top':0},time);
+				currentPage++;
+				currentPage = setPage(currentPage,len) ;
 			}
-			return page ;
+			function toUp(){
+				if(!loop && currentPage-1<0) return
+				$('.wheel-item').removeClass('wheel-item-transition');
+				currentPagePrev = currentPage-1 ;
+				currentPagePrev = setPage(currentPagePrev,len) ;
+
+				$('.wheel-item').eq(currentPage).show().animate({'top':'100%'},time);
+				$('.wheel-item').eq(currentPagePrev).css({'top':'-100%'}).show().animate({'top':0},time);
+				currentPage--;
+				currentPage = setPage(currentPage,len) ;
+			}
+			function setPage(page,maxLen){ //设置page
+				if (page>maxLen-1)
+				{
+					page=0;
+				}else if (page<0)
+				{
+					page=maxLen-1;
+				}
+				return page ;
+			}
 		}
 		document.getElementById('wrap').style.opacity = 1;
 	})

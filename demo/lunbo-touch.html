@@ -12,7 +12,7 @@
   <style type="text/css">
 	  *{margin:0;padding:0;font-size:12px;}
 	  img{display:block;border:0;}
-	  
+	  .main{max-width:900px;margin:0 auto;}
 	  .sass{height:300px;width:100%;position:relative;overflow:hidden;}
 	  .sass-item{height:100%;width:100%;position:absolute;top:0;left:0;}
 
@@ -37,7 +37,7 @@
   </style>
  </head>
  <body>
-	<div id="" class="main">
+	<div id="main" class="main">
 		<div id="" class="nav" style="height:100px;width:100%;position:fixed;z-index:1000;top:0;left:0;">
 			<div id="" style="background:rgba(255,255,255,0.5);-webkit-filter:blur(2px);height:100px;width:100%;position:absolute;top:0;left:0;"></div>
 			<div id="" style="height:100%;width:100%;position:absolute;top:0;left:0;text-align:center;font-size:20px;line-height:100px;">
@@ -69,8 +69,8 @@
 		var winHeight =$(window).height();
 		var winWidth =$(window).width();
 		$('#less').height(winHeight)
-		lunbo({idname:'less',top:'top',autoPlay:false,loop:false,buttPrev:'prev',buttNext:'next'});
-		lunbo({idname:'bitch',top:'left',autoPlay:false,loop:true});
+		var less = new lunbo({idname:'less',top:'left',autoPlay:false,loop:true});
+		var bitch = new lunbo({idname:'bitch',top:'left',autoPlay:false,loop:true});
 
 	});
 </script>
