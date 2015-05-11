@@ -1045,6 +1045,41 @@
 	e.initEvent('click',true,true); // 初始化事件
 	b.dispatchEvent(e) // 执行事件
 
+------------------------------------------------------------------------------
+
+	mouse事件
+
+	mousemove/mouseover/mouseout/mouseleave/mouseenter/mousedown/mouseup/mousewheel/click/dblclick
+
+	mouseover/mouseout 与 mouseleave/mouseenter 的区别在于
+	比如说存在这样一个元素 
+		<div id="main">
+			<div id="child"></div>
+		</div>
+	$('#main').mouseover(function(){ console.log('鼠标刚才经过我') })
+	// 我们大多时候期望的是只在鼠标刚刚进入main的时候触发这个事件，但是如果给【main】添加一个【mouseover/mouseout】的监听事件，他也会在进入【child】的时候触发
+	// WTF
+	// 【mouseenter/mouseleave】 就只会触发一次，不会在进入【child】的时候也触发
+
+	// 滚轮事件
+	function wheel(dom,doSth){
+		if (dom.addEventListener)
+		{
+			dom.addEventListener('mousewheel',doSth) // addEventListener是现代浏览器的方法，ie9以下下用attachEvent，又因为ie9以上兼容attachEvent，所以if(!dom.addEventListener && dom.attachEvent)
+			dom.addEventListener('DOMMouseScroll',doSth) // Firefox的滚轮事件
+		}else if (!dom.addEventListener && dom.attachEvent)
+		{
+			dom.attchEvent('mousewheel',doSth)
+		}else{
+			dom.onmousewheel = doSth ;
+		}
+	}
+	function doSth(event){
+		var e = event || window.event ; // ie9以下的事件是一个全局的事件，为window.event 
+		var detal =  -e.wheelDelta || e.detail ; // wheelDelta 为chrome、IE、Safari的事件属性 detail为Firefox的事件属性
+		console.log( detal )	
+	}
+
 -------------------------------------------------------------------------------
 		<div id="main"></div>
 		document.getElementById('main').addEventListener('click',function(event){

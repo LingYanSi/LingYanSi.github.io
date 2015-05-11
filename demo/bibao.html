@@ -14,11 +14,19 @@
  <body>
 	<div id="wrap" class="wrap">
 		<div id="main" class="main">
-			
+			<div class="test">说点事，吗</div>
+			<div class="test">说点事，吗</div>
 		</div>
 	</div>
  <script src="js/jquery-1.11.2.min.js"></script>
  <script type="text/javascript">
+	(function($){
+		$.fn.tap = function(fun){
+			$(this).on('touchend',function(){
+				fun()
+			})
+		}
+	})(jQuery);
 	$(function(){
 		var winHeight = $(window).height() ;
 		var winWidth = $(window).width() ;
@@ -55,6 +63,12 @@
 		var time = gei.fn.hah;
 		time();
 		var lod = new gei();
+
+		$('.test').tap(function(){alert('去你妈的')})
+		$('#main').mouseleave(function(event){
+			console.count('heihei')
+		})
+		
 	})
  </script>
  </body>

@@ -16,7 +16,8 @@
 				dianNav =  !!arg.dianNav,
 				callback = arg.callback,
 				buttPrev = arg.buttPrev,
-				buttNext = arg.buttNext;
+				buttNext = arg.buttNext,
+				keyEvent = arg.keyEvent;
 			console.log(autoPlay,loop,dianNav)
 			var $id = $('#'+idname);
 			var $item = $('#'+idname+'>.item-wrap>div');
@@ -53,9 +54,10 @@
 			if (autoPlay) start();
 			touchMove(idname);//touch事件
 			window.addEventListener('keyup',function(event){ // 按键监听
+				if(!keyEvent) return
 				var index ;
-				if (event.keyCode==40 || event.keyCode==39) index = setPage((currentPage-1) ),toWhere(index,'next');
-				else if (event.keyCode==38 || event.keyCode==37)  index = setPage((currentPage+1) ),toWhere(index,'prev');
+				if (event.keyCode==40 || event.keyCode==39) index = setPage((currentPage+1) ),toWhere(index,'next');
+				else if (event.keyCode==38 || event.keyCode==37)  index = setPage((currentPage-1) ),toWhere(index,'prev');
 			});
 			function touchMove(idname){ //触摸事件
 				var id = document.getElementById(idname);
@@ -254,7 +256,7 @@
 							}
 						}
 					}
-					if(swipeX && (!swipeY || Math.abs(XX-xx)-Math.abs(YY-yy)>=0) ){
+					if(swipeX && (!swipeY || Math.abs(XX-xx)-Math.abs(YY-yy)>0) ){
 						swipeY = false ;
 						if (toLeft)
 						{
@@ -277,12 +279,15 @@
 					}
 				});
 				document.addEventListener('mouseup',function(event){
-					if(cha != 0)
+					if(cha == 0)
 					{
-						currentDom.classList.add('change');
-						prevDom.classList.add('change');
-						nextDom.classList.add('change');
+						swipeY = false ;
+						swipeX = false ;
+						return ;
 					}
+					currentDom.classList.add('change');
+					prevDom.classList.add('change');
+					nextDom.classList.add('change');
 					if (!toLeft && swipeY )
 					{
 						if (cha>0)
@@ -351,8 +356,14 @@
 				});
 			}
 			function setPage(page){ //设置page
-				if (page>len-1) page=0;
-				else if (page<0) page=len-1;
+				if (page>len-1){ 
+					page=0;
+					if(!loop) page=len-1 ;
+				}
+				else if (page<0){
+					page=len-1;
+					if(!loop) page=0 ;
+				}
 				return page ;
 			}
 			function toWhere(index,dir){ //主要是给左右点击事件使用
