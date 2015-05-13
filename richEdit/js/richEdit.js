@@ -52,7 +52,14 @@
 			})
 		}
 		document.getElementById('preview').addEventListener('click',function(){
-			edit.setAttribute('contentEditable','false');
+			if(edit.contentEditable == 'true'){
+				edit.setAttribute('contentEditable','false');
+				this.value = '编辑'
+			}else{
+				edit.setAttribute('contentEditable','true');
+				edit.focus();
+				this.value = '预览'
+			}
 			edit.classList.toggle('edit-preview')
 		});
 		[].slice.call(document.querySelectorAll('.execcommand')).forEach(function(ele){
@@ -120,7 +127,9 @@
 							}else child = child.parentNode ;
 						}
 						if(child.parentNode.id && child.parentNode.id =='edit') return 
-						var text = document.createTextNode('1');
+						console.log('执行到这里了')
+						if(that.id!="forecolor") return
+						var text = document.createTextNode('-');
 						//console.log(parent.nodeName)
 						var grand = parent.parentNode ;
 						grand.insertBefore(text,parent.nextSibling);
@@ -129,7 +138,7 @@
 						range.selectNode(parent.nextSibling);
 
 						selection.removeAllRanges();
-						selection.addRange(range)
+						selection.addRange(range);
 					}
 					selection.collapseToEnd();
 				}
