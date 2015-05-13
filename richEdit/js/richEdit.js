@@ -51,17 +51,38 @@
 				}
 			})
 		}
-
+		document.getElementById('preview').addEventListener('click',function(){
+			edit.setAttribute('contentEditable','false');
+			edit.classList.toggle('edit-preview')
+		});
 		[].slice.call(document.querySelectorAll('.execcommand')).forEach(function(ele){
 			ele.addEventListener('click',function(event){
 				if (this.id == 'forecolor')
 				{
-					document.execCommand(this.id,true,'rgb(247,105,105)')
+					document.execCommand(this.id,false,'red')
+				}else if (this.id == 'createLink')
+				{
+					var name =	prompt('输入网址','');
+					document.execCommand(this.id,false,name);
+					[].slice.call(edit.querySelectorAll('a')).forEach(function(ele){ //设置连接在新页面打开
+						ele.target = '_blank'
+					});
+				}else if (this.id == 'insertImage')
+				{
+					var name =	prompt('输入图片网址','');
+					if (/^http:\/\/.+$/.test(name))
+					{
+						console.log('网址有效')
+						document.execCommand(this.id,false,name);
+					}else {
+						console.log('网址无效')
+						return
+					}
 				}else{
 					document.execCommand(this.id)
 				}
 				currentToggole(event.currentTarget,'current')
-				modelToggel()
+				modelToggel(event.currentTarget)
 				
 				
 				//edit.focus();
@@ -80,11 +101,11 @@
 		}
 		// 实现的功能
 		// 1，点击切换模式，就是说，点击哪个使用哪个
-		function modelToggel(){
+		function modelToggel(that){
 				var selection = window.getSelection();
 				if(selection.rangeCount)
 				{
-					if(true && !selection.toString())
+					if(true && !selection.toString() && selection.focusNode != edit)
 					{
 						var range = selection.getRangeAt(0);
 						var child = range.endContainer ;
@@ -100,7 +121,7 @@
 						}
 						if(child.parentNode.id && child.parentNode.id =='edit') return 
 						var text = document.createTextNode('1');
-						console.log(parent.nodeName)
+						//console.log(parent.nodeName)
 						var grand = parent.parentNode ;
 						grand.insertBefore(text,parent.nextSibling);
 
