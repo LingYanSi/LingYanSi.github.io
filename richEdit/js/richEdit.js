@@ -75,6 +75,7 @@
 				}else{
 					ele.classList.add(classname)
 				}
+				edit.focus();
 			})
 		}
 		// 实现的功能
