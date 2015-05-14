@@ -112,7 +112,7 @@
 				var selection = window.getSelection();
 				if(selection.rangeCount)
 				{
-					if(true && !selection.toString() && selection.focusNode != edit)
+					if(!selection.toString() && selection.focusNode != edit)
 					{
 						var range = selection.getRangeAt(0);
 						var child = range.endContainer ;
@@ -122,15 +122,12 @@
 							if (child.parentNode.nodeName == 'FONT' || (child.parentNode.id && child.parentNode.id == 'edit') )
 							{
 								parent = child.parentNode ;
-								console.log(111111111)
 								break ;
 							}else child = child.parentNode ;
 						}
 						if(child.parentNode.id && child.parentNode.id =='edit') return 
-						console.log('执行到这里了')
 						if(that.id!="forecolor") return
-						var text = document.createTextNode('-');
-						//console.log(parent.nodeName)
+						var text = document.createTextNode('·');
 						var grand = parent.parentNode ;
 						grand.insertBefore(text,parent.nextSibling);
 
