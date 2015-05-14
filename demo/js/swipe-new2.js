@@ -112,7 +112,7 @@
 							if(ele==currentDom) currentDom.style.zIndex = '1';
 							else if(ele==prevDom) prevDom.style.zIndex = '2';
 							else if(ele==nextDom) nextDom.style.zIndex = '2';
-							else ele.style.zIndex = '0';
+							else ele.style.zIndex = 'auto';
 						})
 					}
 
