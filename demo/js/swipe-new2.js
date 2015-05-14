@@ -63,7 +63,7 @@
 				var id = document.getElementById(idname);
 				var xx,XX,$current,currentDom,$prev,prevDom,$next,nextDom,swipeX,swipeY,cha;
 
-				var $item = $('#'+idname+'>.item-wrap')[0].children ;
+				var $item = [].slice.call($('#'+idname+'>.item-wrap')[0].children);
 				
 				if(!!navigator.userAgent.toLowerCase().match(/android|phone|pad/g)) // 检测设备类型是不是移动端
 				{
@@ -108,9 +108,12 @@
 					
 					if(!toLeft)
 					{
-						currentDom.style.zIndex = '0';
-						prevDom.style.zIndex = '1';
-						nextDom.style.zIndex = '1';
+						$item.forEach(function(ele){
+							if(ele==currentDom) currentDom.style.zIndex = '1';
+							else if(ele==prevDom) prevDom.style.zIndex = '2';
+							else if(ele==nextDom) nextDom.style.zIndex = '2';
+							else ele.style.zIndex = '0';
+						})
 					}
 
 					swipeY = true ;
