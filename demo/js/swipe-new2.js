@@ -106,9 +106,12 @@
 					prevDom.style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)' ;
 					nextDom.style.webkitTransform = 'translate3d('+leftMin+'px,'+topMax+'px,0)' ;
 					
-					currentDom.style.zIndex = '0';
-					prevDom.style.zIndex = '1';
-					nextDom.style.zIndex = '1';
+					if(!toLeft)
+					{
+						currentDom.style.zIndex = '0';
+						prevDom.style.zIndex = '1';
+						nextDom.style.zIndex = '1';
+					}
 
 					swipeY = true ;
 					swipeX = true ;
