@@ -19,10 +19,11 @@
 				buttNext = arg.buttNext,
 				keyEvent = arg.keyEvent;
 			console.log(autoPlay,loop,dianNav)
-			var $id = $('#'+idname);
-			var $item = $('#'+idname+'>.item-wrap>div');
-			var idWidth = $id.width(),
-				idHeight = $id.height();
+			var $id = document.querySelector('#'+idname);
+			var $item = [].slice.call($id.firstElementChild.children);
+			var $dianItem ;
+			var idWidth = $id.offsetWidth,
+				idHeight = $id.offsetHeight;
 			var topMin = -idHeight ,
 			    topCurrent = 0 ,
 			    topMax = idHeight ,
@@ -44,13 +45,10 @@
 				leftMax = idWidth ,
 				leftCurrent = 0 ;
 			}
-			$item.not(':eq('+currentPage+')').css({webkitTransform:'translate3d('+leftMax+'px,'+topMax+'px,0)'}); //设置元素初始位置
-			if (dianNav)
-			{
-				appendDian();
-				var $dianItem = $('#'+idname+'>.dian>.dian-item');
-				dianMove();
-			}
+			$item.forEach(function(ele,index){
+				if (index != currentPage) ele.style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
+			})
+			if (dianNav) dianInit();
 			if (autoPlay) start();
 			touchMove(idname);//touch事件
 			window.addEventListener('keyup',function(event){ // 按键监听
@@ -131,13 +129,13 @@
 							if (cha>=0)
 							{
 								if (!loop && currentPage==0) return swipeY=false; // 循环模块
-								currentDom.style.webkitTransformOrigin = 'center bottom';
+								currentDom.style.webkitTransformOrigin = 'center 125%';
 								currentDom.style.webkitTransform = 'translate3d(0,0,0) scale3d('+(1-cha/topMax/4)+','+(1-cha/topMax/4)+',1)';
 								prevDom.style.webkitTransform = 'translate3d(0,'+(cha+topMin)+'px,0)' ;
 								if (len>2) nextDom.style.webkitTransform = 'translate3d(0,'+(topMax)+'px,0)' ;// 避免因为滑动过快引起的bug
 							}else{
 								if (!loop && currentPage==len-1) return swipeY=false; // 循环模块
-								currentDom.style.webkitTransformOrigin = 'center top';
+								currentDom.style.webkitTransformOrigin = 'center -25%';
 								currentDom.style.webkitTransform = 'translate3d(0,0,0) scale3d('+(1+cha/topMax/4)+','+(1+cha/topMax/4)+',1)';
 								nextDom.style.webkitTransform = 'translate3d(0,'+(topMax+cha)+'px,0)' ;
 								if (len>2) prevDom.style.webkitTransform = 'translate3d(0,'+(topMax)+'px,0)' ;// 避免因为滑动过快引起的bug
@@ -257,18 +255,20 @@
 			function toWhere(index,dir){ //主要是给左右点击事件使用
 				if (index === currentPage) return
 				stop();
-				$item.removeClass('change');
+				$item.forEach(function(ele){ ele.classList.remove('change')});
 				if (dir=='next') //下一张
 				{
-					$item.eq(index).css({webkitTransform:'translate3d('+leftMax+'px,'+topMax+'px,0)'});
-					$item.show().addClass('change');
-					$item.eq(currentPage).css({webkitTransform:'translate3d('+leftMin+'px,'+topMin+'px,0)'});
+					$item[index].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
+					$item[currentPage].classList.add('change');
+					$item[index].classList.add('change');
+					$item[currentPage].style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)' ;
 				}else if(dir=='prev'){   // 上一张
-					$item.eq(index).css({webkitTransform:'translate3d('+leftMin+'px,'+topMin+'px,0)'});
-					$item.show().addClass('change');
-					$item.eq(currentPage).css({webkitTransform:'translate3d('+leftMax+'px,'+topMax+'px,0)'});
+					$item[index].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMin+'px,0)' ;
+					$item[currentPage].classList.add('change');
+					$item[index].classList.add('change');
+					$item[currentPage].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
 				}
-				$item.eq(index).css({webkitTransform:'translate3d(0,0,0)'});
+				$item[index].style.webkitTransform = 'translate3d(0,0,0)' ;
 				currentPage = index ;
 				dianMove();
 			}
@@ -290,39 +290,61 @@
 				});
 			}
 			function dianMove(){ //下面小点的运动
-				$dianItem.eq(currentPage).addClass('dian-item-current').siblings().removeClass('dian-item-current');
+				$dianItem.forEach(function(ele,index){
+					if(index==currentPage) ele.classList.add('dian-item-current')
+					else ele.classList.remove('dian-item-current')
+				});
 			}
 			function appendDian(){ //添加点
-				var dian = '';
+				var dian = [];
 				for (var i=0;i<len ;i++ )
 				{
-					dian = dian+'<span class="dian-item"></span>';
+					dian.push('<span class="dian-item"></span>');
 				}
-				$id.append('<div class="dian">'+dian+'</div>');
+				var innerHTML = dian.join('');
+				var fg = document.createDocumentFragment();
+				var div = document.createElement('div');
+				div.className = 'dian' ;
+				fg.appendChild(div);
+				var fgDian = fg.querySelector('div') ;
+				fgDian.innerHTML = innerHTML ;
+				$id.appendChild(fgDian);
 			}
-
+			function dianInit(){
+				appendDian();
+				$dianItem = [].slice.call(document.querySelector('#'+idname).querySelectorAll('.dian-item'));
+				dianMove();
+			}
 			function start(){ //自动轮播
-				timeIn=setInterval(move,2000);
+				timeIn=setInterval(move,4000);
 			}
 			function stop(){ //清除自动轮播
 				clearInterval(timeIn);
 			}
 			function move(){ 
-				$item.removeClass('change');
+				$item.forEach(function(ele){ ele.classList.remove('change')});
 				if (currentPage < len-1)
 				{
-					$item.eq(currentPage+1).css({webkitTransform:'translate('+leftMax+'px,'+topMax+'px)'}); 
-					$item.show().addClass('change');
-					$item.eq(currentPage).css({webkitTransform:'translate('+leftMin+'px,'+topMin+'px)'});
-					$item.eq(currentPage+1).css({webkitTransform:'translate(0,0)'});
-					currentPage++;
+					$item[currentPage+1].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)'; 
+					setTimeout(function(){ // 避免【渐变过度】提前执行
+						$item[currentPage].classList.add('change');
+						$item[currentPage+1].classList.add('change');
+						$item[currentPage].style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)';
+						$item[currentPage+1].style.webkitTransform = 'translate3d(0,0,0)';
+						currentPage++;
+					});
 				}else{
-					$item.eq(0).css({webkitTransform:'translate('+leftMax+'px,'+topMax+'px)'});
-					$item.show().addClass('change'); //为什么$item.eq(0).css({top:topMax});$item.addClass('change');前一语句不能正常执行
-					$item.eq(currentPage).css({webkitTransform:'translate('+leftMin+'px,'+topMin+'px)'});
-					$item.eq(0).css({webkitTransform:'translate(0,0)'});
-					currentPage=0;
+					$item[0].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)';
+					setTimeout(function(){
+						$item[currentPage].classList.add('change');
+						$item[0].classList.add('change');
+						$item[currentPage].style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)';
+						$item[0].style.webkitTransform = 'translate3d(0,0,0)';
+						currentPage=0;
+					})
 				}
-				dianMove()
+				setTimeout(function(){
+					if(dianNav) dianMove() //如果添加了导航点
+				})
 			}
 		}

@@ -31,9 +31,9 @@
 	  .change{-webkit-transition:all 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955);;}
 
 	  .dian{position:absolute;width:100%;height:20px;text-align:center;overflow:hidden;bottom:0;}
-	  .dian-item{display:inline-block;height:10px;width:10px;border-radius:10px;background:rgba(255,255,255,0.3);}
+	  .dian-item{display:inline-block;height:10px;width:10px;border-radius:10px;background:red;}
 	  .dian-item+.dian-item{margin-left:10px;}
-	  .dian-item-current{background:rgba(255,255,255,0.8);}
+	  .dian-item-current{background:black;}
   </style>
  </head>
  <body>
@@ -69,9 +69,8 @@
 		var winHeight =$(window).height();
 		var winWidth =$(window).width();
 		$('#less').height(winHeight)
-		var less = new lunbo({idname:'less',top:'top',autoPlay:false,loop:true,keyEvent:true});
-		var bitch = new lunbo({idname:'bitch',top:'left',autoPlay:false,loop:true,keyEvent:false});
-
+		var less = new lunbo({idname:'less',top:'top',autoPlay:false,loop:false,keyEvent:true});
+		var bitch = new lunbo({idname:'bitch',top:'left',autoPlay:false,loop:true,dianNav:true,keyEvent:false});
 	});
 	console.log(document.progress)
 </script>

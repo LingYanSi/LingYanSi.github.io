@@ -19,10 +19,11 @@
 				buttNext = arg.buttNext,
 				keyEvent = arg.keyEvent;
 			console.log(autoPlay,loop,dianNav)
-			var $id = $('#'+idname);
-			var $item = $('#'+idname+'>.item-wrap>div');
-			var idWidth = $id.width(),
-				idHeight = $id.height();
+			var $id = document.querySelector('#'+idname);
+			var $item = [].slice.call($id.firstElementChild.children);
+			var $dianItem ;
+			var idWidth = $id.offsetWidth,
+				idHeight = $id.offsetHeight;
 			var topMin = -idHeight ,
 			    topCurrent = 0 ,
 			    topMax = idHeight ,
@@ -44,13 +45,10 @@
 				leftMax = idWidth ,
 				leftCurrent = 0 ;
 			}
-			$item.not(':eq('+currentPage+')').css({webkitTransform:'translate3d('+leftMax+'px,'+topMax+'px,0)'}); //设置元素初始位置
-			if (dianNav)
-			{
-				appendDian();
-				var $dianItem = $('#'+idname+'>.dian>.dian-item');
-				dianMove();
-			}
+			$item.forEach(function(ele,index){
+				if (index != currentPage) ele.style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
+			})
+			if (dianNav) dianInit();
 			if (autoPlay) start();
 			touchMove(idname);//touch事件
 			window.addEventListener('keyup',function(event){ // 按键监听
@@ -62,31 +60,60 @@
 			function touchMove(idname){ //触摸事件
 				var id = document.getElementById(idname);
 				var xx,XX,$current,currentDom,$prev,prevDom,$next,nextDom,swipeX,swipeY,cha;
-				id.addEventListener('touchstart',function(event){
+				var $item = [].slice.call($('#'+idname+'>.item-wrap')[0].children);
+				if(!!navigator.userAgent.toLowerCase().match(/android|phone|pad/g)) // 检测设备类型是不是移动端
+				{
+					id.addEventListener('touchstart',function(event){
+						touchStart(event);
+					});
+					id.addEventListener('touchmove',function(event){
+						touchMove(event);
+					});
+					id.addEventListener('touchend',function(event){
+						touchEnd(event);
+					});
+				}else{
+					id.addEventListener('mousedown',function(event){
+						touchStart(event);
+					});
+					id.addEventListener('mousemove',function(event){
+						touchMove(event);
+					});
+					document.addEventListener('mouseup',function(event){
+						touchEnd(event);
+					});
+				}
+				function touchStart(event){
 					stop();
-					xx = event.targetTouches[0].screenX;
-					yy = event.targetTouches[0].screenY;
+					xx = event.targetTouches ? event.targetTouches[0].screenX : event.pageX;
+					yy = event.targetTouches ? event.targetTouches[0].screenY : event.pageY;
 					XX = xx ;
 					YY = yy ;
 					cha = 0 ;
-					$prev = $item.eq(currentPage-1)[0]?$item.eq(currentPage-1):$item.eq(len-1);
-					$next = $item.eq(currentPage+1)[0]?$item.eq(currentPage+1):$item.eq(0);
-					$current = $item.eq(currentPage);
-
-					currentDom = $current[0],prevDom=$prev[0],nextDom=$next[0];
+					prevDom = $item[currentPage-1]?$item[currentPage-1]:$item[len-1];
+					nextDom = $item[currentPage+1]?$item[currentPage+1]:$item[0];
+					currentDom = $item[currentPage];
 					
 					currentDom.classList.remove('change');
 					prevDom.classList.remove('change');
 					nextDom.classList.remove('change');
 
-					prevDom.style.webkitTransform = 'translate3d('+leftMin+'px,'+topMax+'px,0)' ;
+					currentDom.style.webkitTransform = 'translate3d(0,0,0)' ;
+					prevDom.style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)' ;
 					nextDom.style.webkitTransform = 'translate3d('+leftMin+'px,'+topMax+'px,0)' ;
+					
+					if(!toLeft && loop) //因为其他元素的位置并不在当前屏幕，因此只用改变【prev,current,next】的z-index
+					{
+						currentDom.style.zIndex = '1';
+						prevDom.style.zIndex = '0';
+						nextDom.style.zIndex = '2';
+					}
 					swipeY = true ;
 					swipeX = true ;
-				});
-				id.addEventListener('touchmove',function(event){
-					XX = event.targetTouches[0].screenX;
-					YY = event.targetTouches[0].screenY;
+				}
+				function touchMove(event){
+					XX = event.targetTouches ? event.targetTouches[0].screenX : event.pageX;
+					YY = event.targetTouches ? event.targetTouches[0].screenY : event.pageY;
 					
 					if (swipeY && (!swipeX || Math.abs(XX-xx)-Math.abs(YY-yy)<0))
 					{
@@ -131,154 +158,8 @@
 							}
 						}
 					}
-				});
-				id.addEventListener('touchend',function(event){
-					if(cha != 0)
-					{
-						currentDom.classList.add('change');
-						prevDom.classList.add('change');
-						nextDom.classList.add('change');
-					}
-					if (!toLeft && swipeY )
-					{
-						if (cha>0)
-						{
-							if (cha>50)
-							{
-								currentDom.style.webkitTransform = 'translate3d(0,'+(topMax)+'px,0)';
-								prevDom.style.webkitTransform = 'translate3d(0,0,0)';
-
-								currentPage--;
-								currentPage = setPage(currentPage);
-							}else{
-								currentDom.style.webkitTransform = 'translate3d(0,0,0)';
-								prevDom.style.webkitTransform = 'translate3d(0,0,0)';
-							}
-						}else{
-							if (cha<-50)
-							{
-								currentDom.style.webkitTransform = 'translate3d(0,0,0)';
-								nextDom.style.webkitTransform = 'translate3d(0,0,0)';
-								currentPage++;
-								currentPage = setPage(currentPage);
-							}else{
-								currentDom.style.webkitTransform = 'translate3d(0,0,0)';
-								nextDom.style.webkitTransform = 'translate3d(0,'+(topMax)+'px,0)';
-							}
-						}
-					}
-					else if ( toLeft && swipeX)
-					{
-						if (cha>0)
-						{
-							if (cha>50)
-							{
-								currentDom.style.webkitTransform = 'translate3d('+leftMax+'px,0,0)';
-								prevDom.style.webkitTransform = 'translate3d(0,0,0)';
-								currentPage--;
-								currentPage = setPage(currentPage);
-							}else{
-								currentDom.style.webkitTransform = 'translate3d(0,0,0)';
-								prevDom.style.webkitTransform = 'translate3d('+leftMin+'px,0,0)';
-							}
-						}else{
-							if (cha<-50)
-							{
-								currentDom.style.webkitTransform = 'translate3d('+leftMin+'px,0,0)';
-								nextDom.style.webkitTransform = 'translate3d(0,0,0)';
-								currentPage++;
-								currentPage = setPage(currentPage);
-							}else{
-								currentDom.style.webkitTransform = 'translate3d(0,0,0)';
-								nextDom.style.webkitTransform = 'translate3d('+leftMax+'px,0,0)';
-							}
-						}
-					}
-					if (autoPlay) start();
-					if(dianNav) dianMove();
-					if (callback)
-					{
-						setTimeout(function(){
-							callback(currentPage);
-						},600)
-					}
-				});
-			}
-			mouseEvent(idname); //鼠标滑动事件
-			function mouseEvent(idname){
-				var id = document.getElementById(idname);
-				var xx,XX,$current,currentDom,$prev,prevDom,$next,nextDom,swipeX,swipeY,cha;
-				id.addEventListener('mousedown',function(event){
-					stop();
-					xx = event.pageX;
-					yy = event.pageY;
-					XX = xx ;
-					YY = yy ;
-					cha = 0 ;
-					$prev = $item.eq(currentPage-1)[0]?$item.eq(currentPage-1):$item.eq(len-1);
-					$next = $item.eq(currentPage+1)[0]?$item.eq(currentPage+1):$item.eq(0);
-					$current = $item.eq(currentPage);
-
-					currentDom = $current[0],prevDom=$prev[0],nextDom=$next[0];
-					
-					currentDom.classList.remove('change');
-					prevDom.classList.remove('change');
-					nextDom.classList.remove('change');
-
-					prevDom.style.webkitTransform = 'translate3d('+leftMin+'px,'+topMax+'px,0)' ;
-					nextDom.style.webkitTransform = 'translate3d('+leftMin+'px,'+topMax+'px,0)' ;
-					swipeY = true ;
-					swipeX = true ;
-				});
-				id.addEventListener('mousemove',function(event){
-					XX = event.pageX;
-					YY = event.pageY;
-					
-					if (swipeY && (!swipeX || Math.abs(XX-xx)-Math.abs(YY-yy)<0))
-					{
-						swipeX = false ;
-						if (!toLeft)
-						{
-							event.stopPropagation();
-							event.preventDefault();
-							cha = YY-yy ;
-							if (cha>=0)
-							{
-								if (!loop && currentPage==0) return swipeY=false; // 循环模块
-								currentDom.style.webkitTransform = 'translate3d(0,'+(cha)+'px,0)';
-								prevDom.style.webkitTransform = 'translate3d(0,0,0)' ;
-								if (len>2) nextDom.style.webkitTransform = 'translate3d(0,'+(topMax)+'px,0)' ;// 避免因为滑动过快引起的bug
-							}else{
-								if (!loop && currentPage==len-1) return swipeY=false; // 循环模块
-								currentDom.style.webkitTransform = 'translate3d(0,0,0)';
-								nextDom.style.webkitTransform = 'translate3d(0,'+(topMax+cha)+'px,0)' ;
-								if (len>2) prevDom.style.webkitTransform = 'translate3d(0,'+(topMax)+'px,0)' ;// 避免因为滑动过快引起的bug
-							}
-						}
-					}
-					if(swipeX && (!swipeY || Math.abs(XX-xx)-Math.abs(YY-yy)>0) ){
-						swipeY = false ;
-						if (toLeft)
-						{
-							event.stopPropagation();
-							event.preventDefault();
-							cha = XX-xx ;
-							if (cha>=0)
-							{
-								if (!loop && currentPage==0) return swipeX=false; // 循环模块
-								currentDom.style.webkitTransform = 'translate3d('+( XX-xx)+'px,0,0)';
-								prevDom.style.webkitTransform = 'translate3d('+(leftMin+cha)+'px,0,0)';
-								if (len>2) nextDom.style.webkitTransform = 'translate3d('+leftMax+'px,0,0)';// 避免因为滑动过快引起的bug
-							}else{
-								if (!loop && currentPage==len-1) return swipeX=false; // 循环模块
-								currentDom.style.webkitTransform = 'translate3d('+cha+'px,0,0)';
-								nextDom.style.webkitTransform = 'translate3d('+(leftMax+cha)+'px,0,0)';
-								if (len>2) prevDom.style.webkitTransform = 'translate3d('+leftMax+'px,0,0)';// 避免因为滑动过快引起的bug
-							}
-						}
-					}
-				});
-				document.addEventListener('mouseup',function(event){
+				}
+				function touchEnd(event){
 					if(cha == 0)
 					{
 						swipeY = false ;
@@ -353,7 +234,7 @@
 							callback(currentPage);
 						},600)
 					}
-				});
+				}
 			}
 			function setPage(page){ //设置page
 				if (page>len-1){ 
@@ -369,18 +250,20 @@
 			function toWhere(index,dir){ //主要是给左右点击事件使用
 				if (index === currentPage) return
 				stop();
-				$item.removeClass('change');
+				$item.forEach(function(ele){ ele.classList.remove('change')});
 				if (dir=='next') //下一张
 				{
-					$item.eq(index).css({webkitTransform:'translate3d('+leftMax+'px,'+topMax+'px,0)'});
-					$item.show().addClass('change');
-					$item.eq(currentPage).css({webkitTransform:'translate3d('+leftMin+'px,'+topMin+'px,0)'});
+					$item[index].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
+					$item[currentPage].classList.add('change');
+					$item[index].classList.add('change');
+					$item[currentPage].style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)' ;
 				}else if(dir=='prev'){   // 上一张
-					$item.eq(index).css({webkitTransform:'translate3d('+leftMin+'px,'+topMin+'px,0)'});
-					$item.show().addClass('change');
-					$item.eq(currentPage).css({webkitTransform:'translate3d('+leftMax+'px,'+topMax+'px,0)'});
+					$item[index].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMin+'px,0)' ;
+					$item[currentPage].classList.add('change');
+					$item[index].classList.add('change');
+					$item[currentPage].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
 				}
-				$item.eq(index).css({webkitTransform:'translate3d(0,0,0)'});
+				$item[index].style.webkitTransform = 'translate3d(0,0,0)' ;
 				currentPage = index ;
 				dianMove();
 			}
@@ -402,39 +285,63 @@
 				});
 			}
 			function dianMove(){ //下面小点的运动
-				$dianItem.eq(currentPage).addClass('dian-item-current').siblings().removeClass('dian-item-current');
+				$dianItem.forEach(function(ele,index){
+					if(index==currentPage) ele.classList.add('dian-item-current')
+					else ele.classList.remove('dian-item-current')
+				});
 			}
 			function appendDian(){ //添加点
-				var dian = '';
+				var dian = [];
 				for (var i=0;i<len ;i++ )
 				{
-					dian = dian+'<span class="dian-item"></span>';
+					dian.push('<span class="dian-item"></span>');
 				}
-				$id.append('<div class="dian">'+dian+'</div>');
+				var innerHTML = dian.join('');
+				var fg = document.createDocumentFragment();
+				var div = document.createElement('div');
+				div.className = 'dian' ;
+				fg.appendChild(div);
+				var fgDian = fg.querySelector('div') ;
+				fgDian.innerHTML = innerHTML ;
+				$id.appendChild(fgDian);
 			}
-
+			function dianInit(){
+				appendDian();
+				$dianItem = [].slice.call(document.querySelector('#'+idname).querySelectorAll('.dian-item'));
+				dianMove();
+			}
 			function start(){ //自动轮播
-				timeIn=setInterval(move,2000);
+				timeIn=setInterval(function(){
+					move();
+				},4000);
 			}
 			function stop(){ //清除自动轮播
 				clearInterval(timeIn);
 			}
 			function move(){ 
-				$item.removeClass('change');
+				$item.forEach(function(ele){ ele.classList.remove('change')});
 				if (currentPage < len-1)
 				{
-					$item.eq(currentPage+1).css({webkitTransform:'translate('+leftMax+'px,'+topMax+'px)'}); 
-					$item.show().addClass('change');
-					$item.eq(currentPage).css({webkitTransform:'translate('+leftMin+'px,'+topMin+'px)'});
-					$item.eq(currentPage+1).css({webkitTransform:'translate(0,0)'});
-					currentPage++;
+					$item[currentPage+1].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)'; 
+					setTimeout(function(){ // 避免【渐变过度】提前执行
+						$item[currentPage].classList.add('change');
+						$item[currentPage+1].classList.add('change');
+						$item[currentPage].style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)';
+						$item[currentPage+1].style.webkitTransform = 'translate3d(0,0,0)';
+						currentPage++;
+					});
 				}else{
-					$item.eq(0).css({webkitTransform:'translate('+leftMax+'px,'+topMax+'px)'});
-					$item.show().addClass('change'); //为什么$item.eq(0).css({top:topMax});$item.addClass('change');前一语句不能正常执行
-					$item.eq(currentPage).css({webkitTransform:'translate('+leftMin+'px,'+topMin+'px)'});
-					$item.eq(0).css({webkitTransform:'translate(0,0)'});
-					currentPage=0;
+					$item[0].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)';
+					setTimeout(function(){
+						$item[currentPage].classList.add('change');
+						$item[0].classList.add('change');
+						$item[currentPage].style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)';
+						$item[0].style.webkitTransform = 'translate3d(0,0,0)';
+						currentPage=0;
+					})
 				}
-				dianMove()
+				setTimeout(function(){
+					if(dianNav) dianMove() //如果添加了导航点
+				})
 			}
 		}
