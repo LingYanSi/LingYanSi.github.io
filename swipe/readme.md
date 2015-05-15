@@ -2,7 +2,7 @@
 
 使用很简单   
 
-####var less = new Lunbo({idname:'less',top:'top',autoPlay:false,loop:true,keyEvent:true,buttPrev:'buttPrev',buttNext:'buttNext'})
+######var less = new Lunbo({idname:'less',top:'top',autoPlay:false,loop:true,keyEvent:true,buttPrev:'buttPrev',buttNext:'buttNext'})
  
 ![规范](img/guifan.png)  
 

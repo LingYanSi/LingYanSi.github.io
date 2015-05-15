@@ -46,7 +46,9 @@
 	 <div></div>
 	 <div></div>
 	 <p></p>
+
 	-------------------------------------------------------------------------------
+
 	css媒体查询
 
 	媒体查询 包含了一个媒体类型和至少一个使用如宽度、高度和颜色等媒体属性来限制样式表范围的表达式。CSS3加入的媒体查询使得无需修改内容便可以使样式应用于某些特定的设备范围。
@@ -66,6 +68,89 @@
 	</style>
 
 	--------------------------------------------------------------------------------------
+	
+	遇到的奇怪问题
+	var demo =document.querySelector('.demo');
+    demo.style.left = '200px' ; // 1
+    demo.style.background = 'pink' ; // 2
+    demo.classList.add('change') ; // 3
+	demo的属性挥发生渐变，但是代码明明是先改变了指，后添加的【change】啊
+
+	Reflow 和 Repaint
+
+	这个和浏览器渲染优化有关，你去执行js代码，等到下一帧的时候才回去真正做一次绘制，
+	解决这个你可以在指定完style之后，强制一次reflow，例如可以 ele.offsetWidth = ele.offsetWidth
+
+	浏览器reflow要比repaint消耗性能
+	首先，Repaint是指页面上的元素的外观发生了改变但是不影响布局的情况下引起的浏览器重新绘画元素外观的行为，
+	比如修改color，background-color等属性。Reflow是指页面上的元素的大小布局发生的变化从而引起浏览器对页面其他元素位置大小进行重新计算并且布局的行为。
+	Reflow所导致的性能消耗远比Repaint大，所以我们下面重点讨论Reflow情况下的优化策略。
+	在讨论Reflow之前先简单的看一下浏览器加载页面的过程。
+
+	浏览器在收到HTML文档之后对其进行解析，解析过程分为两个部分DOM文档的解析和CSS样式的解析。
+	解析DOM文档生成一个DOM树，DOM树和解析出来的CSS样式组合生成一个渲染树，最后浏览器根据这个渲染树进行页面的排版和绘画。而最后这一步就是会涉及到Reflow和Repaint。
+	以下这几个行为会引起页面的Reflow或Repaint：
+	1. 添加，删除，更新DOM节点
+	2. 隐藏/显示DOM节点(display:none或visibility:hidden)
+	3. 修改样式
+	4. 改变窗口大小，滚动页面
+
+	其实浏览器在这方面已经帮我们做了一些优化了，对于每个触发Reflow的行为浏览器并不会马上就触发，
+	而是把它们保存在一个队列中，当到达一定数量的时候再进行批量的Reflow，这样就不需要每次都进行Reflow。
+	但是，我们的一些行为会影响到浏览器的优化，使得Reflow马上触发。当我们请求下面这些属性的时候发生这种现象：
+	1. offsetTop, offsetLeft, offsetWidth, offsetHeight
+	2. scrollTop/Left/Width/Height
+	3. clientTop/Left/Width/Height
+	4. getComputedStyle(), or currentStyle(IE)
+
+	每当我们请求这些属性时，浏览器为了返回实时的情况就必须马上进行Reflow以计算出我们所需要的属性。所以我们应该尽量少的使用这些属性。
+	从上面可以发现，基于所有DOM操作都会引起Reflow或Repaint，所以尽可能避免页面的Reflow或Repaint可以很好的提高DOM性能。那么该怎么做才能最好的避免或最小化Reflow呢？下面有几个有用的建议：
+	1.不要逐一修改样式，而改为通过修改className来批量改变样式，如果样式需要动态计算，那么也要使用cssText属性来批量添加样式。例如：
+
+	// 错误的做法
+	var left = 10,
+		top = 10;
+	el.style.left = left + "px";
+	el.style.top  = top  + "px";
+
+	// 使用修改className来进行优化
+	el.className += " theclassname";
+
+	// 如果需要动态修改css，那么就使用cssText
+	el.style.cssText += "; left: " + left + "px; top: " + top + "px;";
+	2.批量处理DOM操作并且让元素脱离文档流，等操作结束后再放回文档流中。有以下几种办法：
+
+	使用display：none隐藏element，然后进行操作，最后再显示出来
+	使用documentFragment ，把新增的节点放在documentFragment中，最后再把documentFragment放到DOM中，因为把documentFragment放到DOM中，它只会把它的孩子节点放到DOM中，就好像documentFragment不存在。
+	通过cloneNode复制节点，然后离线进行操作，最后再替换DOM中的节点。
+	3.尽量少的访问会引起马上Reflow的属性，使用局部变量来缓存这些属性，比如：
+
+	var left = el.offsetLeft,
+		top  = el.offsetTop
+		esty = el.style;
+	for(big; loop; here) {
+		left += 10;
+		top  += 10;
+		esty.left = left + "px";
+		esty.top  = top  + "px";
+	}
+	4.对于需要动画的元素，尽量让它脱离文档流，这样就能尽量引起尽量小的Reflow
+
+	5.尽量少使用table布局
+
+	------------------------------------------------------------------------------------
+
+	cssText
+
+	一般情况下使用js去修改css
+	dom.style.height = '100px';
+	dom.style.width = '500px';
+	这样写不仅麻烦，而且还会引起浏览器的reflow或者repaint，消耗性能
+	可以这样写 dom.style.cssText = 'height:100px;width:100px;'
+	但是上面的写法会导致，覆盖以前的style[指的是通过js添加的style/dom的style属性中包含的样式]
+	因此应该这样写 dom.style.cssText +=';height:100px;width:100px;' ;// 加‘;’是为了避免前一个属性没有以分号结尾。
+
+	--------------------------------------------------------------------------------------
 
 	box-sizing:border-box;padding:10px;width:100%;
 
@@ -77,6 +162,7 @@
 	//伪类是一个真实 HTML 元素上的一个特殊的状态。可以认为是浏览器在特定条件下将一个虚拟的类自动应用于某个元素。
 
 	//伪元素是 HTML 文档的一部分，尽管它不是真实的 HTML 元素，但是 CSS 允许你为它设置样式。就像是虚拟的 HTML 元素——尽管它没有真实的 HTML 标签，但你仍可以为其添加样式。
+
     -----------------------------------------------------------------------------------
 
 	line-height
