@@ -2,7 +2,7 @@
 使用很简单   
 var bitch = new Lunbo({idname:'bitch',top:'left',autoPlay:false,loop:true,dianNav:true,keyEvent:false})
 * **idname** :使用一下规范
-![规范](images/guifan.png)
+![规范](img/guifan.png)
 
 * **top** : 上下滑动还是左右滑动两个值【top/left】
   
