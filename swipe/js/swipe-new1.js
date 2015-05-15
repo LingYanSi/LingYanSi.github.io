@@ -19,6 +19,7 @@
 				buttNext = arg.buttNext,
 				keyEvent = arg.keyEvent;
 			//console.log(autoPlay,loop,dianNav)
+			var isPhone = !!navigator.userAgent.toLowerCase().match(/android|phone|pad/g);
 			var $id = document.querySelector('#'+idname);
 			var $item = [].slice.call($id.firstElementChild.children);
 			var $dianItem ;
@@ -51,6 +52,7 @@
 			if (dianNav) dianInit();
 			if (autoPlay) start();
 			touchMove(idname);//touch事件
+			buttEvent(); // 按钮事件
 			window.addEventListener('keyup',function(event){ // 按键监听
 				if(!keyEvent) return
 				var index ;
@@ -60,7 +62,7 @@
 			function touchMove(idname){ //触摸事件
 				var id = document.getElementById(idname);
 				var xx,XX,$current,currentDom,$prev,prevDom,$next,nextDom,swipeX,swipeY,cha;
-				if(!!navigator.userAgent.toLowerCase().match(/android|phone|pad/g)) // 检测设备类型是不是移动端
+				if(isPhone) // 检测设备类型是不是移动端
 				{
 					id.addEventListener('touchstart',function(event){
 						touchStart(event);
@@ -247,48 +249,68 @@
 				return page ;
 			}
 			function toWhere(index,dir){ //主要是给左右点击事件使用
+				var index = setPage(index);
 				if (index === currentPage) return
-				stop();
+				if(autoPlay) stop();
 				$item.forEach(function(ele){ ele.classList.remove('change')});
 				if (dir=='next') //下一张
 				{
 					$item[index].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
+					$item[currentPage].offsetWidth = $item[currentPage].offsetWidth ;
 					$item[currentPage].classList.add('change');
 					$item[index].classList.add('change');
 					$item[currentPage].style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)' ;
 				}else if(dir=='prev'){   // 上一张
-					$item[index].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMin+'px,0)' ;
+					$item[index].style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)' ;
+					$item[currentPage].offsetWidth = $item[currentPage].offsetWidth ;
 					$item[currentPage].classList.add('change');
 					$item[index].classList.add('change');
 					$item[currentPage].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
 				}
 				$item[index].style.webkitTransform = 'translate3d(0,0,0)' ;
 				currentPage = index ;
-				dianMove();
+				if(dianNav) dianMove();
+				if(autoPlay) start();
 			}
 
-			if (buttPrev)
-			{
-				$('#'+buttPrev).click(function(){
-					var index = currentPage-1 ;
-					index = setPage(index);
-					toWhere(index);
-				});
+			function buttEvent(){
+				if (!!buttPrev)
+				{
+					if(isPhone){
+						document.querySelector('#'+buttPrev).addEventListener('touchend',function(){
+							var index = currentPage-1 ;
+							toWhere(index,'prev');
+						});
+					}else{
+						document.querySelector('#'+buttPrev).addEventListener('click',function(){
+							var index = currentPage-1 ;
+							toWhere(index,'prev');
+						});
+					}
+				}
+				if (!!buttNext)
+				{
+					if(isPhone){
+						document.querySelector('#'+buttNext).addEventListener('touchend',function(){
+							var index = currentPage+1 ;
+							toWhere(index,'next');
+						});
+					}else{
+						document.querySelector('#'+buttNext).addEventListener('click',function(){
+							var index = currentPage+1 ;
+							toWhere(index,'next');
+						});
+					}
+				}
 			}
-			if (buttNext)
-			{
-				$('#'+buttNext).click(function(){
-					var index = currentPage+1 ;
-					index = setPage(index);
-					toWhere(index);
-				});
-			}
+
 			function dianMove(){ //下面小点的运动
 				$dianItem.forEach(function(ele,index){
 					if(index==currentPage) ele.classList.add('dian-item-current')
 					else ele.classList.remove('dian-item-current')
 				});
 			}
+
 			function appendDian(){ //添加点
 				var dian = [];
 				for (var i=0;i<len ;i++ )
@@ -304,40 +326,22 @@
 				fgDian.innerHTML = innerHTML ;
 				$id.appendChild(fgDian);
 			}
+
 			function dianInit(){
 				appendDian();
 				$dianItem = [].slice.call(document.querySelector('#'+idname).querySelectorAll('.dian-item'));
 				dianMove();
 			}
+
 			function start(){ //自动轮播
-				timeIn=setInterval(move,4000);
+				timeIn=setInterval(move,1000);
 			}
+
 			function stop(){ //清除自动轮播
 				clearInterval(timeIn);
 			}
+
 			function move(){ 
-				$item.forEach(function(ele){ ele.classList.remove('change')});
-				if (currentPage < len-1)
-				{
-					$item[currentPage+1].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)'; 
-					$item[currentPage+1].offsetWidth = $item[currentPage+1].offsetWidth ; //强制浏览器reflow，避免渐变出现过早
-					$item[currentPage].classList.add('change');
-					$item[currentPage+1].classList.add('change');
-					$item[currentPage].style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)';
-					$item[currentPage+1].style.webkitTransform = 'translate3d(0,0,0)';
-					currentPage++;
-				
-				}else{
-					$item[0].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)';
-					$item[currentPage].offsetWidth = $item[currentPage].offsetWidth ;
-					$item[currentPage].classList.add('change');
-					$item[0].classList.add('change');
-					$item[currentPage].style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)';
-					$item[0].style.webkitTransform = 'translate3d(0,0,0)';
-					currentPage=0;
-					
-				}
-				if(dianNav) dianMove() //如果添加了导航点
-				
+				toWhere(currentPage+1,'next')
 			}
 		}
