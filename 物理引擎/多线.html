@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  *{padding:0;margin:0;}
+	  .xian{position:absolute;top:50%;left:50%;margin-top:-250px;margin-left:-250px;height:500px;width:500px;}
+
+	  .xian-item{position:absolute;top:0;left:0;height:0;border-top:1px solid red;transform-origin:left top;}
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<div class="xian">
+				<div class="xian-item" style="border-color:rgb(255,0,255);" data-xy="0,0"></div>
+				<div class="xian-item" style="border-color:rgb(255,10,255);" data-xy="500,0"></div>
+				<div class="xian-item" style="border-color:rgb(255,20,255);" data-xy="0,500"></div>
+				<div class="xian-item" style="border-color:rgb(255,30,255);" data-xy="500,500"></div>
+				<div class="xian-item" style="border-color:rgb(255,40,255);" data-xy="250,250"></div>
+				<div class="xian-item" style="border-color:rgb(255,50,255);" data-xy="250,0"></div>
+				<div class="xian-item" style="border-color:rgb(255,60,255);" data-xy="0,250"></div>
+				<div class="xian-item" style="border-color:rgb(255,70,255);" data-xy="500,250"></div>
+				<div class="xian-item" style="border-color:rgb(255,80,255);" data-xy="250,500"></div>
+			</div>
+		</div>
+	</div>
+ <script src="js/jquery-1.11.2.min.js"></script>
+ <script type="text/javascript">
+	$(function(){
+		var winHeight = $(window).height() ;
+		var winWidth = $(window).width() ;
+		document.getElementById('wrap').style.opacity = 1;
+		var $xianItem = $('.xian-item');
+		var xianOffset = $('.xian').offset();
+		var offsetX = xianOffset.left ;
+		var offsetY = xianOffset.top ;
+		console.log(xianOffset)
+		$(document).mousemove(function(event){
+			var xx,yy;
+			xx = event.pageX-offsetX , yy = event.pageY-offsetY;
+			$xianItem.each(function(){
+				var xy = this.getAttribute('data-xy').split(',');
+				var x = parseInt(xy[0],10);
+				var y = parseInt(xy[1],10);
+				var Quadrant ;
+				if(x-xx>=0 && y-yy<0) Quadrant = 1 ;
+				else if(x-xx>=0 && y-yy>=0) Quadrant = 4 ;
+				else if(x-xx<0 && y-yy<0) Quadrant = 2 ;
+				else if(x-xx<0 && y-yy>=0) Quadrant = 3 ;
+				var width = Math.sqrt(Math.pow(xx-x,2)+Math.pow(yy-y,2));
+				var rotateZ = getRow(xx,yy,x,y,Quadrant) ;
+				$(this).css({'top':yy,'left':xx,'width':width,'webkitTransform':'rotateZ(-'+rotateZ+'deg)'})
+			})
+		})
+		function getRow(x1,y1,x2,y2,Quadrant){
+			var X = Math.abs(x1-x2);
+			var Y = Math.abs(y1-y2);
+			var cow = Math.asin(Y/Math.sqrt(Math.pow(X,2)+Math.pow(Y,2)))/Math.PI*180 ;
+			if (Quadrant==1) return cow
+			else if(Quadrant==2) return 180-cow
+			else if(Quadrant==3) return 180+cow
+			else if(Quadrant==4) return 360-cow
+		}
+	})
+ </script>
+ </body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  html{overflow-y:auto;}
+	  .show{position:fixed;top:0;left:0;height:100%;width:100%;}
+	  .show-item{position:absolute;top:0;left:0;height:100%;width:100%;background-size:cover;background-position:center;opacity:0;
+				box-sizing:border-box;border:50px solid rgba(255,255,255,0);
+				background-origin:border-box;
+				transform:scale3d(1.5,1.5,1);
+				transition:all 2s;
+				transition-property:opacity,transform;}
+	  .si-1{background-image:url(img/night.jpg)}
+	  .si-2{background-image:url(img/134.jpg)}
+	  .si-3{background-image:url(img/1234.jpg)}
+	  .change{opacity:1;transform:scale3d(1,1,1);}
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<div id="" class="show">
+				<div class="show-item si-1"></div>
+				<div class="show-item si-2"></div>
+				<div class="show-item si-3"></div>
+			</div>
+		</div>
+	</div>
+ <script src="js/jquery-1.11.2.min.js"></script>
+ <script type="text/javascript">
+	$(function(){
+		var winHeight = $(window).height() ;
+		var winWidth = $(window).width() ;
+		document.getElementById('wrap').style.opacity = 1;
+		$('.si-1').addClass('change');
+		var $si = $('.show-item');
+		var index= 0 ;
+		comeOut();
+		var hei = setInterval(comeOut,4000);
+		function comeOut(){
+			if(index>2) clearInterval(hei)
+			console.log(index)
+			$si.eq(index).addClass('change');
+			index++ ;
+		}
+	})
+ </script>
+ </body>
+</html>
