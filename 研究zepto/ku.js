@@ -1,32 +1,44 @@
 
 	var Zepto = (function(){
 		var $ = function (dom){
-			if (typeof(dom) == 'string')
+			return zepto.init(dom)
+		}
+		var zepto = {};
+		zepto.init = function(selector){
+			if (typeof(selector) == 'string')
 			{
-				var arr = document.querySelectorAll(dom);
-				this.elements = [].slice.call(arr);
-			}else if (typeof(dom) == 'function')
+				var arr = document.querySelectorAll(selector);
+				dom = [].slice.call(arr);
+			}else if (typeof(selector) == 'function')
 			{
 				$(document).ready(function(){
-					dom();
+					selector();
 				});
-			}else if (dom instanceof HTMLElement)
+			}else if (selector instanceof HTMLElement)
 			{
-				this.elements = [dom] ;
-			}else if (Array.isArray(dom)) // 其实这里还是要判断，此对象是不是这个库原型的实例
+				dom = [selector] ;
+			}else if (zepto.isZ(selector))
 			{
-				this.elements = dom.fliter(function(){
+				return selector ;
+			}else if (Array.isArray(selector)) // 其实这里还是要判断，此对象是不是这个库原型的实例
+			{
+				dom = dom.fliter(function(){
 					if(this instanceof HTMLElement) return true ;
 					return false ;
 				}) ;
 			}
+			return zepto.Z(dom)
 		}
-		return $ ;
-	})();
-
-	// ------------------------------- 方法 ----------------
-	(function($){
-		$.prototype = {
+		zepto.Z = function(dom){
+			var hei = {};
+			hei.elements = dom || [] ;
+			hei.__proto__ = $.fn ;
+			return hei
+		}
+		zepto.isZ = function(dom){
+			return dom instanceof zepto.Z
+		}
+		$.fn = {
 			selector:function(str){
 				if( /^\.[\w-]+$/.test(str) )
 				{
@@ -230,9 +242,27 @@
 					//这里有坑，如果是行内元素，show()岂不是要溢出，
 					//先要判断其是否可见，如果可见，不做处理，如果不可见，获取data-display值，因此需要将其display值保存到哪个地方
 				})
+			},
+			// -------------------
+			offset:function(){
+				var rect = this.elements[0].getBoundingClientRect();
+				return {'top':rect.top,'left':rect.left}
+			},
+			position:function(){
+				var rectParent,rectChild ;
+				rectChild = this.elements[0].getBoundingClientRect();
+				if (this.elements[0].parentElement)
+				{
+					rectParent = this.elements[0].parentElement.getBoundingClientRect();
+				}
+				return {'top':rectChild.top-rectParent.top ,
+						'left':rectChild.left-rectParent.left }
 			}
 		}
-	})(Zepto);
+		zepto.Z.prototype = $.fn ;
+		return $ ;
+	})();
+
 
 	// ------------------------------ 事件 ----------
 	;(function($){
@@ -311,36 +341,36 @@
 			}
 			handlers[id] = handler ;
 		}
-		$.prototype.on=function(type,children,fun){ // 事件委托的实现
+		$.fn.on=function(type,children,fun){ // 事件委托的实现
 			if (!(!!fun))  fun = children ,children = undefined ;
 			this.each(function(){
 					appendHanlder(type,this,children,fun);
 			});
 			return this ;
 		}
-		$.prototype.off = function(type,children,funName){ // 如何删除事件匿名函数
+		$.fn.off = function(type,children,funName){ // 如何删除事件匿名函数
 			this.each(function(){
 				removeHanlder(type,this,children,funName);
 			})
 			return this ;
 		}
-		$.prototype.click = function(fun){
+		$.fn.click = function(fun){
 			this.each(function(){
 				appendHanlder('click',this,null,fun);
 			});
 		}
-		$.prototype.dblclick = function(fun){
+		$.fn.dblclick = function(fun){
 			this.each(function(){
 				appendHanlder('dblclick',this,null,fun);
 			});
 		}
-		$.prototype.tap = function(fun){
+		$.fn.tap = function(fun){
 			this.each(function(){
 				appendHanlder('touchend',this,null,fun);
 			});
 			return this ;
 		}
-		$.prototype.dblTap = function(dosth){
+		$.fn.dblTap = function(dosth){
 			this.each(function(){
 				var timeEnd1,timeEnd2 ;
 				timeEnd1 = timeEnd2 = 0 ;
@@ -357,9 +387,7 @@
 	})(Zepto);
 
 
-	window.$ = function(arguments) {
-		 return new Zepto(arguments);
-	 }
+	window.$ = Zepto
 	
 	// ------------- ajax ----------------------------
 	;(function($){
@@ -435,4 +463,4 @@
 				if (arg.error) arg.error(); // 请求失败
 			},3000); // 设置请求时间
 		}
-	})(window.$)
+	})(Zepto)

@@ -1136,6 +1136,23 @@
 		})
 ----------------------------------------------------------------------------------
 	instanceof typeof
+
+	instanceof 运算符可以用来判断某个构造函数的prototype属性是否存在另外一个要检测对象的原型链上
+	object instanceof constructor
+	object 被检测的对象
+	constructor 某个构造函数
+	
+	eg: 
+	var sb = {};
+	var hah = function(hei){
+		var hei = hei ;
+		hei.__proto__ = sb ;
+		return hei;
+	}
+	hah.prototype = sb ;
+	var bu = hah({}) ;
+	console.log(bu instanceof hah) // 输出为 true
+
 	dom instanceof HTMLElement ; // 判断是不是一个dom对象
 	typeof(string) // string 
 	typeof(boolean) // boolean 

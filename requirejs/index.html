@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  html{overflow-y:auto;}
+	  .rotate{position:fixed;top:0;left:0;height:100%;width:100%;-webkit-perspective:600px;cursor:default;background-color:rgb(0,0,0)}
+	  .rotate-item{transform:rotateY(90deg) translateX(0);position:absolute;top:0;height:100%;width:100%;background-size:cover;opacity:0;
+					transform-origin:50% 50% -320px;}
+	  .change{transition:all .6s linear;transition-property:opacity,transform;}
+	  .change-next{opacity:0;transform:rotateY(90deg) translateX(0);}
+	  .change-current{opacity:1;transform:rotateY(0deg) translateX(0);}
+	  .change-prev{opacity:0;transform:rotateY(-90deg) translateX(0);}
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<div class="rotate">
+				<div class="rotate-item change-current" style="background-image:url(img/night.jpg)"></div>
+				<div class="rotate-item change-next" style="background-image:url(img/134.jpg)"></div>
+				<div class="rotate-item change-next" style="background-image:url(img/1234.jpg)"></div>
+			</div>
+		</div>
+	</div>
+ <script data-main="js/main.js" src="js/require.js"></script>
+ </body>
+</html>

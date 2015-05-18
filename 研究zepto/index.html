@@ -11,7 +11,7 @@
 	 *{margin:0;padding:0;}
 	 body{font-size:14px;background:rgb(218,243,239);}
 	 .main{max-width:1000px;margin:0 auto;line-height:2;}
-	 .content{background:rgb(218,243,239);}
+	 .content{background:rgb(218,243,239);position:relative;}
 	 .content-item{border-bottom:1px dashed rgb(147,147,147);}
 	 .content-item a{text-decoration:none;color:rgb(218,243,239);}
   </style>
@@ -28,7 +28,9 @@
 	<div id="cunt">cunt</div>
 	<script src="ku.js"></script>
 	<script type="text/javascript">
-		console.log($('.content'))
+		console.log($('.content'),'什么玩意');
+		var nidaye = $('.content');
+		console.log($(nidaye))
 		console.log($('.content').find('.content-item').text())
 		$('.content').append('<div class="bitch">第二个</div>')
 		console.log($('.content').find('.bitch').css({'background':'rgb(121,210,210)'}).append('<p>你是在作死啊</p>').after('<p>测试一下</p><p>在测试一下</p>').after('<h1 style="background:rgb(40,65,74);">多行不义必自毙</h1>'))
@@ -46,6 +48,9 @@
 		});
 		console.log($('#cunt').elements[0].offsetHeight)
 		console.log('测试对象',$.isZ($('#cunt')) )
+
+		console.log(document.querySelector('.bitch').getBoundingClientRect())
+		console.log($('.bitch').position())
 	</script>
  </body>
 </html>
