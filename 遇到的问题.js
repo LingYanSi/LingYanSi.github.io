@@ -68,6 +68,14 @@
 	</style>
 
 	--------------------------------------------------------------------------------------
+
+	pointer-events 【none/auto】 
+
+	noen :除了指定元素不成为鼠标事件的目标，none值还指示鼠标事件穿过该元素，并指向位于元素下面的元素。
+
+	兼容性: ie11、其他正常使用
+
+	--------------------------------------------------------------------------------------
 	
 	遇到的奇怪问题
 	var demo =document.querySelector('.demo');
@@ -1231,6 +1239,30 @@
 		var detal =  -e.wheelDelta || e.detail ; // wheelDelta 为chrome、IE、Safari的事件属性 detail为Firefox的事件属性
 		console.log( detal )	
 	}
+---------------------------------------------------------------------------------
+
+	addEventListener
+
+	target.addEventListener(type, listener[, useCapture]);
+	type:事件类型
+	listener:监听函数
+	useCapture:如果值为true， useCapture 表示用户希望发起捕获。
+				在发起捕获之后， 只要Dom子树下发生了该事件类型，都会先被派发到该注册监听器，然后再被派发到Dom子树中的注册监听器中。
+				并且向上冒泡的事件不会触发那些发起捕获的事件监听器。如果没有指定， useCapture 默认为false 。
+
+	outDiv.addEventListener("click", function () { info.innerHTML += "outDiv" + "<br>"; }, false);
+	middleDiv.addEventListener("click", function () { info.innerHTML += "middleDiv" + "<br>"; }, false);
+	inDiv.addEventListener("click", function () { info.innerHTML += "inDiv" + "<br>"; }, false);
+
+	•全为 false 时，触发顺序为：inDiv、middleDiv、outDiv；
+	•全为 true 时，触发顺序为：outDiv、middleDiv、inDiv；
+	•outDiv 为 true，其他为 false 时，触发顺序为：outDiv、inDiv、middleDiv；
+	•middleDiv 为 true，其他为 false 时，触发顺序为：middleDiv、inDiv、outDiv；
+
+	最终得出如下结论：
+	•true 的触发顺序总是在 false 之前；
+	•如果多个均为 true，则外层的触发先于内层；
+	•如果多个均为 false，则内层的触发先于外层。
 
 -------------------------------------------------------------------------------
 		<div id="main"></div>
