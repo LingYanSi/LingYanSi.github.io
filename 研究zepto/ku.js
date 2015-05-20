@@ -39,6 +39,14 @@
 			return dom instanceof zepto.Z
 		}
 		var slice = [].slice ;
+		function deleteRepeat(arr){ // 删除数组中的重复元素
+			arr.forEach(function(ele,index,arr){
+				for (var i=index+1,len=arr.length;i<len ;i++ )
+				{
+					if (ele===arr[i]) arr.splice(i,1)
+				}
+			});
+		}
 		$.fn = {
 			selector:function(str){
 				if( /^\.[\w-]+$/.test(str) )
@@ -158,7 +166,7 @@
 			eq:function(index){
 				return $(this.elements[index]);
 			},
-			parent:function(selector){
+			parent:function(selector){ //外层包裹的父元素
 				var type = this.selector(selector);
 				var parent =[];
 				this.each(function(){
@@ -177,22 +185,35 @@
 				this.elements = parent ;
 				return this
 			},
-			parents:function(selector){
+			parents:function(selector){  // 需要一直向上遍历出所有符合条件的元素，要出去数组中重复的元素
 				var type = this.selector(selector);
 				var parent =[];
 				this.each(function(){
 					var thisParent = this.parentElement ;
 					if (type==='tagName')
 					{
-						if(thisParent.tagName === selector.toUpperCase()) parent.push(thisParent)
+						while (thisParent.tagName != 'HTML')
+						{
+							if(thisParent.tagName === selector.toUpperCase()) parent.push(thisParent)
+							thisParent = thisParent.parentElement
+						}
 					}else if (type === 'id')
 					{
-						if(thisParent.id === selector ) parent.push(thisParent)
+						while (thisParent.tagName != 'HTML')
+						{
+							if(thisParent.id === selector ) parent.push(thisParent)
+							thisParent = thisParent.parentElement
+						}
 					}else if (type === 'class')
 					{
-						if(thisParent.classList.contain(selector) ) parent.push(thisParent)
+						while (thisParent.tagName != 'HTML')
+						{
+							if(thisParent.classList.contain(selector) ) parent.push(thisParent)
+							thisParent = thisParent.parentElement
+						}
 					}
 				});
+				deleteRepeat(parent); // 删除重复元素
 				this.elements = parent ;
 				return this
 			},
@@ -227,6 +248,7 @@
 						children = children.concat(thisChildren)
 					})
 				}
+				deleteRepeat(children); // 删除重复元素
 				this.elements = children ;
 				return this
 			},
@@ -237,6 +259,7 @@
 					var haha = [].slice.call(arrDom) ;
 					arr = arr.concat(haha);
 				});
+				deleteRepeat(arr); // 删除重复元素
 				this.elements = arr ;
 				return this ;
 			},
@@ -258,14 +281,6 @@
 					})
 				}
 				return this ;
-			},
-			fragment:function(html){
-				var fragment = document.createDocumentFragment();
-				var div = document.createElement('div');
-				fragment.appendChild(div);
-				var div = fragment.querySelector('div');
-				div.innerHTML = html ;
-				return [].slice.call(div.childNodes);
 			},
 			before:function(str){
 				if (typeof(str) == 'string')
@@ -319,7 +334,15 @@
 					//先要判断其是否可见，如果可见，不做处理，如果不可见，获取data-display值，因此需要将其display值保存到哪个地方
 				})
 			},
-			// -------------------
+			fragment:function(html){
+				var fragment = document.createDocumentFragment();
+				var div = document.createElement('div');
+				fragment.appendChild(div);
+				var div = fragment.querySelector('div');
+				div.innerHTML = html ;
+				return [].slice.call(div.childNodes);
+			},
+			// ------------------- offset/position -----------
 			offset:function(){
 				var rect = this.elements[0].getBoundingClientRect();
 				return {'top':rect.top,'left':rect.left}
@@ -334,6 +357,7 @@
 				return {'top':rectChild.top-rectParent.top ,
 						'left':rectChild.left-rectParent.left }
 			}
+			// ------------------- innerwrap/outerwrap ----------- 包裹分为内包裹，外包裹 -------------
 		}
 		zepto.Z.prototype = $.fn ;
 		return $ ;
