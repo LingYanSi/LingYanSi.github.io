@@ -988,6 +988,23 @@
 	hei.jia(); // 3
 	//变量nidaye会一直在内存中驻留，不被回收
 
+	--------------------------------------------------------------------------------------
+
+	arguments
+
+	arguments 是一个类数组对象。代表传给一个function的参数列表。
+	arguments 对象是函数内部的【本地变量】; arguments 已经不再是函数的属性了。
+
+	例1:
+	function nidaye(){console.log(arguments[0])}
+	nidaye(1,213,3) // 输出1
+
+	例2:
+	var arr = 11 ;
+	function clear(arr){ arr=456 }
+	clear(arr);
+	console.log(arr); // 输出11，这是因为 arguments 对象是函数内部的【本地变量】，clear内部形参与外部变量无关系
+
 	-----------------------------------------------------------------------------------------
 	html5 history
 

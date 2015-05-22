@@ -42,6 +42,35 @@
 			event.preventDefault();
 
 		});
+
+		edit.addEventListener('mouseup',function(event){ // 很不完美
+			var type = ['b','i','u','font'].join(',').toUpperCase();
+			var obj = {B:'bold',U:'underline',I:'italic',FONT:'forecolor'} ;
+			var selection = window.getSelection();
+			if(selection.rangeCount){
+				var range = selection.getRangeAt(0);
+				var child = range.endContainer ;
+				var match ,arr=[];
+				while (child.id != 'edit') // 看当前处在哪些标签内部
+				{
+					match = type.match(child.nodeName) ;
+					if(!!match) arr.push(match[0])
+					child = child.parentNode ;
+				}
+				navItem.forEach(function(ele){ // 添加编辑状态
+					var that = ele ;
+					var have = false ;
+					arr.forEach(function(ele){
+						if(obj[ele]=== that.id) have = true ;
+					})
+					if (have)
+					{
+						ele.classList.add('current')
+					}else ele.classList.remove('current')
+				});
+			}
+		})
+
 		function removeNullTextNode(that){// 移除空文本节点
 			var child = that.childNodes ;
 			[].slice.call(child).forEach(function(ele){
@@ -62,14 +91,17 @@
 			}
 			edit.classList.toggle('edit-preview')
 		});
-		[].slice.call(document.querySelectorAll('.execcommand')).forEach(function(ele){
+		var navItem = [].slice.call(document.querySelectorAll('.execcommand'));
+		navItem.forEach(function(ele){
 			ele.addEventListener('click',function(event){
+				if(document.getElementById('preview').value == '编辑') return ;//如果是预览状态，点击无效
 				if (this.id == 'forecolor')
 				{
 					document.execCommand(this.id,false,'red')
 				}else if (this.id == 'createLink')
 				{
 					var name =	prompt('输入网址','');
+					if(!name) return 
 					document.execCommand(this.id,false,name);
 					[].slice.call(edit.querySelectorAll('a')).forEach(function(ele){ //设置连接在新页面打开
 						ele.target = '_blank'
@@ -79,12 +111,15 @@
 					var name =	prompt('输入图片网址','');
 					if (/^http:\/\/.+$/.test(name))
 					{
-						console.log('网址有效')
 						document.execCommand(this.id,false,name);
-					}else {
-						console.log('网址无效')
-						return
-					}
+					}else  return
+				}else if (this.id == 'insertVideo')
+				{
+					var name =	prompt('输入视频网址','');
+					if (/^http:\/\/.+$/.test(name))
+					{
+						document.execCommand(this.id,false,name);//这个地方插视频
+					}else  return
 				}else{
 					document.execCommand(this.id)
 				}

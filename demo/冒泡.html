@@ -15,10 +15,19 @@
  <body>
 	<div id="wrap" class="wrap">
 		<div id="main" class="main">
-			<div id="" class="heihei" style="height:500px;width:100%;background:rgb(247,105,105);font-size:30px;">
-				<p>地址发给谁的粉丝放虎归山对方回答过好的防火防盗广汇股份<span style="vertical-align: bottom;font-size:16px;">这是一个vertical-align</span></p>
+			<div id="" class="heihei" style="height:500px;width:100%;background:rgb(247,105,105);">
+				<div id="absolute" class="" style="height:50px;width:100%;background:blue;bottom:0;position:fixed;">
+					
+				</div>
 			</div>
 		</div>
+		<ruby>
+		  漢 <rp>(</rp><rt>han</rt><rp>)</rp>
+		  字 <rp>(</rp><rt>zi</rt><rp>)</rp>
+		  博爱 <rp>(</rp><rt>boai</rt><rp>)</rp>
+		  字 <rp>(</rp><rt>zi</rt><rp>)</rp>
+		</ruby>
+		也就是说
 	</div>
  <script src="js/jquery-1.11.2.min.js"></script>
  <script id="yuan" src="js/global.js"></script>
@@ -44,17 +53,8 @@
 		hei.addEventListener('touchend',function(){
 			console.log('我被滑动了')
 		})
-
-		console.log($('.absolute').parents())
-		var arr = [1,2,1,2,3,4];
-		arr.forEach(function(ele,index,arr){
-			for (var i=index+1,len=arr.length;i<len ;i++ )
-			{
-				if (ele===arr[i]) arr.splice(i,1)
-			}
-		});
-		console.log(arr)
-
+		var time = new Date(1000);
+		console.log(time.getFullYear())
 	})
  </script>
  </body>
