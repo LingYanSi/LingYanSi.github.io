@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  html{overflow-y:auto;}
+	  .rotate{position:fixed;top:0;left:0;height:100%;width:100%;-webkit-perspective:600px;cursor:default;background-color:rgb(0,0,0)}
+	  .rotate-item{-webkit-transform:rotateY(90deg) translateX(0);position:absolute;top:0;height:100%;width:100%;background-size:cover;opacity:0;
+					-webkit-transform-origin:50% 50% -320px;}
+	  .change{-webkit-transition:all .6s linear;-webkit-transition-property:opacity,-webkit-transform;}
+	  .change-next{opacity:0;-webkit-transform:rotateY(90deg) translateX(0);pointer-events:none;}
+	  .change-current{opacity:1;-webkit-transform:rotateY(0deg) translateX(0);pointer-events:auto;}
+	  .change-prev{opacity:0;-webkit-transform:rotateY(-90deg) translateX(0);pointer-events:none;}
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<div class="rotate">
+				<div class="rotate-item change-current" style="background-image:url(../images/3.jpg)"></div>
+				<div class="rotate-item change-next" style="background-image:url(../images/2.jpg)"></div>
+				<div class="rotate-item change-next" style="background-image:url(../images/1.jpg)"></div>
+			</div>
+		</div>
+	</div>
+ <script type="text/javascript">
+	window.onload = function(){
+		var winHeight = window.innerHeight ;
+		var winWidth = window.innerWidth ;
+		console.log(winWidth)
+		document.getElementById('wrap').style.opacity = 1;
+		var $item = [].slice.call(document.querySelectorAll('.rotate-item')) ;
+		var len = $item.length ;
+		var index = 0 ;
+		var time = 0 ;
+		$item.forEach(function(ele){
+			ele.style.webkitTransformOrigin = '50% 50% -'+winWidth/2+'px' ;
+			ele.addEventListener('click',function(event){
+				console.log(this.classList)
+			})
+		})
+		window.addEventListener('keyup',function(event){
+			var newTime= new Date().getTime()
+			if(newTime-time>600) time = newTime
+			else return ;
+			var keyCode = event.keyCode ;
+			if (keyCode == 40 || keyCode == 39)
+			{
+				toWhere((index+1),'right');
+				index = setPage(index+1) ;
+			}else if (keyCode == 38 || keyCode == 37)
+			{
+				toWhere((index-1),'left');
+				index = setPage(index-1) ;
+			}
+		});
+		var $rotate = document.querySelector('.rotate'),
+				item = [].slice.call($rotate.children) ,
+				len = item.length ;
+		touchEvent()
+		function touchEvent(){
+			var xx,yy,XX,YY,
+				opaShow = 1,
+				opaHide = 0,
+				rotateYCur = 0,
+				rotateYPrev = -90,
+				rotateYNext = 90 ,
+				currentDom,prevDom,nextDom,
+				cha ,swipeX,swipeY;
+			var isPhone = !!navigator.userAgent.toLowerCase().match(/phone|android|pad/g) ;
+			console.log(isPhone)
+			if (isPhone)
+			{
+				$rotate.addEventListener('touchstart',function(event){
+					if(event.button==0) event.stopPropagation(),event.preventDefault();
+					touchStart(event)
+				},false);
+				$rotate.addEventListener('touchmove',function(event){
+					touchMove(event)
+				},false);
+				$rotate.addEventListener('touchend',function(event){
+					if(event.button==0) event.stopPropagation(),event.preventDefault();
+					touchEnd(event);
+				},false);
+			}else{
+				$rotate.addEventListener('mousedown',function(event){
+					if(event.button==0) event.stopPropagation(),event.preventDefault();
+					touchStart(event)
+				},false);
+				$rotate.addEventListener('mousemove',function(event){
+					touchMove(event)
+				},false);
+				$rotate.addEventListener('mouseup',function(event){
+					if(event.button==0) event.stopPropagation(),event.preventDefault();
+					touchEnd(event);
+				},false);
+			}
+			function touchStart(event){
+				cha = 0 ;
+				XX = xx = event.targetTouches ? event.targetTouches[0].screenX : event.pageX ;
+				YY = yy = event.targetTouches ? event.targetTouches[0].screenY : event.pageY ;
+				index = setPage(index)
+				currentDom = item[index] ;
+				nextDom = item[index+1] ? item[index+1] : item[0];
+				prevDom = item[index-1] ? item[index-1] : item[len-1] ;
+				
+				currentDom.classList.remove('change');
+				currentDom.style.pointerEvents = 'auto' ;
+				nextDom.classList.remove('change');
+				nextDom.style.pointerEvents = 'none' ;
+				prevDom.classList.remove('change');
+				prevDom.style.pointerEvents = 'none' ;
+				swipeX = true , swipeY = true ;
+			}
+			function touchMove(event){
+				XX  = event.targetTouches ? event.targetTouches[0].screenX : event.pageX ;
+				YY  = event.targetTouches ? event.targetTouches[0].screenY : event.pageY ;
+				if (swipeX &&(!swipeY || Math.abs(XX-xx)>Math.abs(YY-yy)))
+				{
+					swipeY = false ;
+					event.stopPropagation();
+					event.preventDefault();
+					cha = XX - xx ;
+					if (cha>0)
+					{
+						currentDom.style.opacity = 1-cha/winWidth +'' ;
+						currentDom.style.webkitTransform = 'rotateY('+ (rotateYCur+(cha/winWidth)*90) +'deg)' ;
+						prevDom.style.opacity = cha/winWidth +'' ;
+						prevDom.style.webkitTransform = 'rotateY('+ (rotateYPrev+(cha/winWidth)*90) +'deg)' ;
+					}else if (cha<0)
+					{
+						currentDom.style.opacity = 1+cha/winWidth +'' ;
+						currentDom.style.webkitTransform = 'rotateY('+ (rotateYCur+(cha/winWidth)*90) +'deg)' ;
+						nextDom.style.opacity = (-cha/winWidth) +'' ;
+						nextDom.style.webkitTransform = 'rotateY('+ (rotateYNext+(cha/winWidth)*90) +'deg)' ;
+					}
+				}else if (swipeY &&(!swipeX || Math.abs(XX-xx)<Math.abs(YY-yy)))
+				{
+					swipeX = false ;
+				}
+			}
+			function touchEnd(event){
+				if (swipeX)
+				{
+					if (cha>0)
+					{
+						if(cha<50){
+							currentDom.classList.add('change');
+							currentDom.style.opacity = opaShow +'' ;
+							currentDom.style.webkitTransform = 'rotateY('+ rotateYCur +'deg)' ;
+							prevDom.classList.add('change');
+							prevDom.style.opacity = opaHide +'' ;
+							prevDom.style.webkitTransform = 'rotateY('+ rotateYPrev +'deg)' ;
+						}else{
+							currentDom.classList.add('change');
+							currentDom.style.opacity = opaHide +'' ;
+							currentDom.style.webkitTransform = 'rotateY('+ rotateYNext +'deg)' ;
+							prevDom.classList.add('change');
+							prevDom.style.opacity = opaShow +'' ;
+							prevDom.style.webkitTransform = 'rotateY('+ rotateYCur +'deg)' ;
+							index-- ;
+						}
+					}else if (cha<0)
+					{
+						if (cha>-50)
+						{
+							currentDom.classList.add('change');
+							currentDom.style.opacity =  opaShow +'' ;
+							currentDom.style.webkitTransform = 'rotateY('+ rotateYCur +'deg)' ;
+							nextDom.classList.add('change');
+							nextDom.style.opacity = opaHide +'' ;
+							nextDom.style.webkitTransform = 'rotateY('+ rotateYNext +'deg)' ;
+						}else{
+							currentDom.classList.add('change');
+							currentDom.style.opacity = opaHide +'' ;
+							currentDom.style.webkitTransform = 'rotateY('+ rotateYPrev +'deg)' ;
+							nextDom.classList.add('change');
+							nextDom.style.opacity = opaShow +'' ;
+							nextDom.style.webkitTransform = 'rotateY('+ rotateYCur +'deg)' ;
+							index++
+						}
+					}
+				}
+				swipeX = false , swipeY = false ;
+			}
+		}
+			function setPage(index){
+				if(index>len-1) index=0 ;
+				else if(index<0) index = len-1
+				return index ;
+			}
+			function toWhere(toIndex,direction){
+				var toIndex = setPage(toIndex);
+				var nextDom = item[toIndex] ,
+					currentDom = item[index] ;
+				if (direction=='right')
+				{
+					nextDom.classList.remove('change');
+					nextDom.style.opacity = '0' ;
+					nextDom.style.webkitTransform = 'rotateY(90deg)';
+
+					var x = nextDom.offsetWidth ; // 强制浏览器reflow
+					currentDom.classList.add('change');
+					currentDom.style.opacity = '0' ;
+					currentDom.style.webkitTransform = 'rotateY(-90deg)';
+					currentDom.style.pointerEvents = 'none' ;
+
+					nextDom.classList.add('change');
+					nextDom.style.opacity = '1' ;
+					nextDom.style.webkitTransform = 'rotateY(0deg)';
+					nextDom.style.pointerEvents = 'auto' ;
+				}else if (direction=='left')
+				{
+					nextDom.classList.remove('change');
+					nextDom.style.opacity = '0' ;
+					nextDom.style.webkitTransform = 'rotateY(-90deg)';
+
+					var x = nextDom.offsetWidth ; // 强制浏览器reflow
+					currentDom.classList.add('change');
+					currentDom.style.opacity = '0' ;
+					currentDom.style.webkitTransform = 'rotateY(90deg)';
+					currentDom.style.pointerEvents = 'none' ;
+
+					nextDom.classList.add('change');
+					nextDom.style.opacity = '1' ;
+					nextDom.style.webkitTransform = 'rotateY(0deg)';
+					nextDom.style.pointerEvents = 'auto' ;
+				}
+			}
+	}
+ </script>
+ </body>
+</html>
