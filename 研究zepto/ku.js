@@ -48,6 +48,15 @@
 			});
 		}
 		$.fn = {
+			userAgent:function(){
+				var user = {} ;
+				var nav = navigator.userAgent.toLowerCase();
+				user.moz = !!nav.match(/firefox/g) ;
+				user.ie = !!nav.match(/ie/g) ;
+				user.chrome = !!nav.match(/chrome/g) ;
+				user.phone = !!nav.match(/phone|android|pad/g) ;
+				return user ;
+			},
 			selector:function(str){
 				if( /^\.[\w-]+$/.test(str) )
 				{
@@ -356,7 +365,7 @@
 				}
 				return {'top':rectChild.top-rectParent.top ,
 						'left':rectChild.left-rectParent.left }
-			}
+			},
 			// ------------------- innerwrap/outerwrap ----------- 包裹分为内包裹，外包裹 -------------
 		}
 		zepto.Z.prototype = $.fn ;
@@ -370,7 +379,8 @@
 		var isId = /^#[\w-]+$/ ;
 		var isClass = /^\.[\w-]+$/ ;
 		var isTagName = /^[\w]+$/ ;
-
+		var userAgent = $.fn.userAgent();
+		console.log(userAgent)
 		function zid(element){
 			return element._zid || (element._zid = _zid++ );
 		}
@@ -380,7 +390,7 @@
 			// 当需要执行的时候，从handlers内部查找，然后遍历出所有的方法，再执行
 			// 步骤1：为对象添加唯一的标识符，也就是给对象添加一个对象【_zid=唯一Id】，当为对象添加事件的时候，先判断下对象时候存在这个【_zid】，存在的话就给对象添加事件【click】、【fun】
 			// 步骤2：事件移除，removeEventListener(type,functionName)//如果是匿名的函数，那么就没有函数名了，只能将这个时间的所有响应函数移除掉
-		function appendHanlder(type,that,selector,fun){ //新增监听
+		function appendHanlder(type,that,selector,fun,useCapture){ //新增监听
 			var id = zid(that);
 			if (!!fun) // 事件监听
 			{
@@ -389,6 +399,7 @@
 				handler.funName = fun.name ;
 				handler.type = type ;
 				handler.selector = selector ;
+				handler.useCapture = useCapture ;
 				handler.proxy = function(event){ // 在代理处要考虑四种情况，1，没有selector、selector为id、selector为class、selector为tagName
 					if (!!selector)
 					{
@@ -441,30 +452,30 @@
 			}
 			handlers[id] = handler ;
 		}
-		$.fn.on=function(type,children,fun){ // 事件委托的实现
+		$.fn.on=function(type,children,fun,useCapture){ // 事件委托的实现
 			if (!(!!fun))  fun = children ,children = undefined ;
 			this.each(function(){
-					appendHanlder(type,this,children,fun);
-			});
+				appendHanlder(type,this,children,fun);
+			},!!useCapture);
 			return this ;
 		}
-		$.fn.off = function(type,children,funName){ // 如何删除事件匿名函数
+		$.fn.off = function(type,children,funName,useCapture){ // 如何删除事件匿名函数
 			this.each(function(){
 				removeHanlder(type,this,children,funName);
-			})
+			},!!useCapture)
 			return this ;
 		}
-		$.fn.click = function(fun){
+		$.fn.click = function(fun,useCapture){
 			this.each(function(){
 				appendHanlder('click',this,null,fun);
-			});
+			},!!useCapture);
 		}
-		$.fn.dblclick = function(fun){
+		$.fn.dblclick = function(fun,useCapture){
 			this.each(function(){
 				appendHanlder('dblclick',this,null,fun);
-			});
+			},!!useCapture);
 		}
-		$.fn.tap = function(fun){
+		$.fn.tap = function(fun,useCapture){
 			this.each(function(){
 				var touchmove = false ;
 				appendHanlder('touchmove',this,null,function(){
@@ -475,13 +486,12 @@
 						touchmove = false ;
 						return ;
 					}
-					console.log(touchmove)
 					fun;
-				});
+				},!!useCapture);
 			});
 			return this ;
 		}
-		$.fn.dblTap = function(dosth){
+		$.fn.dblTap = function(dosth,useCapture){
 			this.each(function(){
 				var timeEnd1,timeEnd2 ;
 				timeEnd1 = timeEnd2 = 0 ;
@@ -492,7 +502,19 @@
 					{
 						dosth.call(this); 
 					}
-				});
+				},!!useCapture);
+			});
+		}
+		// ------------------- focus/blur -------------
+		$.fn.focus = function(dosth,useCapture){
+			this.each(function(){ // 这里需要注意的是Firefox不支持focusin/focusout，不过focus支持冒泡
+								 // 其他浏览器支持，但focus不支持冒泡
+				appendHanlder('focus',this,null,fun,!!useCapture);
+			});
+		}
+		$.fn.blur = function(dosth,useCapture){
+			this.each(function(){
+				appendHanlder('blur',this,null,fun,!!useCapture);
 			});
 		}
 	})(Zepto);
