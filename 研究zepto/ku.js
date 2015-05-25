@@ -32,11 +32,11 @@
 		zepto.Z = function(dom){
 			var hei = {};
 			hei.elements = dom || [] ;
-			hei.__proto__ = $.fn ;
+			hei.__proto__ = $.fn ; // ie11以下不支持修改原型链
 			return hei
 		}
 		zepto.isZ = function(dom){
-			return dom instanceof zepto.Z
+			return dom instanceof zepto.Z // 运算符可以用来判断某个构造函数的prototype属性是否存在另外一个要检测对象的原型链上
 		}
 		var slice = [].slice ;
 		function deleteRepeat(arr){ // 删除数组中的重复元素
@@ -49,12 +49,12 @@
 		}
 		$.fn = {
 			userAgent:function(){
-				var user = {} ;
+				var user = {};
 				var nav = navigator.userAgent.toLowerCase();
-				user.moz = !!nav.match(/firefox/g) ;
-				user.ie = !!nav.match(/ie/g) ;
-				user.chrome = !!nav.match(/chrome/g) ;
-				user.phone = !!nav.match(/phone|android|pad/g) ;
+				user.webkit = !!nav.match(/webkit/g);
+				user.moz = !!nav.match(/firefox/g);
+				user.phone = !!nav.match(/phone|android|pad/g);
+				user.ie = !!nav.match(/ie/g);
 				return user ;
 			},
 			selector:function(str){
@@ -272,7 +272,33 @@
 				this.elements = arr ;
 				return this ;
 			},
-			//----------------- append/prepend/wrap/empty/remove
+			length: function(){
+				return this.elements.length ;
+			},
+			// ------------------------------------- 前一个/后一个/兄弟元素 -----------------------------------
+			prev:function(index){
+				var previousSibling = this.elements[0].previousSibling ;
+				while (previousSibling.nodeType !== 1 && !!previousSibling)
+				{
+					previousSibling = previousSibling.previousSibling ;
+				}
+				return $(previousSibling)
+			},
+			next:function(index){
+				var nextSibling = this.elements[0].nextSibling ;
+				while (nextSibling.nodeType !== 1 && !!nextSibling)
+				{
+					nextSibling = nextSibling.nextSibling ;
+				}
+				return $(nextSibling)
+			},
+			siblings:function(){ // 删除本元素
+				var arr = slice.call(this.elements[0].parentNode.children);
+				arr.splice(arr.indexOf(this.elements[0]),1);
+				this.elements = arr ;
+				return this ;
+			},
+			//----------------- append/prepend/wrap/empty/remove -----------
 			append:function(str){
 				if (typeof(str) == 'string')
 				{
@@ -353,10 +379,10 @@
 			},
 			// ------------------- offset/position -----------
 			offset:function(){
-				var rect = this.elements[0].getBoundingClientRect();
+				var rect = this.elements[0].getBoundingClientRect(); // getBoundingClientRect 返回的有width/height/top/bottom/left/right 其中bottom指的是top+height right指的是left+width
 				return {'top':rect.top,'left':rect.left}
 			},
-			position:function(){
+			position:function(){ // 获取父元素，子元素的getBoundingClientRect，
 				var rectParent,rectChild ;
 				rectChild = this.elements[0].getBoundingClientRect();
 				if (this.elements[0].parentElement)
@@ -365,7 +391,7 @@
 				}
 				return {'top':rectChild.top-rectParent.top ,
 						'left':rectChild.left-rectParent.left }
-			},
+			}
 			// ------------------- innerwrap/outerwrap ----------- 包裹分为内包裹，外包裹 -------------
 		}
 		zepto.Z.prototype = $.fn ;
@@ -379,8 +405,8 @@
 		var isId = /^#[\w-]+$/ ;
 		var isClass = /^\.[\w-]+$/ ;
 		var isTagName = /^[\w]+$/ ;
-		var userAgent = $.fn.userAgent();
-		console.log(userAgent)
+		var userAgent = $.fn.userAgent();//输出一些有关客户端的信息
+
 		function zid(element){
 			return element._zid || (element._zid = _zid++ );
 		}
@@ -390,7 +416,7 @@
 			// 当需要执行的时候，从handlers内部查找，然后遍历出所有的方法，再执行
 			// 步骤1：为对象添加唯一的标识符，也就是给对象添加一个对象【_zid=唯一Id】，当为对象添加事件的时候，先判断下对象时候存在这个【_zid】，存在的话就给对象添加事件【click】、【fun】
 			// 步骤2：事件移除，removeEventListener(type,functionName)//如果是匿名的函数，那么就没有函数名了，只能将这个时间的所有响应函数移除掉
-		function appendHanlder(type,that,selector,fun,useCapture){ //新增监听
+		function appendHanlder(type,that,selector,fun,usecaptrue){ //新增监听
 			var id = zid(that);
 			if (!!fun) // 事件监听
 			{
@@ -399,7 +425,7 @@
 				handler.funName = fun.name ;
 				handler.type = type ;
 				handler.selector = selector ;
-				handler.useCapture = useCapture ;
+				handler.usecaptrue = !!usecaptrue ; //是否捕捉事件
 				handler.proxy = function(event){ // 在代理处要考虑四种情况，1，没有selector、selector为id、selector为class、selector为tagName
 					if (!!selector)
 					{
@@ -419,7 +445,7 @@
 				else{
 					handlers[id] = [handler];
 				}
-				that.addEventListener(type,handler.proxy);
+				that.addEventListener(type,handler.proxy,handler.usecaptrue);
 			}else{ //直接触发事件
 				(handlers[id] || []).forEach(function(element){
 					var type = element.type ;
@@ -452,30 +478,30 @@
 			}
 			handlers[id] = handler ;
 		}
-		$.fn.on=function(type,children,fun,useCapture){ // 事件委托的实现
+		$.fn.on=function(type,children,fun,usecaptrue){ // 事件委托的实现
 			if (!(!!fun))  fun = children ,children = undefined ;
 			this.each(function(){
-				appendHanlder(type,this,children,fun);
-			},!!useCapture);
+				appendHanlder(type,this,children,fun,usecaptrue);
+			});
 			return this ;
 		}
-		$.fn.off = function(type,children,funName,useCapture){ // 如何删除事件匿名函数
+		$.fn.off = function(type,children,funName,usecaptrue){ // 如何删除事件匿名函数
 			this.each(function(){
 				removeHanlder(type,this,children,funName);
-			},!!useCapture)
+			})
 			return this ;
 		}
-		$.fn.click = function(fun,useCapture){
+		$.fn.click = function(fun,usecaptrue){
 			this.each(function(){
-				appendHanlder('click',this,null,fun);
-			},!!useCapture);
+				appendHanlder('click',this,null,fun,usecaptrue);
+			});
 		}
-		$.fn.dblclick = function(fun,useCapture){
+		$.fn.dblclick = function(fun,usecaptrue){
 			this.each(function(){
-				appendHanlder('dblclick',this,null,fun);
-			},!!useCapture);
+				appendHanlder('dblclick',this,null,fun,usecaptrue);
+			});
 		}
-		$.fn.tap = function(fun,useCapture){
+		$.fn.tap = function(fun,usecaptrue){
 			this.each(function(){
 				var touchmove = false ;
 				appendHanlder('touchmove',this,null,function(){
@@ -486,12 +512,13 @@
 						touchmove = false ;
 						return ;
 					}
+					console.log(touchmove)
 					fun;
-				},!!useCapture);
+				},usecaptrue);
 			});
 			return this ;
 		}
-		$.fn.dblTap = function(dosth,useCapture){
+		$.fn.dblTap = function(dosth,usecaptrue){
 			this.each(function(){
 				var timeEnd1,timeEnd2 ;
 				timeEnd1 = timeEnd2 = 0 ;
@@ -502,20 +529,33 @@
 					{
 						dosth.call(this); 
 					}
-				},!!useCapture);
+				},usecaptrue);
 			});
+			return this ;
 		}
-		// ------------------- focus/blur -------------
-		$.fn.focus = function(dosth,useCapture){
-			this.each(function(){ // 这里需要注意的是Firefox不支持focusin/focusout，不过focus支持冒泡
-								 // 其他浏览器支持，但focus不支持冒泡
-				appendHanlder('focus',this,null,fun,!!useCapture);
-			});
+		$.fn.focus = function(fun,usecaptrue){
+			if(userAgent.moz){
+				this.each(function(){
+					appendHanlder('focus',this,null,fun,usecaptrue);
+				})
+			}else{
+				this.each(function(){
+					appendHanlder('focusin',this,null,fun,usecaptrue);
+				})
+			}
+			return this ;
 		}
-		$.fn.blur = function(dosth,useCapture){
-			this.each(function(){
-				appendHanlder('blur',this,null,fun,!!useCapture);
-			});
+		$.fn.blur = function(fun,usecaptrue){
+			if(userAgent.moz){
+				this.each(function(){
+					appendHanlder('blur',this,null,fun,usecaptrue);
+				})
+			}else{
+				this.each(function(){
+					appendHanlder('focusout',this,null,fun,usecaptrue);
+				})
+			}
+			return this ;
 		}
 	})(Zepto);
 

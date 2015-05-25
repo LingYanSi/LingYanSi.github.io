@@ -6,10 +6,14 @@
   <meta name="Author" content="灵岩">
   <meta name="Keywords" content="灵岩">
   <meta name="Description" content="灵岩的github">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <title>灵岩</title>
   <style type="text/css">
 	 *{margin:0;padding:0;}
 	 body{font-size:14px;background:rgb(218,243,239);}
+	 @media(orientation:landscape){
+		body{background:red;}
+	 }
 	 .main{max-width:1000px;margin:0 auto;line-height:2;}
 	 .content{background:rgb(218,243,239);position:relative;}
 	 .content-item{border-bottom:1px dashed rgb(147,147,147);}
@@ -21,8 +25,15 @@
 		<div id="" class="content">
 			<div class="content-item">
 				<h1>学习目录</h1>
+				<input type="text" class="input">
 			</div>
 			<div class="bitch" id="heihei">你在说什么</div>
+		</div>
+		<div id="" class="">
+			<div id="alpha"></div>
+			<div id="beta"></div>
+			<div id="abs"></div>
+			<div id="rock"></div>
 		</div>
 	</div>
 	<div id="cunt">cunt</div>
@@ -30,8 +41,8 @@
 	<script type="text/javascript">
 		console.log($('.content'),'什么玩意');
 		var nidaye = $('.content');
-		console.log($(nidaye))
-		console.log($('.content').find('.content-item').text())
+		console.log($(nidaye).text())
+		console.log($('.content').find('.content-item'))
 		$('.content').append('<div class="bitch">第二个</div>')
 		console.log($('.content').find('.bitch').css({'background':'rgb(121,210,210)'}).append('<p>你是在作死啊</p>').after('<p>测试一下</p><p>在测试一下</p>').after('<h1 style="background:rgb(40,65,74);">多行不义必自毙</h1>'))
 		$('.content').on('click',function(){
@@ -39,18 +50,29 @@
 		});
 		$('.content').off('click','h1');
 		$('.bitch').on('click',function(event){
+			event.stopPropagation();
+			console.log(event)
 			$(this).text('无忧北极，二次').css({'color':'white'});
-			alert(1111)
-			//event.stopPropagation();
-		}).height('200px');
+			//alert(1111)
+		}).height('100px');
 		$('#cunt').dblclick(function(){
 			alert('我是一个简易电击事件')
 		});
-		console.log($('#cunt').elements[0].offsetHeight)
-		console.log('测试对象',$.isZ($('#cunt')) )
+		$('.main').click(function(event){
+			//alert(event.type)
+		},true) // 如果捕捉事件，即便子元素已经stopPropagation，也还是会先触发此元素事件
+		console.log('长度测试',$('.input').siblings().length());
 
-		console.log(document.querySelector('.bitch').getBoundingClientRect())
-		console.log($('#heihei').children('#heihei'))
+		//console.log('横屏吗',window.deviceMetion)
+		window.addEventListener('deviceorientation',function(event){
+			console.log(event)
+			$('#alpha').text('水平旋转角度'+event.alpha); //  0 to 360
+			$('#beta').text('Y轴旋转'+event.beta); //  -180 to 180
+			Math.abs(event.gamma)>45 ? $('#abs').text(' 屏幕横置'+ event.gamma) : $('#abs').text('屏幕竖直' + event.gamma) ; //  -90 to 90
+		});
+		window.addEventListener('devicemotion',function(event){
+			//$('#rock').text('摇一摇'+event.accelerationIncludingGravity.z)
+		})
 	</script>
  </body>
 </html>

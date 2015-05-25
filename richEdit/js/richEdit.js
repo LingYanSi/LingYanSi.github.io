@@ -127,19 +127,13 @@
 				modelToggel(event.currentTarget)
 				
 				
-				//edit.focus();
+				edit.focus();
 			});
 		})
 		function currentToggole(that,classname){
-			[].slice.call(that.parentNode.children ).forEach(function(ele){
-				if (ele != that)
-				{
-					ele.classList.remove(classname)
-				}else{
-					ele.classList.add(classname)
-				}
-				edit.focus();
-			})
+			if (!!!edit.textContent) return
+			if(that.classList.contains(classname)) that.classList.remove(classname);
+			else that.classList.add(classname);
 		}
 		// 实现的功能
 		// 1，点击切换模式，就是说，点击哪个使用哪个
@@ -172,6 +166,6 @@
 						selection.removeAllRanges();
 						selection.addRange(range);
 					}
-					selection.collapseToEnd();
+					//selection.collapseToEnd();
 				}
 		}

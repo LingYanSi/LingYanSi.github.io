@@ -65,7 +65,24 @@
 	@media screen and (min-width: 500px) and (max-width: 800px) { //宽度在500到800之间的设备
 	
 	}
+	@media(orientation:landscape|portrait){ // 不同模式下的【竖屏portrait】【横屏landscape】
+		body{background:red;}
+	 }
 	</style>
+
+	----------------------------------------------------------------------------------------
+
+	device倾斜
+	
+	window.addEventListener('deviceorientation',function(event){
+		console.log(event)
+		$('#alpha').text('水平旋转角度'+event.alpha); //  0 to 360
+		$('#beta').text('Y轴旋转'+event.beta); //  -180 to 180
+		Math.abs(event.gamma)>45 ? $('#abs').text(' 屏幕横置'+ event.gamma) : $('#abs').text('屏幕竖直' + event.gamma) ; //  -90 to 90
+	});
+	window.addEventListener('devicemotion',function(event){
+		//$('#rock').text('摇一摇'+event.accelerationIncludingGravity.z)
+	})
 
 	--------------------------------------------------------------------------------------
 
@@ -1280,6 +1297,8 @@
 	•true 的触发顺序总是在 false 之前；
 	•如果多个均为 true，则外层的触发先于内层；
 	•如果多个均为 false，则内层的触发先于外层。
+
+	 // 如果发起捕获，即便子元素已经stopPropagation，但还是会先触发此元素事件
 
 -------------------------------------------------------------------------------
 		<div id="main"></div>

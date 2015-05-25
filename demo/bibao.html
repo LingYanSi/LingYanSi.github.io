@@ -53,7 +53,9 @@
 		 var gei = function(){
 			this.ni = function(){
 				console.log('我不是属性')
+				return this
 			}
+			this.height = this ;
 		 };
 		 gei.prototype = {
 			ni:function(){
@@ -68,6 +70,7 @@
 		var time = gei.fn.hah;
 		time();
 		var lod = new gei();
+		console.log(lod.height)
 
 		$('.test').tap(function(){alert('去你妈的')})
 		$('#main').mouseleave(function(event){
