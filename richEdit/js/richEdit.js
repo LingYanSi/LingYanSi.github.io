@@ -44,6 +44,9 @@
 		});
 
 		edit.addEventListener('mouseup',function(event){ // 很不完美
+			testHighL();
+		})
+		function testHighL(){
 			var type = ['b','i','u','font'].join(',').toUpperCase();
 			var obj = {B:'bold',U:'underline',I:'italic',FONT:'forecolor'} ;
 			var selection = window.getSelection();
@@ -69,8 +72,7 @@
 					}else ele.classList.remove('current')
 				});
 			}
-		})
-
+		}
 		function removeNullTextNode(that){// 移除空文本节点
 			var child = that.childNodes ;
 			[].slice.call(child).forEach(function(ele){
@@ -166,6 +168,7 @@
 						selection.removeAllRanges();
 						selection.addRange(range);
 					}
-					//selection.collapseToEnd();
+					selection.collapseToEnd();
+					testHighL();
 				}
 		}
