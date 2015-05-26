@@ -2,6 +2,17 @@
 	  // 首先要做的是，对html标签的过滤与重置，那些事会出现的，哪些是要移除掉的
 	  // script是必须要移除掉的 html标签中的style属性是要移除的
 	  // 然后编辑器的内容是不是 innerHTML
+
+	  var userAgent =(function(){
+				var user = {};
+				var nav = navigator.userAgent.toLowerCase();
+				user.webkit = !!nav.match(/webkit/g);
+				user.moz = !!nav.match(/firefox/g);
+				user.phone = !!nav.match(/phone|android|pad/g);
+				user.ie = !!nav.match(/trident/g);
+				return user ;
+		})();
+		console.log(userAgent)
 		var edit = document.getElementById('edit');
 		edit.addEventListener('dblclick',function(){
 			var str = this.innerHTML ;
@@ -30,6 +41,8 @@
 			div.textContent = event.clipboardData.getData('text/plain') ;
 			var children = div.childNodes[0] ;
 			range.deleteContents();
+
+			if(!children) return
 			range.insertNode(children);
 
 			selection.addRange(range); // 有个奇怪的地方，假如我没有选中任何文本，selection.rangeCount的值为1，但这个时候使用range.insertNode并不会将新加的节点加入到range中，
@@ -55,10 +68,38 @@
 		edit.addEventListener('mouseup',function(event){ // 很不完美
 			if(document.getElementById('preview').value == '编辑') return ;//如果是预览状态，点击无效
 			testHighL();
+		});
+		edit.addEventListener('mousedown',function(event){
+			//testHighL()
 		})
+		function testHighLight(event){ // 需要在提交的时候，对整个做一处理，文本样式的修饰是通过标签实现的，而非属性
+			var type = ['b','i','u','font','em','strong'].join(',').toUpperCase();
+			var obj = {B:'bold',U:'underline',I:'italic',FONT:'forecolor',EM:'italic',STRONG:'bold'} ;
+				var child = event.target ;
+				var match ,arr=[];
+				if(!!!child) return ;
+				while (child.id != 'edit') // 看当前处在哪些标签内部
+				{
+					match = type.match(child.nodeName) ;
+					if(!!match) arr.push(match[0])
+					child = child.parentNode ;
+				}
+				navItem.forEach(function(ele){ // 添加编辑状态
+					var that = ele ;
+					var have = false ;
+					arr.forEach(function(ele){
+						if(obj[ele]=== that.id || obj[ele]== that.style.fontWeight || obj[ele]== that.style.fontStyle || obj[ele]== that.color || obj[ele]== that.style.textDecoration ) 
+							have = true ;
+					})
+					if (have)
+					{
+						ele.classList.add('current')
+					}else ele.classList.remove('current')
+				});
+		}
 		function testHighL(){ // 需要在提交的时候，对整个做一处理，文本样式的修饰是通过标签实现的，而非属性
-			var type = ['b','i','u','font'].join(',').toUpperCase();
-			var obj = {B:'bold',U:'underline',I:'italic',FONT:'forecolor'} ;
+			var type = ['b','i','u','font','em','strong'].join(',').toUpperCase();
+			var obj = {B:'bold',U:'underline',I:'italic',FONT:'forecolor',EM:'italic',STRONG:'bold'} ;
 			var selection = window.getSelection();
 			if(selection.rangeCount){
 				var range = selection.getRangeAt(0);
@@ -99,6 +140,7 @@
 			edit.classList.toggle('edit-preview');
 		});
 		var navItem = [].slice.call(document.querySelectorAll('.execcommand'));
+		var obj = {bold:['blod','strong'],underline:'underline',italic:['italic','em']} ;
 		navItem.forEach(function(ele){
 			ele.addEventListener('click',function(event){
 				if(document.getElementById('preview').value == '编辑') return ;//如果是预览状态，点击无效
@@ -118,7 +160,7 @@
 					var name =	prompt('输入图片网址','');
 					if (/^http:\/\/.+$/.test(name))
 					{
-						document.execCommand(this.id,false,name);
+						document.execCommand(insertImage,false,'http://pic4.zhimg.com/2fe92998fd8f9579dc406413c5d8dc4f_b.jpg');
 					}else  return
 				}else if (this.id == 'insertVideo')
 				{
