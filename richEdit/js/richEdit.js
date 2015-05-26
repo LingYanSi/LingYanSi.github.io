@@ -42,11 +42,21 @@
 			event.preventDefault();
 
 		});
+		function removeNullTextNode(that){// 移除空文本节点
+			var child = that.childNodes ;
+			[].slice.call(child).forEach(function(ele){
+				if (/^\s*$/.test(ele.nodeValue))
+				{
+					ele.parentNode.removeChild(ele)
+				}
+			})
+		}
 
 		edit.addEventListener('mouseup',function(event){ // 很不完美
+			if(document.getElementById('preview').value == '编辑') return ;//如果是预览状态，点击无效
 			testHighL();
 		})
-		function testHighL(){
+		function testHighL(){ // 需要在提交的时候，对整个做一处理，文本样式的修饰是通过标签实现的，而非属性
 			var type = ['b','i','u','font'].join(',').toUpperCase();
 			var obj = {B:'bold',U:'underline',I:'italic',FONT:'forecolor'} ;
 			var selection = window.getSelection();
@@ -54,6 +64,7 @@
 				var range = selection.getRangeAt(0);
 				var child = range.endContainer ;
 				var match ,arr=[];
+				if(!!!child) return ;
 				while (child.id != 'edit') // 看当前处在哪些标签内部
 				{
 					match = type.match(child.nodeName) ;
@@ -64,7 +75,8 @@
 					var that = ele ;
 					var have = false ;
 					arr.forEach(function(ele){
-						if(obj[ele]=== that.id) have = true ;
+						if(obj[ele]=== that.id || obj[ele]== that.style.fontWeight || obj[ele]== that.style.fontStyle || obj[ele]== that.color || obj[ele]== that.style.textDecoration ) 
+							have = true ;
 					})
 					if (have)
 					{
@@ -73,25 +85,18 @@
 				});
 			}
 		}
-		function removeNullTextNode(that){// 移除空文本节点
-			var child = that.childNodes ;
-			[].slice.call(child).forEach(function(ele){
-				if (/^\s*$/.test(ele.nodeValue))
-				{
-					ele.parentNode.removeChild(ele)
-				}
-			})
-		}
 		document.getElementById('preview').addEventListener('click',function(){
 			if(edit.contentEditable == 'true'){
 				edit.setAttribute('contentEditable','false');
-				this.value = '编辑'
+				this.value = '编辑';
+				navItem.forEach(function(ele){ ele.classList.remove('current') })
 			}else{
+				this.value = '预览';
 				edit.setAttribute('contentEditable','true');
 				edit.focus();
-				this.value = '预览'
+				testHighL();
 			}
-			edit.classList.toggle('edit-preview')
+			edit.classList.toggle('edit-preview');
 		});
 		var navItem = [].slice.call(document.querySelectorAll('.execcommand'));
 		navItem.forEach(function(ele){

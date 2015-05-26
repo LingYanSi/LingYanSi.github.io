@@ -24,7 +24,7 @@
 			    disMin = navWidth - navWrapWidth ;
 			}
 			nav.addEventListener('touchstart',function(event){
-				navWrap.classList.remove('change');
+				navWrap.classList.remove('swipe-real-change');
 				XX = xx = event.targetTouches[0].screenX ;
 				YY = yy = event.targetTouches[0].screenY ;
 				t2 = t1 = new Date().getTime() ;
@@ -79,14 +79,14 @@
 				if(isNaN(v) || v===0) {  //如果速度不正常
 					if(currentX >= disMin && currentX <= disMax) return
 					currentX = distance  = setDis(currentX);
-					navWrap.classList.add('change');
+					navWrap.classList.add('swipe-real-change');
 					if(toLeft) navWrap.style.webkitTransform = 'translate3d('+(distance)+'px,0,0)';
 					else navWrap.style.webkitTransform = 'translate3d(0,'+(distance)+'px,0)';
 					return
 				}
 				var distance = currentX+v*L ; // 计算translateX
 				currentX = distance = setDis(distance);
-				navWrap.classList.add('change');
+				navWrap.classList.add('swipe-real-change');
 				if(toLeft) navWrap.style.webkitTransform = 'translate3d('+(distance)+'px,0,0)';
 				else navWrap.style.webkitTransform = 'translate3d(0,'+(distance)+'px,0)';
 			});

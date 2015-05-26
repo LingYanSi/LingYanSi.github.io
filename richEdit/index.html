@@ -6,32 +6,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <title>编辑器</title>
   <style type="text/css">
-	  .tool-bar{max-width:800px;margin:0 auto;}
-	  #edit{min-height:500px;width:100%;padding:10px;max-width:800px;border:1px solid rgb(0,0,0);outline:none;line-height:2;margin:0 auto;word-wrap:break-word;}
+
+	  .edit-box{max-width:800px;margin:0 auto;position:relative;}
+
+	  .tool-bar{width:100%;position:fixed;top:0;height:40px;line-height:40px;background-color:rgb(255,255,255);}
+	  .current{background-color:rgb(247,105,105);color:rgb(255,255,255);}
+
+	  #edit{min-height:500px;margin-top:40px;padding:10px;border:1px solid rgb(0,0,0);outline:none;line-height:2;word-wrap:break-word;}
 	  #edit:focus{border-color:rgb(255,0,0);}
 
 	  #edit img{width:100%;}
 	  #edit.edit-preview{border:1px solid rgb(255,255,255);}
 
-	  .current{background-color:rgb(247,105,105);color:rgb(255,255,255);}
   </style>
  </head>
  <body>
 	<div id="wrap" class="wrap">
 		<div id="main" class="main">
-			<div id="" class="tool-bar">
-				<input type="button" id="bold" class="execcommand" value="加粗">
-				<input type="button" id="italic" class="execcommand" value="倾斜">
-				<input type="button" id="underline" class="execcommand" value="下划线">
-				<input type="button" id="forecolor" class="execcommand" value="高亮">
-				<input type="button" id="createLink" class="execcommand" value="链接">
-				<input type="button" id="unlink" class="execcommand" value="链解">
-				<input type="button" id="insertImage" class="execcommand" value="插图">
-				<input type="button" id="insertVideo" class="execcommand" value="视频">
-				<input type="button" id="removeFormat" class="execcommand" value="去格式">
-				<input type="button" id="preview" value="预览">
+			<div id="" class="edit-box">
+				<div id="" class="tool-bar">
+					<input type="button" id="bold" class="execcommand" value="加粗">
+					<input type="button" id="italic" class="execcommand" value="倾斜">
+					<input type="button" id="underline" class="execcommand" value="下划线">
+					<!-- <input type="button" id="forecolor" class="execcommand" value="高亮"> -->
+					<input type="button" id="createLink" class="execcommand" value="链接">
+					<input type="button" id="unlink" class="execcommand" value="链解">
+					<input type="button" id="insertImage" class="execcommand" value="插图">
+					<input type="button" id="insertVideo" class="execcommand" value="视频">
+					<input type="button" id="removeFormat" class="execcommand" value="去格式">
+					<input type="button" id="preview" value="预览">
+				</div>
+				<div id="edit" class="" contentEditable='true'></div>
 			</div>
-			<div id="edit" class="" contentEditable='true'></div>
 		</div>
 	</div>
  <script src="js/richEdit.js"></script>

@@ -95,9 +95,9 @@
 					nextDom = $item[currentPage+1]?$item[currentPage+1]:$item[0];
 					currentDom = $item[currentPage];
 					
-					currentDom.classList.remove('change');
-					prevDom.classList.remove('change');
-					nextDom.classList.remove('change');
+					currentDom.classList.remove('swipe-change');
+					prevDom.classList.remove('swipe-change');
+					nextDom.classList.remove('swipe-change');
 
 					currentDom.style.webkitTransform = 'translate3d(0,0,0)' ;
 					prevDom.style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)' ;
@@ -112,6 +112,7 @@
 					swipeY = true ;
 					swipeX = true ;
 				}
+				var $news = document.querySelector('#news');
 				function touchMove(event){
 					XX = event.targetTouches ? event.targetTouches[0].screenX : event.pageX;
 					YY = event.targetTouches ? event.targetTouches[0].screenY : event.pageY;
@@ -119,6 +120,7 @@
 					if (swipeY && (!swipeX || Math.abs(XX-xx)-Math.abs(YY-yy)<0))
 					{
 						swipeX = false ;
+						$news.textContent = swipeX
 						if (!toLeft)
 						{
 							event.stopPropagation();
@@ -167,9 +169,9 @@
 						swipeX = false ;
 						return ;
 					}
-					currentDom.classList.add('change');
-					prevDom.classList.add('change');
-					nextDom.classList.add('change');
+					currentDom.classList.add('swipe-change');
+					prevDom.classList.add('swipe-change');
+					nextDom.classList.add('swipe-change');
 					if (!toLeft && swipeY )
 					{
 						if (cha>0)
@@ -252,19 +254,19 @@
 				var index = setPage(index);
 				if (index === currentPage) return
 				if(autoPlay) stop();
-				$item.forEach(function(ele){ ele.classList.remove('change')});
+				$item.forEach(function(ele){ ele.classList.remove('swipe-change')});
 				if (dir=='next') //下一张
 				{
 					$item[index].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
 					$item[currentPage].offsetWidth = $item[currentPage].offsetWidth ;
-					$item[currentPage].classList.add('change');
-					$item[index].classList.add('change');
+					$item[currentPage].classList.add('swipe-change');
+					$item[index].classList.add('swipe-change');
 					$item[currentPage].style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)' ;
 				}else if(dir=='prev'){   // 上一张
 					$item[index].style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)' ;
 					$item[currentPage].offsetWidth = $item[currentPage].offsetWidth ;
-					$item[currentPage].classList.add('change');
-					$item[index].classList.add('change');
+					$item[currentPage].classList.add('swipe-change');
+					$item[index].classList.add('swipe-change');
 					$item[currentPage].style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
 				}
 				$item[index].style.webkitTransform = 'translate3d(0,0,0)' ;

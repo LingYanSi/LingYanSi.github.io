@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="shortcut icon" href="" />
+  <title>文字排版</title>
+  <style type="text/css">
+	  *{margin:0;padding:0;}
+	  .main{width:800px;margin:0 auto;}
+	  .item+.item{margin-top:10px;color:rgb(0,0,0);}
+	  .item>p{line-height:3;background-color:rgb(247,105,105);}
+
+	  #indent:first-line{color:red;}
+	  #indent:first-letter{font-size:3em;text-shadow:4px 4px 8px rgb(0,255,255);}
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<div id="" class="item">
+				<p>1.这个是ruby，文字注释</p>
+				<ruby>
+				  漢 <rp>(</rp><rt>hàn</rt><rp>)</rp>
+				  字 <rp>(</rp><rt>zì</rt><rp>)</rp>
+				  博 <rp>(</rp><rt>bó</rt><rp>)</rp>
+				  爱 <rp>(</rp><rt>ài</rt><rp>)</rp>
+				  我的天呐 <rp>(</rp><rt>qu ni da ye</rt><rp>)</rp>
+				</ruby>
+			</div>
+			<div id="" class="item">
+				<p>2.文字竖排，writing-mode</p>
+				<div id="" style="-webkit-writing-mode:vertical-rl;width:100%;text-align:center;line-height:2;">
+					贺新郎<br>甚矣吾衰矣<br>怅平生 交游零落 只今馀几！<br>白发空垂三千丈 一笑人间万事 <br>问何物 能令公喜？<br>我见青山多妩媚 料青山见我应如是。<br>情与貌 略相似。<br> 
+　　一尊搔首东窗里。<br>想渊明《停云》诗就 此时风味。<br>江左沉酣求名者 岂识浊醪妙理。<br>回首叫 云飞风起。<br>不恨古人吾不见 恨古人不见吾狂耳。<br>知我者 二三子。
+				</div>
+			</div>
+			<div id="" class="item">
+				<p>3.几种对齐方式，vertical-align</p>
+				<div id="" style="line-height:2;">
+					<p>知之为知之<span style="font-size:0.5em;line-height:normal;">孔子bottom</span></p><!-- 默认是text-bottom -->
+					<p>知之为知之<span style="font-size:0.5em;vertical-align: text-top;line-height:normal;">孔子text-top</span></p>
+					<p>知之为知之<span style="font-size:0.5em;vertical-align: text-bottom;line-height:normal;">孔子text-bottom</span></p>
+					<p>知之为知之<span style="font-size:0.5em;vertical-align: top;line-height:normal;">孔子top</span></p>
+					<p>知之为知之<span style="font-size:0.5em;vertical-align: bottom;line-height:normal;">孔子bottom</span></p>
+					<p>知之为知之<span style="font-size:0.5em;vertical-align: super;line-height:normal;">孔子super，他和top的区别在于top顶对齐，super只会出一半头【这是什么鬼】</span></p>
+					<p>知之为知之<span style="font-size:0.5em;vertical-align: sub;line-height:normal;">孔子sub，与super同理</span></p>
+				</div>
+			</div>
+			<div id="" class="item">
+				<p>3.文本阴影,text-shadow</p>
+				<div id="" style="font-size:2em;text-shadow:5px 5px 4px red;">
+					什么鬼啊<span style="color:blue;text-shadow:-2px 2px 2px red; vertical-align: -50%;">什么鬼啊</span>sdgsdfgs <br>什么好地方看见啊是的喝咖啡撒空间里的话费卡时代发生的发哈上课
+				</div>
+			</div>
+			<div id="" class="item">
+				<p>4.首行缩进，text-indent,:first-letter,:first-line</p>
+				<div id="indent" style="text-indent:2em;">
+					同志们，先生们<br>
+					战斗就要打响了，赤匪现在愈发张狂，委员长已经下令，要我们务必在春季之前解决战斗
+				</div>
+			</div>
+		</div>
+	</div>
+ <script type="text/javascript">
+ </script>
+ </body>
+</html>
