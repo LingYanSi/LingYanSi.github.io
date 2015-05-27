@@ -140,7 +140,7 @@
 			edit.classList.toggle('edit-preview');
 		});
 		var navItem = [].slice.call(document.querySelectorAll('.execcommand'));
-		var obj = {bold:['blod','strong'],underline:'underline',italic:['italic','em']} ;
+		var obj = {bold:['bold','strong'],underline:'underline',italic:['italic','em']} ;
 		navItem.forEach(function(ele){
 			ele.addEventListener('click',function(event){
 				if(document.getElementById('preview').value == '编辑') return ;//如果是预览状态，点击无效
@@ -160,7 +160,7 @@
 					var name =	prompt('输入图片网址','');
 					if (/^http:\/\/.+$/.test(name))
 					{
-						document.execCommand(insertImage,false,'http://pic4.zhimg.com/2fe92998fd8f9579dc406413c5d8dc4f_b.jpg');
+						document.execCommand(this.id,false,name);
 					}else  return
 				}else if (this.id == 'insertVideo')
 				{
