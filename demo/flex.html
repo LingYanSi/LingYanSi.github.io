@@ -9,14 +9,14 @@
   <style type="text/css">
 	  *{padding:0;margin:0;}
 	  
-	  .flex{display:flex;display:-webkit-flex;display: -ms-flexbox;height:300px;}
-	  .item:nth-child(1){-webkit-flex-basis:50px;-ms-flex:1;background:red;}
-	  .item:nth-child(2){-webkit-flex:10;-ms-flex:2;background:blue;}
-	  .item:nth-child(3){-webkit-flex:10;-ms-flex:2;background:yellow;}
+	  .flex{display:flex; display: -webkit-box; height:300px;}
+	  .item:nth-child(1){flex-basis:300px; width: 100px; background:red;}
+	  .item:nth-child(2){flex:1;  -webkit-box-flex: 1; background:blue;}
+	  .item:nth-child(3){flex:1;  -webkit-box-flex: 1; background:yellow;}
 
-      .top{display:-webkit-flex;height:50px;}
-	  .top-item:nth-child(1){-webkit-flex:1;background:green;}
-	  .top-item:nth-child(2){-webkit-flex:1;background:pink;}
+      .top{ display:flex; display: -webkit-box; height:50px;}
+	  .top-item:nth-child(1){flex:1;  -webkit-box-flex: 1;  background:green;}
+	  .top-item:nth-child(2){flex:1;  -webkit-box-flex: 1;  background:pink;}
   </style>
  </head>
  <body>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="Generator" content="EditPlus®">
+		<meta name="Author" content="">
+		<meta name="Keywords" content="">
+		<meta name="Description" content="">
+		<title>Document</title>
+	</head>
+	<body>
+		<div ng-controller="woShi">
+			<button ng-click="menuToggle()">切换</button>
+			<span ng-bind="info.name"></span><!-- ng-bind表示单向绑定 -->
+			<div ng-show="menu.show">
+				<input type="text" ng-model="info.name"><!-- ng-model表示双向绑定 -->
+				<input type="password" ng-model="info.password">
+				<input type="button" ng-click="reset()" value="重置">
+				<input type="button" ng-click="set()" value="设置">
+				<input type="button" ng-click="clear()" value="清空">
+				<input type="button" ng-click="consoleInfo()" value="打印">
+			</div>
+			<div id="" class="">
+				<button ng-click="list1Show()">列表1</button><button ng-click="list2Show()">列表2</button>
+				<ul>
+					<li ng-repeat="x in list">{{x.name}}</li>
+				</ul>
+			</div>
+
+			<div id="" class="">
+				<p>控制器controller</p>
+				<input type="text" ng-model="sm">
+				<p>指令directive</p>
+				<hello bang="conSm(name)">千里烟波</hello>
+				<bye en="sm"></bye>
+				<hi ao="{{sm}}"></hi>
+			</div>
+
+			<span class="">{{ info.name | smile}}</span>
+		</div>
+		<script src="framework/js/angular.min.js"></script>
+		<script src="js/bang.js"></script>
+	</body>
+</html>

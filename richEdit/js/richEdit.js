@@ -142,7 +142,7 @@
 		var navItem = [].slice.call(document.querySelectorAll('.execcommand'));
 		var obj = {bold:['bold','strong'],underline:'underline',italic:['italic','em']} ;
 		navItem.forEach(function(ele){
-			ele.addEventListener('click',function(event){
+			ele.addEventListener('mousedown',function(event){
 				if(document.getElementById('preview').value == '编辑') return ;//如果是预览状态，点击无效
 				if (this.id == 'forecolor')
 				{
