@@ -6,6 +6,7 @@
 		<meta name="Author" content="">
 		<meta name="Keywords" content="">
 		<meta name="Description" content="">
+		<link rel="stylesheet" href="framework/css/bootstrap.min.css">
 		<title>Document</title>
 	</head>
 	<body>
@@ -26,7 +27,7 @@
 					<li ng-repeat="x in list">{{x.name}}</li>
 				</ul>
 			</div>
-
+			<img src="" alt="">
 			<div id="" class="">
 				<p>控制器controller</p>
 				<input type="text" ng-model="sm">
@@ -38,7 +39,12 @@
 
 			<span class="">{{ info.name | smile}}</span>
 		</div>
+
+		<!-- 模板区域 -->
+		<h2 class="bg-info">我是模板区域</h2>
+		<div ui-view class="row"></div>
 		<script src="framework/js/angular.min.js"></script>
+		<script src="framework/js/angular-ui-router.min.js"></script>
 		<script src="js/bang.js"></script>
 	</body>
 </html>

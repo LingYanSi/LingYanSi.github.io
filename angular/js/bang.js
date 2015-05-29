@@ -1,4 +1,6 @@
-var app = angular.module('app',[]);
+var app = angular.module('app',['ui.router']);
+
+// ------- 控制器 ------------
 app.controller('woShi',['$scope',function($scope){
 	$scope.info = {
 		name:"习近平",
@@ -45,12 +47,14 @@ app.controller('woShi',['$scope',function($scope){
 	}
 }])
 
+//  ----- 自定义filter
 app.filter('smile',function(){
 	return function(item){
-		return item + '是傻逼' ;
+		return item + '彭丽媛不是他第一任' ;
 	}
 });
 
+// ------ 指令
 app.directive('hello',function(){
 	return {
 		restrict:'AE' ,
@@ -84,4 +88,29 @@ app.directive('ao',function(){
 		},
 		template:'<br><input type="text" ng-model="ao">'
 	}
+})
+
+// ------ 路由 -----------
+app.config(function($stateProvider,$urlRouterProvider){
+	$urlRouterProvider.otherwise('/index'); //除了下面规定外的路由处理
+	$stateProvider
+		.state('index',{ //针对不同的路由
+		url:'/index',
+		views:{
+			'':{ //如果标签带有空的ui-view属性
+				templateUrl:'template/index.html'
+			},
+			'other@index':{ // 模版内部嵌套的模板
+				templateUrl:'template/other.html'
+			}
+		}
+	})
+	.state('book',{
+		url:'/book',
+		views:{
+			'':{  //如果标签带有空的ui-view属性
+				templateUrl:'template/index.html'
+			}
+		}
+	})
 })
