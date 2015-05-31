@@ -11,6 +11,7 @@
 	</head>
 	<body>
 		<div ng-controller="woShi">
+			<a ui-sref="book">另一个页面</a>
 			<button ng-click="menuToggle()">切换</button>
 			<span ng-bind="info.name"></span><!-- ng-bind表示单向绑定 -->
 			<div ng-show="menu.show">
@@ -32,17 +33,42 @@
 				<p>控制器controller</p>
 				<input type="text" ng-model="sm">
 				<p>指令directive</p>
-				<hello bang="conSm(name)">千里烟波</hello>
-				<bye en="sm"></bye>
+				<hello bang="conSm(name)" sm="{{sm}}">千里烟波</hello>
+				<bye en="sm">额色方法是的方式</bye>
 				<hi ao="{{sm}}"></hi>
+				<p fu fire ng-click="set()" class="bg-info">第一个controller，指令复用</p>
 			</div>
 
 			<span class="">{{ info.name | smile}}</span>
 		</div>
-
+		<div ng-controller="taShi">
+			<fu fly howtoload="set2()" class="bg-info">我是第二个controller，拥有指令fly</fu>
+		</div>
 		<!-- 模板区域 -->
-		<h2 class="bg-info">我是模板区域</h2>
-		<div ui-view class="row"></div>
+		<h2>我是模板区域</h2>
+		<div ui-view> </div>
+
+		<!-- $http -->
+		<h2>我是$http</h2>
+		<div ng-controller="loadList">
+			<ul>
+				<li ng-repeat="obj in haha">
+					<span ng-bind="obj.name"></span>
+					<span ng-bind="obj.duty"></span>
+				</li>
+			</ul>
+		</div>
+
+		<!-- 自定义service -->
+		<h2>我是自定义service</h2>
+		<div ng-controller="loadList2">
+			<ul>
+				<li ng-repeat="obj in haha">
+					<span ng-bind="obj.name"></span>
+					<span ng-bind="obj.duty"></span>
+				</li>
+			</ul>
+		</div>
 		<script src="framework/js/angular.min.js"></script>
 		<script src="framework/js/angular-ui-router.min.js"></script>
 		<script src="js/bang.js"></script>

@@ -96,9 +96,9 @@
 	
 	遇到的奇怪问题
 	var demo =document.querySelector('.demo');
-    demo.style.left = '200px' ; // 1
-    demo.style.background = 'pink' ; // 2
-    demo.classList.add('change') ; // 3
+	    demo.style.left = '200px' ; // 1
+	    demo.style.background = 'pink' ; // 2
+	    demo.classList.add('change') ; // 3
 	demo的属性挥发生渐变，但是代码明明是先改变了指，后添加的【change】啊
 
 	Reflow 和 Repaint

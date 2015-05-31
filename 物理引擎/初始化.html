@@ -23,7 +23,26 @@
 		var winHeight = $(window).height() ;
 		var winWidth = $(window).width() ;
 		document.getElementById('wrap').style.opacity = 1;
-	})
+	});
+
+            /*
+            * 所谓promise其中一点在于，必须当前执行完，才执行下一步
+            * 那假设在一个function里面有setTimeout函数，该怎么办呢？
+            */
+            var promise = function(data){
+                 this.done = function(data){
+                        return this ;
+                 }
+                 this.fail = function(data){
+
+                 }
+                 this.always = function(data){
+
+                 }
+            }
+            var x = function(){
+                return new promise(data)
+            }
  </script>
  </body>
 </html>

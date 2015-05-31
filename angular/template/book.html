@@ -1,0 +1,16 @@
+<div class="container-fluid">
+    <div class="col-md-2">
+        <ul>
+        <!-- 如何给每个li添加一个事件呢 -->
+            <li><a ui-sref="index">主页</a></li>
+            <li><a ui-sref="book({id:'zhengzhi'})">政治</a></li> 
+            <li><a ui-sref="book({id:'kexue'})">科学</a></li> 
+            <li><a ui-sref="book({id:'lishi'})">历史</a></li> 
+        </ul>
+    </div>
+    <div class="col-md-8" ng-controller="bookList">
+        <ul>
+            <li ng-repeat="book in list"><span ng-bind="book.name"></span></li>
+        </ul>
+    </div>
+</div>

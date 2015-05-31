@@ -1,5 +1,40 @@
 var app = angular.module('app',['ui.router']);
-
+// ---------- 创建一个service ---------------
+app.factory('listService',['$http', function($http){
+	return {
+		getList:function(name){
+			return $http({
+				method:'get',
+				url:'json/'+name+'.json'
+			})
+		}
+	}
+}])
+// ----------$http ---------
+app.controller('loadList2',['$scope','$http','listService', function($scope,$http,listService){
+	// $scope.wife = "宋小帆" ;
+	listService.getList(
+		'list'
+	).success(function(data,status,headers,config){
+		 console.log(data.list[0].name);
+		$scope.haha = data.list ;
+	}).error(function(data,status,headers,config){
+		console.log('出错了');
+	});
+}])
+// ----------$http ---------
+app.controller('loadList',['$scope','$http',function($scope,$http){
+	// $scope.wife = "宋小帆" ;
+	$http({
+		method:'get',
+		url:'json/list.json'
+	}).success(function(data,status,headers,config){
+		 console.log(data.list[0].name);
+		$scope.haha = data.list ;
+	}).error(function(data,status,headers,config){
+		console.log('出错了');
+	});
+}])
 // ------- 控制器 ------------
 app.controller('woShi',['$scope',function($scope){
 	$scope.info = {
@@ -43,10 +78,14 @@ app.controller('woShi',['$scope',function($scope){
 	$scope.sm = "控制器与指令的绑定" ;
 	$scope.conSm = function(name){
 		$scope.sm = name ;
-		console.log(name)
 	}
 }])
-
+app.controller('taShi',['$scope',function($scope){
+	$scope.set2 = function(){
+		alert('控制器taShi的set方法')
+	}
+	$scope.arr = ['张无忌']
+}])
 //  ----- 自定义filter
 app.filter('smile',function(){
 	return function(item){
@@ -57,11 +96,14 @@ app.filter('smile',function(){
 // ------ 指令
 app.directive('hello',function(){
 	return {
-		restrict:'AE' ,
-		scope:{
-			bang:'&'
+		restrict:'AE' , // AEMC A指的是attribute E指的是element M指的是comment注释 C指的是class
+		scope:{ // 因为每个控制器都有一个scope,这里为指令设置了一个独立的scope,不会影响其他同指令
+			bang:'&' // 此绑定可传递对象
+			,sm:'@'
 		},
-		template:'<input ng-model="he8i" type="text" /><button ng-click="bang({name:he8i})">哈哈哈</button>' 
+		transclude:true,
+		template:'<div ng-transclude></div><input ng-model="sm" type="text" /><button ng-click="bang({name:he8i})">哈哈哈</button><span>我是hello</span>' 
+		//看样子貌似template中的
 		/*
 		link:function(scope,ele,attr){
 			scope.bang = attr.bang
@@ -74,9 +116,9 @@ app.directive('bye',function(){
 	return {
 		restrict:'AE',
 		scope:{
-			en:'='
+			en:'=' // 双向绑定
 		},
-		template:'<br><input type="text" ng-model="en">'
+		template:'<br><input type="text" ng-model="en"><span>我是bye</span>'
 	}
 });
 
@@ -84,12 +126,58 @@ app.directive('ao',function(){
 	return {
 		restrict:'AE',
 		scope:{
-			ao:'@'
+			ao:'@' //@绑定，传递的是字符串，将控制器的属性传递给ao
 		},
-		template:'<br><input type="text" ng-model="ao">'
+		template:'<br><input type="text" ng-model="ao"><span>我是ao</span>',
+		link:function(scope,element,attr){ // link属性所指向的函数会立即执行
+			element.bind('click',function(){
+				alert('我是通过指令中的link触发的')
+			})
+		}
 	}
 })
-
+app.directive('fu',function(){
+	return {
+		scope:{}, // 创建私有scope
+		restrict:'AE',
+		controller:function($scope){ // controller会把方法暴露出去，供其他指令调用，感觉有点类似prototype，后面的指令对其继承
+			$scope.arr = [] ;
+			this.addfly = function(){
+				$scope.arr.push('我会飞')
+			}
+			this.addfire = function(){
+				$scope.arr.push('我会吐火')
+			}
+		},
+		link:function(scope,element,attrs){ // scope指的是controller的$scope，element指的是被封装过的dom，attrs指的是属性
+			element.on('mouseenter',function(){
+				console.log(scope.arr)
+			})
+			element.on('click',function(){ // 此方法不执行，是因为创建了私有scope，致使scope不再指向控制器的scope
+				scope.$apply(attrs.howtoload)
+			})
+		}
+	}
+})
+app.directive('fly',function(){
+	return {
+		require:'^fu', // require表示依赖
+		link:function(scope,element,attrs,fuCtrl){ // fuCtrl表示指令fu，他可以调用fu的controller提供的方法
+			fuCtrl.addfly();
+			element.on('click',function(){ // 
+				scope.$apply(attrs.howtoload)
+			})
+		}
+	}
+})
+app.directive('fire',function(){
+	return {
+		require:'^fu',
+		link:function(scope,element,attrs,fuCtrl){
+			fuCtrl.addfire();
+		}
+	}
+})
 // ------ 路由 -----------
 app.config(function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider.otherwise('/index'); //除了下面规定外的路由处理
@@ -109,7 +197,7 @@ app.config(function($stateProvider,$urlRouterProvider){
 		url:'/book',
 		views:{
 			'':{  //如果标签带有空的ui-view属性
-				templateUrl:'template/index.html'
+				templateUrl:'template/other.html'
 			}
 		}
 	})
