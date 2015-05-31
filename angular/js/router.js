@@ -1,5 +1,4 @@
 var app = angular.module('app',['ui.router']);
-
 app.config(function($stateProvider,$urlRouterProvider){
     $urlRouterProvider.otherwise('/index');
     $stateProvider.state('index',{
@@ -22,9 +21,9 @@ app.config(function($stateProvider,$urlRouterProvider){
     })
 });
 
-app.controller('bookList',['$scope','$http',function($scope,$http,$state,$stateParams){
+app.controller('bookList',['$scope','$http','$state','$stateParams',function($scope,$http,$state,$stateParams){
     $http.get('json/list.json').success(function(data){
         $scope.list = data.list
     })
-    console.log($stateParams)
+    console.log($stateParams.id) //可获取路由变化
 }])
