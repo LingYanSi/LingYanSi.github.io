@@ -9,8 +9,13 @@
         </ul>
     </div>
     <div class="col-md-8" ng-controller="bookList">
-        <ul>
-            <li ng-repeat="book in list"><span ng-bind="book.name"></span></li>
-        </ul>
+        <select ng-change="filte()" ng-model="num">
+            <option ng-repeat="x in [0,1,2,3]" value="x" ng-bind="x"></option>
+        </select>
+        <ol>
+            <div ng-repeat="book in list"><span ng-bind="book.name"></span> <span ng-bind="book.duty"></span></div>
+        </ol>
+        <div type="text" ng-bind="num"></div>
+        <!-- 一般而言input的数据绑定用ng-model，其他用ng-bind -->
     </div>
 </div>

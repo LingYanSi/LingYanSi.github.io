@@ -39,6 +39,7 @@
 	<div id="cunt">cunt</div>
 	<script src="ku.js"></script>
 	<script type="text/javascript">
+	$(function(){
 		console.log($('.content'),'什么玩意');
 		var nidaye = $('.content');
 		console.log($(nidaye).text())
@@ -73,6 +74,18 @@
 		window.addEventListener('devicemotion',function(event){
 			//$('#rock').text('摇一摇'+event.accelerationIncludingGravity.z)
 		})
+
+		console.log('window的高度:',$('.bitch')[0])
+	})
+	// $(function(){
+	// 	setInterval(function(){
+	// 		var time = new Date().getTime()
+	// 		setTimeout(function(){
+	// 			console.log(time)
+	// 		},2000)
+	// 		console.log(1)
+	// 	},1000)
+	// })
 	</script>
  </body>
 </html>

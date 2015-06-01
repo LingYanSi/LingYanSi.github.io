@@ -1118,6 +1118,11 @@
 		这种方式只要服务端把response的header头中设置Access-Control-Allow-Origin为制定可请求当前域名下数据的域名即可。一般情况下设为即可。这样客户端就不需要使用jsonp来获取数据。
 
 	3.xmlhttprequest
+		method的几种方法
+			0 GET // 用于获取数据
+			1 POST // 提交数据
+			2 DELETE // 删除数据
+			3 PUT // 提交？
 		readysate的几种状态
 			0	UNSENT (未打开)	open()方法还未被调用.
 			1	OPENED  (未发送)	send()方法还未被调用.

@@ -14,7 +14,7 @@ var Zepto = (function(){
 			$(document).ready(function(){
 				selector();
 			});
-		}else if (selector instanceof HTMLElement)
+		}else if (selector instanceof HTMLElement || selector instanceof HTMLDocument || selector === window)
 		{
 			dom = [selector] ;
 		}else if (zepto.isZ(selector))
@@ -32,7 +32,8 @@ var Zepto = (function(){
 	zepto.Z = function(dom){
 		var hei = {};
 		hei.elements = dom || [] ;
-		hei.__proto__ = $.fn ; // ie11以下不支持修改原型链
+		hei[0] = dom.length === 1 ? dom[0] : dom ;
+		hei.__proto__ = $.fn ; // ie11以下不支持修改原型链，将原型链指向$.fn
 		return hei
 	}
 	zepto.isZ = function(dom){
@@ -48,6 +49,16 @@ var Zepto = (function(){
 		});
 	}
 	$.fn = {
+		ready:function(fun){ // $(document).ready()
+			if(this.elements.length===1 && this.elements[0]===document){
+				document.addEventListener('readystatechange',function(){
+					if(document.readyState === 'complete') // dom加载完毕
+						fun()
+				});
+			}else{
+				console.log('只有document才有此方法')
+			}
+		},
 		userAgent:function(){
 			var user = {};
 			var nav = navigator.userAgent.toLowerCase();
@@ -120,7 +131,7 @@ var Zepto = (function(){
 		height:function(str){
 			if (str === undefined)
 			{
-				return this.elements[0].offsetHeight ;
+				return this.elements[0].offsetHeight || this.elements[0].innerHeight; // 还要考虑window情况
 
 			}else{
 				this.each(function(){
@@ -131,7 +142,7 @@ var Zepto = (function(){
 		width:function(str){
 			if (str === undefined)
 			{
-				return this.elements[0].offsetWidth;
+				return this.elements[0].offsetWidth || this.elements[0].innerWidth;
 			}else{
 				this.each(function(){
 					this.style.width = str ;
