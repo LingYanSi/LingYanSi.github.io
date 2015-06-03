@@ -7,16 +7,23 @@
   <link rel="shortcut icon" href="" />
   <title></title>
   <style type="text/css">
-	  *{padding:0;margin:0;}
+	*{padding:0;margin:0;}
 	  
-	  .flex{display:flex; display: -webkit-box; height:300px;}
-	  .item:nth-child(1){flex-basis:300px; width: 100px; background:red;}
-	  .item:nth-child(2){flex:1;  -webkit-box-flex: 1; background:blue;}
-	  .item:nth-child(3){flex:1;  -webkit-box-flex: 1; background:yellow;}
-
-      .top{ display:flex; display: -webkit-box; height:50px;}
-	  .top-item:nth-child(1){flex:1;  -webkit-box-flex: 1;  background:green;}
-	  .top-item:nth-child(2){flex:1;  -webkit-box-flex: 1;  background:pink;}
+	  .flex{ display:-webkit-box; -webkit-box-direction:; display:-webkit-flex; display:-ms-flexbox; display:flex; height:300px;}
+	  .item{ width:0%; align-item:center; }
+	  .item:nth-child(1){-webkit-flex-basis:300px;-ms-flex-preferred-size:300px;flex-basis:300px; width:200px; background:red;}
+	  .item:nth-child(2){ -webkit-box-flex:1; -webkit-flex:1; -ms-flex:1; flex:1; background:blue; height:500px;}
+	  .item:nth-child(3){ -webkit-box-flex:1; -webkit-flex:1; -ms-flex:1; flex:1; background:yellow;}
+/*
+* 坑1：虽说can i use 上说android4.4就全面支持flex了
+* 	   但是我测试一下，魅族3就他妈不支持，￣□￣｜｜，于是乎就使用display:-webkit-box;
+*	   这里出现了诡异一幕，使用-webkit-box-flex的时候，他们并没有按比例把宽度固定下来，而是走一个比较随意的风格
+*	   百度得知给元素加上width:0%;后就可以了，这是什么bug 
+*/
+      .top{ display:-webkit-box; display:-webkit-flex; display:-ms-flexbox; display:flex; height:50px;}
+	  .top-item:nth-child(1){ -webkit-box-flex:1; -webkit-flex:1; -ms-flex:1; flex:1;  background:green;}
+	  .top-item:nth-child(2){ -webkit-box-flex:1; -webkit-flex:1; -ms-flex:1; flex:1;  background:pink;}
+	  .hei{flex:1;}
   </style>
  </head>
  <body>
@@ -26,11 +33,13 @@
 				<div class="item">步子到</div>
 				<div class="item">
 					<div id="" class="top">
-						<div class="top-item"></div>
-						<div class="top-item"></div>
+						<div class="top-item">东方化工不少地方跟不上?</div>
+						<div class="top-item">风格还是电光火石的客户多看几个合适的空间风格还是看的</div>
 					</div>
 				</div>
-				<div class="item">你说什么</div>
+				<div class="item">
+					<div>你是什么意思啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -40,7 +49,20 @@
 		var winHeight = $(window).height() ;
 		var winWidth = $(window).width() ;
 		document.getElementById('wrap').style.opacity = 1;
-		alert(navigator.userAgent)
+		
+		var ob = Object.prototype.toString
+		var a = function(){alert(1111)}
+		var b = [1,23] 
+		var c ='1234'
+		var d = 123 
+		var e = true
+		var f = {}
+		console.log(a.toString(),ob.call(a))
+		console.log(ob.call(b))
+		console.log(ob.call(c))
+		console.log(ob.call(d))
+		console.log(ob.call(e))
+		console.log(ob.call(f))
 	})
  </script>
  </body>

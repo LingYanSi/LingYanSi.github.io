@@ -93,6 +93,18 @@
 	兼容性: ie11、其他正常使用
 
 	--------------------------------------------------------------------------------------
+
+	flex 和 box
+	在W3C没有规定flex规法前，各厂商实现了私有的类flex的box，也就是弹性布局
+	区别如下
+		.div{ display:flex; display:-webkit-box; }
+		.item{ flex:1; -webkit-box-flex:1; }
+	* 坑1：虽说can i use 上说android4.4就全面支持flex了
+	* 	   但是我测试一下，魅族3就他妈不支持，￣□￣｜｜，于是乎就使用display:-webkit-box;
+	*	   这里出现了诡异一幕，使用-webkit-box-flex的时候，他们并没有按比例把宽度固定下来，而是走一个比较随意的风格
+	*	   百度得知给元素加上width:0%;后就可以了，这是什么bug 
+
+	-------------------------------------------------------------------------------------
 	
 	遇到的奇怪问题
 	var demo =document.querySelector('.demo');
@@ -1214,6 +1226,27 @@
 			}
 		})
 ----------------------------------------------------------------------------------
+	
+	判断类型
+
+	其实typeof是不太靠谱的，// 这是在看requirejs源码时候看到的
+
+	var ob = Object.prototype.toString ;
+	var fb = Function.prototype.toString ;
+	var a = function(){alert(1111)}
+	var b = [1,23] 
+	var c ='1234'
+	var d = 123 
+	var e = true
+	var f = {}
+	console.log( a.toString() , fb.call(a) ) // 前面两个是把函数代码转换成字符串，a.toString()继承自Function
+	console.log( ob.call(a) ) // ----> [object Function]
+	console.log( ob.call(b) ) // ----> [object Array]
+	console.log( ob.call(c) ) // ----> [object String]
+	console.log( ob.call(d) ) // ----> [object Number]
+	console.log( ob.call(e) ) // ----> [object Boolean]
+	console.log( ob.call(f) ) // ----> [object Object]
+
 	instanceof typeof
 
 	instanceof 运算符可以用来判断某个构造函数的prototype属性是否存在另外一个要检测对象的原型链上
@@ -1337,6 +1370,29 @@
 
 	 // 如果发起捕获，即便子元素已经stopPropagation，但还是会先触发此元素事件
 
+-------------------------------------------------------------------------------
+
+	获取浏览器标志userAgent
+	native App 是可以修改webview的userAgent的，如此一来便可以知道，此页面是不是在应用内打开
+
+	检测不同浏览器
+	function userAgent(){
+		var ua = navigator.userAgent.toLowerCase();
+		var flag = {} ;
+		flag.phone = !!ua.match(/android|phone|pad|ipod/g) ; // 检测是不是移动端
+		if(flag.phone){
+			flag.iphone = !!ua.match(/safari/g)	; 
+			flag.android = !!ua.match(/android/g) ; 
+		}else{
+			flag.chrome = !!ua.match(/chrome/g) ;
+			flag.firefox = !!ua.match(/firefox/g) ;
+			flag.ie = !!ua.match(/msie/g) ;
+			flag.edge = !!ua.match(/edge/g) ;
+			flag.safari = !!ua.match(/safari/g) ;
+		}
+		return flag ;
+	}
+	
 -------------------------------------------------------------------------------
 		<div id="main"></div>
 		document.getElementById('main').addEventListener('click',function(event){
