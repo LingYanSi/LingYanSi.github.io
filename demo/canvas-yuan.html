@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+      
+  </style>
+ </head>
+ <body>
+    <div id="wrap" class="wrap">
+        <div id="main" class="main">
+            <canvas id="canvas" height="500" width="500"></canvas>
+        </div>
+    </div>
+ <script type="text/javascript">
+    window.onload = function(){
+        var canvas = document.getElementById('canvas') ;
+        if(canvas.getContext) var ctx = canvas.getContext('2d') ;
+        var info = [ { ang : 0.1, color : 'red' },
+                         { ang : 0.2, color : 'green' },
+                         { ang : 0.3, color : 'pink' },
+                         { ang : 0.2, color : 'blue' },
+                         { ang : 0.2, color : 'rgb(247,105,105)' }
+         ]
+
+        bing(info);
+        function bing(info){
+            var angBegin= 0 , angEnd = 0 ;
+            var PI = Math.PI*2 ;
+            for(var i=0,len=info.length;i<len;i++){
+                angBegin = angEnd ;
+                angEnd = angBegin - PI*( info[i].ang );
+
+                ctx.beginPath();
+                ctx.lineTo(250,250);
+                ctx.arc(250,250,100,angBegin,angEnd,true);
+                ctx.lineTo(250,250);
+                ctx.fillStyle = info[i].color ;
+                ctx.fill();
+
+                ctx.save();
+                ctx.translate(250,250);
+                ctx.rotate((angBegin + angEnd)/2);
+                ctx.beginPath();
+                ctx.fillStyle = 'black' ;
+                ctx.font = "20px serif";
+                ctx.fillText("Hello world", 100, 0);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+    }
+ </script>
+ </body>
+</html>,
