@@ -99,6 +99,7 @@
 	区别如下
 		.div{ display:flex; display:-webkit-box; }
 		.item{ flex:1; -webkit-box-flex:1; }
+		
 	* 坑1：虽说can i use 上说android4.4就全面支持flex了
 	* 	   但是我测试一下，魅族3就他妈不支持，￣□￣｜｜，于是乎就使用display:-webkit-box;
 	*	   这里出现了诡异一幕，使用-webkit-box-flex的时候，他们并没有按比例把宽度固定下来，而是走一个比较随意的风格

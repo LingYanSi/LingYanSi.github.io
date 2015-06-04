@@ -1,55 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-  <link rel="shortcut icon" href="" />
-  <title></title>
-  <style type="text/css">
-    *{margin:0; padding:0;}
-    .wrap{max-width:640px;margin:0 auto;}
-        
-    .pie-title{text-align:center;color:#a0d8ef;}
-    .pcs-item{position:absolute;}
-    .pcs-item>span{font-size:2em;}
-
-    .pc-item-color{display:inline-block;width:10px;background-color:red;height:10px;}
-  </style>
- </head>
- <body>
-    <div id="wrap" class="wrap">
-        <div id="pie">
-            <p class="pie-title">您的宝宝击败了全国……</p>
-            <div id="pie-content" style="position:relative;">
-                <canvas id="canvas" height="300" width="500"></canvas>
-                <div id="pie-content-score" style="pointer-events:none;width:500px;position:absolute;top:0;left:0;height:300px;">
-                    
-                </div>
-                <div id="pie-color" style="position:absolute;width:100px;bottom:0;right:0;">
-                    
-                </div>
-            </div>
-        </div>
-    </div>
- <script type="text/javascript">
-    window.onload = function(){
+    function(info){
         var canvas = document.getElementById('canvas') ;
         var bili = document.getElementById('wrap').offsetWidth/500 ;
-        // var bili = 1 ;
         var r = 100*bili ;
+        var d = 12*bili ;
         canvas.width = 500*bili ;
         canvas.height = 300*bili ;
         var center = { left: canvas.width/2*4/5 , top:canvas.height/2 }
 
         if(canvas.getContext) var ctx = canvas.getContext('2d') ;
-        var info = [ { ang : 0.1, color : 'rgb(247,105,105)' , title : '大运动能力' },
-                         { ang : 0.2, color:"#a0d8ef" , title : '手部精细能力' },
-                         { ang : 0.3, color:"#f1c45d" , title : '适应能力' },
-                         { ang : 0.1, color:"#e06f6b" , title : '语言能力' },
-                         { ang : 0.1, color:"#e9a75d" , title : '社交能力' },
-                         { ang : 0.2, color:"#8568ab" , title : '专注能力' }
-         ]
+        var info = [ { ang : 0.6, color : '#f0ac5b' , title : '大运动能力' }, 
+                         { ang : 0.5, color:"#a2e0f9" , title : '手部精细能力' }, 
+                         { ang : 0.7, color:"#ffe2a4" , title : '适应能力' }, 
+                         { ang : 0.3, color:"#ec726f" , title : '语言能力' }, 
+                         { ang : 0.4, color:"#8568ab" , title : '社交能力' },
+                         { ang : 0.9, color:"#78bf55" , title : '专注能力' }
+         ];
 
         bing(info);
         scale();
@@ -71,17 +36,20 @@
             var angBegin= 0 , angEnd = 0 ;
             var PI = Math.PI*2 ;
             for(var i=0,len=info.length;i<len;i++){
-                angBegin = angEnd ;
-                angEnd = angBegin - PI*( info[i].ang );
+
+                angEnd = -PI*( info[i].ang );
 
                 ctx.save();
                 if(i>=0) {
                     // ctx.translate(Math.cos((angBegin + angEnd)/2)*10,Math.sin((angBegin + angEnd)/2)*10)
                     // console.log(Math.cos((angBegin + angEnd)/2)*100)
                 }
-                ctx.beginPath();
-                ctx.moveTo(center.left,center.top);
-                ctx.arc(center.left,center.top,r,angBegin,angEnd,true);
+                ctx.beginPath(); // 画一个圆环
+                // ctx.moveTo(center.left+(r)*Math.cos(angBegin),center.top+(r)*Math.sin(angBegin)) ;
+                ctx.arc(center.left,center.top,r-d*i,angBegin,angEnd,true);
+                // ctx.lineTo(center.left+(r-10)*Math.cos(angEnd),center.top+(r-10)*Math.sin(angEnd)) ;
+                // ctx.lineTo(center.left,center.top);
+                ctx.arc(center.left,center.top,r-d*(i+1),angEnd,angBegin,false);
                 ctx.closePath();
                 ctx.fillStyle = info[i].color ;
                 if(events){
@@ -134,9 +102,9 @@
             var angel ,pos ;
 
             console.log(scoreItem)
-            for(var i=0,len=info.length ; i<len ; i++ ){
+            for(var i=0,len=scoreItem.length ; i<len ; i++ ){
                 angBegin = angEnd ;
-                angEnd = angBegin - PI*( info[i].ang );
+                angEnd = -Math.PI/3*(i+1);
                 angel = ( angBegin + angEnd )/2
                 y = -Math.sin( angel )*100 + 150 ;
                 x = Math.cos( angel )*100 + 200 ;
@@ -165,6 +133,3 @@
             return pos ;
         }
     }
- </script>
- </body>
-</html>
