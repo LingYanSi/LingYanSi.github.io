@@ -44,3 +44,16 @@ appCtl.controller('test',['$scope',function($scope){
         console.log('飞起来了')
     }
 }]);
+
+appCtl.controller('parent',['$scope',function($scope){
+    $scope.name = "完颜康"
+}]);
+
+appCtl.controller('child',['$scope',function($scope){
+    $scope.name = "完颜康" ;
+    $scope.lu = "进球了"
+    $scope.resetName = function(){
+        $scope.name = "猪八戒" ;
+        console.log('你是谁')
+    } ;
+}])

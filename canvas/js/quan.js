@@ -1,42 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-  <link rel="shortcut icon" href="" />
-  <title></title>
-  <style type="text/css">
-    *{margin:0; padding:0;}
-    .wrap{max-width:640px;margin:0 auto;}
-
-    #pie{ font-family:'黑体'; }
-        
-    .pie-title{text-align:center;color:#a0d8ef;}
-    .pcs-item{position:absolute;}
-    .pcs-item>span{font-size:2em;}
-
-    .pc-item-color{display:inline-block;width:10px;background-color:red;height:10px;}
-  </style>
- </head>
- <body>
-    <div id="wrap" class="wrap">
-        <div id="pie">
-            <p class="pie-title">您的宝宝击败了全国……</p>
-            <div id="pie-content" style="position:relative;">
-                <canvas id="canvas" height="300" width="500"></canvas>
-                <div id="pie-content-score" style="pointer-events:none;width:500px;position:absolute;top:0;left:0;height:300px;">
-                    
-                </div>
-                <div id="pie-color" style="position:absolute;width:110px;bottom:0;right:0;">
-                    
-                </div>
-            </div>
-        </div>
-    </div>
- <script type="text/javascript">
-    window.onload = function(){
-        var canvas = document.getElementById('canvas') ;
+    function quan(info,option){
+         var canvas = document.getElementById('canvas') ;
         var bili = document.getElementById('wrap').offsetWidth/500 ;
         var r = 100*bili ;
         var d = 12*bili ;
@@ -45,44 +8,55 @@
         var center = { left: canvas.width/2*4/5 , top:canvas.height/2 }
 
         if(canvas.getContext) var ctx = canvas.getContext('2d') ;
-        var info = [ { ang : 0.6, color : '#f0ac5b' , title : '大运动能力' }, 
-                         { ang : 0.5, color:"#a2e0f9" , title : '手部精细能力' }, 
-                         { ang : 0.7, color:"#ffe2a4" , title : '适应能力' }, 
-                         { ang : 0.3, color:"#ec726f" , title : '语言能力' }, 
-                         { ang : 0.4, color:"#8568ab" , title : '社交能力' },
-                         { ang : 0.9, color:"#78bf55" , title : '专注能力' }
-         ];
 
-        // var changeItem = 0 ;
+        var changeItem = 1 ; // 主要是为动画准备
         // window.requestAnimationFrame(change);
-        // var change = function(){
-        //     bing(info);
-        //     changeItem += 0.01 ;
-        //     if(changeItem == 1) window.cancelAnimationFrame(change)
-        // }
-        bing(info);
-        scale();
-        setScore(info);
-        setPos(info);
-        console.log(document.documentElement)
+        scale(); // 缩放文本
+        setScore(info); // 插入数据
+        setPos(info); // 设置位置
+        if(option) animation();
+        else bing(info);
+        click();
 
-        var mouseup = 'mouseup'
-        document.querySelector('#canvas').addEventListener( mouseup , function(event){
+        // 动画
+        function animation(){ 
+            changeItem = 0 ; // 通过角度渐变实现
+            var change = function(){
+                bing(info);
+                changeItem += 0.05 ;
+                if(changeItem >= 1) clearInterval(interval)
+                console.log(changeItem)
+            }
+            var interval = setInterval(function(){
+                change()
+            },20)
+        }
 
-            var mouseX = ( event.targetTouches ? event.targetTouches[0].clientX : event.clientX ) - this.getBoundingClientRect().left ;
-            var mouseY = ( event.targetTouches ? event.targetTouches[0].clientY : event.clientY )- this.getBoundingClientRect().top ;
-            var events = { mouseX:mouseX , mouseY:mouseY }
-            // console.log( mouseup , this.getBoundingClientRect().top , events )
-            bing(info,events)
-            
-        });
-        function bing(info,events){
+        /*
+        ------- 点击事件 ----------
+         canvas的点击事件的处理，主要是通过判断点击时鼠标的相对坐标，是否在一个闭合曲线的内部
+        来判断，一个图形是否被点击了
+        ctx.isPointInPath(x,y) 如果在返回true，不在则返回false
+        */
+        function click(){
+            var phone = !!navigator.userAgent.toLowerCase().match(/android|pad|phone|ipod/g) ; // 判断是不是手机
+            var mouseup = phone?'touchstart':'mousedown' ; // 根据phone来选择一个事件
+            document.querySelector('#canvas').addEventListener( mouseup , function(event){
+
+                var mouseX = ( event.targetTouches ? event.targetTouches[0].clientX : event.clientX ) - this.getBoundingClientRect().left ;
+                var mouseY = ( event.targetTouches ? event.targetTouches[0].clientY : event.clientY )- this.getBoundingClientRect().top ;
+                var events = { mouseX:mouseX , mouseY:mouseY }
+                bing(info,events)
+            });
+        }
+
+        function bing(info,events){ // 画饼
             ctx.clearRect(0,0,canvas.width,canvas.height);
             var angBegin= 0 , angEnd = 0 ;
             var PI = Math.PI*2 ;
             for(var i=0,len=info.length;i<len;i++){
 
-                angEnd = -PI*( info[i].ang );
+                angEnd = -PI*( info[i].ang )*changeItem;
 
                 ctx.save();
                 if(i>=0) {
@@ -97,7 +71,7 @@
                 ctx.arc(center.left,center.top,r-d*(i+1),angEnd,angBegin,false);
                 ctx.closePath();
                 ctx.fillStyle = info[i].color ;
-                if(events){
+                if(!!events){
                     if(ctx.isPointInPath(events.mouseX,events.mouseY)){
                         ctx.fillStyle = 'red' ;
                     }
@@ -109,7 +83,7 @@
                 ctx.translate(center.left,center.top);
                 ctx.rotate((angBegin + angEnd)/2);
                 ctx.beginPath();
-                ctx.fillStyle = 'rgba(0,0,0,0)' ;
+                ctx.fillStyle = 'rgba(0,0,0,1)' ;
                 ctx.font = "20px serif";
                 ctx.textBaseline = 'middle' ; // 设置基线，就此出来说Middle的作用是让其居中
                 ctx.fillText("Hello world", 100, 0);
@@ -117,7 +91,8 @@
                 ctx.restore();
             }
         }
-        function scale(){
+
+        function scale(){ // 缩放，主要是缩放一些文字信息
             var $pc = document.getElementById('pie-content-score') ;
             $pc.style.webkitTransformOrigin = "left top" ;
             $pc.style.webkitTransform = 'scale3d('+bili+','+bili+',1)';
@@ -126,7 +101,8 @@
             $pc.style.webkitTransformOrigin = "right bottom" ;
             $pc.style.webkitTransform = 'scale3d('+bili+','+bili+',1)';
         }
-        function setScore(info){
+
+        function setScore(info){ // 设置分数
             var score = document.querySelector('#pie-content-score');
             var color = document.querySelector('#pie-color');  
             var colorItem = []; 
@@ -139,7 +115,8 @@
             score.innerHTML = scoreItem.join('');
             color.innerHTML = colorItem.join('');
         }
-        function setPos(info){
+
+        function setPos(info){   // 设置位置
             var scoreItem = [].slice.call(document.querySelectorAll('#pie-content-score .pcs-item'));
             var angBegin= 0 , angEnd = 0 ;
             var PI = Math.PI*2 ;
@@ -160,7 +137,8 @@
                 if(pos.y==='top') scoreItem[i].style[pos.y] = 300-y +'px' ;
             }
         }
-        function judge(angel){
+
+        function judge(angel){ // 根据角度判断象限
             var pos = {};
             if(angel>=-Math.PI/2 && angel<0){
                 pos.x = 'left' ;
@@ -178,6 +156,3 @@
             return pos ;
         }
     }
- </script>
- </body>
-</html>

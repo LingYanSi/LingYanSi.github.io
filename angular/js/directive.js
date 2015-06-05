@@ -53,8 +53,97 @@ appDir.directive('ajax',function(){
 					alert('天哪')
 				});
 				console.log(attr.hey)
-				scope.$apply(attr.hey);
+				// scope.$apply(attr.hey);
+				scope.run();
 			}
 		}
 	}
 });
+
+/*
+* 如何通过一个指令，修改另一个控制器的scope，或者使用另一个控制器的scope
+* 这个其实可以通过指令的依赖来实现
+ 
+* 指令主要是为了在不同的控制器内复用
+*/
+appDir.directive('parent1',function(){
+	return {
+		scope:{},
+		restrict:"AE" ,
+		controller:function($scope){
+			this.setName = function(){
+				// console.log('我被打印出来了')
+				$scope.name = "宋小帆"
+				console.log($scope)
+			}
+		} ,
+		link:function(scope,element,attr){
+			element.on('click',function(){
+				scope.name = "heihei"
+			})
+		}
+	}
+});
+
+appDir.directive('child1',function(){
+	return {
+		scope:{
+			sb:'@' , // @用于传递字符串,当属性变化是，只有同指令内部属性会跟随变化，父controller的属性不会
+			// ha:'=' , // = 用书双向绑定，传递字符串
+			greet:'&' // & 用于绑定函数，如果函数需要传递参数则用 greet({name:value}) 键值对形式传递
+		},
+		restrict:'AE',
+		// replace:false ,
+		template:'<br /><span ng-bind="sb"></span><span ng-bind="sb" ng-click="greet()"></span><input type="text" ng-model="sb" /><br />' ,
+		link:function(scope,element,attr){
+			element.on('click',function(){
+				// scope.resetName()
+			});
+		}
+	}
+});
+
+appDir.directive("drink", function() {
+    return {
+    	restrict:'AE',
+        scope:{
+        	flavor:'='
+        },
+        template:'<input type="text" ng-model="flavor"/>'
+    }
+});
+/*
+	<child1 sb="{{name}}" greet="resetName()"></child1>
+	<drink flavor="name"></drink>
+	使用【@】绑定 -----> {{}}
+	使用【=】绑定 -----> 直接写变量名
+	使用【&】绑定 -----> 直接写function调用
+*/
+
+/*
+	独立scope
+	假设有如下，当我们点击元素的时候，发现数据并没有改变，但如果console.log(scope)
+	会发现，scope其实已经变了，不是说好的双向绑定吗？
+	segmentfault上的一个回答的解释是
+		是因为click事件本身对于angular来讲是未知事件，
+		也就是说，虽然你在callback里赋了值(实际上你的赋值操作也确实成功了)，
+		但因为angular不知道这个变化，所以没有将你在页面上的引用也修改掉。 
+		$apply的作用就是通知angular说“哥们儿，这变了，注意下”
+	虽说可以这样做，但是不建议，因为如此一来会导致controller的$scope的属性变化，可能会引起多个directive下的同名属性的变化
+	因此使用上面的写法，为每个directive创建一个独立scope
+
+	appDir.directive('child1',function(){
+		return {
+			restrict:'AE',
+			template:'<span ng-bind="name"></span>',
+			link:function(scope,element,attr){
+				element.on('click',function(){
+					scope.name = "我变了" ;
+					//因此要加上下面这句代码、
+					console.log(scope.name)
+					scope.$apply();
+				})
+			}
+		}
+	})
+*/
