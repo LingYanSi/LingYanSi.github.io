@@ -299,15 +299,23 @@
 
 	obj.style.width(height);//除非在css中设置了width，才能获取到
 
-	obj.offsetWidth(offsetHeight); //offsetWidth得到的是width值+padding值+border值
+	element.offsetWidth(offsetHeight); //offsetWidth得到的是width值+padding值+border值
 
-	obj.clientWidth(clientHeight); //offsetWidth得到的是width值+padding值
+	element.clientWidth(clientHeight); //clientWidth 得到的是width值+padding值
+
+	element.scrollHeight // 获取滚动条高度，其最小值为 window.innerHeight
 
 	getComputedStyle 与 currentStyle; //getComputedStyle 与 currentStyle是处理兼容性的两个方法，获取到的值都是图片在屏幕上显示的仅仅图片的高宽值，不会获取到img标签的padding及border值；但其中getComputedStyle适用于Firefox/IE9/Safari/Chrome/Opera浏览器，currentStyle适用于IE6/7/8。但是如果img标签即使没有设置style属性也没有引入样式表，那么只有getComputedStyle能获取到值，即为图片本身高宽值，currentStyle则返回auto。
 
 	obj.naturalWidth(naturalHeight); //这是HTML5里新添加的一个获取元素高宽的方法，但只适用于Firefox/IE9/Safari/Chrome/Opera浏览器。
 
 	注意: 如果一个图片没有加载完毕，是无法获取到他的高度的！
+
+	获取document【网页】高度
+	单纯的document.offsetWidth或者其他是获取不到的
+	如果想获取可以通过 document.documentElement / document.body 来获取
+
+	document 并不是一个element对象， document.documentElement 返回的是一个文档的【root element】 一半是指 <html></html>
 
 	--------------------------------------------------------------------------------------------
 	placeholder样式设定
