@@ -1,4 +1,4 @@
-    function quan(info,option){
+  function bing(info,option){
          var canvas = document.getElementById('canvas') ;
         if(canvas.getContext) var ctx = canvas.getContext('2d') ;
         var ratio = getPixelRatio( ctx ) ;
@@ -9,78 +9,43 @@
         canvas.width = 500*bili ;
         canvas.height = 300*bili ;
 
-        var r = Math.round( 100*bili ) ;
-        var d = Math.round( 12*bili ) ;
+        var r = 100*bili ;
+        var center = { left: canvas.width/2*4/5 , top:canvas.height/2 }
 
-        var center = { left: Math.round( canvas.width/2*4/5 ) , top:Math.round( canvas.height/2 ) }
+        bing(info);
+        scale();
+        setScore(info);
+        setPos(info);
 
-        var changeItem = 1 ; // 主要是为动画准备
-        // window.requestAnimationFrame(change);
-        scale(); // 缩放文本
-        setScore(info); // 插入数据
-        setPos(info); // 设置位置
-        if(option) animation();
-        else bing(info);
-        click();
+        var mouseup = 'touchstart'
+        document.querySelector('#canvas').addEventListener( mouseup , function(event){
 
-        // 动画
-        function animation(){ 
-            changeItem = 0 ; // 通过角度渐变实现
-           function change(){
-                bing(info);
-                changeItem += 0.05  ;
-                if(changeItem >= 1.05) {
-                    changeItem = changeItem.toFixed(0) ;
-                    clearInterval(interval)
-                }
-            }
-            var interval = setInterval(function(){
-                change()
-            },20)
-        }
-
-        /*
-        ------- 点击事件 ----------
-         canvas的点击事件的处理，主要是通过判断点击时鼠标的相对坐标，是否在一个闭合曲线的内部
-        来判断，一个图形是否被点击了
-        ctx.isPointInPath(x,y) 如果在返回true，不在则返回false
-        */
-        function click(){
-            var phone = !!navigator.userAgent.toLowerCase().match(/android|pad|phone|ipod/g) ; // 判断是不是手机
-            var mouseup = phone?'touchstart':'mousedown' ; // 根据phone来选择一个事件
-            document.querySelector('#canvas').addEventListener( mouseup , function(event){
-                if(event.button){
-                    if(event.button!==1) return
-                }
-                var mouseX = ( event.targetTouches ? event.targetTouches[0].clientX : event.clientX ) - this.getBoundingClientRect().left ;
-                var mouseY = ( event.targetTouches ? event.targetTouches[0].clientY : event.clientY )- this.getBoundingClientRect().top ;
-                var events = { mouseX:mouseX*ratio , mouseY:mouseY*ratio }
-                bing(info,events)
-            });
-        }
-
-        function bing(info,events){ // 画饼
+            var mouseX = ( event.targetTouches ? event.targetTouches[0].clientX : event.clientX ) - this.getBoundingClientRect().left ;
+            var mouseY = ( event.targetTouches ? event.targetTouches[0].clientY : event.clientY )- this.getBoundingClientRect().top ;
+            var events = { mouseX:mouseX*ratio , mouseY:mouseY*ratio }
+            // console.log( mouseup , this.getBoundingClientRect().top , events )
+            bing(info,events)
+            
+        });
+        function bing(info,events){
             ctx.clearRect(0,0,canvas.width,canvas.height);
             var angBegin= 0 , angEnd = 0 ;
             var PI = Math.PI*2 ;
             for(var i=0,len=info.length;i<len;i++){
-
-                angEnd = -PI*( info[i].ang )*changeItem;
+                angBegin = angEnd ;
+                angEnd = angBegin - PI*( info[i].ang );
 
                 ctx.save();
                 if(i>=0) {
                     // ctx.translate(Math.cos((angBegin + angEnd)/2)*10,Math.sin((angBegin + angEnd)/2)*10)
                     // console.log(Math.cos((angBegin + angEnd)/2)*100)
                 }
-                ctx.beginPath(); // 画一个圆环
-                // ctx.moveTo(center.left+(r)*Math.cos(angBegin),center.top+(r)*Math.sin(angBegin)) ;
-                ctx.arc(center.left,center.top,r-d*i,angBegin,angEnd,true);
-                // ctx.lineTo(center.left+(r-10)*Math.cos(angEnd),center.top+(r-10)*Math.sin(angEnd)) ;
-                // ctx.lineTo(center.left,center.top);
-                ctx.arc(center.left,center.top,r-d*(i+1),angEnd,angBegin,false);
+                ctx.beginPath();
+                ctx.moveTo(center.left,center.top);
+                ctx.arc(center.left,center.top,r,angBegin,angEnd,true);
                 ctx.closePath();
                 ctx.fillStyle = info[i].color ;
-                if(!!events){
+                if(events){
                     if(ctx.isPointInPath(events.mouseX,events.mouseY)){
                         ctx.fillStyle = 'red' ;
                     }
@@ -90,28 +55,26 @@
 
                 ctx.save();
                 ctx.translate(center.left,center.top);
-                ctx.rotate((angBegin + angEnd)/2); // 如果想在另一个位置旋转，应该先位移【这也是废话】
+                ctx.rotate((angBegin + angEnd)/2);
                 ctx.beginPath();
-                ctx.font =20*bili + "px serif";
-                ctx.fillStyle = info[i].color ;
+                ctx.fillStyle = 'rgba(0,0,0,0)' ;
+                ctx.font = "20px serif";
                 ctx.textBaseline = 'middle' ; // 设置基线，就此出来说Middle的作用是让其居中
-                ctx.fillText("Hello world", r , 0); // 对文字的设置要放在文字前面【这不是废话吗】
+                ctx.fillText("Hello world", 100, 0);
                 ctx.fill();
                 ctx.restore();
             }
         }
-
-        function scale(){ // 缩放，主要是缩放一些文字信息
+        function scale(){
             var $pc = document.getElementById('pie-content-score') ;
             $pc.style.webkitTransformOrigin = "left top" ;
-            $pc.style.webkitTransform = 'scale3d('+bl+','+bl+',1)';
+            $pc.style.webkitTransform = 'scale3d('+bili+','+bili+',1)';
 
             var $pc = document.getElementById('pie-color') ;
             $pc.style.webkitTransformOrigin = "right bottom" ;
-            $pc.style.webkitTransform = 'scale3d('+bl+','+bl+',1)';
+            $pc.style.webkitTransform = 'scale3d('+bili+','+bili+',1)';
         }
-
-        function setScore(info){ // 设置分数
+        function setScore(info){
             var score = document.querySelector('#pie-content-score');
             var color = document.querySelector('#pie-color');  
             var colorItem = []; 
@@ -124,8 +87,7 @@
             score.innerHTML = scoreItem.join('');
             color.innerHTML = colorItem.join('');
         }
-
-        function setPos(info){   // 设置位置
+        function setPos(info){
             var scoreItem = [].slice.call(document.querySelectorAll('#pie-content-score .pcs-item'));
             var angBegin= 0 , angEnd = 0 ;
             var PI = Math.PI*2 ;
@@ -133,9 +95,9 @@
             var angel ,pos ;
 
             console.log(scoreItem)
-            for(var i=0,len=scoreItem.length ; i<len ; i++ ){
+            for(var i=0,len=info.length ; i<len ; i++ ){
                 angBegin = angEnd ;
-                angEnd = -Math.PI/3*(i+1);
+                angEnd = angBegin - PI*( info[i].ang );
                 angel = ( angBegin + angEnd )/2
                 y = -Math.sin( angel )*100 + 150 ;
                 x = Math.cos( angel )*100 + 200 ;
@@ -146,8 +108,7 @@
                 if(pos.y==='top') scoreItem[i].style[pos.y] = 300-y +'px' ;
             }
         }
-
-        function judge(angel){ // 根据角度判断象限
+        function judge(angel){
             var pos = {};
             if(angel>=-Math.PI/2 && angel<0){
                 pos.x = 'left' ;
@@ -164,7 +125,7 @@
             }
             return pos ;
         }
-       function getPixelRatio(context) {
+        function getPixelRatio(context) {
           var backingStore = context.backingStorePixelRatio ||
                 context.webkitBackingStorePixelRatio ||
                 context.mozBackingStorePixelRatio ||
