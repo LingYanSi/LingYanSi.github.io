@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<div id="mySelect"></div>
+		</div>
+	</div>
+	<select name="" id="select">
+		<option value="">q</option>
+		<option value="">w</option>
+		<option value="">t</option>
+	</select>
+ <script src="js/jquery-1.11.2.min.js"></script>
+ <script type="text/javascript">
+	$(function(){
+		var winHeight = $(window).height() ;
+		var winWidth = $(window).width() ;
+		document.getElementById('wrap').style.opacity = 1;
+
+		var info = ['你是谁','他是谁','李克强'] ;
+		mySelect(info);
+		function mySelect(info){
+			var arr = [] ;
+			info.forEach(function(element){
+				arr.push('<div>'+element+'</div>');
+			});
+			document.getElementById('mySelect').innerHTML = arr.join('') ;
+		}
+
+		$('#select').on('change',function(){
+			console.log(this.selectedIndex)
+		})
+	})
+ </script>
+ </body>
+</html>

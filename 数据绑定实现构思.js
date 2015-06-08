@@ -3,7 +3,7 @@
 在ecmascript7中会增加observe特性，可以监听属性的变化
 感觉angular，react之类的数据变化监听，也都是自己的一个polify
 
-具体可以看看 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/observe
+具体可以看看 https://github.com/Polymer/observe-js
 什么是【观察者模式？】
 
 如何实现observe？

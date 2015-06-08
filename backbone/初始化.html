@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			
+		</div>
+	</div>
+ <script src="js/jquery-1.11.2.min.js"></script>
+ <script src="js/underscore-min.js"></script>
+ <script src="js/backbone.js"></script>
+ <script type="text/javascript">
+	$(function(){
+		var winHeight = $(window).height() ;
+		var winWidth = $(window).width() ;
+		document.getElementById('wrap').style.opacity = 1;
+
+		var Mod = Backbone.Model.extend({ // 扩展backbone的model
+			defaults : { // 配置默认的属性
+				name : '周恩来' ,
+				age : '18' ,
+				wife : {
+					name : '邓颖超'
+				}
+			} ,
+			initialize : function(){ // 初始化的时候做一些事情
+				this.on('change:age',function(){ // 监听数据【:后可跟属性】
+					alert('周恩来变化了')
+				});
+			}
+		});
+		var model = new Mod() ;
+		model.set('age','哈哈哈哈');
+		console.log(model,model.get('wife'))
+	})
+ </script>
+ </body>
+</html>

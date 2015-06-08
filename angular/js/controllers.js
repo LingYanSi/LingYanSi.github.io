@@ -9,10 +9,10 @@ appCtl.controller('bookList',['$scope','$http','$state','$stateParams','$rootSco
     })
     console.log($stateParams.id) //可获取路由变化
     $scope.num = $stateParams.id ;
-    $scope.$watch('num',function(newVal,oldVal){ //用于监听数据变化，其实感觉angular是数据驱动型的框架，jquery算是事件驱动型
+    /*$scope.$watch('num',function(newVal,oldVal){ //用于监听数据变化，其实感觉angular是数据驱动型的框架，jquery算是事件驱动型
         console.log(newVal,oldVal) // 函数有两个参数，【新值、旧值】
     });
-
+*/
     console.log($rootScope.daye)
 
     $scope.filte = function(){
