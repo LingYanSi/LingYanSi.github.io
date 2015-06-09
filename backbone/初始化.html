@@ -14,7 +14,7 @@
  <body>
 	<div id="wrap" class="wrap">
 		<div id="main" class="main">
-			
+			<input type="text" id="input">
 		</div>
 	</div>
  <script src="js/jquery-1.11.2.min.js"></script>
@@ -35,14 +35,57 @@
 				}
 			} ,
 			initialize : function(){ // 初始化的时候做一些事情
+				var _this = this ;
+				$('#input').on('change',function(){
+					_this.set({name:this.value})
+				})
 				this.on('change:age',function(){ // 监听数据【:后可跟属性】
-					alert('周恩来变化了')
+					// alert('周恩来变化了')
 				});
 			}
 		});
+		var View = Backbone.View.extend({
+			initialize : function(){
+				this.listenTo(this.model,'change',this.show);
+			} ,
+			show : function(){
+				$('body').append('<p>'+this.model.get('name')+'</p>')
+			}
+
+		});
+
+		var Router = Backbone.Router.extend({ // 路由【一般指的是hash路由】
+			routes : { // 不同路由，对应不同函数
+				"index" : 'index' ,
+				'book/:id' : 'task' ,
+				'bi/*sm' : 'sm'
+			} ,
+			index : function(){
+				console.log('这是首页')
+			} ,
+			task : function(id){
+				console.log('书本'+id)
+			} ,
+			sm : function(index){
+				console.log('sm'+index)
+			}
+		})
 		var model = new Mod() ;
+		var view = new View({model:model}) ;
+		var router = new Router() ;
+		Backbone.history.start() ; // 启动路由
+
 		model.set('age','哈哈哈哈');
-		console.log(model,model.get('wife'))
+		console.log(model,model.get('wife'));
+
+		var Collection = Backbone.Collection.extend({
+			model:model ,
+			add : function(arr){
+				console.log(coll)
+			}
+		})
+		var coll = new Collection() ;
+		coll.add([{name:'毛岸英'},{name:'毛岸青'}])
 	})
  </script>
  </body>
