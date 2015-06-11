@@ -8,85 +8,50 @@
   <link rel="shortcut icon" href="" />
   <title></title>
   <style type="text/css">
-	  
+  	  *{margin:0; padding:0;}
+  	  .input{ margin:10px; }
+	  #info{line-height:2; border:1px solid rgb(100,100,100); list-style-position:inside; margin:10px; }
+	  li+li{ border-top:1px solid rgb(100,100,100);}
+	  .name,.age{ display:inline-block; width:150px;}
+	  .name+.age{ border-left:1px solid rgb(100,100,100);}
+	  .delete{ cursor:pointer; display:inline-block;}
+	  .delete:hover{ background-color:rgb(247,105,105); }
   </style>
  </head>
  <body>
 	<div id="wrap" class="wrap">
-		<div id="main" class="main">
-			<input type="text" id="input">
+		<div id="sxf" class="">
+			<div class="input">
+				<input type="text" id="wName" placeholder="名字">
+				<input type="text" id="wAge" placeholder="年纪">
+				<button id="append">添加</button>
+			</div>
+			<ol id="info"></ol>
 		</div>
 	</div>
- <script src="js/jquery-1.11.2.min.js"></script>
- <script src="js/underscore-min.js"></script>
- <script src="js/backbone.js"></script>
+<script type="text/template" id="wife">
+	<div><span class="name"><%= name %></span><span class="age"><%= age %></span><span class="delete">删除</span></div>
+</script>
+<script id="template-footer">
+	<div id="footer">
+		<a href="#/">All</a>
+		<a href="#/50">50岁以上</a>
+		<a href="#/100">100岁以上</a>
+	</div>
+</script>
+ <script src="framework/js/jquery-1.11.2.min.js"></script>
+ <script src="framework/js/underscore-min.js"></script>
+ <script src="framework/js/backbone.js"></script>
+ <script src="framework/js/backbone.localStorage.js"></script>
+
+ <script src="js/views/noteView.js"></script>
+ <script src="js/models/note.js"></script>
+ <script src="js/collections/notes.js"></script>
+ <script src="js/views/appView.js"></script>
+ <script src="js/router/router.js"></script>
+ <script src="js/app.js"></script>
+
  <script type="text/javascript">
-	$(function(){
-		var winHeight = $(window).height() ;
-		var winWidth = $(window).width() ;
-		document.getElementById('wrap').style.opacity = 1;
-
-		var Mod = Backbone.Model.extend({ // 扩展backbone的model
-			defaults : { // 配置默认的属性
-				name : '周恩来' ,
-				age : '18' ,
-				wife : {
-					name : '邓颖超'
-				}
-			} ,
-			initialize : function(){ // 初始化的时候做一些事情
-				var _this = this ;
-				$('#input').on('change',function(){
-					_this.set({name:this.value})
-				})
-				this.on('change:age',function(){ // 监听数据【:后可跟属性】
-					// alert('周恩来变化了')
-				});
-			}
-		});
-		var View = Backbone.View.extend({
-			initialize : function(){
-				this.listenTo(this.model,'change',this.show);
-			} ,
-			show : function(){
-				$('body').append('<p>'+this.model.get('name')+'</p>')
-			}
-
-		});
-
-		var Router = Backbone.Router.extend({ // 路由【一般指的是hash路由】
-			routes : { // 不同路由，对应不同函数
-				"index" : 'index' ,
-				'book/:id' : 'task' ,
-				'bi/*sm' : 'sm'
-			} ,
-			index : function(){
-				console.log('这是首页')
-			} ,
-			task : function(id){
-				console.log('书本'+id)
-			} ,
-			sm : function(index){
-				console.log('sm'+index)
-			}
-		})
-		var model = new Mod() ;
-		var view = new View({model:model}) ;
-		var router = new Router() ;
-		Backbone.history.start() ; // 启动路由
-
-		model.set('age','哈哈哈哈');
-		console.log(model,model.get('wife'));
-
-		var Collection = Backbone.Collection.extend({
-			model:model ,
-			add : function(arr){
-				console.log(coll)
-			}
-		})
-		var coll = new Collection() ;
-		coll.add([{name:'毛岸英'},{name:'毛岸青'}])
-	})
  </script>
  </body>
 </html>
