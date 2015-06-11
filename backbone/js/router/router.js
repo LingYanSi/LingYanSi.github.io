@@ -15,5 +15,4 @@ var app = app || {} ;
 	});
 
 	var router = new Router() ;
-	Backbone.history.start();
 })();
