@@ -12,15 +12,18 @@ var app = app || {} ;
 
 			this.listenTo(app.notes,'add',this.add);
 			this.listenTo(app.notes,'reset',this.addAll);
-			this.listenTo(app.notes,'filter',this.filterAll)
+			this.listenTo(app.notes,'filter',this.filterAll); // 这里只是给notes添加一个方法而已
+			this.listenTo(app.notes, 'all', _.debounce(this.render, 0));
 			// this.listenTo(app.notes,'all', _.debounce(this.addAll,0) )
 
 			app.notes.fetch({reset: true});
 
-			this.render()
+			// this.render()
 		} ,
 		render : function(){ // 渲染
-			this.$el.append( this.template );
+			this.$('#footer').html( this.template );
+			console.log(app.NoteFilter)
+			this.$('#footer a').removeClass('current').filter('[href="#/'+(app.NoteFilter||'')+'"]').addClass('current')
 		} ,
 		events : {
 			'click #append':'appendOne' ,
@@ -47,20 +50,16 @@ var app = app || {} ;
 			app.notes.create(this.newAttribute());
 			this.$wName.val('');
 			this.$wAge.val('');
+			this.$wName.focus();
 		} ,
 		add : function(note){ // 如果新添加一个item，就需要重新渲染一个上去
 			// console.log(app);
 			var view = new app.noteView( {model:note} );
 			this.$info.prepend( view.render().el );
-			// console.log(app.notes.length)
 		},
 		addAll : function(){
 			console.log('我把localstorage加载了一遍')
-			var _this = this ;
-			app.notes.models.forEach(function(element){
-
-				_this.add(element)
-			})
+			app.notes.each(this.add,this)
 		} ,
 		filterOne : function(note){
 			note.trigger('visible')

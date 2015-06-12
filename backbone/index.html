@@ -8,36 +8,49 @@
   <link rel="shortcut icon" href="" />
   <title></title>
   <style type="text/css">
+  	  html{min-height:100%; font-family:'微软雅黑';}
   	  *{margin:0; padding:0;}
+  	  .main{ width:900px; margin:0 auto; }
   	  .input{ margin:10px; }
-	  #info{line-height:2; border:1px solid rgb(100,100,100); list-style-position:inside; margin:10px; }
-	  li+li{ border-top:1px solid rgb(100,100,100);}
+	  #info{line-height:2; border:1px solid rgb(100,100,100); border-top:none; list-style-position:inside; margin:10px; }
+	  #info li{ border-top:1px solid rgb(100,100,100);}
 	  .name,.age{ display:inline-block; width:150px;}
 	  .name+.age{ border-left:1px solid rgb(100,100,100);}
 	  .delete{ cursor:pointer; display:inline-block;}
 	  .delete:hover{ background-color:rgb(247,105,105); }
+
+	  #footer{ margin:10px; }
+	  #footer a{ text-decoration:none; display:inline-block; }
+	  .current{ border:1px solid rgb(247,105,105); }
+
+	  .ps{ color:rgb(100,100,100); }
   </style>
  </head>
  <body>
 	<div id="wrap" class="wrap">
-		<div id="sxf" class="">
-			<div class="input">
-				<input type="text" id="wName" placeholder="名字">
-				<input type="text" id="wAge" placeholder="年纪">
-				<button id="append">添加</button>
+		<div class="main">
+			<div id="sxf" class="">
+				<div class="input">
+					<input type="text" id="wName" placeholder="名字">
+					<input type="number" id="wAge" placeholder="年纪">
+					<button id="append">添加</button>
+				</div>
+				<ol id="info"></ol>
+				<div id="footer"></div>
 			</div>
-			<ol id="info"></ol>
+			<div class="ps">
+				<li>使用backbone</li>
+				<li>可增删改查</li>
+			</div>
 		</div>
 	</div>
 <script type="text/template" id="wife">
 	<div><span class="name"><%= name %></span><span class="age"><%= age %></span><span class="delete">删除</span></div>
 </script>
-<script id="template-footer">
-	<div id="footer">
+<script type="text/template" id="template-footer">
 		<a href="#/">All</a>
 		<a href="#/50">50岁以上</a>
 		<a href="#/100">100岁以上</a>
-	</div>
 </script>
  <script src="framework/js/jquery-1.11.2.min.js"></script>
  <script src="framework/js/underscore-min.js"></script>
