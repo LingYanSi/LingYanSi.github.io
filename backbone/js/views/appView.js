@@ -10,8 +10,9 @@ var app = app || {} ;
 			this.$wAge = this.$('#wAge') ;
 			this.$info = this.$('#info') ;
 
-			this.listenTo(app.notes,'add',this.add);
-			this.listenTo(app.notes,'reset',this.addAll);
+			this.listenTo(app.notes,'add',this.add); // 新增一个
+			this.listenTo(app.notes,'remove',this.rm); // 新增一个
+			this.listenTo(app.notes,'reset',this.addAll); 
 			this.listenTo(app.notes,'filter',this.filterAll); // 这里只是给notes添加一个方法而已
 			this.listenTo(app.notes, 'all', _.debounce(this.render, 0)); // 顾名思义所有的变化都会触发all，然后重新渲染
 
@@ -53,7 +54,7 @@ var app = app || {} ;
 				alert('信息不完整');
 				return ;
 			}
-			console.log(app.notes)
+			// console.log(app.notes)
 			app.notes.create(this.newAttribute());
 			this.$wName.val('');
 			this.$wAge.val('');
@@ -61,11 +62,11 @@ var app = app || {} ;
 		} ,
 		add : function(note){ // 如果新添加一个item，就需要重新渲染一个上去
 			// console.log(app);
+			console.log('单个',app.notes)
 			var view = new app.noteView( {model:note} );
 			this.$info.prepend( view.render().el );
 		},
 		addAll : function(){
-			console.log('我把localstorage加载了一遍')
 			app.notes.each(this.add,this);
 		} ,
 		filterOne : function(note){
@@ -78,11 +79,19 @@ var app = app || {} ;
 			note.destroy();
 		},
 		clearStorage:function(){
-			app.notes.reset();
+			app.notes.each(function(ele){ // 单条删除model，不能呢个进行批量删除 http://www.cnblogs.com/linjiqin/p/3723936.html
+				ele.destroy();
+			})
+
+			app.notes.reset(); // 清空collection,但是没有删除model，从而导致model的缓存？
 			localStorage.clear(); // 这里偷了个懒，直接清空了localstorage，而不是把集合中的所有model给删除
 			// _.invoke(app.notes.models,'destroy');
 			// app.notes.each(this.removeOne,this)
 			// app.notes.length = 0 ;
+			console.log(app.notes.length)
+		},
+		rm:function(){
+			console.log('有人比一出了')
 		}
 
 	})

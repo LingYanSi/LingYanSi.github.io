@@ -5,8 +5,7 @@ var app = app || {} ;
 		default : { // 所谓default就是让所有新建的note/model都会有的属性
 			name:'',
 			age:'',
-			hidden:false,
-			wife:'宋小帆'
+			hidden:false
 		} 
 	});
 })();
