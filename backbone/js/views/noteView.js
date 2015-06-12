@@ -6,9 +6,10 @@ var app = app || {} ;
 		tagName : 'li' ,
 		template : _.template($('#wife').html()) ,
 		render: function(){
-			console.log(this.model.toJSON())
+			// console.log(this.model.toJSON())
 			this.$el.html(this.template(this.model.toJSON()));
-			this.model.get('hidden') === 'true' ? this.$el.hide() : '' ;
+			this.model.get('hidden') === 'true' ? this.$el.hide() : '' ; // 显示没有隐藏的model
+
 			this.$delete = this.$('.delete') ;
 			this.$name = this.$('.name');
 			this.$age = this.$('.age') ;
@@ -62,7 +63,7 @@ var app = app || {} ;
 			}
 		},
 		hide : function(){
-			console.log('大便了')
+			// console.log('大便了')
 			if( parseInt( this.model.get('age') ) < parseInt(app.NoteFilter) ){
 				this.model.save({'hidden':'true'});
 				this.$el.hide()
@@ -70,11 +71,8 @@ var app = app || {} ;
 				this.model.save({'hidden':'false'});
 				this.$el.show()
 			}
-		} ,
-		dabian : function(){
-			console.log('是谁在大便')
-		}
+		} 
 	});
-	console.log(app)
+	// console.log(app)
 
 })(jQuery);

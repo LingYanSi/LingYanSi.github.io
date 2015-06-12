@@ -1,51 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <link rel="stylesheet" href="css/reset.css">
   <link rel="shortcut icon" href="" />
-  <title></title>
+  <title>backbone</title>
   <style type="text/css">
   	  html{min-height:100%; font-family:'微软雅黑';}
   	  *{margin:0; padding:0;}
-  	  .main{ width:900px; margin:0 auto; }
+  	  .main{ max-width:900px; margin:0 auto; }
   	  .input{ margin:10px; }
-	  #info{line-height:2; border:1px solid rgb(100,100,100); border-top:none; list-style-position:inside; margin:10px; }
-	  #info li{ border-top:1px solid rgb(100,100,100);}
+	  #info{line-height:2; border:1px solid rgb(100,100,100); border-top:none; list-style-position:inside; margin:10px; display:none;}
+	  #info li{ border-top:1px solid rgb(100,100,100); list-style-type:decimal-leading-zero; }
 	  .name,.age{ display:inline-block; width:150px;}
 	  .name+.age{ border-left:1px solid rgb(100,100,100);}
-	  .delete{ cursor:pointer; display:inline-block;}
-	  .delete:hover{ background-color:rgb(247,105,105); }
+	  .delete{ cursor:pointer; display:inline-block; width:3em; text-align:center; color:rgb(100,100,100); }
+	  .delete:hover{ background-color:rgb(247,105,105); color:rgb(250,250,250);}
 
 	  #footer{ margin:10px; }
-	  #footer a{ text-decoration:none; display:inline-block; }
-	  .current{ border:1px solid rgb(247,105,105); }
+	  #footer a{ text-decoration:none; display:inline-block; padding:0 2em; line-height:2; color:rgb(120,120,120); }
+	  #footer .current{ border:1px solid rgba(247,105,105,1); background-image:linear-gradient( 45deg,rgba(121,210,210,1),rgba(0,0,255,0.6) ); color:rgb(255,255,255);}
 
 	  .ps{ color:rgb(100,100,100); }
+
+	  h1{ font-size:3em; line-height:3; text-align:center; color:rgb(247,105,105); }
   </style>
  </head>
  <body>
 	<div id="wrap" class="wrap">
 		<div class="main">
+			<h1>Backbone</h1>
 			<div id="sxf" class="">
 				<div class="input">
 					<input type="text" id="wName" placeholder="名字">
-					<input type="number" id="wAge" placeholder="年纪">
+					<input type="number" id="wAge" placeholder="年纪（只接受数字）">
 					<button id="append">添加</button>
+					<button id="clearStorage">手动清缓存</button>
 				</div>
 				<ol id="info"></ol>
 				<div id="footer"></div>
 			</div>
 			<div class="ps">
-				<li>使用backbone</li>
-				<li>可增删改查</li>
+				<li>使用backbone/underscore/jquery/backbone.localstorage</li>
+				<li>可增删改查；在编辑状态下，按回车键可保存；双击姓名/年纪可编辑，使用了contentEditable</li>
 			</div>
 		</div>
 	</div>
 <script type="text/template" id="wife">
-	<div><span class="name"><%= name %></span><span class="age"><%= age %></span><span class="delete">删除</span></div>
+	<div><span class="name"><%= name %></span><span class="age"><%= age %></span><span class="delete">删</span></div>
 </script>
 <script type="text/template" id="template-footer">
 		<a href="#/">All</a>
@@ -57,8 +61,8 @@
  <script src="framework/js/backbone.js"></script>
  <script src="framework/js/backbone.localStorage.js"></script>
 
- <script src="js/views/noteView.js"></script>
  <script src="js/models/note.js"></script>
+ <script src="js/views/noteView.js"></script>
  <script src="js/collections/notes.js"></script>
  <script src="js/views/appView.js"></script>
  <script src="js/router/router.js"></script>

@@ -13,29 +13,35 @@ var app = app || {} ;
 			this.listenTo(app.notes,'add',this.add);
 			this.listenTo(app.notes,'reset',this.addAll);
 			this.listenTo(app.notes,'filter',this.filterAll); // 这里只是给notes添加一个方法而已
-			this.listenTo(app.notes, 'all', _.debounce(this.render, 0));
-			// this.listenTo(app.notes,'all', _.debounce(this.addAll,0) )
+			this.listenTo(app.notes, 'all', _.debounce(this.render, 0)); // 顾名思义所有的变化都会触发all，然后重新渲染
 
-			app.notes.fetch({reset: true});
+			app.notes.fetch({reset: true}); // 将变化结果保存
 
-			// this.render()
 		} ,
 		render : function(){ // 渲染
+			// console.log('重新渲染了')
+			if(app.notes.notHidden().length==0){
+				this.$('#info').hide();
+			}else{
+				this.$('#info').show();
+			}
 			this.$('#footer').html( this.template );
-			console.log(app.NoteFilter)
-			this.$('#footer a').removeClass('current').filter('[href="#/'+(app.NoteFilter||'')+'"]').addClass('current')
+			// console.log(app.NoteFilter)
+			this.$('#footer a').removeClass('current').filter('[href="#/'+(app.NoteFilter||'')+'"]').addClass('current');
 		} ,
 		events : {
 			'click #append':'appendOne' ,
 			'keydown #wName':'appendOne' ,
 			'keydown #wAge':'appendOne' ,
-			'change #select':'select'
+			'change #select':'select' ,
+			'click #clearStorage':'clearStorage'
 		},
 		newAttribute : function(){
 			return {
 				name : this.$('#wName').val() ,
 				age : this.$('#wAge').val() ,
-				show : false
+				hidden : app.NoteFilter - this.$('#wAge').val()>0 ?'true':'false' 
+				// 完全不明白这里是怎么回事儿 app.NoteFilter>this.$('#wAge').val() ?'true':'false' 这么写结果不正确 WTF!!!!
 			} ;
 		},
 		appendOne : function(event){
@@ -47,6 +53,7 @@ var app = app || {} ;
 				alert('信息不完整');
 				return ;
 			}
+			console.log(app.notes)
 			app.notes.create(this.newAttribute());
 			this.$wName.val('');
 			this.$wAge.val('');
@@ -59,13 +66,23 @@ var app = app || {} ;
 		},
 		addAll : function(){
 			console.log('我把localstorage加载了一遍')
-			app.notes.each(this.add,this)
+			app.notes.each(this.add,this);
 		} ,
 		filterOne : function(note){
 			note.trigger('visible')
 		},
 		filterAll : function(){
 			app.notes.each(this.filterOne,this)
+		},
+		removeOne:function(note){
+			note.destroy();
+		},
+		clearStorage:function(){
+			app.notes.reset();
+			localStorage.clear(); // 这里偷了个懒，直接清空了localstorage，而不是把集合中的所有model给删除
+			// _.invoke(app.notes.models,'destroy');
+			// app.notes.each(this.removeOne,this)
+			// app.notes.length = 0 ;
 		}
 
 	})
