@@ -1,0 +1,95 @@
+<html>
+<head>
+	<meta lang="zh-CN" charset="utf-8">
+	<title>react练习1</title>
+</head>
+<body>
+	<div id="title"></div>
+	<div id="example"></div>
+	<script src="framework/JSXTransformer.js"></script>
+	<script src="framework/react.min.js"></script>
+	<script type="text/jsx">
+	window.onload = function(){
+		
+		/*
+		*  创建一个评论组件
+		*/
+		var Aaaa = React.createClass({ // react组件名首字母要大些，用意是为了和标准的html标签区分
+			getInitialState:function(){
+				return {
+					nima : false
+				}
+			},
+			handleClick:function(){
+				this.setState( {nima: !this.state.nima } );
+				// alert('我被点击了');
+			},
+			render : function(){
+				var nima = this.state.nima ? '周芷若' : '赵敏' ;
+				return <h1 onClick={ this.handleClick }>Hello {this.props.name}{nima}</h1>;
+			}
+		});
+
+		var AddNote = React.createClass({
+			handleClick:function(){
+				if( this.refs.wName.getDOMNode().value && this.refs.wAge.getDOMNode().value ){
+					alert('创建成功')
+				}else{
+					alert('信息不完整')
+				}
+			},
+			handleKeyDown : function(event){
+				if( event.keyCode === 13){
+					if( this.refs.wName.getDOMNode().value && this.refs.wAge.getDOMNode().value  )
+						alert('创建成功')
+					else alert('信息不完整')
+				}
+			},
+			clearAll : function(){
+				
+			},
+			render : function(){
+				return (<div>
+					<input type="text" id="wName" ref="wName" placeholder="名字" onKeyDown={ this.handleKeyDown } /> 
+					<input type="number" id="wAge" ref="wAge" placeholder="年龄" onKeyDown={ this.handleKeyDown } /> 
+					<button onClick={this.handleClick}>提交</button>
+					<button onClick={ this.clearAll }>清空</button>
+					</div>);
+			}
+		});
+		var Comments = React.createClass({
+			handleClick:function(event){
+				console.log('对方几乎是恐惧的')
+			},
+			getInitialState : function(){
+				return {
+					itemCounts : 5
+				}
+			},
+			render : function(){
+				var daye =  (function(_this){
+					var arr = [] ;
+					for( var i=0,len=_this.state.itemCounts ; i<len ; i++ ){
+						arr.push(<Aaaa name="王二" />);
+					}
+					return arr
+				})(this);
+
+				var mianStyle = { maxWidth:"900px" , margin:"0 auto" } ;
+				var h1Style = { color:"rgb(247,105,105)" , fontSize:"3em" , lineHeight:"2" , textAlign:"center" } ;
+
+				return (<div style={ mianStyle }>
+					<h1 style={ h1Style } >React</h1>
+					<AddNote></AddNote>
+					<ol onClick={this.handleClick}>{daye}</ol>
+				</div>);
+			}
+		})
+		React.render(
+			<Comments name="John" />,
+			document.getElementById('example')
+		);
+	}
+	</script>
+</body>
+</html>
