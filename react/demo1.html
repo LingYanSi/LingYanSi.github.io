@@ -24,42 +24,60 @@
 				this.setState( {nima: !this.state.nima } );
 				// alert('我被点击了');
 			},
+			edit:function(){
+				console.log('双击时间')
+				// alert('时代发生的发')
+				this.refs.name.getDOMNode().setAttribute('contentEditable',true);
+			},
+			save:function(event){ // 保存数据
+				if(event.keyCode && event.keyCode != 13) return
+				this.refs.name.getDOMNode().removeAttribute('contentEditable');
+			},
+			del:function(){ // 其实根据flux，增删改查，不应直接反映在v上，应该先走model，数据改变后，在反映到view上
+				// this.refs.
+			},
 			render : function(){
 				var nima = this.state.nima ? '周芷若' : '赵敏' ;
-				return <h1 onClick={ this.handleClick }>Hello {this.props.name}{nima}</h1>;
+				return (
+					<h1 ref="item"> 
+						<span class="name" ref="name" onDoubleClick ={ this.edit } onBlur={ this.save } onKeyDown={ this.save }>胡耀邦</span> 
+						<span class="age">122</span> 
+						<span onClick={ this.handleClick }>Hello {this.props.name}{nima}</span>
+						<span onClick={ this.del }>删除</span>
+					</h1>
+				);
 			}
 		});
 
-		var AddNote = React.createClass({
-			handleClick:function(){
+		var AddNote = React.createClass({ // 添加新条目组建
+			handleClick:function(event){
+				if( event.keyCode && event.keyCode != 13 ) return 
 				if( this.refs.wName.getDOMNode().value && this.refs.wAge.getDOMNode().value ){
 					alert('创建成功')
 				}else{
 					alert('信息不完整')
 				}
-			},
-			handleKeyDown : function(event){
-				if( event.keyCode === 13){
-					if( this.refs.wName.getDOMNode().value && this.refs.wAge.getDOMNode().value  )
-						alert('创建成功')
-					else alert('信息不完整')
-				}
+				//  新增一个item
 			},
 			clearAll : function(){
-				
+				// 清空所有
 			},
 			render : function(){
 				return (<div>
-					<input type="text" id="wName" ref="wName" placeholder="名字" onKeyDown={ this.handleKeyDown } /> 
-					<input type="number" id="wAge" ref="wAge" placeholder="年龄" onKeyDown={ this.handleKeyDown } /> 
+					<input type="text" id="wName" ref="wName" placeholder="名字" onKeyDown={ this.handleClick } /> 
+					<input type="number" id="wAge" ref="wAge" placeholder="年龄" onKeyDown={ this.handleClick } /> 
 					<button onClick={this.handleClick}>提交</button>
 					<button onClick={ this.clearAll }>清空</button>
 					</div>);
 			}
 		});
-		var Comments = React.createClass({
+
+		var Comments = React.createClass({ // 主组件
 			handleClick:function(event){
-				console.log('对方几乎是恐惧的')
+				// console.log('对方几乎是恐惧的');
+				this.setState({
+					itemCounts : 10
+				})
 			},
 			getInitialState : function(){
 				return {
@@ -70,7 +88,7 @@
 				var daye =  (function(_this){
 					var arr = [] ;
 					for( var i=0,len=_this.state.itemCounts ; i<len ; i++ ){
-						arr.push(<Aaaa name="王二" />);
+						arr.push(<Aaaa />);
 					}
 					return arr
 				})(this);
