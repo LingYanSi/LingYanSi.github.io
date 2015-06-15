@@ -1,6 +1,7 @@
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-	<meta lang="zh-CN" charset="utf-8">
+	<meta charset="utf-8">
 	<title>react练习1</title>
 </head>
 <body>
@@ -14,6 +15,7 @@
 		/*
 		*  创建一个评论组件
 		*/
+
 		var Aaaa = React.createClass({ // react组件名首字母要大些，用意是为了和标准的html标签区分
 			getInitialState:function(){
 				return {
@@ -30,11 +32,15 @@
 				this.refs.name.getDOMNode().setAttribute('contentEditable',true);
 			},
 			save:function(event){ // 保存数据
-				if(event.keyCode && event.keyCode != 13) return
+				if(event.keyCode){
+					if( event.keyCode == 27 ){
+
+					}else if( event.keyCode != 27 && event.keyCode !=13 ) return ;
+				}
 				this.refs.name.getDOMNode().removeAttribute('contentEditable');
 			},
 			del:function(){ // 其实根据flux，增删改查，不应直接反映在v上，应该先走model，数据改变后，在反映到view上
-				// this.refs.
+				this.props.onDel();
 			},
 			render : function(){
 				var nima = this.state.nima ? '周芷若' : '赵敏' ;
@@ -42,7 +48,7 @@
 					<h1 ref="item"> 
 						<span class="name" ref="name" onDoubleClick ={ this.edit } onBlur={ this.save } onKeyDown={ this.save }>胡耀邦</span> 
 						<span class="age">122</span> 
-						<span onClick={ this.handleClick }>Hello {this.props.name}{nima}</span>
+						<span onClick={ this.handleClick }>Hello {this.props.data.name}{this.props.data.age}</span>
 						<span onClick={ this.del }>删除</span>
 					</h1>
 				);
@@ -53,7 +59,10 @@
 			handleClick:function(event){
 				if( event.keyCode && event.keyCode != 13 ) return 
 				if( this.refs.wName.getDOMNode().value && this.refs.wAge.getDOMNode().value ){
-					alert('创建成功')
+					this.props.onAdd(event,{ name:this.refs.wName.getDOMNode().value ,age:this.refs.wAge.getDOMNode().value });
+					this.refs.wName.getDOMNode().value = '' ;
+					this.refs.wAge.getDOMNode().value = '' ;
+					// alert('创建成功')
 				}else{
 					alert('信息不完整')
 				}
@@ -61,6 +70,7 @@
 			},
 			clearAll : function(){
 				// 清空所有
+				this.props.onClear();
 			},
 			render : function(){
 				return (<div>
@@ -72,42 +82,66 @@
 			}
 		});
 
+		var data = [{name:'毛腊肉',age:'108'},
+					{name:'地图开疆蒋中正',age:'120'}] ;
+
 		var Comments = React.createClass({ // 主组件
-			handleClick:function(event){
+			handleClick:function(event,item){
 				// console.log('对方几乎是恐惧的');
+				data.push(item)
+				if(item){
+					this.resetData();
+					// console.log(this.state) 
+				}
+				/*this.props.data = [{name:'冰北库',age:'108'},
+					{name:'地图开疆蒋中正',age:'120'}] ;*/
+
+			},
+			resetData : function(){
 				this.setState({
-					itemCounts : 10
-				})
+					itemCounts : data
+				});
+			},
+			clearAll : function(){
+				data = [] ;
+				this.resetData();
+			},
+			clearOne : function(ele,index){
+				delete data[index] ;
+				this.resetData();
 			},
 			getInitialState : function(){
 				return {
-					itemCounts : 5
+					itemCounts : data
 				}
 			},
 			render : function(){
-				var daye =  (function(_this){
-					var arr = [] ;
-					for( var i=0,len=_this.state.itemCounts ; i<len ; i++ ){
-						arr.push(<Aaaa />);
-					}
-					return arr
-				})(this);
+
+				var items = this.state.itemCounts.map(function(ele,index){
+					return <Aaaa data={ele} onDel={this.clearOne.bind(this,ele,index)}></Aaaa>
+				},this)
 
 				var mianStyle = { maxWidth:"900px" , margin:"0 auto" } ;
 				var h1Style = { color:"rgb(247,105,105)" , fontSize:"3em" , lineHeight:"2" , textAlign:"center" } ;
 
 				return (<div style={ mianStyle }>
 					<h1 style={ h1Style } >React</h1>
-					<AddNote></AddNote>
-					<ol onClick={this.handleClick}>{daye}</ol>
+					<AddNote onAdd={this.handleClick} onClear={this.clearAll} ></AddNote>
+					<ol>{items}</ol>
 				</div>);
 			}
-		})
+		});
+
 		React.render(
-			<Comments name="John" />,
+			<Comments data={data} />,
 			document.getElementById('example')
 		);
 	}
+	</script>
+	<script>
+	/*document.querySelector('html').onkeydown = function(event){
+		console.log(event.keyCode)
+	}*/
 	</script>
 </body>
 </html>

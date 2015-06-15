@@ -26,7 +26,8 @@
 			var idWidth , idHeight , topMin, topCurrent, topMax, leftMin, leftMax, leftCurrent, toLeft, len , currentPage ,timeIn ;
 
 			currentPage = parseInt(hashIndex,10) ;
-			this.init = function(){
+
+			this.init = function(){ // 初始化，当窗口变化时，需要进初始化，主要适用于
 			    idWidth = $id.offsetWidth,
 				idHeight = $id.offsetHeight;
 			    topMin = -idHeight ,
@@ -49,9 +50,12 @@
 					leftCurrent = 0 ;
 				}
 				$item.forEach(function(ele,index){
-					if (index != currentPage) ele.style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
+					if (index != currentPage){
+						 ele.style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
+					}
 				})
 			}
+
 			this.init();
 			if (dianNav) dianInit();
 			if (autoPlay) start();
