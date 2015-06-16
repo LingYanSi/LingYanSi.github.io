@@ -12,22 +12,35 @@
 			.my-select-1024 li{ line-height:1.4; overflow:hidden; width:100%; height:1.4em; cursor:pointer;}
 			.my-select-1024 li:hover{background:pink;}
 			.ms1-info-show{transform:translate3d(0,0,0); display:block;}
+
+			/* 表单有效性Chrome, Opera, Firefox, Safari, IE10+. */
+			input:valid{border:1px solid green;} 
+			input:invalid{border:1px solid red;} 
+
+			/* in-range Chrome, Opera, Firefox, Safari, IE10+. */
 	    </style>
     </head>
 	<body>
-		<form action="">
-			<input type="text" pattern="[A-z]{3,6}" required="required" title="3-6个字母" placeholder="请输入3-6个字符">
-			<!-- required表示此input必填，pattern表示用正则表达式来约束，title表示在不符合要求情况下的弹出内容 -->
-			<input type="submit" value="提交">
-		</form>
+		<div style="max-width:900px;margin:0 auto;">
+			<form action="">
+				<input type="text" pattern="[A-z]{3,6}" required="required" title="3-6个字母" placeholder="请输入3-6个字符">
+				<!-- required表示此input必填，pattern表示用正则表达式来约束，title表示在不符合要求情况下的弹出内容 -->
+				<input type="submit" value="提交">
+			</form>
 
-		<select name="" id="heihei">
-			<option value="山东省的关系的风格的风格">山东省的关系的风格的风格</option>
-			<option value="123333">123333</option>
-			<option value="788888">788888</option>
-			<option value="Ass是谁">Ass是谁</option>
-		</select>
+			<select name="" id="heihei">
+				<option value="山东省的关系的风格的风格">山东省的关系的风格的风格</option>
+				<option value="123333">123333</option>
+				<option value="788888">788888</option>
+				<option value="Ass是谁">Ass是谁</option>
+			</select>
 
+			<br><br><br>
+			<form action="">
+				<input type="date" min="2015-12-03" max="2015-12-06">
+				<input type="number" min="1" max="100">
+			</form>
+		</div>
  <script src="js/jquery-1.11.2.min.js"></script>
 		<script>
 			var a = '你好啊啊啊' ;

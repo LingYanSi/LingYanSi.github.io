@@ -4,8 +4,9 @@ underscore.js / lodash.js
 方便我们处理一些数据
 
 
-webpackage
+webpack
 用于管理包依赖？
+http://webpack.github.io/docs/tutorials/getting-started/index.html
 
 
 gulp/grunt
@@ -47,4 +48,13 @@ jquery
 	特点：兼容性好，dom操作
 zepto
 	特点：面向移动端的类[jquery]js库
+
+
+状态机
+http://www.ruanyifeng.com/blog/2013/09/finite-state_machine_for_javascript.html
+https://github.com/jakesgordon/javascript-state-machine
+
+
+express/koa
+用于构建后端的web项目
 

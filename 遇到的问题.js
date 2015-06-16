@@ -1444,7 +1444,29 @@
 		}
 		return flag ;
 	}
-	
+
+-------------------------------------------------------------------------------
+
+javscript 保留字
+Javascript保留字不可以用作变量,函数名,对象名等,其中有的保留字是为以后Javascript扩展用的.
+
+abstract
+boolean break byte
+case catch char class const continue
+debugger default delete do double
+else enum export extends
+false final finally float for function
+goto
+if implements import in instanceof int interface
+long
+native new null
+package private protected public
+return
+short static super switch synchronized
+this throw throws transient true try typeof
+var void volatile
+while with
+
 -------------------------------------------------------------------------------
 		<div id="main"></div>
 		document.getElementById('main').addEventListener('click',function(event){

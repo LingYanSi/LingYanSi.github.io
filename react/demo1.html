@@ -3,10 +3,29 @@
 <head>
 	<meta charset="utf-8">
 	<title>react练习1</title>
+	<style>
+		div,form,ul,ol,li,img{margin:0;padding:0;border:0;}
+		#ol{ border:1px solid rgb(100,100,100); border-top:none; list-style:none; margin-top:2em;}
+		#ol li{ border-top:1px solid rgb(100,100,100); line-height:2; }
+		.name,.age{ display:inline-block; width:10em; }
+		.age{ border-left:1px solid rgb(100,100,100); }
+		
+		#footer{ margin-top:1em; }
+		#footer a{ text-decoration:none; color:rgb(120,120,120); display:inline-block; padding:0 2em; line-height:2; }
+		#footer a.current{ background:rgb(247,105,105); color:rgb(255,255,255); }
+
+		#tips{ max-width:900px; margin:0 auto; color:rgb(120,120,120); margin-top:1em; list-style-position:inside;}
+	</style>
 </head>
 <body>
 	<div id="title"></div>
 	<div id="example"></div>
+	<div id="tips">
+		<ul>
+			<li>自己写了个路由</li>
+			<li>使用了react</li>
+		</ul>
+	</div>
 	<script src="framework/JSXTransformer.js"></script>
 	<script src="framework/react.min.js"></script>
 	<script type="text/jsx">
@@ -16,41 +35,61 @@
 		*  创建一个评论组件
 		*/
 
-		var Aaaa = React.createClass({ // react组件名首字母要大些，用意是为了和标准的html标签区分
+		var Item = React.createClass({ // react组件名首字母要大些，用意是为了和标准的html标签区分
 			getInitialState:function(){
 				return {
-					nima : false
+					name : this.props.data.name ,
+					age : this.props.data.age
 				}
 			},
 			handleClick:function(){
 				this.setState( {nima: !this.state.nima } );
-				// alert('我被点击了');
 			},
 			edit:function(){
-				console.log('双击时间')
-				// alert('时代发生的发')
 				this.refs.name.getDOMNode().setAttribute('contentEditable',true);
 			},
 			save:function(event){ // 保存数据
+				var node = this.refs.name.getDOMNode();
+				var value = {} ;
 				if(event.keyCode){
 					if( event.keyCode == 27 ){
-
-					}else if( event.keyCode != 27 && event.keyCode !=13 ) return ;
+						node.removeAttribute('contentEditable');
+						this.setState({ name:this.props.data.name  }); // 取消编辑，将原来的数据覆盖
+						return 
+					}else if( event.keyCode != 27 && event.keyCode !=13 ) {
+						this.setState({ name: event.target.textContent }); // 数据变化时将数据渲染
+						return
+					} ;
 				}
-				this.refs.name.getDOMNode().removeAttribute('contentEditable');
+				value.name = node.textContent ;
+				this.props.onEdit(value); // 保存数据
+				node.removeAttribute('contentEditable');
 			},
 			del:function(){ // 其实根据flux，增删改查，不应直接反映在v上，应该先走model，数据改变后，在反映到view上
 				this.props.onDel();
 			},
 			render : function(){
 				var nima = this.state.nima ? '周芷若' : '赵敏' ;
+				var dis = parseInt(this.state.age) - this.props.hidden >0?'block':'none';
+				var itemStyle = { display : dis}
 				return (
-					<h1 ref="item"> 
-						<span class="name" ref="name" onDoubleClick ={ this.edit } onBlur={ this.save } onKeyDown={ this.save }>胡耀邦</span> 
-						<span class="age">122</span> 
-						<span onClick={ this.handleClick }>Hello {this.props.data.name}{this.props.data.age}</span>
+					<li ref="item" style={itemStyle}> 
+						<span className ="name" 
+								ref="name" 
+								onDoubleClick ={ this.edit } 
+								onBlur={ this.save } 
+								onChange={ this.change }
+								onKeyDown={ this.save } >{this.state.name}</span> 
+
+						<span className ="age" 
+								ref="age" 
+								onDoubleClick ={ this.edit } 
+								onBlur={ this.save } 
+								onKeyDown={ this.save } >{this.state.age}</span> 
+
+						<span onClick={ this.handleClick }> Hello </span>
 						<span onClick={ this.del }>删除</span>
-					</h1>
+					</li>
 				);
 			}
 		});
@@ -59,10 +98,9 @@
 			handleClick:function(event){
 				if( event.keyCode && event.keyCode != 13 ) return 
 				if( this.refs.wName.getDOMNode().value && this.refs.wAge.getDOMNode().value ){
-					this.props.onAdd(event,{ name:this.refs.wName.getDOMNode().value ,age:this.refs.wAge.getDOMNode().value });
+					this.props.onAdd({ name:this.refs.wName.getDOMNode().value ,age:this.refs.wAge.getDOMNode().value });
 					this.refs.wName.getDOMNode().value = '' ;
 					this.refs.wAge.getDOMNode().value = '' ;
-					// alert('创建成功')
 				}else{
 					alert('信息不完整')
 				}
@@ -82,25 +120,35 @@
 			}
 		});
 
-		var data = [{name:'毛腊肉',age:'108'},
+		var Footer = React.createClass({
+			render : function(){
+				return (<div id="footer">
+						<a href="#/" className={this.props.current-0===0?'current':''}>all</a>
+						<a href="#/50" className={this.props.current-50===0?'current':''}>50岁以上</a>
+						<a href="#/100" className={this.props.current-100===0?'current':''}>100岁以上</a>
+					</div>)
+			}
+		});
+		var data = [{name:'毛腊肉',age:'18'},
+					{name:'江青',age:'108'},
+					{name:'戴笠',age:'58'},
+					{name:'宋美龄',age:'68'},
 					{name:'地图开疆蒋中正',age:'120'}] ;
 
-		var Comments = React.createClass({ // 主组件
-			handleClick:function(event,item){
-				// console.log('对方几乎是恐惧的');
-				data.push(item)
-				if(item){
-					this.resetData();
-					// console.log(this.state) 
-				}
-				/*this.props.data = [{name:'冰北库',age:'108'},
-					{name:'地图开疆蒋中正',age:'120'}] ;*/
-
-			},
+		var Main = React.createClass({ // 主组件
 			resetData : function(){
 				this.setState({
 					itemCounts : data
 				});
+			},
+			addOne:function(item){
+				console.log(item)
+				data.push(item)
+				if(item){
+					this.resetData();
+				}
+				/*this.props.data = [{name:'冰北库',age:'108'},
+					{name:'地图开疆蒋中正',age:'120'}] ;*/
 			},
 			clearAll : function(){
 				data = [] ;
@@ -110,35 +158,116 @@
 				delete data[index] ;
 				this.resetData();
 			},
+			edit : function(ele,index,value){
+				data[index].name = value.name ? value.name : data[index].name ;
+				console.log(data[index].name,value.name)
+				// data[index].age = value.age ;
+				this.resetData();
+			},
 			getInitialState : function(){
+
+				var _this = this ;
+				var filter ;
+				router({
+					others : function(){
+						console.log('===>跳转到其他页面')
+					},
+					'/':function(){
+						filter = 0 ;
+						_this.setState({filter:0});
+						console.log('全部')
+					} ,
+					'/50':function(){
+						filter = 50 ;
+						_this.setState({filter:50});
+						console.log('大于50')
+					},
+					'/100':function(){
+						filter = 100 ;
+						_this.setState({filter:100});
+						console.log('大于100')
+					},
+					'/book/:id':function(param){
+						console.log('现在====》书单目录'+param);
+					} 
+				});
 				return {
-					itemCounts : data
+					itemCounts : data ,
+					filter : filter
 				}
 			},
 			render : function(){
 
 				var items = this.state.itemCounts.map(function(ele,index){
-					return <Aaaa data={ele} onDel={this.clearOne.bind(this,ele,index)}></Aaaa>
+					// 在这里根据路由来设置隐藏
+					return <Item data={ele} 
+								onDel={this.clearOne.bind(this,ele,index)} 
+								onEdit={this.edit.bind(this,ele,index)} 
+								hidden={this.state.filter}
+								>
+							</Item>
 				},this)
 
 				var mianStyle = { maxWidth:"900px" , margin:"0 auto" } ;
 				var h1Style = { color:"rgb(247,105,105)" , fontSize:"3em" , lineHeight:"2" , textAlign:"center" } ;
 
+				var footer = <Footer current={this.state.filter}></Footer>
+
 				return (<div style={ mianStyle }>
 					<h1 style={ h1Style } >React</h1>
-					<AddNote onAdd={this.handleClick} onClear={this.clearAll} ></AddNote>
-					<ol>{items}</ol>
+					<AddNote onAdd={this.addOne} onClear={this.clearAll} ></AddNote>
+					<ol id="ol">{items}</ol>
+					{footer}
 				</div>);
 			}
 		});
 
 		React.render(
-			<Comments data={data} />,
+			<Main data={data} />,
 			document.getElementById('example')
 		);
+
 	}
 	</script>
 	<script>
+
+		function router(routerSet){
+			var r = routerSet ;
+			load();
+			window.onhashchange = function(){
+				load();
+			}
+			function load(){
+				var router = location.hash.slice(1) ;
+				if(router.indexOf('/')!==0){
+					location.href = "#/"
+				}
+				// 事件的触发是因为 hashchange ,hash值改变以后，就把新的hash值解析一遍
+				var arr = router.split(/\/+/) ; 
+				console.log(arr)
+				var rArr = Object.keys(r) ;
+				var LEN = rArr.length ;
+				var matched = false ;
+
+				rArr.forEach(function(ele,index){
+					if(matched) return
+					var items = ele.split(/\/+/); // 判断长度，然后与arr做比较，得出是否符合路由，然后执行相关函数，还要判断是不是含有id
+					for( var i=0,len=items.length ;i<len;i++){
+						if( items[i] === ':id'){
+							r[ele](arr[i]);
+							matched = true ;
+							return
+						}
+						if(items[i] != arr[i]){
+							if(index == LEN-1) r.others();
+							return
+						}
+					}
+					r[ele]();
+					matched = true ;
+				})
+			}
+		};
 	/*document.querySelector('html').onkeydown = function(event){
 		console.log(event.keyCode)
 	}*/
