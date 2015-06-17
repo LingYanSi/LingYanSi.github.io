@@ -1,6 +1,7 @@
   function bing(info,option){
          var canvas = document.getElementById('canvas') ;
         if(canvas.getContext) var ctx = canvas.getContext('2d') ;
+        
         var ratio = getPixelRatio( ctx ) ;
         var bl = document.getElementById('wrap').offsetWidth/500 ;
         var bili = bl*ratio ;

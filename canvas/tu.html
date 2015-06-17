@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+    *{margin:0; padding:0;}
+    .wrap{max-width:640px;margin:0 auto;}
+
+    #pie{ font-family:'黑体'; }
+        
+    .pie-title{text-align:center;color:#a0d8ef;}
+    .pcs-item{position:absolute;}
+    .pcs-item>span{font-size:2em;}
+
+    .pc-item-color{display:inline-block;width:10px;background-color:red;height:10px;}
+
+    #pie-content{ background-image:url(2.jpg); background-size:cover;}
+  </style>
+ </head>
+ <body>
+    <div id="wrap" class="wrap">
+        <div id="pie">
+            <p class="pie-title">您的宝宝击败了全国……</p>
+            <div id="pie-content" style="position:relative;">
+                <canvas id="canvas" height="500" width="500"></canvas>
+            </div>
+        </div>
+    </div>
+ <script src="js/tu-mo.js"></script>
+ <script type="text/javascript">
+    window.onload = function(){
+       tuMo();
+    }
+ </script>
+ </body>
+</html>
