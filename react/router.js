@@ -51,3 +51,4 @@ function router(){
 };
 
 var Router = new router();
+console.log('aaaaaaaaaaaaaaaaaaa')

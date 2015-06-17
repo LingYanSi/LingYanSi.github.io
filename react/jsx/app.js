@@ -1,4 +1,3 @@
-window.onload = function(){
 	
 	/*单条item*/
 	var Item = React.createClass({ // react组件名首字母要大些，用意是为了和标准的html标签区分
@@ -207,10 +206,9 @@ window.onload = function(){
 			</div>);
 		}
 	});
-
 	React.render(
 		<Main data={data} du="heihei"  />,
 		document.getElementById('example')
 	);
+	
 
-}
