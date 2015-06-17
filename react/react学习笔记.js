@@ -21,3 +21,5 @@ var Zu = React.createClass({}) ;
 
 子组件通过 this.props 来和父组件通信
 兄弟组件也是通过父组件来通信
+
+state变化的时候，组件会重新渲染，通过props来获取组件的属性
