@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<p id="hei"></p>
+			<p id="ha"></p>
+		</div>
+	</div>
+ <script src="js/jquery-1.11.2.min.js"></script>
+ <script type="text/javascript">
+	$(function(){
+		var winHeight = $(window).height() ;
+		var winWidth = $(window).width() ;
+		document.getElementById('wrap').style.opacity = 1;
+		var $hei = $('#hei'), $ha = $('#ha')
+		rock(function(){
+			alert('我被咬了咬了要')
+		})
+		function rock(callBack){
+			var initX , initY , initZ , rocked = false ;
+			window.addEventListener('devicemotion',function(event){
+
+				var x = Math.round(event.accelerationIncludingGravity.x) ;
+				var y = Math.round(event.accelerationIncludingGravity.y) ;
+				var z = Math.round(event.accelerationIncludingGravity.z) ;
+
+				if(!rocked && y==9 ) initY = y , rocked = true ;
+				if(!rocked && x==0) initX = x , rocked = true ;
+
+				if(rocked && (y - initY > 1 || Math.abs(x - initX) > 7 ) ){
+					callBack();
+					rocked = false ;
+				}
+			})
+		}
+	})
+ </script>
+ </body>
+</html>

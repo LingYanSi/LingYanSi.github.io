@@ -82,7 +82,7 @@
 
 	----------------------------------------------------------------------------------------
 
-	device倾斜
+	device倾斜 / 摇一摇
 	
 	window.addEventListener('deviceorientation',function(event){
 		console.log(event)
@@ -91,7 +91,7 @@
 		Math.abs(event.gamma)>45 ? $('#abs').text(' 屏幕横置'+ event.gamma) : $('#abs').text('屏幕竖直' + event.gamma) ; //  -90 to 90
 	});
 	window.addEventListener('devicemotion',function(event){
-		//$('#rock').text('摇一摇'+event.accelerationIncludingGravity.z)
+		//$('#rock').text('摇一摇'+event.accelerationIncludingGravity.z);
 	})
 
 	--------------------------------------------------------------------------------------

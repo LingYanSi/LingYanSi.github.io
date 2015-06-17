@@ -38,7 +38,7 @@
 			<br><br><br>
 			<form action="">
 				<input type="date" min="2015-12-03" max="2015-12-06">
-				<input type="number" min="1" max="100">
+				<input min="1" max="100" id="change">
 			</form>
 		</div>
  <script src="js/jquery-1.11.2.min.js"></script>
@@ -100,9 +100,15 @@
 					}
 				})
 			}
-			document.body.addEventListener('keydown',function(event){
+			/*document.body.addEventListener('keydown',function(event){
 				console.log(event.keyCode)
+			})*/
+			$(function(){
+				$('#change').on('change',function(){
+					console.log('已经change了');
+				});
 			})
+			
 		</script>
 	</body>
 </html>
