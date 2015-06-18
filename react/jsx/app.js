@@ -1,3 +1,4 @@
+
 	
 	/*单条item*/
 	var Item = React.createClass({ // react组件名首字母要大些，用意是为了和标准的html标签区分
@@ -92,9 +93,12 @@
 			Router.add({
 				'/':function(){
 					console.log('我是你爹');
+				},
+				others:function(){
+					console.log('footer-->我不是你爹')
 				}
 			});
-			return {}
+			return {} //由此观之，getInitialState如果使用，就必须要返回一个对象
 		},
 		render : function(){
 			return (<div id="footer">
@@ -111,12 +115,7 @@
 				{name:'戴笠',age:'58'},
 				{name:'宋美龄',age:'68'},
 				{name:'地图开疆蒋中正',age:'120'}] ;
-
-	var data1 = [{name:'毛润之',age:'18'},
-				{name:'江青',age:'108'},
-				{name:'戴笠',age:'58'},
-				{name:'宋美龄',age:'68'},
-				{name:'地图开疆蒋中正',age:'120'}] ;
+				
 	/*数据如果是用ajax获取的，那是不是说要在本地维护一份数据，对本地数据增删改查的同时，也要对服务器数据做出改变*/
 
 	/*主体*/
@@ -127,7 +126,6 @@
 			});
 		},
 		addOne:function(item){
-			console.log(item)
 			data.push(item)
 			if(item){
 				this.resetData();
@@ -206,9 +204,9 @@
 			</div>);
 		}
 	});
+
 	React.render(
 		<Main data={data} du="heihei"  />,
 		document.getElementById('example')
 	);
-	
 
