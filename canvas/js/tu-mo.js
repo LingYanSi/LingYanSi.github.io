@@ -5,13 +5,15 @@
 
 function tuMo(){
 	var canvas = document.getElementById('canvas');
+	canvas.height = window.innerHeight ;
+	canvas.width  = window.innerWidth ;
 	var ctx = canvas.getContext('2d') ;
 
 	var img = new Image();
 	img.src = '1.jpg' ;
 	img.addEventListener('load',function(){
 		ctx.drawImage(img,0,0);
-		ctx.globalCompositeOperation="destination-out"; // 先画上一张图之后，再设定重合部分的处理
+		ctx.globalCompositeOperation="destination-out"; // 先画上一张图之后，再设定对重合部分的处理
 	});
 
 	canvas.addEventListener('touchstart',function(event){

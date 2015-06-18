@@ -94,6 +94,21 @@
 		//$('#rock').text('摇一摇'+event.accelerationIncludingGravity.z);
 	})
 
+	deviceMetion // 获取加速度？
+	var acc = event.acceleration; // 带上地球加速的的加速度
+	document.getElementById("x").innerHTML = acc.x;
+	document.getElementById("y").innerHTML = acc.y;
+	document.getElementById("z").innerHTML = acc.z;
+	var accGravity = event.accelerationIncludingGravity; // 带上地球加速的的加速度
+	document.getElementById("xg").innerHTML = accGravity.x; // 水平方向
+	document.getElementById("yg").innerHTML = accGravity.y; // 垂直方向
+	document.getElementById("zg").innerHTML = accGravity.z;
+	var rotationRate = event.rotationRate; // 旋转加速度
+	document.getElementById("alpha").innerHTML = rotationRate.alpha;
+	document.getElementById("beta").innerHTML = rotationRate.beta;
+	document.getElementById("gamma").innerHTML = rotationRate.gamma;
+
+
 	--------------------------------------------------------------------------------------
 
 	pointer-events 【none/auto】 
