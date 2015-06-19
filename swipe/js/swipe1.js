@@ -112,7 +112,6 @@
 					swipeY = true ;
 					swipeX = true ;
 				}
-				var $news = document.querySelector('#news');
 				function touchMove(event){
 					XX = event.targetTouches ? event.targetTouches[0].screenX : event.pageX;
 					YY = event.targetTouches ? event.targetTouches[0].screenY : event.pageY;
@@ -120,7 +119,6 @@
 					if (swipeY && (!swipeX || Math.abs(XX-xx)-Math.abs(YY-yy)<0))
 					{
 						swipeX = false ;
-						$news.textContent = swipeX
 						if (!toLeft)
 						{
 							event.stopPropagation();

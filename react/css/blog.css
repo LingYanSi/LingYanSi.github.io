@@ -1,8 +1,11 @@
 
+html{ overflow-x:hidden; }
 div,form,ul,ol,li,img,p{margin:0;padding:0;border:0;}
 
 nav{ position:fixed; top:0; left:0; height:60px; width:100%; background:rgb(247,105,105); color:rgb(255,255,255); z-index:1000; }
 .nav{ width:1000px; height:100%; margin:0 auto; }
+
+.wrap{ width:1000px; position:relative; margin:0 auto;}
 
 /* 侧边栏 */
 #sidebar {position:absolute; top:80px; left:50%; margin-left:300px; width:200px; }
@@ -13,9 +16,9 @@ nav{ position:fixed; top:0; left:0; height:60px; width:100%; background:rgb(247,
 #sidebar a{ text-decoration:none; color:inherit; display:block; height:100%; }
 
 /* 主区域 */
-#main{ padding-top:80px; width:1000px; margin:0 auto;}
+#main{ padding-top:80px; width:800px; }
 
-.main-item{ min-height:80px; cursor:pointer; padding:10px;}
+.main-item{ min-height:80px; cursor:pointer; padding:10px; line-height:1.8; font-size:14px;}
 .main-item:hover{ background-color:rgba(0,100,200,0); }
 .main-item+.main-item{ margin-top:2em; }
 

@@ -31,7 +31,7 @@ function router(){
 			rsArr.forEach(function(ele,index){ // 遍历路由集合，然后做出相应处理
 				var items = ele.split(/\/+/); // 判断长度，然后与arr做比较，得出是否符合路由，然后执行相关函数，还要判断是不是含有id
 				var param ;
-				if(items.length !== arr.length) return
+				if(index<rsArr.length-1 && items.length !== arr.length) return
 				if(matched) return
 				for( var i=0,len=items.length ;i<len;i++){
 					if( items[i] === ':id'){ // 这里有问题，如果还需要后面的值也想等呢，这里应该先把arr[i]缓存起来
