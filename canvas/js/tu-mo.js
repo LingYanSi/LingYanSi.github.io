@@ -14,29 +14,39 @@ function tuMo(src){
 	var ctx = canvas.getContext('2d') ;
 
 	var img = new Image();
-	img.src = src ;
+		img.src = src ;
 	var cha = (canvas.height-canvas.width*16/9)/2 ;
 	img.addEventListener('load',function(){
 		ctx.drawImage(img,0,cha,canvas.width,canvas.width*16/9);
 		ctx.globalCompositeOperation="destination-out"; // 先画上一张图之后，再设定对重合部分的处理
 	});
 
-	canvas.addEventListener('touchstart',function(event){
+	var hastouch = "ontouchstart" in window?true:false, // 各有利弊吧 navigator.userAgent.toLowerCase().match(/phone|pad|pod|android/g)
+        tapstart = hastouch?"touchstart":"mousedown",
+        tapmove = hastouch?"touchmove":"mousemove",
+        tapend = hastouch?"touchend":"mouseup";
+
+	canvas.addEventListener(tapstart,function(event){
 		touchstart(event)
 	});
-	canvas.addEventListener('touchmove',function(event){
+	canvas.addEventListener(tapmove,function(event){
 		touchmove(event)
 	});
-	canvas.addEventListener('touchend',function(event){
+	canvas.addEventListener(tapend,function(event){
 		testData();
 	});
 
-	var xx,yy,XX,YY ;
+	var xx,yy,XX,YY,touching;
+	var canvasTop,canvasLeft ;
+	canvasTop = canvas.getBoundingClientRect().top ;
+	canvasLeft = canvas.getBoundingClientRect().left ;
+
 	function touchstart(event){
+		touching = true ;
 		event.stopPropagation();
 		event.preventDefault();
-		xx = event.targetTouches[0].clientX ;
-		yy = event.targetTouches[0].clientY ;
+		xx = hastouch?event.targetTouches[0].clientX :event.clientX - canvasLeft ;
+		yy = hastouch?event.targetTouches[0].clientY :event.clientY - canvasTop ;
 
 		ctx.lineWidth = 40 ;
 		ctx.lineCap = "round";　　//设置线条两端为圆弧
@@ -55,9 +65,9 @@ function tuMo(src){
 	}
 
 	function touchmove(event){
-
-		XX = event.targetTouches[0].clientX ;
-		YY = event.targetTouches[0].clientY ;
+		if(!touching) return
+		XX = hastouch?event.targetTouches[0].clientX :event.clientX - canvasLeft ;
+		YY = hastouch?event.targetTouches[0].clientY :event.clientY - canvasTop ;
 
 		ctx.save();
         ctx.moveTo(xx,yy);
@@ -69,6 +79,8 @@ function tuMo(src){
 	}
 
 	function testData(){
+		if(!touching) return
+		touching = false ;
 		/*遍历canvas的getImageData，判断*/
 		var whiteZone = 0 ;
  		dataList= ctx.getImageData(0,0,canvas.height,canvas.width);
