@@ -1,18 +1,23 @@
 /*
 * 所谓canvas涂抹，就是重新写一个 clearRect()上去
 * 手指坐标所在地是一个小圆圈，也就是要不断的画小圆圈
+* 非也，其实就是画线，粗线，两头圆，拐弯，重合部分透明
+		ctx.lineWidth = 40 ; // 设置线条宽度
+		ctx.lineCap = "round";　　//设置线条两端为圆弧
+        ctx.lineJoin = "round";　　//设置线条转折为圆弧
 */
 
-function tuMo(){
+function tuMo(src){
 	var canvas = document.getElementById('canvas');
 	canvas.height = window.innerHeight ;
 	canvas.width  = window.innerWidth ;
 	var ctx = canvas.getContext('2d') ;
 
 	var img = new Image();
-	img.src = '1.jpg' ;
+	img.src = src ;
+	var cha = (canvas.height-canvas.width*16/9)/2 ;
 	img.addEventListener('load',function(){
-		ctx.drawImage(img,0,0);
+		ctx.drawImage(img,0,cha,canvas.width,canvas.width*16/9);
 		ctx.globalCompositeOperation="destination-out"; // 先画上一张图之后，再设定对重合部分的处理
 	});
 
@@ -20,26 +25,47 @@ function tuMo(){
 		touchstart(event)
 	});
 	canvas.addEventListener('touchmove',function(event){
-		touchstart(event)
+		touchmove(event)
 	});
 	canvas.addEventListener('touchend',function(event){
-		// testData();
+		testData();
 	});
 
+	var xx,yy,XX,YY ;
 	function touchstart(event){
 		event.stopPropagation();
 		event.preventDefault();
-		var x = event.targetTouches[0].clientX ;
-		var y = event.targetTouches[0].clientY ;
+		xx = event.targetTouches[0].clientX ;
+		yy = event.targetTouches[0].clientY ;
 
-		ctx.beginPath();
-		ctx.arc(x,y,20,0,2*Math.PI);
-		/*data = ctx.getImageDate(x-10,y-10,20,20);
+		ctx.lineWidth = 40 ;
+		ctx.lineCap = "round";　　//设置线条两端为圆弧
+        ctx.lineJoin = "round";　　//设置线条转折为圆弧
+        ctx.save();
 
-		ctx.clearRect(x-10,y-10,20,20);*/
+		/*ctx.beginPath();
+		ctx.arc(xx,yy,20,0,2*Math.PI);
+		data = ctx.getImageDate(x-10,y-10,20,20);
+
+		ctx.clearRect(x-10,y-10,20,20);
 		ctx.fillStyle = 'rgba(255,255,0,1)';
 		ctx.closePath();
-		ctx.fill();
+		ctx.fill();*/
+		ctx.restore();
+	}
+
+	function touchmove(event){
+
+		XX = event.targetTouches[0].clientX ;
+		YY = event.targetTouches[0].clientY ;
+
+		ctx.save();
+        ctx.moveTo(xx,yy);
+        ctx.lineTo(XX,YY);
+        ctx.stroke();
+        ctx.restore();
+
+        xx = XX , yy = YY ;
 	}
 
 	function testData(){
@@ -53,8 +79,8 @@ function tuMo(){
             }
         }
 
-        if(whiteZone>=len*0.1){
-            alert("ok!!")
+        if(whiteZone>=len*0.7){
+            canvas.style.display = "none" ;
         }
 	}
 }

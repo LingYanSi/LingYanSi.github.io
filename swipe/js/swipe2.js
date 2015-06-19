@@ -142,7 +142,7 @@
 							}
 						}
 					}
-					if(swipeX && (!swipeY || Math.abs(XX-xx)-Math.abs(YY-yy)>=0) ){
+					if(swipeX && (!swipeY || Math.abs(XX-xx)-Math.abs(YY-yy)>0) ){
 						swipeY = false ;
 						if (toLeft)
 						{
