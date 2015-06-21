@@ -1468,6 +1468,22 @@
 		}
 		return flag ;
 	}
+--------------------------------------------------------------------------------
+
+script标签
+
+<script id="template" src="template/a.html" type="text/html"></script>
+这样写是无法通过document.querySelector('#template')来获取a.html的内容的
+这是因为浏览器考虑安全性原因，不然的话，我们就能够通过script标签获取所有服务器上的文本文件了
+
+但是script标签内部的代码还是可以获取到的
+<script type="text/html"><a href="">东方不败</a></script>
+
+script标签type属性的默认值是text/javascript,也只有当type属性的值是它的时候，浏览器才会执行他
+并且当浏览器解析到script标签时，会等待script标签引用的js文件下载（如果有的话）完毕，执行结束后
+才会继续向下解析
+
+通过script标签可以解决跨域请求的问题
 
 -------------------------------------------------------------------------------
 

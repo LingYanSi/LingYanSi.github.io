@@ -581,15 +581,16 @@ window.$ = Zepto
 		if (typeof(arg) == "object"){
 			var xhr = new XMLHttpRequest();
 			var type = arg.type || 'POST' ,
+			      dataType = arg.dataType || 'json',
 			       url = arg.url ,
 			       asyn = arg.asyn || true ;
 			xhr.open(arg.type,arg.url,arg.asyn); 
-			xhr.timeout= 3000;//设置响应时间
-			xhr.ontimeout = function(){ // 请求超时的处理
-				xhr.abort() // 终止请求
-				console.log('请求超时');
-			}
-			xhr.responseType = "json";  // 设置返回数据
+			// xhr.timeout= 3000;//设置响应时间
+			// xhr.ontimeout = function(){ // 请求超时的处理
+			// 	xhr.abort() // 终止请求
+			// 	console.log('请求超时');
+			// }
+			// xhr.responseType = dataType ;  // 设置返回数据
 			xhr.onreadystatechange = function(){ // readystate变化时触发
 				if (xhr.readyState===2)//
 				{

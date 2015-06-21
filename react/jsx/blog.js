@@ -12,7 +12,7 @@ var Nav = React.createClass({
 
 /*--------------------------侧边栏数据-----------------------------------------*/
 var data_sb = [{
-		url:'/',
+		url:'/history',
 		content:'中国历史'
 	},{
 		url:'/cultrue',
@@ -51,15 +51,15 @@ var Sidebar = React.createClass({
 					</li>)
 		},this);
 
-		return (<div id="sidebar">
+		return (<ol id="sidebar">
 					{items}
-				</div>)
+				</ol>)
 	}
 });
 
 /*--------------------------数据-----------------------------------*/
 var data_main = [{
-		url:'/',
+		url:'/history',
 		content:[{
 			content:'秦国丞相李斯。拜访小圣贤庄。道：“政治家的儿子，也是政治家”',
 			comments:[{name:'胡锦涛',content:'不是我要当主席，是大家选我当主席'},{name:'江泽民',content:'特首，也要按照香港的法律啊，你们呀，不要想搞个大新闻，然后再把我批判一番'}]
@@ -127,9 +127,8 @@ var Main = React.createClass({
 				}
 			},
 			others:function(){
-				_this.setState({
-					currentItem:urls.length-1
-				});
+				current =urls.length-1 ;
+				location.href = '#/error' ;
 			}
 		});
 
@@ -189,7 +188,8 @@ var Info = React.createClass({
 						<span>分享</span>
 						<span>帮助</span>
 						<span>举报</span>
-						<span onClick={this.commentToggole}>评论</span>
+						<span>感谢</span>
+						<span onClick={this.commentToggole}>添加评论</span>
 					</div>
 					{this.state.hidden ? <Comment allList={this.props.allList}></Comment> : null }
 				</div>)

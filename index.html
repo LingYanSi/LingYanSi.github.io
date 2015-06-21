@@ -12,24 +12,51 @@
 	 body{font-size:14px;}
 	 .main{max-width:1000px;margin:0 auto;overflow:hidden;}
 	 .content{}
-	 h2,h3{line-height:300%;}
+	 h2,h3{line-height:3;}
 	 .content-item{line-height:1.5em;padding:0 2em 1em;border-bottom:1px dashed rgb(147,147,147);}
 	 .content-item a{text-decoration:none;color:rgb(247,105,105);}
 	 .content-item ul{list-style:inside}
+
+	 li{ list-style-position: inside; }
   </style>
  </head>
  <body>
 	<div id="" class="main">
 		<div id="" class="content">
 			<div id="" class="content-item">
-				<h2>协作</h2>
-				<p>比如说当有大量页面需要切，并要另一个人去写js，或者说在达到初步的前后端分离『所有数据通过ajax方式写入，不使用jsp渲染』<br />
-				把写好好html文件交给写js的人，js人员正在完成途中，这时候需求有变，html文件有变更，怎么办？<br /></p>
-				<h3>解决方式</h3>
-				<p>1.最终确定好需求，不在更变后，再把页面提交给js人员<br />
-				2.html，js由一个人完成<br />
-				3.团队确定好书写规范，并不在html文件中直接写js，一切js外部引入，且对交到手中的html文件不再修改<br />
-				  但大多时候，都会在html文件中新增一些id，或者class，这里可以说明不写js的人对数据写入没有什么概念</p>
+				<h3>Java/PHP/.net/c/python/ruby等</h3>
+				<ol>
+					<li>传统服务器层，提供resetful化的api，负责数据的逻辑化操作</li>
+				</ol>
+				<h3>node层</h3>
+				<ol>
+					<li>负责模版渲染：ejs</li>
+					<li>根据不同的请求信息，做出自定义处理，根据url/user-agent</li>
+					<li>node层不负责数据的逻辑化处理，或者说node层应该制作可视化的一些东西</li>
+					<li>使用KOA/Express</li>
+					<li>是否完全掌控router</li>
+				</ol>
+				<h3>web层</h3>
+				<ol>
+					<li>项目要兼容哪些浏览器</li>
+					<li>要不要使用前端框架/库：react/angular/backbone/jquery/zepto</li>
+					<li>要不要使用css框架/预处理器：bootstrap/less/
+						<a href="http://www.w3cplus.com/sassguide/">sass</a>
+						/Stylus[TJ出品] 
+						<a href="http://efe.baidu.com/blog/revisiting-css-preprocessors/">三者对比</a>
+					</li>
+					<li>要不要使用requirejs/seajs进行js的依赖管理</li>
+					<li>使用gulp/grunt对js/css做自动化处理</li>
+					<li>使用git/svn</li>
+				</ol>
+				<h3>项目环境的搭建</h3>
+				<ol>
+					<li>node</li>
+					<li>nginx,我觉得既然有node了，它应该就不太需要了吧</li>
+					<li>git/svn</li>
+					<li>gulp/grunt自动化处理工具</li>
+					<li>IDE/编辑器：sublime/webstorm/vim</li>
+				</ol>
 			</div>
 			<div class="content-item">
 				<h3>RequireJs</h3>

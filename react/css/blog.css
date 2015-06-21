@@ -9,7 +9,7 @@ nav{ position:fixed; top:0; left:0; height:60px; width:100%; background:rgb(247,
 
 /* 侧边栏 */
 #sidebar {position:absolute; top:80px; left:50%; margin-left:300px; width:200px; }
-#sidebar li { line-height:2; border:1px solid rgb(200,200,200); border-radius:6px; cursor:pointer;}
+#sidebar li { line-height:2; border:1px solid rgb(200,200,200); border-radius:6px; cursor:pointer; list-style:none; padding:0 1em;}
 #sidebar>li { margin-top:10px; background-color:rgba(255,255,255,0); color:rgb(0,0,0); }
 #sidebar>li:hover{ background-color:rgba(247,105,105,0.8); color:rgb(255,255,255); }
 #sidebar .sidebar-current{ background-color:rgba(247,105,105,0.8); color:rgb(255,255,255); }
