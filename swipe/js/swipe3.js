@@ -17,7 +17,8 @@
 				callback = arg.callback,
 				buttPrev = arg.buttPrev,
 				buttNext = arg.buttNext,
-				keyEvent = arg.keyEvent;
+				keyEvent = arg.keyEvent,
+				fullScreen = arg.fullScreen ;
 			//console.log(autoPlay,loop,dianNav)
 			var isPhone = !!navigator.userAgent.toLowerCase().match(/android|phone|pad/g);
 			var $id = document.querySelector('#'+idname);
@@ -51,7 +52,7 @@
 			})
 			if (dianNav) dianInit();
 			if (autoPlay) start();
-			touchMove(idname);//touch事件
+			TouchMove(idname);//touch事件
 			buttEvent(); // 按钮事件
 			window.addEventListener('keyup',function(event){ // 按键监听
 				if(!keyEvent) return
@@ -59,13 +60,14 @@
 				if (event.keyCode==40 || event.keyCode==39) index = setPage((currentPage+1) ),toWhere(index,'next');
 				else if (event.keyCode==38 || event.keyCode==37)  index = setPage((currentPage-1) ),toWhere(index,'prev');
 			});
-			function touchMove(idname){ //触摸事件
+			function TouchMove(idname){ //触摸事件
 				var id = document.getElementById(idname);
 				var xx,XX,$current,currentDom,$prev,prevDom,$next,nextDom,swipeX,swipeY,cha;
 				var mouseStart , mouseMove , mouseEnd ,isPhone ;
 				var time = 400 ;
 				var time1 = new Date().getTime() ;
 				var time2 = 0 ;
+				var hasTouchEnd = true ;
 
 				isPhone = !!navigator.userAgent.toLowerCase().match(/android|phone|pad/g) ;
 				mouseStart = isPhone ? 'touchstart' : 'mousedown' ;
@@ -83,15 +85,19 @@
 				});
 
 				function touchStart(event){
-					time1 = new Date().getTime() ;
-					if(time1-time2<=time){
-						swipeX = false ;
-						swipeY = false ;
-						return
-					}else{
-						time2 = time1 ;
+					if(fullScreen){
+						event.stopPropagation();
+						event.preventDefault();
 					}
-					stop();
+					time1 = new Date().getTime() ;
+					console.log(hasTouchEnd,time1-time2)
+					if(hasTouchEnd && time1-time2>time){ // 这么写是不正确的
+						hasTouchEnd = false ;
+					}else{
+						swipeX = false ;
+						swipeY = false ; 
+						return
+					}
 					xx = event.targetTouches ? event.targetTouches[0].screenX : event.pageX;
 					yy = event.targetTouches ? event.targetTouches[0].screenY : event.pageY;
 					XX = xx ;
@@ -119,6 +125,10 @@
 					swipeX = true ;
 				}
 				function touchMove(event){
+					if(fullScreen){
+						event.stopPropagation();
+						event.preventDefault();
+					}
 					XX = event.targetTouches ? event.targetTouches[0].screenX : event.pageX;
 					YY = event.targetTouches ? event.targetTouches[0].screenY : event.pageY;
 					
@@ -132,13 +142,19 @@
 							cha = YY-yy ;
 							if (cha>=0)
 							{
-								if (!loop && currentPage==0) return swipeY=false; // 循环模块
+								if (!loop && currentPage==0){
+									swipeY=false; // 循环模块
+									return 
+								} 
 								currentDom.style.webkitTransformOrigin = 'center 125%';
 								currentDom.style.webkitTransform = 'translate3d(0,0,0) scale3d('+(1-cha/topMax/4)+','+(1-cha/topMax/4)+',1)';
 								prevDom.style.webkitTransform = 'translate3d(0,'+(cha+topMin)+'px,0)' ;
 								if (len>2) nextDom.style.webkitTransform = 'translate3d(0,'+(topMax)+'px,0)' ;// 避免因为滑动过快引起的bug
 							}else{
-								if (!loop && currentPage==len-1) return swipeY=false; // 循环模块
+								if (!loop && currentPage==len-1){
+									swipeY=false; // 循环模块
+									return 
+								} 
 								currentDom.style.webkitTransformOrigin = 'center -25%';
 								currentDom.style.webkitTransform = 'translate3d(0,0,0) scale3d('+(1+cha/topMax/4)+','+(1+cha/topMax/4)+',1)';
 								nextDom.style.webkitTransform = 'translate3d(0,'+(topMax+cha)+'px,0)' ;
@@ -146,7 +162,7 @@
 							}
 						}
 					}
-					if(swipeX && (!swipeY || Math.abs(XX-xx)-Math.abs(YY-yy)>0) ){
+					if(swipeX && (!swipeY || Math.abs(XX-xx)-Math.abs(YY-yy)>=0) ){
 						swipeY = false ;
 						if (toLeft)
 						{
@@ -155,12 +171,12 @@
 							cha = XX-xx ;
 							if (cha>=0)
 							{
-								if (!loop && currentPage==0) return swipeX=false; // 循环模块
+								if (!loop && currentPage==0) return swipeX=false ; // 循环模块
 								currentDom.style.webkitTransform = 'translate3d('+( XX-xx)+'px,0,0)';
 								prevDom.style.webkitTransform = 'translate3d('+(leftMin+cha)+'px,0,0)';
 								if (len>2) nextDom.style.webkitTransform = 'translate3d('+leftMax+'px,0,0)';// 避免因为滑动过快引起的bug
 							}else{
-								if (!loop && currentPage==len-1) return swipeX=false; // 循环模块
+								if (!loop && currentPage==len-1) return swipeX=false ; // 循环模块
 								currentDom.style.webkitTransform = 'translate3d('+cha+'px,0,0)';
 								nextDom.style.webkitTransform = 'translate3d('+(leftMax+cha)+'px,0,0)';
 								if (len>2) prevDom.style.webkitTransform = 'translate3d('+leftMax+'px,0,0)';// 避免因为滑动过快引起的bug
@@ -169,6 +185,14 @@
 					}
 				}
 				function touchEnd(event){
+					if(fullScreen){
+						event.stopPropagation();
+						event.preventDefault();
+					}
+					if(!hasTouchEnd && cha!=0){
+						time2 = new Date().getTime();
+						hasTouchEnd = true ;
+					} 
 					if(cha == 0)
 					{
 						swipeY = false ;
@@ -235,6 +259,7 @@
 					}
 					swipeY = false ;
 					swipeX = false ;
+
 					if (autoPlay) start();
 					if(dianNav) dianMove();
 					if (callback)

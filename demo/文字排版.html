@@ -63,11 +63,24 @@
 			</div>
 		</div>
 	</div>
+	<div style="position:relative">
+		<div style="position:absolute;top:0;left:0;height:100px;width:100px;background:green;">
+			<div style="position:absolute;top:-50%;left:0;background:red;height:100px;width:100px;"></div>
+		</div>
+	</div>
  <script type="text/javascript">
  	document.onreadystatechange = function(){
  		console.log(document.readyState)
  	}
  	console.log(typeof(document),document instanceof HTMLDocument,window)
+
+ 	function a(){
+ 		console.log('没有return')
+ 	}
+ 	function b(){
+ 		return
+ 	}
+ 	a()
  </script>
  </body>
 </html>

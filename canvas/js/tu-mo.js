@@ -21,7 +21,7 @@ function tuMo(src) {
         ctx.globalCompositeOperation = "destination-out"; // 先画上一张图之后，再设定对重合部分的处理
     });
 
-    var hastouch = "ontouchstart" in window ? true : false, // 各有利弊吧 navigator.userAgent.toLowerCase().match(/phone|pad|pod|android/g)
+    var hastouch = !!navigator.userAgent.toLowerCase().match(/phone|pad|pod|android/g)
         tapstart = hastouch ? "touchstart" : "mousedown",
         tapmove = hastouch ? "touchmove" : "mousemove",
         tapend = hastouch ? "touchend" : "mouseup";
@@ -80,15 +80,12 @@ function tuMo(src) {
 
     function testData() {
         if (!touching) return
+        else touching = false
         /*遍历canvas的getImageData，判断*/
         var whiteZone = 0;
         dataList = ctx.getImageData(0, 0, canvas.height, canvas.width);
         var len = dataList.data.length;
         for (var i = 0; i < len; i++) {
-            if (touching) {
-                touching = false;
-                return
-            }
             if (dataList.data[i] == 0) {
                 whiteZone++;
             }
