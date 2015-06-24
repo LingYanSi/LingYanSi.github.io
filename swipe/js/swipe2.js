@@ -51,7 +51,7 @@
 			})
 			if (dianNav) dianInit();
 			if (autoPlay) start();
-			touchMove(idname);//touch事件
+			TouchMove(idname);//touch事件
 			buttEvent(); // 按钮事件
 			window.addEventListener('keyup',function(event){ // 按键监听
 				if(!keyEvent) return
@@ -59,7 +59,7 @@
 				if (event.keyCode==40 || event.keyCode==39) index = setPage((currentPage+1) ),toWhere(index,'next');
 				else if (event.keyCode==38 || event.keyCode==37)  index = setPage((currentPage-1) ),toWhere(index,'prev');
 			});
-			function touchMove(idname){ //触摸事件
+			function TouchMove(idname){ //触摸事件
 				var id = document.getElementById(idname);
 				var xx,XX,$current,currentDom,$prev,prevDom,$next,nextDom,swipeX,swipeY,cha;
 				var mouseStart , mouseMove , mouseEnd ,isPhone ;
@@ -88,12 +88,10 @@
 						swipeX = false ;
 						swipeY = false ;
 						return
-					}else{
-						time2 = time1 ;
 					}
-					stop();
-					xx = event.targetTouches ? event.targetTouches[0].screenX : event.pageX;
-					yy = event.targetTouches ? event.targetTouches[0].screenY : event.pageY;
+					if (autoPlay) stop();
+					xx = isPhone ? event.targetTouches[0].screenX : event.pageX;
+					yy = isPhone ? event.targetTouches[0].screenY : event.pageY;
 					XX = xx ;
 					YY = yy ;
 					cha = 0 ;
@@ -180,6 +178,7 @@
 					nextDom.classList.add('swipe-change');
 					if (!toLeft && swipeY )
 					{
+						time2 = new Date().getTime();
 						if (cha>0)
 						{
 							if (cha>50)
@@ -208,6 +207,7 @@
 					}
 					else if ( toLeft && swipeX)
 					{
+						time2 = new Date().getTime();
 						if (cha>0)
 						{
 							if (cha>50)

@@ -7,14 +7,14 @@
         ctx.lineJoin = "round";　　//设置线条转折为圆弧
 */
 
-function tuMo(src) {
+function tuMo(arg) {
     var canvas = document.getElementById('canvas');
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
     var ctx = canvas.getContext('2d');
 
     var img = new Image();
-    img.src = src;
+    img.src = arg.src;
     var cha = (canvas.height - canvas.width * 16 / 9) / 2;
     img.addEventListener('load', function() {
         ctx.drawImage(img, 0, cha, canvas.width, canvas.width * 16 / 9);
@@ -43,7 +43,6 @@ function tuMo(src) {
 
     function touchstart(event) {
         touching = true;
-        event.stopPropagation();
         event.preventDefault();
         xx = hastouch ? event.targetTouches[0].clientX : event.clientX - canvasLeft;
         yy = hastouch ? event.targetTouches[0].clientY : event.clientY - canvasTop;
@@ -53,18 +52,11 @@ function tuMo(src) {
         ctx.lineJoin = "round";　　 //设置线条转折为圆弧
         ctx.save();
 
-        /*ctx.beginPath();
-    ctx.arc(xx,yy,20,0,2*Math.PI);
-    data = ctx.getImageDate(x-10,y-10,20,20);
-
-    ctx.clearRect(x-10,y-10,20,20);
-    ctx.fillStyle = 'rgba(255,255,0,1)';
-    ctx.closePath();
-    ctx.fill();*/
         ctx.restore();
     }
 
     function touchmove(event) {
+        event.preventDefault();
         if (!touching) return
         XX = hastouch ? event.targetTouches[0].clientX : event.clientX - canvasLeft;
         YY = hastouch ? event.targetTouches[0].clientY : event.clientY - canvasTop;
@@ -86,12 +78,12 @@ function tuMo(src) {
         dataList = ctx.getImageData(0, 0, canvas.height, canvas.width);
         var len = dataList.data.length;
         for (var i = 0; i < len; i++) {
-            if (dataList.data[i] == 0) {
+            if ((i+1)%4===0 && dataList.data[i]*10 === 0) {
                 whiteZone++;
             }
         }
 
-        if (whiteZone >= len * 0.7) {
+        if (whiteZone >= len/4*arg.area) {
             canvas.style.display = "none";
         }
     }

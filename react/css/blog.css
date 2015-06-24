@@ -1,9 +1,13 @@
 
 html{ overflow-x:hidden; }
 div,form,ul,ol,li,img,p{margin:0;padding:0;border:0;}
+a{ text-decoration:none; color:inherit;}
 
 nav{ position:fixed; top:0; left:0; height:60px; width:100%; background:rgb(247,105,105); color:rgb(255,255,255); z-index:1000; }
 .nav{ width:1000px; height:100%; margin:0 auto; }
+.nav-flex{ width:300px; display:flex; line-height:60px; font-size:1.3em; }
+.nav-flex-item{ flex:1; display:block;}
+.nfi-current{ background:black; }
 
 .wrap{ width:1000px; position:relative; margin:0 auto;}
 

@@ -1,33 +1,6 @@
 /*-----------------------顶部导航组件-----------------------------*/
 var Nav = React.createClass({
-
-	render : function(){
-		return (<nav>
-					<div className="nav">
-						<h1>我是导航栏</h1>
-					</div>
-				</nav>)
-	}
-});
-
-/*--------------------------侧边栏数据-----------------------------------------*/
-var data_sb = [{
-		url:'/history',
-		content:'中国历史'
-	},{
-		url:'/cultrue',
-		content:'英国文学'
-	},{
-		url:'/film',
-		content:'日本电影'
-	},{
-		url:'/sex',
-		content:'法国情色'
-	}];
-
-/*------------------------侧边栏组件--------------------------------------*/
-var Sidebar = React.createClass({
-	getInitialState : function(){
+	getInitialState:function(){
 		var current , _this=this;
 		Router.add({
 			'/:id':function(parma){
@@ -38,15 +11,111 @@ var Sidebar = React.createClass({
 			}
 		});
 		return {
-			data : data_sb ,
 			currentItem : current
+		}
+	},
+
+	render : function(){
+		return (<nav>
+					<div className="nav">
+						<div className="nav-flex">
+							<a href="#/index" className={'nav-flex-item '+(this.state.currentItem=='index'?'nfi-current':'')}>首页</a>
+							<a href="#/find" className={'nav-flex-item '+(this.state.currentItem=='find'?'nfi-current':'')}>发现</a>
+							<a href="#/topic" className={'nav-flex-item '+(this.state.currentItem=='topic'?'nfi-current':'')}>话题</a>
+						</div>
+					</div>
+				</nav>)
+	}
+});
+
+/*--------------------------侧边栏数据-----------------------------------------*/
+var data_sb = {
+	index:[{
+		url:'/topic/history',
+		content:'中国历史'
+	},{
+		url:'/topic/cultrue',
+		content:'英国文学'
+	},{
+		url:'/topic/film',
+		content:'日本电影'
+	},{
+		url:'/topic/sex',
+		content:'法国情色'
+	}],
+	find:[{
+		url:'/topic/history',
+		content:'中国历史'
+	},{
+		url:'/topic/cultrue',
+		content:'英国文学'
+	},{
+		url:'/topic/film',
+		content:'日本电影'
+	},{
+		url:'/topic/sex',
+		content:'法国情色'
+	}],
+	topic:[{
+		url:'/topic/history',
+		content:'中国历史'
+	},{
+		url:'/topic/cultrue',
+		content:'英国文学'
+	},{
+		url:'/topic/film',
+		content:'日本电影'
+	},{
+		url:'/topic/sex',
+		content:'法国情色'
+	}]
+};
+
+/*------------------------侧边栏组件--------------------------------------*/
+/* sidebar和nav之间有关联 */
+/* main和sidebar之间有关联 */
+var Sidebar = React.createClass({
+	getInitialState : function(){
+		var itemType,current , _this=this;
+		Router.add({
+			'/topic/:id':function(parma){
+				current = parma ? parma : '';
+				itemType = 'topic' ;
+				_this.setState({
+					currentItem:current ,
+					itemType : itemType
+				});
+			},
+			'/find/:id':function(parma){
+				current = parma ? parma : '';
+				itemType = 'find' ;
+				_this.setState({
+					currentItem:current ,
+					itemType : itemType
+				});
+			},
+			'/topic/:id':function(parma){
+				current = parma ? parma : '';
+				itemType = 'topic' ;
+				_this.setState({
+					currentItem:current ,
+					itemType : itemType
+				});
+			}
+		});
+		itemType = 'topic' ;
+		console.log(itemType)
+		return {
+			data : data_sb[itemType] ,
+			currentItem : current ,
+			itemType : itemType
 		}
 	},
 	render : function(){
 
 		var items = this.state.data.map(function(ele){
 			// console.log('/'+this.state.currentItem ,ele.url)
-			return (<li className={'/'+ this.state.currentItem == ele.url ? 'sidebar-current' : null}>
+			return (<li className={'/topic/'+ this.state.currentItem == ele.url ? 'sidebar-current' : null}>
 						<a href={'#'+ele.url}>{ele.content}</a>
 					</li>)
 		},this);
@@ -59,7 +128,7 @@ var Sidebar = React.createClass({
 
 /*--------------------------数据-----------------------------------*/
 var data_main = [{
-		url:'/history',
+		url:'/topic/history',
 		content:[{
 			content:'秦国丞相李斯。拜访小圣贤庄。道：“政治家的儿子，也是政治家”',
 			comments:[{name:'胡锦涛',content:'不是我要当主席，是大家选我当主席'},{name:'江泽民',content:'特首，也要按照香港的法律啊，你们呀，不要想搞个大新闻，然后再把我批判一番'}]
@@ -71,7 +140,7 @@ var data_main = [{
 			comments:[{name:'石勒',content:'汉人都得死'},{name:'冉闵',content:'胡人都得死'}]
 		}]
 	},{
-		url:'/cultrue',
+		url:'/topic/cultrue',
 		content:[{
 			content:'Ying Kingdom Wen Hua',
 			comments:[]
@@ -80,7 +149,7 @@ var data_main = [{
 			comments:[{name:'jiaLyve',content:'地球是圆的'},{name:'NickBit',content:'WTF!!!!!'}]
 		}]
 	},{
-		url:'/film',
+		url:'/topic/film',
 		content:[{
 			content:'霓虹の电影大作战',
 			comments:[{name:'AV久太保',content:'sigaoyi，我想要和你一起哭，我想要和你一起笑，我想和你一起xj，直到死掉'},{name:'野尻太君',content:'哟西'}]
@@ -89,7 +158,7 @@ var data_main = [{
 			comments:[{name:'穹',content:'人潮人海'}]
 		}]
 	},{
-		url:'/sex',
+		url:'/topic/sex',
 		content:[{
 			content:'MILK YOUR CUNT',
 			comments:[{name:'Julia',content:'BITCH,MY LARGE DICK IS JIKENANNAIING'}]
@@ -111,8 +180,8 @@ var Main = React.createClass({
 			return ele.url
 		});
 		Router.add({
-			'/:id':function(parma){
-				parma = parma? '/'+parma :'/';
+			'/topic/:id':function(parma){
+				parma = parma? '/topic/'+parma :'/';
 				current = urls.indexOf(parma) ;
 				// console.log(parma,urls,current)
 				if(current>-1){
@@ -123,12 +192,12 @@ var Main = React.createClass({
 					_this.setState({
 						currentItem:urls.length-1
 					});
-					location.href = '#/error' ;
+					// location.href = '#/error' ;
 				}
 			},
 			others:function(){
 				current =urls.length-1 ;
-				location.href = '#/error' ;
+				// location.href = '#/error' ;
 			}
 		});
 
