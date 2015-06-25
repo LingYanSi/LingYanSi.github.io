@@ -10,6 +10,9 @@
 
 	  命令行有时候可能会有太多代码使用 -- cls -- 清屏
 
+	  运行app.js 
+	  	在 iojs/koa 状态下 使用 node app.js 运行项目
+
 	2.卸载express 
 		因为之前安装express是全局安装// express install -g express
 		因此直接卸载，无法卸载掉// npm uninstall express 

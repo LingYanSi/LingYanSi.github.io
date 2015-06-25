@@ -27,6 +27,19 @@
 		var wc = 2>1 ? '大于' : '小于' ;
 		console.log(wc)
 	}
+
+	/* ++ -- */
+	var sum = 1 ; <!-- sum=2 
+	--> sum = 3 ; 在这里注释也把这一行给注释掉了
+	console.log(sum++,sum)
+	console.log('趋近前',sum)
+	console.log(sum-->0) // 其实这里的意思就是 先sum-- 然后再和 0 作比较
+	console.log('趋近后',sum)
+
+	var del = 0 ;
+	while(del-->0){ // 先比较大小，后自减/加
+		console.log(del)
+	}
  </script>
  </body>
 </html>
