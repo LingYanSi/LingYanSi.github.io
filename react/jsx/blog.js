@@ -5,6 +5,7 @@ var Nav = React.createClass({
 		Router.add({
 			'/:id':function(parma){
 				current = parma ? parma : '';
+				// console.log(current)
 				_this.setState({
 					currentItem:current
 				});
@@ -21,7 +22,7 @@ var Nav = React.createClass({
 						<div className="nav-flex">
 							<a href="#/index" className={'nav-flex-item '+(this.state.currentItem=='index'?'nfi-current':'')}>首页</a>
 							<a href="#/find" className={'nav-flex-item '+(this.state.currentItem=='find'?'nfi-current':'')}>发现</a>
-							<a href="#/topic" className={'nav-flex-item '+(this.state.currentItem=='topic'?'nfi-current':'')}>话题</a>
+							<a href="#/topic/history" className={'nav-flex-item '+(this.state.currentItem=='topic'?'nfi-current':'')}>话题</a>
 						</div>
 					</div>
 				</nav>)
@@ -30,35 +31,23 @@ var Nav = React.createClass({
 
 /*--------------------------侧边栏数据-----------------------------------------*/
 var data_sb = {
-	index:[{
-		url:'/topic/history',
-		content:'中国历史'
-	},{
-		url:'/topic/cultrue',
-		content:'英国文学'
-	},{
-		url:'/topic/film',
-		content:'日本电影'
-	},{
-		url:'/topic/sex',
-		content:'法国情色'
-	}],
+	index:[],
 	find:[{
-		url:'/topic/history',
-		content:'中国历史'
+		url:'/find/history',
+		content:'find中国历史'
 	},{
-		url:'/topic/cultrue',
+		url:'/find/cultrue',
 		content:'英国文学'
 	},{
-		url:'/topic/film',
+		url:'/find/film',
 		content:'日本电影'
 	},{
-		url:'/topic/sex',
+		url:'/find/sex',
 		content:'法国情色'
 	}],
 	topic:[{
 		url:'/topic/history',
-		content:'中国历史'
+		content:'topic中国历史'
 	},{
 		url:'/topic/cultrue',
 		content:'英国文学'
@@ -76,44 +65,35 @@ var data_sb = {
 /* main和sidebar之间有关联 */
 var Sidebar = React.createClass({
 	getInitialState : function(){
-		var itemType,current , _this=this;
+		var current , _this=this;
 		Router.add({
 			'/topic/:id':function(parma){
 				current = parma ? parma : '';
-				itemType = 'topic' ;
 				_this.setState({
-					currentItem:current ,
-					itemType : itemType
+					currentItem:current 
 				});
 			},
 			'/find/:id':function(parma){
 				current = parma ? parma : '';
-				itemType = 'find' ;
 				_this.setState({
-					currentItem:current ,
-					itemType : itemType
+					currentItem:current 
 				});
 			},
 			'/topic/:id':function(parma){
 				current = parma ? parma : '';
-				itemType = 'topic' ;
 				_this.setState({
-					currentItem:current ,
-					itemType : itemType
+					currentItem:current 
 				});
 			}
 		});
-		itemType = 'topic' ;
-		console.log(itemType)
+
 		return {
-			data : data_sb[itemType] ,
-			currentItem : current ,
-			itemType : itemType
+			currentItem : current 
 		}
 	},
 	render : function(){
 
-		var items = this.state.data.map(function(ele){
+		var items = this.props.info.map(function(ele){
 			// console.log('/'+this.state.currentItem ,ele.url)
 			return (<li className={'/topic/'+ this.state.currentItem == ele.url ? 'sidebar-current' : null}>
 						<a href={'#'+ele.url}>{ele.content}</a>
@@ -175,15 +155,22 @@ var data_main = [{
 var Main = React.createClass({
 
 	getInitialState : function(){
-		var current , _this=this;
-		var urls = data_main.map(function(ele){
+		var current=0 , currentType , _this=this;
+		var urls = this.props.info.map(function(ele){
 			return ele.url
 		});
 		Router.add({
+			'/:id':function(parma){
+				currentType = parma ;
+				_this.setState({
+					currentType:parma
+				});
+			},
 			'/topic/:id':function(parma){
 				parma = parma? '/topic/'+parma :'/';
 				current = urls.indexOf(parma) ;
 				// console.log(parma,urls,current)
+				console.log(current>-1)
 				if(current>-1){
 					_this.setState({
 						currentItem:current
@@ -192,28 +179,41 @@ var Main = React.createClass({
 					_this.setState({
 						currentItem:urls.length-1
 					});
-					// location.href = '#/error' ;
+					location.href = '#/error' ;
 				}
 			},
 			others:function(){
+				console.log('为什吗啊啊啊啊啊啊啊啊啊'+current)
 				current =urls.length-1 ;
-				// location.href = '#/error' ;
+				location.href = '#/error' ;
 			}
 		});
-
 		return {
-			data : data_main ,
 			comment : false ,
-			currentItem : current
+			currentItem : current ,
+			currentType : currentType
 		}
 	},
 	render : function(){
-		var items = this.state.data[this.state.currentItem].content.map(function(ele){
-			return (<div className="main-item">
-						<div>{ele.content}</div>
-						<Info ref="info" allList={ele.comments}></Info>
-					</div>)
-		},this);
+		var items ;
+		switch(this.state.currentType){ // 设置整个主界面的表现
+			case 'topic':
+				items = this.props.info[this.state.currentItem].content.map(function(ele){
+					return (<div className="main-item">
+								<div>{ele.content}</div>
+								<Info ref="info" allList={ele.comments}></Info>
+							</div>)
+				},this);
+				break ;
+
+			case 'index':
+				items = <div><h1>我是首页啊</h1>本demo使用了react，和自己写的一个router，完成<br/>话题页面，可添加评论</div> ;
+				break ;
+
+			case 'find' :
+				items = <div><h1>发现整个世界</h1>暮霭沉沉楚天阔，山雨欲来风满楼</div> ;
+				break ;
+		}
 		
 		return (<div id="main">
 					{items}
@@ -332,19 +332,42 @@ var CLItem = React.createClass({
 
 /*---------------------------------- App组件 --------------------------------------------*/
 var App = React.createClass({
+	getInitialState:function(){
+		var _this = this, hei ;
+		Router.add({
+			'/:id':function(param){
+				console.log('Main--->'+param)
+				hei = param ;
+				if(!data_sb[param]){
+					location.href = "#/index"
+					return ;
+				} 
+				_this.setState({
+					infoSb:data_sb[param]
+				})
+			}
+		});
+		console.log('我是初始化hei--->'+hei)
+		return {
+			infoMain:data_main ,
+			infoSb:data_sb[hei]
+		}
+	},
+	navRouter:function(){
 
+	},
 	render : function(){
 		return (<div>
 					<Nav></Nav>
 					<div className="wrap">
-						<Sidebar></Sidebar>
-						<Main></Main>
+						<Sidebar info={this.state.infoSb}></Sidebar>
+						<Main info={this.state.infoMain}></Main>
 					</div>
 				</div>)
 	}
 });
 
 React.render(
-	<App></App>,
-	document.getElementById('app')
+		<App></App>,
+		document.getElementById('app')
 	);
