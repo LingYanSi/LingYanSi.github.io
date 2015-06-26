@@ -942,18 +942,39 @@
 	console.log(b.x);// --> [object Object]  
 
 	a.x = a = {n:2}; 等同于
-	a.x = a ; // a的新增x属性指向自身
-	a = {n:2} ; // a又指向一个新对象
+	a.x = a ; // a的新增x属性指向自身 b = a = { n:2 , x:自身 }，因此a.x ---> { n:2 , x:自身 }
+	a = {n:2} ; // a又指向一个新对象，因此a.x ---> undefined
 
+	/*------------这里说明了js变量的直接赋值型和引用型------------------*/
 	var a , b ;
-	a = b =2 ;
+	a = b =2 ; // 此时a指向b
 	console.log(a) // --> 2
 	b = {}
-	console.log(a) // ---> {}
+	console.log(a) // ---> {} b指向{}，a也指向{}
 
-	a = b ={}
+	a = b ={} // 此时a/b同时指向{}
 	b = 1
 	console.log(a) // --> {}
+
+	/*-----------------------------------------*/
+	var a = {
+		height : function(){
+			console.log('gaodu')
+		},
+		width : a.height()
+	}
+	// 这段代码等同于如下
+	// 赋值表达式或者带初始化的变量声明都是，要在赋值符号的右手边的表达式求值完成之后，才会把右手边的值赋予左手边的表达式。
+	var a ; // a is undefined
+	var b = {} ;
+	b.height = function(){ console.log('高度') } ;
+	b.width = a.height() ; // Uncaught TypeError: Cannot read property 'height' of undefined
+	a = b ;
+
+	// 而不是说
+	var a = {}
+	a.height = function(){ console.log('高度') } ;
+	a.width = a.height() ;
 
 	---------------------------------------------------------------------------------
 	this 指针，指向当前运行环境
@@ -1334,10 +1355,10 @@
 	var sb = {};
 	var hah = function(hei){
 		var hei = hei ;
-		hei.__proto__ = sb ;
+		hei.__proto__ = sb ; // hei 的原型指向 sb
 		return hei;
 	}
-	hah.prototype = sb ;
+	hah.prototype = sb ; // hah的原型设置为 sb
 	var bu = hah({}) ;
 	console.log(bu instanceof hah) // 输出为 true
 

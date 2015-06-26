@@ -40,6 +40,37 @@
 	while(del-->0){ // 先比较大小，后自减/加
 		console.log(del)
 	}
+
+	/*var a = {
+		height : function(){
+			console.log('gaodu')
+		},
+		width : a.height()
+	}
+	// 这段代码等同于如下
+	// 赋值表达式或者带初始化的变量声明都是，要在赋值符号的右手边的表达式求值完成之后，才会把右手边的值赋予左手边的表达式。
+	var a ; // a is undefined
+	var b = {} ;
+	b.height = function(){ console.log('高度') } ;
+	b.width = a.height() ; // Uncaught TypeError: Cannot read property 'height' of undefined
+	a = b ;
+
+	// 而不是说
+	var a = {}
+	a.height = function(){ console.log('高度') } ;
+	a.width = a.height() ;*/
+
+	/*var a = { n:2 } ;
+	var b = a ;
+	a.x = a = { n:1 } ;
+	console.log(b) ;
+
+	var c = {q:1} ;
+	var d = c ;
+	c = 1 ;
+	console.log(d)*/
+
+
  </script>
  </body>
 </html>

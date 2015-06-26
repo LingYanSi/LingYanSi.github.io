@@ -42,7 +42,9 @@ function stackBlurImage( imageID, canvasID, radius, blurAlphaChannel )
 			
  	var img = document.getElementById( imageID );
 	var w = img.offsetWidth;
-    var h = img.offsetHeight;//��ͼƬ�ĸ߿����д��ݣ���ȻҲ��������������߿�
+    var h = img.offsetHeight;// 获取图片宽高
+	var w1 = img.naturalWidth;
+    var h1 = img.naturalHeight;// 获取真实宽度和高度，用于canvas.drawImage的自定义显示
 	console.log(w,h)
        
 	var canvas = document.getElementById( canvasID );
@@ -50,8 +52,12 @@ function stackBlurImage( imageID, canvasID, radius, blurAlphaChannel )
     
     
     var context = canvas.getContext("2d");
-    context.clearRect( 0, 0, w, h );
-    context.drawImage( img, 0, 0 ,w,h);//0,0ΪͼƬ��canvas�е�λ�ã�w,hΪͼƬ�Ĵ�С
+    context.clearRect( 0, 0, w, h ); 
+    var cha = (canvas.height - canvas.width * h1 / w1) / 2;
+    context.drawImage(img, 0, cha, canvas.width, canvas.width * h1 / w1);
+        // console.log('自适应--》',cha)
+    /* 这里应该计算一下图片的宽高，然后和屏幕的宽高做一个比较什么的*/
+    // context.drawImage( img, 0, 0 ,w,h);//0,0ÎªÍ¼Æ¬ÔÚcanvasÖÐµÄÎ»ÖÃ£¬w,hÎªÍ¼Æ¬µÄ´óÐ¡
 
 	if ( isNaN(radius) || radius < 1 ) return;
 	
