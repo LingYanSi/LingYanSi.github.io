@@ -31,15 +31,14 @@
 				<h3>node层</h3>
 				<ol>
 					<li>负责模版渲染：ejs</li>
-					<li>根据不同的请求信息，做出自定义处理，根据url/user-agent</li>
-					<li>node层不负责数据的逻辑化处理，或者说node层应该制作可视化的一些东西</li>
-					<li>使用KOA/Express</li>
-					<li>是否完全掌控router</li>
+					<li>请求的redirection(重定向)</li>
+					<li>node层只是数据处理的中间层，最后一步操作还是交给java等来操作</li>
+					<li>使用<a href="http://koa.bootcss.com/">KOA</a>/Express</li>
 				</ol>
 				<h3>web层</h3>
 				<ol>
 					<li>项目要兼容哪些浏览器</li>
-					<li>要不要使用前端框架/库：react/angular/backbone/jquery/zepto</li>
+					<li>要不要使用前端框架/库：react/angular/backbone/jquery/zepto <a href="https://github.com/tastejs/todomvc">todomvc</a></li>
 					<li>要不要使用css框架/预处理器：bootstrap/less/
 						<a href="http://www.w3cplus.com/sassguide/">sass</a>
 						/Stylus[TJ出品] 
@@ -48,14 +47,16 @@
 					<li>要不要使用requirejs/seajs进行js的依赖管理</li>
 					<li>使用gulp/grunt对js/css做自动化处理</li>
 					<li>使用git/svn</li>
+					<li>使用<a href="https://babeljs.io/">babel</a>吗？babel的作用在于对<a href="http://es6.ruanyifeng.com/#README">es6</a>进行Polyfill</li>
 				</ol>
 				<h3>项目环境的搭建</h3>
 				<ol>
 					<li>node</li>
-					<li>nginx,我觉得既然有node了，它应该就不太需要了吧</li>
+					<li>
+						<a href="http://baike.baidu.com/link?url=ptNb0mdBT2Nx34eWgWc5GCQ1l-KqezJwcnKlG2ZxuRy6-5uWwxX3ieeFPvRoQBpBI4N38b2nsrSa5M2-M3gMHK">nginx</a>,我觉得既然有node了，它应该就不太需要了吧</li>
 					<li>git/svn</li>
 					<li>gulp/grunt自动化处理工具</li>
-					<li>IDE/编辑器：sublime/webstorm/vim</li>
+					<li>IDE/编辑器：sublime/webstorm/vim/atom</li>
 				</ol>
 			</div>
 			<div class="content-item">
