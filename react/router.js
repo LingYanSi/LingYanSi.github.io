@@ -1,4 +1,6 @@
-
+/*
+* 如何解决当路由不存在时，跳转到另一个页面，单页面已经渲染的问题
+*/
 function router(){
 	// var r = routerSet ; // 这里有个问题，如果说在多处调用了router，并且对同一路由做出了
 	// console.log('新建了一个路由') // 只能有一个路由，路由有一个事件集合
@@ -9,7 +11,10 @@ function router(){
 		load(this_rs);
 		caches.push(routerSet); //把路由routerSet缓存起来
 	}
-
+	this.error = function(){
+		location.href = "#/error" ;
+		location.reload();
+	}
 	window.addEventListener('hashchange',function(){
 		load(caches); // 当hash值变化时，执行所有缓存起来的routerSet
 	}); 
@@ -17,7 +22,8 @@ function router(){
 	function load(arrS){ // 把[routerSet]数组传进来，然后遍历
 		var router = location.hash.slice(1) ;
 		if(router.indexOf('/')!==0){
-			location.href = "#/"
+			location.href = "#/" ;
+			location.reload()
 		}
 		// 事件的触发是因为 hashchange ,hash值改变以后，就把新的hash值解析一遍
 		var arr = router.split(/\/+/) ; // 解析当前路由
