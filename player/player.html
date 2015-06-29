@@ -1,180 +1,75 @@
 <!doctype html>
 <html lang="zh-cn">
- <head>
-   <meta charset="UTF-8">
-  <meta name="Generator" content="EditPlus®">
-  <meta name="Author" content="">
-  <meta name="Keywords" content="">
-  <meta name="Description" content="这是一个测试">
-   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" name="viewport" />
-  <title>听，这个世界</title>
-  <style type="text/css">
-	  *{padding:0;margin:0;}
-	  .music-player-box{position:fixed;top:0;left:0;height:100%;width:100%; display:flex; flex-direction:column ;}
 
-	  .music-main{flex:1; display:flex; height:500px; justify-content:flex-end;}
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="这是一个测试">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" name="viewport" />
+    <link rel="stylesheet" href="css/my-player.css">
+    <title>听，这个世界</title>
+    <style type="text/css"></style>
+</head>
 
-	  #music-list-wrap{overflow:hidden; position:relative; flex:4; min-width:400px;}
-	  .music-list{background-color:rgba(255,255,255,0.2);width:100%;min-height:100%;position:absolute;}
-	  .music-list-item{list-style:decimal-leading-zero outside;cursor:default;height:50px;line-height:50px;padding-left:2em;}
-	  .music-list-item+.music-list-item{border-top:1px solid rgba(255,255,255,0.3);}
-	  .music-list-item:hover{}
-	  .mli-current{color:rgba(247,105,105,1);background-color:rgba(255,255,255,0.7);}
+<body onselectstart="return false">
+	<!-- 背景图片 -->
+    <div id="bgd" class="bgd" >
+        <img class='music-pic' id='music-pic' border="0" alt="" >
+        <canvas id="music-bgd" width="1000" ></canvas>
+    </div>
+    <div id="music-player-box" class="music-player-box">
+        <div id="" class="music-main">
+            <!-- 歌曲列表 -->
+            <div id="music-list-wrap">
+                <div id="music-list" class="music-list">
+                </div>
+            </div>
+            <div id="" class="music-main-side">
+                <!-- 专辑封面 -->
+                <div id="music-pic-wrap"></div>
+                <!-- 歌词区 -->
+                <div id="lyric-wrap">
+                    <div id="lyric"></div>
+                </div>
+            </div>
+        </div>
+        <div id="" class="music-bott">
+            <!-- 歌曲播放次序 -->
+            <div id="" class="play-prev-next">
+                <div id="prev" class="ppn-item" >上</div>
+                <div id="play" class="ppn-item" >pause</div>
+                <div id="next" class="ppn-item" >下</div>
+                <div id="model" class="ppn-item">顺序</div>
+            </div>
+            <!-- 进度条 -->
+            <div id="" class="jindu-wrap">
+                <div id="currentTime"></div>
+                <div id="jindu">
+                    <div id="jindu-load"></div>
+                    <div id="jindu-current">
+                        <div id="jindu-circle"></div>
+                    </div>
+                </div>
+                <div id="duration"></div>
+            </div>
+            <!-- 音量控制 -->
+            <div id="" class="volume-wrap">
+                <div id="mute" data-mute="false">静</div>
+                <div id="volume">
+                    <div id="volume-current">
+                        <div id="volume-circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/StackBlur.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/mxPlayer.js"></script>
+    <script src="js/app.js"></script>
+</body>
 
-	  .music-main-side{flex:1;min-width:200px;display:flex;flex-direction: column;background-color:rgba(255,255,255,0.2);}
-	  #music-pic-wrap{height:200px;width:200px;background-size:cover;margin:10px auto;}
-	
-	  #lyric-wrap{min-height:200px;overflow:hidden;position:relative;flex:1;}
-	  #lyric{text-align:center;width:100%;padding:100px 0;box-sizing:border-box;overflow:hidden;position:absolute;}
-	  #lyric>p{line-height:2em;padding:0 10px;}
-	  .lyric-item-current{color:red;}
-
-	  .music-bott{height:50px;width:100%;display:flex;justify-cntent:flex-end;padding:30px 0;}
-	  .play-prev-next{position:relative;overflow:hidden;flex:1;}
-	  .ppn-item{height:50px;width:50px;float:left;background-color:rgba(255,255,255,0.2);border-radius:10px;text-align:center;line-height:50px;cursor:pointer;}
-	  
-	  .jindu-wrap{flex:3;display:flex;}
-	  #currentTime,#duration{width:3em;height:50px;line-height:50px;text-align:center;background-color:rgba(249,228,89,0.8);}
-	  #jindu{height:10px;background:pink;margin:0 10px;margin-top:20px;flex:1;position:relative;}
-	  #jindu-load{position:relative;height:10px;width:0; background-color:rgba(0,105,105,0.5);}
-	  #jindu-current{width:0px; height:10px; background:rgb(247,105,105); position:absolute; top:0; left:0;}
-	  #jindu-circle{position:absolute;top:0;right:-5px;width:10px;height:10px;background:black;}
-	  
-	  .volume-wrap{flex:1;display:flex;margin:0 20px;}
-	  #mute{width:20px;height:50px;margin-right:10px;line-height:50px;text-align:center;cursor:pointer; background-color:rgba(249,228,89,0.8);}
-	  #volume{height:10px;background:pink;flex:1;margin-top:20px;}
-	  #volume-current{width:0px;height:10px;background:rgb(247,105,105);position:relative;}
-	  #volume-circle{position:absolute;top:0;right:-5px;width:10px;height:10px;background:black;}
-  </style>
- </head>
-
- <body onselectstart="return false">
-	<div id="bgd" class="bgd" style='position:absolute;height:100%;width:100%;z-index:-1;'>
-		<img class='music-pic' id='music-pic' border="0" alt="" style="position:absolute;top:0;left:0;height:100%;width:100%;">
-		<canvas id="music-bgd" width="1000" style="position:absolute;top:0;left:0;height:100%;width:100%;"></canvas>
-	</div>
-	<div id="music-player-box" class="music-player-box">
-		<div id="" class="music-main">
-			<!-- 歌曲列表 -->
-			<div id="music-list-wrap">
-				<div id="music-list" class="music-list">
-				</div>
-			</div>
-			<div id="" class="music-main-side">
-				<!-- 专辑封面 -->
-				<div id="music-pic-wrap"></div>
-				<!-- 歌词区 -->
-				<div id="lyric-wrap">
-					<div  id="lyric"></div>
-				</div>
-			</div>
-		</div>
-		<div id="" class="music-bott">
-			<!-- 歌曲播放次序 -->
-			<div id="" class="play-prev-next">
-				<div id="prev" class="ppn-item" style="color:rgb(52,158,105);">上</div>
-				<div id="play" class="ppn-item" style="color:rgb(111,249,193);">pause</div>
-				<div id="next" class="ppn-item"  style="color:rgb(179,255,188);">下</div>
-				<div id="model" class="ppn-item">顺序</div>
-			</div>
-			<!-- 进度条 -->
-			<div id="" class="jindu-wrap">
-				<div id="currentTime"></div>
-				<div id="jindu">
-					<div id="jindu-load"></div>
-					<div  id="jindu-current">
-						<div id="jindu-circle"></div>
-					</div>
-				</div>
-				<div id="duration"></div>
-			</div>
-			<!-- 音量控制 -->
-			<div id="" class="volume-wrap">
-				<div id="mute" data-mute="false">静</div>
-				<div id="volume">
-					<div  id="volume-current">
-						<div id="volume-circle"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-   <script src="js/jquery-2.1.1.min.js"></script>
-   <script src="js/StackBlur.js"></script>
-   <script src="js/mxPlayer.js"></script>
-  <script type="text/javascript">
-	
-		var musicScroll = new scrollbar('music-list-wrap') ;
-		musicScroll.init();
-
-		var lyricScroll = new scrollbar('lyric-wrap') ;
-		lyricScroll.init();
-		
-		var dragJdt = new dragCircle('jindu-circle','jindu-current','jindu',function(){
-			if (audio)
-			{
-			   $('#jinduCurrent').css({'width':audio.currentTime/audio.duration*100+'%'});
-			}
-		},function(width1,width2){
-				audio.currentTime = width1/width2*duration ;
-		});
-		var dragJdt1 = new dragCircle('volume-circle','volume-current','volume',function(){
-			if (audio)
-			{
-			   $('#volumeCurrent').css({'width':audio.volume*100+'%'});
-			}
-		},function(width1,width2){
-				audio.volume = width1/width2 ;
-		});
-
-		var listArr = [{"singer":[{"name":"左小祖咒","url":""}],"songName":[{"name":"爱情的枪","url":""}],"album":[{"name":"我从北方来","url":""}],"lyric":[{"pos":"audio/aiqingdeqiang"}],"poster":"audio/aiqingdeqiang.jpg","pos":"audio/aiqingdeqiang.mp3"},{"singer":[{"name":"周杰伦","url":""}],"songName":[{"name":"简单爱","url":"audio/jiandanai.mp3"}],"album":[{"name":"周杰伦","url":""}],"lyric":[{"pos":"audio/jiandanai"}],"poster":"audio/jiandanai.jpg","pos":"audio/jiandanai.mp3"},{"singer":[{"name":"elisa","url":""}],"songName":[{"name":"EppureSentire","url":"audio/EppureSentire.mp3"}],"album":[{"name":"我从北方来","url":""}],"lyric":[{"pos":"audio/EppureSentire"}],"poster":"audio/EppureSentire.jpg","pos":"audio/EppureSentire.mp3"},{"singer":[{"name":"elisa","url":""}],"songName":[{"name":"Dancing","url":"audio/Dancing.mp3"}],"album":[{"name":"我从北方来","url":""}],"lyric":[{"pos":"audio/Dancing"}],"poster":"audio/Dancing.jpg","pos":"audio/Dancing.mp3"},{"singer":[{"name":"周杰伦","url":""}],"songName":[{"name":"青花瓷","url":"audio/qinghuaci.mp3"}],"album":[{"name":"我从北方来","url":""}],"lyric":[{"pos":"audio/qinghuaci"}],"poster":"audio/qinghuaci.jpg","pos":"audio/qinghuaci.mp3"},{"singer":[{"name":"筠子","url":""}],"songName":[{"name":"立秋","url":"audio/liqiu.mp3"}],"album":[{"name":"我从北方来","url":""}],"lyric":[{"pos":"audio/liqiu"}],"poster":"audio/liqiu.jpg","pos":"audio/liqiu.mp3"},{"singer":[{"name":"黄耀明","url":""}],"songName":[{"name":"暗涌","url":"audio/anyong.mp3"}],"album":[{"name":"我从北方来","url":""}],"lyric":[{"pos":"audio/anyong"}],"poster":"audio/anyong.jpg","pos":"audio/anyong.mp3"},{"singer":[{"name":"周传雄","url":""}],"songName":[{"name":"青花","url":"audio/qinghua.mp3"}],"album":[{"name":"我从北方来","url":""}],"lyric":[{"pos":"audio/qinghua"}],"poster":"audio/qinghua.jpg","pos":"audio/qinghua.mp3"}];
-		insertList('music-list',listArr);
-		insertList('music-list',listArr);
-		musicScroll.init();
-		lyricStr ={anyong: '[ti:暗涌][ar:黄耀明][al:下世纪再嬉戏][00:01.41]暗涌[00:04.94]作词:林夕 作曲:陈辉阳[00:09.29]演唱：黄耀明[00:12.91][00:47.50]害怕悲剧重演[00:50.50]我的命中命中[00:53.53]越美丽的东西我越不可碰[00:59.53]历史在重演[01:02.37]这么烦嚣城中[01:05.32]没理由[01:06.75]相恋可以没有暗涌[01:11.33]其实我再去爱惜你又有何用[01:17.24]难道这次我抱紧你未必落空[01:23.22]仍静候着你说我别错用神[01:29.03]什么我都有预感[01:35.15][01:37.98]就算天空再深[01:40.76]看不出裂痕[01:43.79]眉头仍聚满密云[01:49.74]就算一屋暗灯[01:52.64]照不穿我身[01:55.62]仍可反映你心[02:01.69]让这口烟跳升[02:04.49]我身躯下沉[02:07.50]曾多么想多么想贴近[02:13.41]你的心和眼口和耳亦没缘份[02:19.42]我都捉不紧[02:25.28]害怕悲剧重演[02:28.22]我的命中命中[02:31.23]越美丽的东西我越不可碰[02:37.14]历史在重演[02:40.15]这么烦嚣城中[02:43.01]没理由[02:44.38]相恋可以没有暗涌[02:48.95]其实我再去爱惜你又有何用[02:54.93]难道这次我抱紧你未必落空[03:02.34]仍静候着你说我别错用神[03:08.12]什么我都有预感[03:14.24]然后睁不开两眼[03:17.17]看命运光临[03:20.08]然后天空又再涌起密云[03:26.15]然后睁不开两眼[03:29.01]看命运光临[03:31.90]然后天空又再涌起密云[03:37.99]然后天空又再涌起密云[03:42.37]',
-		aiqingdeqiang:'[00:02.56]爱情的枪[00:06.50]演唱：陈升，左小祖咒[00:08.42][00:49.50]借我那把枪吧[00:52.37]你说你用不上那玩意去杀谁[00:57.23]莫非有人把情爱都已看厌[01:04.71]借我那把枪吧[01:07.97]或者借我五毛钱[01:12.16]我要搭上北方的快车头也不回[01:19.72]杀了诚实吧[01:22.96]或者杀了爱情吧[01:26.92]在北风吹起的时侯加入我们的队伍[01:34.74]杀了真理吧[01:37.90]或者杀了谎言吧[01:41.73]好在北风吹起的狂野中[01:45.48]唱着激昂的进行曲[01:49.75]借我那把枪吧[01:52.80]我又沒说用不上那玩意[01:57.18]莫非有人给你机会[02:00.46]让你感到自卑[02:04.67]借我那把枪吧[02:07.90]或者借我五毛钱[02:12.20]生就属于北方的我将一去不回[02:20.50]如果有天我再归来[02:26.59]请不要因为我感到伤悲[02:34.76]雁子会捎来讯息[02:37.98]当春风吹拂着新绿[02:41.72]那是因为我想你[02:49.66][03:49.65]跟我去北方吧[03:52.97]那里正下着雪[03:56.78]就让我滚热的灵魂在冰霜上撒个野[04:04.95]跟我去北方吧[04:07.91]逃离爱情的肤浅[04:11.93]南方的江山太娇媚[04:15.40]腐蚀了我的热血[04:19.68]杀了诚实吧或者杀了爱情吧[04:26.71]爱情来的时侯[04:28.70]你就会背叛你的诚实主义[04:34.73]杀了真理吧或者杀了谎言吧[04:41.78]千万不要让他们站在敌对的那一边[04:49.69]借我那把枪吧[04:52.80]我又沒说用不上那玩意儿[04:56.68]当真理站在谎言的那边[05:00.77]我就解决我自己[05:05.39]借我那把枪吧[05:07.94]或者借我五毛钱[05:12.20]南方的江山太娇媚[05:15.51]容易遮上我的眼[05:21.14]如果有天我再回来[05:26.61]请不要为我感到伤悲[05:34.73]雁子会捎来讯息[05:37.93]当春风吹拂着新绿[05:41.70]那是因为我想你[05:49.95]',
-		qinghuaci:'[00:00.00]青花瓷[00:01.21]作词：方文山 作曲：周杰伦[00:05.98]演唱：周杰伦[00:09.98][00:21.98]素胚勾勒出青花笔锋浓转淡[00:26.42]瓶身描绘的牡丹一如你初妆[00:30.93]冉冉檀香透过窗心事我了然[00:35.26]宣纸上走笔至此搁一半[00:39.77]釉色渲染仕女图韵味被私藏[00:44.04]而你嫣然的一笑如含苞待放[00:48.65]你的美一缕飘散[00:51.03]去到我去不了的地方[00:57.61]天青色等烟雨 而我在等你[01:01.88]炊烟袅袅升起 隔江千万里[01:06.45]在瓶底书刻隶仿前朝的飘逸[01:10.80]就当我为遇见你伏笔[01:15.35]天青色等烟雨 而我在等你[01:19.64]月色被打捞起 晕开了结局[01:24.41]如传世的青花瓷自顾自美丽[01:27.53]你眼带笑意[01:32.11][01:50.86]色白花青的锦鲤跃然于碗底[01:55.41]临摹宋体落款时却惦记着你[01:59.75]你隐藏在窑烧里千年的秘密[02:04.18]极细腻犹如绣花针落地[02:08.70]帘外芭蕉惹骤雨门环惹铜绿[02:13.04]而我路过那江南小镇惹了你[02:17.74]在泼墨山水画里[02:19.86]你从墨色深处被隐去[02:26.43]天青色等烟雨 而我在等你[02:30.72]炊烟袅袅升起 隔江千万里[02:35.30]在瓶底书刻隶仿前朝的飘逸[02:39.70]就当我为遇见你伏笔[02:44.17]天青色等烟雨　而我在等你[02:48.68]月色被打捞起　晕开了结局[02:53.06]如传世的青花瓷自顾自美丽 你眼带笑意[03:02.06]天青色等烟雨 而我在等你[03:06.31]炊烟袅袅升起 隔江千万里[03:10.94]在瓶底书刻隶仿前朝的飘逸[03:15.36]就当我为遇见你伏笔[03:19.79]天青色等烟雨 而我在等你[03:24.18]月色被打捞起 晕开了结局[03:28.63]如传世的青花瓷自顾自美丽 你眼带笑意[03:40.60]',
-		qinghua:'[ti:青花][ar:周传雄][al:蓝色土耳其][00:01.50]青花[00:05.50]演唱：周传雄[00:19.50][00:28.86]三月走过 柳絮散落 恋人们匆匆[00:35.13]我的爱情 闻风不动[00:41.21]翻阅昨日 仍有温度 蒙尘的心事[00:48.12]恍恍惚惚 已经隔世[00:52.49][00:54.13]遗憾无法说 惊觉心一缩[01:06.49][01:06.90]紧紧握着 青花信物 信守着承诺[01:13.02]离别总在 失意中度过[01:19.26]记忆油膏 反复涂抹 无法愈合的伤口[01:25.66]你的回头 划伤了沉默[01:30.61][01:44.71]那夜重逢 停止漂泊 你曾回来过[01:50.96]相濡相忘 都是疼痛[01:57.18]只因昨日 善良固执 委屈着彼此[02:03.68]打碎信物 取消来世[02:08.46][02:09.86]遗憾无法说 惊觉心一缩[02:22.01][02:22.58]紧紧握着 青花信物 信守着承诺[02:28.82]离别总在 失意中度过[02:35.05]记忆油膏 反复涂抹 无法愈合的伤口[02:41.41]你的回头 划伤了沉默[02:46.42][02:47.82]紧紧握着 青花信物 雕刻着寂寞[02:54.01]就好像我 无主的魂魄[03:00.37]纠缠过往 无端神伤 摔碎谁也带不走[03:06.73]你我一场 唤不醒的梦[03:38.40]紧紧握着 青花信物 信守着承诺[03:44.56]离别总在 失意中度过[03:50.89]记忆油膏 反复涂抹 无法愈合的伤口[03:57.24]你的回头 划伤了沉默[04:02.03][04:03.55]紧紧握着 青花信物 雕刻着寂寞[04:09.88]就好像我 无主的魂魄[04:16.15]纠缠过往 无端神伤 摔碎谁也带不走[04:22.52]你我一场 唤不醒的梦[04:27.76]',
-		liqiu:'[00:02.82]立秋[00:04.04]词曲:高晓松[00:05.26]演唱:筠子[00:06.48][00:19.55]你坐在椅子上 看着窗外流过的光[00:28.25]你伸出双手摸着纸上写下的希望[00:35.96]你说花开了又落象是一扇窗[00:44.64]可是窗开了有关相爱的模样[00:51.93][00:54.33]你举着一枝花等着有人带你去流浪[01:03.02]你想睡去在远方向一个美丽童话[01:10.88]那本书合了又开漂落下梦想[01:19.41]我们俩合了又分象一对船桨[01:26.99][01:28.30]总要有些随风 有些入梦[01:33.24]有些长留在心中[01:37.03]于是有时疯狂 有时迷惘 有时唱[01:44.98][02:03.99]你坐在椅子上 看着窗外流过的光[02:12.76]你伸出双手摸着纸上写下的希望[02:20.68]你说花开了又落象是一扇窗[02:29.38]可是窗开了有关相爱的模样[02:36.97][02:38.91]你举着一枝花等着有人带你去流浪[02:47.67]你想睡去在远方向一个美丽童话[02:55.49]那本书合了又开漂落下梦想[03:04.35]我们俩合了又分象一对船桨[03:12.13][03:12.98]总要有些随风 有些入梦[03:17.89]有些长留在心中[03:21.64]于是有时疯狂 有时迷惘 有时唱[03:28.81][03:30.44]总要有些随风 有些入梦[03:35.24]有些长留在心中[03:39.08]于是有时疯狂 有时迷惘 有时唱[03:47.26][04:05.41]总要有些随风 有些入梦[04:10.21]有些长留在心中[04:14.03]于是有时疯狂 有时迷惘 有时唱[04:21.70][04:22.95]总要有些随风 有些入梦[04:27.67]有些长留在心中[04:31.43]于是有时疯狂 有时迷惘 有时唱[04:38.93][04:40.40]总要有些随风 有些入梦[04:45.11]有些长留在心中[04:49.09]于是有时疯狂 有时迷惘 有时唱[04:56.38][04:58.26]总要有些随风 有些入梦[05:02.52]有些长留在心中[05:06.27]于是有时疯狂 有时迷惘 有时唱[05:12.43]',
-		EppureSentire:"[ti:EppureSentire(UnSensoDiTe)][ar:Elisa][al:Soundtrack'96-'06-Greatest][00:01.00]EppureSentire(UnSensoDiTe)[00:03.00][00:05.00]演唱:Elisa[00:07.00][00:29.00]Aunpassodalpossibile[00:38.00]Aunpassodate[00:45.00]Pauradidecidere[00:53.00]Pauradime[01:01.00]Dituttoquellochenonso[01:08.00]Dituttoquellochenonho[01:16.00]Eppuresentire[01:21.00]Neifioritral'asfalto[01:24.00]Neicielidicobalto-c'è[01:30.00]Eppuresentire[01:35.00]Neisogniinfondoaunpianto[01:38.00]Neigiornidisilenzio-c'è[01:45.45]unsensodite[01:54.00]mmm...mmm...mmm...mmm...[02:00.45]C'èunsensodote[02:10.00]mmm...mmm...mmm...mmm...[02:17.00]Music...[02:32.00]Eppuresentire[02:37.00]Neifioritral'asfalto[02:40.00]Neicielidicobalto-c'è[02:48.00]Eppuresentire[02:52.00]Neisogniinfondoaunpianto[02:56.00]Neigiornidisilenzio-c'è[03:03.00]Unsensodite[03:12.00]mmm...mmm...mmm...mmm...[03:18.45]C'èunsensodite[03:27.00]mmm...mmm...mmm...mmm...[03:33.45]Unsensodite[03:43.00]mmm...mmm...mmm...mmm...[03:50.00]C'èunsensodite[03:57.00]By+§ConstantineRex§+[04:02.00]Thankyouall[04:07.00]TheEnd",
-		Dancing:"[ti:][ar:][al:][00:18.32]Dancing[00:20.34]by Elisa[00:22.39][00:24.33]leonwiki[00:27.31][00:39.77]Time is gonna take my mind[00:46.67]and carry it far away where I can fly[00:54.52]The depth of life will dim my temptation to live for you[01:11.40]If I were to be alone silence would rock my tears[01:34.19]'cause it's all about love and I know better[01:41.39]How life is a waving feather[01:49.22]So I put my arms around you around you[02:02.09]And I know that I'll be living soon[02:07.32]My eyes are on you they're on you[02:17.66]And you see that I can't stop shaking[02:23.47]No, I won't step back but I'll look down to hide from your eyes[02:37.37]'cause what I feel is so sweet and I'm scared that even my own breath[02:54.22]Oh could burst it if it were a bubble[03:01.00]And I'd better dream if I have to struggle[03:08.89]So I put my arms around you around you[03:21.85]And I hope that I will do no wrong[03:27.12]My eyes are on you they're on you[03:37.69]And I hope that you won't hurt me[03:42.81]I'm dancing in the room as if I was in the woods with you[03:51.07]No need for anything but music[03:54.71]Music's the reason why I know time still exists[03:59.71]Time still exists[04:05.51]Time still exists[04:08.77]So I put my arms around you around you[04:25.44]And I hope that I will do no wrong[04:30.50]My eyes are on you they're on you[04:41.90]And I hope that you won't hurt me[04:46.92]So I put my arms around you around you[04:58.80]And I hope that I will do no wrong[05:02.82]My eyes are on you they're on you[05:14.35]And I hope that you won't hurt me",
-		jiandanai:'[ti:简单爱][ar:周杰伦][al:范特西][00:-0.91]简单爱[00:06.97]作词：徐若瑄作曲：周杰伦[00:08.33]演唱：周杰伦[00:11.03][00:25.64]说不上为什麽我变得很主动[00:31.03]若爱上一个人什麽都会值得去做[00:35.90]我想大声宣布对你依依不舍[00:40.81]连隔壁邻居都猜到我现在的感受[00:45.03][00:45.76]河边的风在吹着头发飘动[00:50.74]牵着你的手一阵莫名感动[00:55.66]我想带你回我的外婆家[00:59.45]一起看着日落一直到我们都睡着[01:04.68][01:05.43]我想就这样牵着你的手不放开[01:10.43]爱能不能够永远单纯没有悲哀[01:15.24]我想带你骑单车我想和你看棒球[01:20.74]想这样没担忧唱着歌一直走[01:24.74][01:25.50]我想就这样牵着你的手不放开[01:30.28]爱可不可以简简单单没有伤害[01:35.09]你靠着我的肩膀你在我胸口睡着[01:40.52]像这样的生活我爱你你爱我[01:44.42][01:45.07]想简简单单爱[01:54.56]想简简单单爱[02:01.94][02:04.97]我想大声宣布对你依依不舍[02:09.93]连隔壁邻居都猜到我现在的感受[02:14.24][02:15.01]河边的风在吹着头发飘动[02:19.79]牵着你的手一阵莫名感动[02:24.78]我想带你回我的外婆家[02:28.47]一起看着日落一直到我们都睡着[02:33.80][02:34.66]我想就这样牵着你的手不放开[02:39.49]爱能不能够永远单纯没有悲哀[02:44.34]我想带你骑单车我想和你看棒球[02:49.72]想这样没担忧唱着歌一直走[02:53.88][02:54.48]我想就这样牵着你的手不放开[02:59.38]爱可不可以简简单单没有伤害[03:03.96]你靠着我的肩膀你在我胸口睡着[03:09.60]像这样的生活我爱你你爱我[03:13.57][03:14.23]想简简单单爱[03:23.98]想简简单单爱[03:30.93][03:33.86]我想就这样牵着你的手不放开[03:39.02]爱能不能够永远单纯没有悲哀[03:43.75]我想带你骑单车我想和你看棒球[03:49.21]想这样没担忧唱着歌一直走[03:53.12][03:53.89]我想就这样牵着你的手不放开[03:58.73]爱可不可以简简单单没有伤害[04:03.40]你靠着我的肩膀你在我胸口睡着[04:08.96]像这样的生活我爱你你爱我[04:12.86]'
-		}
-		currenItem = parseInt(localStorage['currentId'],10); // 从localStorage中获取currentId
-		mxPlayer.next(currenItem);
-		musicScroll.resetTop();
-		lyricScroll.resetTop();
-
-		window.onresize = function(){
-			musicScroll.resetTop();
-			lyricScroll.resetTop();
-			mxPlayer.setLyricTop();
-			dragJdt.reset();
-			dragJdt1.reset();
-		}
-		localStorage.setItem('isPlayerOpen','true');
-		window.addEventListener('storage',function(e){
-			if (e.key == 'currentId')
-			{
-				currenItem = parseInt(localStorage['currentId'],10)
-				console.log(currenItem,typeof(currenItem))
-				mxPlayer.next(currenItem);
-			}
-		});
-		setPlayerTime();
-		function setPlayerTime(){
-			var time = new Date().getTime();
-			localStorage.setItem('playerTime',time);
-			setInterval(function(){
-				var time = new Date().getTime();
-				localStorage.setItem('playerTime',time);
-			},2000)
-		}
-		window.addEventListener('beforeunload',function(){ // 这里并不是很安全，应该再加上一个时间戳，避免电脑突然死机，或者关机
-			localStorage.setItem('isPlayerOpen','false');
-		})
-	
-</script>
- </body>
 </html>
