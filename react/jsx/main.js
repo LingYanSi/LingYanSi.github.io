@@ -11,16 +11,15 @@ var app = app || {} ;
 			});
 			Router.add({
 				'/:id':function(parma){
-					currentType = parma ;
+					currentType = parma.id ;
 					_this.setState({
-						currentType:parma
+						currentType:currentType
 					});
 				},
 				'/topic/:id':function(parma){
-					parma = parma? '/topic/'+parma :'/';
-					current = urls.indexOf(parma) ;
+					parmaId = parma.id ? '/topic/'+parma.id :'/';
+					current = urls.indexOf(parmaId) ;
 					// console.log(parma,urls,current)
-					console.log(current>-1)
 					if(current>-1){
 						_this.setState({
 							currentItem:current
@@ -57,11 +56,22 @@ var app = app || {} ;
 					break ;
 
 				case 'index':
-					items = <div><h1>我是首页啊</h1>本demo使用了react，和自己写的一个router，完成<br/>话题页面，可添加评论</div> ;
+					items = (<div id="index">
+								<h1>我是首页</h1>
+								<ul>
+									<li>本demo使用了react，和自己写的一个router，完成</li>
+									<li>话题页面，可添加评论</li>
+								</ul>
+							</div> );
 					break ;
 
 				case 'find' :
-					items = <div><h1>发现整个世界</h1>暮霭沉沉楚天阔，山雨欲来风满楼</div> ;
+					items = (<div id="find">
+								<h1>发现，整个世界</h1>
+								暮霭沉沉楚天阔，山雨欲来风满楼
+								<img src="file/img/1.jpg" alt=""/>
+								<img src="file/img/2.jpg" alt=""/>
+							</div>) ;
 					break ;
 			}
 			

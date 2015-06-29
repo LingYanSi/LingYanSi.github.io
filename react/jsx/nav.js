@@ -1,13 +1,15 @@
 /*-----------------------顶部导航组件-----------------------------*/
 var app = app || {} ;
 ;(function(){
+    var data_sb = app.Model.data_sb ;
     app.Nav = React.createClass({
         getInitialState:function(){
             var current , _this=this;
             Router.add({
                 '/:id':function(parma){
-                    current = parma ? parma : '';
+                    current = parma.id ? parma.id : '';
                     // console.log(current)
+                    document.title = data_sb[current].title ;
                     _this.setState({
                         currentItem:current
                     });

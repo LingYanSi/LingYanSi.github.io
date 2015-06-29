@@ -4,33 +4,42 @@ var app = app || {};
 ;(function(){
     app.Model = {};
     app.Model.data_sb = {
-        index:[],
-        find:[{
-            url:'/find/history',
-            content:'find中国历史'
-        },{
-            url:'/find/cultrue',
-            content:'英国文学'
-        },{
-            url:'/find/film',
-            content:'日本电影'
-        },{
-            url:'/find/sex',
-            content:'法国情色'
-        }],
-        topic:[{
-            url:'/topic/history',
-            content:'topic中国历史'
-        },{
-            url:'/topic/cultrue',
-            content:'英国文学'
-        },{
-            url:'/topic/film',
-            content:'日本电影'
-        },{
-            url:'/topic/sex',
-            content:'法国情色'
-        }]
+        index:{
+            title:'首页',
+            sbis:[]
+        },
+        find:{
+            title:'发现',
+            sbis:[{
+                url:'/find/history',
+                content:'find中国历史'
+            },{
+                url:'/find/cultrue',
+                content:'英国文学'
+            },{
+                url:'/find/film',
+                content:'日本电影'
+            },{
+                url:'/find/sex',
+                content:'法国情色'
+            }]
+        },
+        topic:{
+            title:'话题',
+            sbis:[{
+                url:'/topic/history',
+                content:'find中国历史'
+            },{
+                url:'/topic/cultrue',
+                content:'英国文学'
+            },{
+                url:'/topic/film',
+                content:'日本电影'
+            },{
+                url:'/topic/sex',
+                content:'法国情色'
+            }]
+        }
     };
 
 

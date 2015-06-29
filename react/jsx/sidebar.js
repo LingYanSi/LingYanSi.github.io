@@ -5,30 +5,26 @@
 
 var app = app || {} ;
 ;(function(){
+    var data_sb = app.Model.data_sb ;
+
     app.Sidebar = React.createClass({
         getInitialState : function(){
             var current , _this=this;
             Router.add({
                 '/topic/:id':function(parma){
-                    current = parma ? parma : '';
+                    current = parma.id ? parma.id : '';
+                    document.title = data_sb.topic.title +'--'+ current ;
                     _this.setState({
                         currentItem:current 
                     });
                 },
                 '/find/:id':function(parma){
-                    current = parma ? parma : '';
-                    _this.setState({
-                        currentItem:current 
-                    });
-                },
-                '/topic/:id':function(parma){
-                    current = parma ? parma : '';
+                    current = parma.id ? parma.id : '';
                     _this.setState({
                         currentItem:current 
                     });
                 }
             });
-
             return {
                 currentItem : current 
             }

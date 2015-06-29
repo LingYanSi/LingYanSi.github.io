@@ -12,22 +12,24 @@ var app = app || {} ;
         getInitialState:function(){
             var _this = this, hei ;
             Router.add({
-                '/:id':function(param){
-                    console.log('Main--->'+param)
-                    hei = param ;
-                    if(!data_sb[param]){
+                '/:id':function(parma){
+                    // console.log('Main--->'+param)
+                    hei = parma.id ; 
+                    if(!data_sb[hei]){
                         location.href = "#/index"
                         return ;
                     } 
                     _this.setState({
-                        infoSb:data_sb[param]
-                    })
+                        infoSb:data_sb[hei].sbis
+                    });
+                },
+                '/:id/:item/:bitch':function(parma){
+                    console.log('路由测试',parma)
                 }
             });
-            // console.log('我是初始化hei--->'+hei)
             return {
                 infoMain:data_main ,
-                infoSb:data_sb[hei]
+                infoSb:data_sb[hei].sbis
             }
         },
         render : function(){
