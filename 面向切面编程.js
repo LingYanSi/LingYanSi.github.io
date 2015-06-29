@@ -50,3 +50,29 @@ var hei = test.after(function(){
 })();
 
 console.log(hei); // test的return值没有丢失
+
+
+// ----------> 单例模式
+var Singleton = (function() {
+    var instantiated;
+    function init() {
+        /*这里定义单例代码*/
+        return {
+            publicMethod: function() {
+                console.log('helloworld');
+            },
+            publicProperty: 'test'
+        };
+    }
+    return {
+        getInstance: function() {
+            if (!instantiated) {
+                instantiated = init();
+            }
+            return instantiated;
+        }
+    };
+})();
+
+/*调用公有的方法来获取实例:*/
+Singleton.getInstance().publicMethod();

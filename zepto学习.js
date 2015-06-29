@@ -1,9 +1,9 @@
 //-----------------------------------------------------------------------------------------------------
-	jsÁ´Ê½²Ù×÷µÄÊµÏÖË¼Â·
+	jsé“¾å¼æ“ä½œçš„å®ç°æ€è·¯
 	$('bit').css({'background':'red'}).parent().children().find('#nihao').show();
-	1. $('bit')»ñÈ¡¶ÔÏó css({'background':'red'}) 
-	2. µ÷ÓÃcssÊôĞÔ·½·¨¶ÔÆästyle½øĞĞÉèÖÃ
-	3. parent();Ö®ËùÒÔ»¹ÄÜ¼ÌĞø²Ù×÷ÊÇÒòÎª£¬Ã¿´ÎÖ´ĞĞÍêÒ»¸öÊôĞÔ·½·¨ºó£¬¶¼»á°ÑÕâ¸ö¶ÔÏó·µ»Ø¡£
+	1. $('bit')è·å–å¯¹è±¡ css({'background':'red'}) 
+	2. è°ƒç”¨csså±æ€§æ–¹æ³•å¯¹å…¶styleè¿›è¡Œè®¾ç½®
+	3. parent();ä¹‹æ‰€ä»¥è¿˜èƒ½ç»§ç»­æ“ä½œæ˜¯å› ä¸ºï¼Œæ¯æ¬¡æ‰§è¡Œå®Œä¸€ä¸ªå±æ€§æ–¹æ³•åï¼Œéƒ½ä¼šæŠŠè¿™ä¸ªå¯¹è±¡è¿”å›ã€‚
 
 	function _$(els){
 		this.elements = [];
@@ -16,11 +16,11 @@
         }
 	}
 
-	1.Ñ¡ÔñÆ÷
-		jueryÌá¹©µÄÑ¡ÔñÆ÷ÓĞclass,id,tag,ÊôĞÔµÈµÈ£¬
-		²¢ÇÒÕâÀïÃæÓĞ¿ÉÄÜ»áÓĞ¸öµİ½ø¹ØÏµ $('.bit>.dulala'),»¹Òª¿¼ÂÇµÄÊÇ$('.bit.bulu')Í¬¼¶Ò²¾ÍÊÇÍ¬Ê±º¬ÓĞÁ½¸öclassµÄÔªËØ
-		»¹Òª¿¼ÂÇµÄÊÇÍ¬¼¶ÎÊÌâ$('.bit,.bulu')
-		Ò²¾ÍÊÇËµ£¬ÎÒÃÇÒªÏÈ¶Ôarguments[0]×öÒ»¸ö´¦Àí
+	1.é€‰æ‹©å™¨
+		jueryæä¾›çš„é€‰æ‹©å™¨æœ‰class,id,tag,å±æ€§ç­‰ç­‰ï¼Œ
+		å¹¶ä¸”è¿™é‡Œé¢æœ‰å¯èƒ½ä¼šæœ‰ä¸ªé€’è¿›å…³ç³» $('.bit>.dulala'),è¿˜è¦è€ƒè™‘çš„æ˜¯$('.bit.bulu')åŒçº§ä¹Ÿå°±æ˜¯åŒæ—¶å«æœ‰ä¸¤ä¸ªclassçš„å…ƒç´ 
+		è¿˜è¦è€ƒè™‘çš„æ˜¯åŒçº§é—®é¢˜$('.bit,.bulu')
+		ä¹Ÿå°±æ˜¯è¯´ï¼Œæˆ‘ä»¬è¦å…ˆå¯¹arguments[0]åšä¸€ä¸ªå¤„ç†
 		var elements = [];
 		var selector = arguments[0];
 		if (selector.indeOf(','))
@@ -28,77 +28,77 @@
 			selector.splite(',')
 		}
 		arguments[0].split(',');
-// -----------ÔÚdomÖĞ»ñÈ¡ÔªËØ-----------------------------------------------------------------
-	document.getElementById(id) //·µ»Ø¶ÔÏó
-	document.getElementsByClassName(classname)//html5ĞÂÔöÌØĞÔ ·µ»ØHTMLCollection
-	document.getElementsByName(name) // ·µ»ØNodeList
-	document.getElementsByTagName('±êÇ©Ãû') // ·µ»ØHTMLCollection
+// -----------åœ¨domä¸­è·å–å…ƒç´ -----------------------------------------------------------------
+	document.getElementById(id) //è¿”å›å¯¹è±¡
+	document.getElementsByClassName(classname)//html5æ–°å¢ç‰¹æ€§ è¿”å›HTMLCollection
+	document.getElementsByName(name) // è¿”å›NodeList
+	document.getElementsByTagName('æ ‡ç­¾å') // è¿”å›HTMLCollection
 	
-	querySelector,querySelectorAll //IE8¼°ÆäÒÔÉÏ£¬ÆäËûÏÖ´úä¯ÀÀÆ÷Ö§³Ö
-	Document¡¢DocumentFragment¡¢Element¶¼ÊµÏÖÁËNodeSelector½Ó¿Ú¡£¼´ÕâÈıÖÖÀàĞÍµÄÔªËØ¶¼ÓµÓĞÕßÁ½¸ö·½·¨
-	querySelector·µ»ØÒ»¸ö¶ÔÏó
-	querySelectorAll·µ»ØÒ»¸ö¼¯ºÏ(¡¾NodeList¡¿ÀàÊı×é)
-	document.querySelector('#nihao') //·µ»Ø¶ÔÏó
-	document.querySelectorAll('#nihao') // ·µ»ØNodeList
+	querySelector,querySelectorAll //IE8åŠå…¶ä»¥ä¸Šï¼Œå…¶ä»–ç°ä»£æµè§ˆå™¨æ”¯æŒ
+	Documentã€DocumentFragmentã€Elementéƒ½å®ç°äº†NodeSelectoræ¥å£ã€‚å³è¿™ä¸‰ç§ç±»å‹çš„å…ƒç´ éƒ½æ‹¥æœ‰è€…ä¸¤ä¸ªæ–¹æ³•
+	querySelectorè¿”å›ä¸€ä¸ªå¯¹è±¡
+	querySelectorAllè¿”å›ä¸€ä¸ªé›†åˆ(ã€NodeListã€‘ç±»æ•°ç»„)
+	document.querySelector('#nihao') //è¿”å›å¯¹è±¡
+	document.querySelectorAll('#nihao') // è¿”å›NodeList
 	
 	document.getElementsByClassName('.haha')
 	document.querySelector('.haha')
 	document.querySelectorAll('.haha')[0]
 
-	querySelector,querySelectorAll²éÕÒ×ÓÔªËØµÄÊ±ºò£¬Ò²»á°Ñ×Ô¼º°üº¬½øÈ¥
-	¶øjqueryµÄ¡¾$(selector)¡¿²¢²»»á
-	Òò´ËÈç¹ûÊ¹ÓÃÔ­ÉúµÄÊ±ºòĞèÒª×¢ÒâÕâ¸öÎÊÌâ
-	jqueryµÄ½â¾ö·½°¸ÊÇÏÈÓÃÒ»¸öidÌæ»»Ô­À´µÄid£¬µÈµ½²éÑ¯½áÊøºóÔÙÌæ»»¹ıÀ´
+	querySelector,querySelectorAllæŸ¥æ‰¾å­å…ƒç´ çš„æ—¶å€™ï¼Œä¹Ÿä¼šæŠŠè‡ªå·±åŒ…å«è¿›å»
+	è€Œjqueryçš„ã€$(selector)ã€‘å¹¶ä¸ä¼š
+	å› æ­¤å¦‚æœä½¿ç”¨åŸç”Ÿçš„æ—¶å€™éœ€è¦æ³¨æ„è¿™ä¸ªé—®é¢˜
+	jqueryçš„è§£å†³æ–¹æ¡ˆæ˜¯å…ˆç”¨ä¸€ä¸ªidæ›¿æ¢åŸæ¥çš„idï¼Œç­‰åˆ°æŸ¥è¯¢ç»“æŸåå†æ›¿æ¢è¿‡æ¥
 
-	NodeList¡¢HTMLCollection¶¼ÊÇÀàÊı×é¶ÔÏó
-	Ö»ÓĞÕâÑù¸öÊôĞÔ·½·¨ NodeList.length¡¢NodeList[0] ºÍArrayÒ»Ñù
-	Èç¹ûÏë½«ÆäÀ©Õ¹ÎªÊı×é¶ÔÏó£¬ÓĞÒ»¸ö±È½Ï¼òµ¥µÄ·½·¨ÊÇ
+	NodeListã€HTMLCollectionéƒ½æ˜¯ç±»æ•°ç»„å¯¹è±¡
+	åªæœ‰è¿™æ ·ä¸ªå±æ€§æ–¹æ³• NodeList.lengthã€NodeList[0] å’ŒArrayä¸€æ ·
+	å¦‚æœæƒ³å°†å…¶æ‰©å±•ä¸ºæ•°ç»„å¯¹è±¡ï¼Œæœ‰ä¸€ä¸ªæ¯”è¾ƒç®€å•çš„æ–¹æ³•æ˜¯
 	var nodelist = document.querySelectorAll('div');
 	var div_arry = Array.prototype.slice.call(nodelist);
 
 	HTMLCollection
-		·½·¨Methods
+		æ–¹æ³•Methods
 		HTMLCollection.item(index)
-		¸ù¾İÊı×ÖË÷ÒıÖµ·µ»Ø¶ÔÏó
+		æ ¹æ®æ•°å­—ç´¢å¼•å€¼è¿”å›å¯¹è±¡
 		HTMLCollection.namedItem(name)
-		¸ù¾İname»òÕßidË÷ÒıÖµ·µ»Ø¶ÔÏó
+		æ ¹æ®nameæˆ–è€…idç´¢å¼•å€¼è¿”å›å¯¹è±¡
 	
 	NodeList
-		·½·¨
+		æ–¹æ³•
 		item ( idx )
-		·µ»ØNodeList¶ÔÏóÖĞÖ¸¶¨Ë÷ÒıµÄ½Úµã,Èç¹ûË÷ÒıÔ½½ç,Ôò·µ»Ønull.Ò²¿ÉÒÔ¼òĞ´ÎªnodeList[idx].
+		è¿”å›NodeListå¯¹è±¡ä¸­æŒ‡å®šç´¢å¼•çš„èŠ‚ç‚¹,å¦‚æœç´¢å¼•è¶Šç•Œ,åˆ™è¿”å›null.ä¹Ÿå¯ä»¥ç®€å†™ä¸ºnodeList[idx].
 
-	//-- ¹ØÓÚ¡¾HTMLCollection¡¿µÄ½éÉÜ
-		var c = document.forms;//ÕâÊÇ form ÔªËØµÄÒ»¸ö HTMLCollection ¶ÔÏó
-		var firstform = c[0];//ÄÜ¹»ÒÔÊı×ÖÊı×éÀ´Ê¹ÓÃ
-		var lastform = c[c.length-1];//length ÊôĞÔ·µ»ØÔªËØÊı
-		var address = c["address"];//ÄÜ¹»ÒÔ¹ØÁªÊı×éÀ´Ê¹ÓÃ
-		var address = c.address;//JavaScript ÔÊĞíÕâÑùµÄ±íÊ¾·¨
+	//-- å…³äºã€HTMLCollectionã€‘çš„ä»‹ç»
+		var c = document.forms;//è¿™æ˜¯ form å…ƒç´ çš„ä¸€ä¸ª HTMLCollection å¯¹è±¡
+		var firstform = c[0];//èƒ½å¤Ÿä»¥æ•°å­—æ•°ç»„æ¥ä½¿ç”¨
+		var lastform = c[c.length-1];//length å±æ€§è¿”å›å…ƒç´ æ•°
+		var address = c["address"];//èƒ½å¤Ÿä»¥å…³è”æ•°ç»„æ¥ä½¿ç”¨
+		var address = c.address;//JavaScript å…è®¸è¿™æ ·çš„è¡¨ç¤ºæ³•
 
-	// --- HTMLCollectionÓëNodeListÓĞºÜ´ó²¿·ÖÏàËÆĞÔ
-	/* ÏàÍ¬µã:
-		1¡¢¶¼ÊÇÀàÊı×é¶ÔÏó,¶¼ÓĞlengthÊôĞÔ£¬¿ÉÒÔÍ¨¹ıforÑ­»·µü´ú
-		2¡¢¶¼ÊÇÖ»¶ÁµÄ
-		3¡¢¶¼ÊÇÊµÊ±µÄ£¬¼´ÎÄµµµÄ¸ü¸Ä»áÁ¢¼´·´Ó³µ½Ïà¹Ø¶ÔÏóÉÏÃæ,ÓĞÒ»¸öÀıÍâ£¬¾ÍÊÇdocument.querySelectorAll·µ»ØµÄNodeList²»ÊÇÊµÊ±µÄ
-		5¡¢¿ÉÒÔÍ¨¹ıÊôĞÔµÄ·½Ê½·ÃÎÊÔªËØ£¬Èçdocument.forms.f1£¨f1ÎªformµÄid£©
-		²»Í¬µã:
+	// --- HTMLCollectionä¸NodeListæœ‰å¾ˆå¤§éƒ¨åˆ†ç›¸ä¼¼æ€§
+	/* ç›¸åŒç‚¹:
+		1ã€éƒ½æ˜¯ç±»æ•°ç»„å¯¹è±¡,éƒ½æœ‰lengthå±æ€§ï¼Œå¯ä»¥é€šè¿‡forå¾ªç¯è¿­ä»£
+		2ã€éƒ½æ˜¯åªè¯»çš„
+		3ã€éƒ½æ˜¯å®æ—¶çš„ï¼Œå³æ–‡æ¡£çš„æ›´æ”¹ä¼šç«‹å³åæ˜ åˆ°ç›¸å…³å¯¹è±¡ä¸Šé¢,æœ‰ä¸€ä¸ªä¾‹å¤–ï¼Œå°±æ˜¯document.querySelectorAllè¿”å›çš„NodeListä¸æ˜¯å®æ—¶çš„
+		5ã€å¯ä»¥é€šè¿‡å±æ€§çš„æ–¹å¼è®¿é—®å…ƒç´ ï¼Œå¦‚document.forms.f1ï¼ˆf1ä¸ºformçš„idï¼‰
+		ä¸åŒç‚¹:
 	*/
 //--------------------------------------------------------------------------------------------
 
-instanceof // instanceof ÓÃÓÚÅĞ¶ÏÒ»¸ö±äÁ¿ÊÇ·ñÄ³¸ö¶ÔÏóµÄÊµÀı
+instanceof // instanceof ç”¨äºåˆ¤æ–­ä¸€ä¸ªå˜é‡æ˜¯å¦æŸä¸ªå¯¹è±¡çš„å®ä¾‹
 var x = new Array() ;
-console.log(x instanceof Array) ;//Êä³öÎªtrue
-console.log(x instanceof Object) ;//Êä³öÎªtrue
+console.log(x instanceof Array) ;//è¾“å‡ºä¸ºtrue
+console.log(x instanceof Object) ;//è¾“å‡ºä¸ºtrue
 function instance(){
 	console.log(arguments[0])
-	console.log(typeof(arguments)) ;//Êä³öÎªObject
-	console.log(arguments instanceof Array) //Êä³öÎªfalse,Ò²¾ÍÊÇËµ¡¾arguments¡¿Ö»ÊÇÒ»¸ö¶ÔÏó£¬¶ø²»ÊÇÒ»¸öÊı×é£¬µ«ÊÇËûÈ´ÓĞÊı×éµÄÄ³Ğ©ÌØĞÔ,¿É³ÆÖ®ÎªÀàÊı×é
+	console.log(typeof(arguments)) ;//è¾“å‡ºä¸ºObject
+	console.log(arguments instanceof Array) //è¾“å‡ºä¸ºfalse,ä¹Ÿå°±æ˜¯è¯´ã€argumentsã€‘åªæ˜¯ä¸€ä¸ªå¯¹è±¡ï¼Œè€Œä¸æ˜¯ä¸€ä¸ªæ•°ç»„ï¼Œä½†æ˜¯ä»–å´æœ‰æ•°ç»„çš„æŸäº›ç‰¹æ€§,å¯ç§°ä¹‹ä¸ºç±»æ•°ç»„
 }
 instance('haha')
 
 //------------------------------------------------------------------------
 	function $(classname){
-		 if (document.getElementsByClassName) //getELementsByClassNameÓÃÀ´»ñÈ¡´øÓĞ´ËclassµÄËùÓĞÔªËØ£¬²¢·µ»ØÒ»¸ö¡¾HTMLCollection¡¿¶ÔÏó [getElementsByTagName£¬getElementByIDÒ²ÀàÍ¬£¬¶¼ÊÇ·µ»ØÒ»¸öHTMLCollection¶ÔÏó]
+		 if (document.getElementsByClassName) //getELementsByClassNameç”¨æ¥è·å–å¸¦æœ‰æ­¤classçš„æ‰€æœ‰å…ƒç´ ï¼Œå¹¶è¿”å›ä¸€ä¸ªã€HTMLCollectionã€‘å¯¹è±¡ [getElementsByTagNameï¼ŒgetElementByIDä¹Ÿç±»åŒï¼Œéƒ½æ˜¯è¿”å›ä¸€ä¸ªHTMLCollectionå¯¹è±¡]
 		 {
 			 return document.getElementsByClassName(classname)
 		 }else{

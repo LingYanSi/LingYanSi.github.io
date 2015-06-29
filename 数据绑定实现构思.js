@@ -1,7 +1,7 @@
 谈一谈数据绑定
 
 在ecmascript7中会增加observe特性，可以监听属性的变化
-感觉angular，react之类的数据变化监听，也都是自己的一个polify
+感觉angular，react之类的数据变化监听，也都是自己的一个polyfill
 
 具体可以看看 https://github.com/Polymer/observe-js
 什么是【观察者模式？】
@@ -33,4 +33,4 @@ $watch(obj,function(prev,now){
 	function $wtach(obj,fun){
 		cache
 	}
-})
+})();
