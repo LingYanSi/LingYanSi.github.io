@@ -28,9 +28,13 @@ html{ font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; }
 #lyric>p{line-height:2em;padding:0 10px;}
 .lyric-item-current{color:red;}
 
-.music-bott{height:50px;width:100%;display:flex;justify-cntent:flex-end;padding:30px 0;}
-.play-prev-next{position:relative;overflow:hidden;flex:1;}
-.ppn-item{height:50px;width:50px;float:left;background-color:rgba(255,255,255,0.2);border-radius:10px;text-align:center;line-height:50px;cursor:pointer;}
+.music-bott{ height:50px; width:100%; display:flex; justify-cntent:flex-end; padding:30px 0; }
+.play-prev-next{ position:relative; overflow:hidden; flex:1; display:flex; }
+.ppn-item{ height:50px; width:50px; flex:1; padding:0 10px; background-color:rgba(255,255,255,0.2); background-clip:content-box; border-radius:10px; text-align:center; line-height:50px; cursor:pointer;}
+
+#prev{ color:rgb(52,158,105); }
+#play{ color:rgb(111,249,193); }
+#next{ color:rgb(179,255,188); }
 
 .jindu-wrap{flex:3;display:flex;}
 #currentTime,#duration{width:3em;height:50px;line-height:50px;text-align:center;background-color:rgba(249,228,89,0.8);}
@@ -38,10 +42,6 @@ html{ font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; }
 #jindu-load{position:relative;height:10px;width:0; background-color:rgba(0,105,105,0.5);}
 #jindu-current{width:0px; height:10px; background:rgb(247,105,105); position:absolute; top:0; left:0;}
 #jindu-circle{position:absolute;top:0;right:-5px;width:10px;height:10px;background:black;}
-
-#prev{ color:rgb(52,158,105); }
-#play{ color:rgb(111,249,193); }
-#next{ color:rgb(179,255,188); }
 
 .volume-wrap{flex:1;display:flex;margin:0 20px;}
 #mute{width:20px;height:50px;margin-right:10px;line-height:50px;text-align:center;cursor:pointer; background-color:rgba(249,228,89,0.8);}

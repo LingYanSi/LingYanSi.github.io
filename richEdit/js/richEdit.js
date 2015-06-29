@@ -1,9 +1,13 @@
-	  // 富文本编辑器
-	  // 首先要做的是，对html标签的过滤与重置，那些事会出现的，哪些是要移除掉的
-	  // script是必须要移除掉的 html标签中的style属性是要移除的
-	  // 然后编辑器的内容是不是 innerHTML
-
-	  var userAgent =(function(){
+	  /*
+	  *富文本编辑器
+	  *本编辑器并不依赖任何库
+	  *首先要做的是，对html标签的过滤与重置，那些事会出现的，哪些是要移除掉的
+	  *script是必须要移除掉的 html标签中的style属性是要移除的
+	  *然后编辑器的内容是不是 innerHTML
+	  * 上传图片，首先要把图片上传到服务器，然后回调
+	  */
+	;(function(){
+		var userAgent =(function(){
 				var user = {};
 				var nav = navigator.userAgent.toLowerCase();
 				user.webkit = !!nav.match(/webkit/g);
@@ -14,14 +18,14 @@
 		})();
 		console.log(userAgent)
 		var edit = document.getElementById('edit');
-		edit.addEventListener('dblclick',function(){
+		/*edit.addEventListener('dblclick',function(){
 			var str = this.innerHTML ;
 			var htmlTag = /^<[\w]+>$/g ;
 			str = str.replace(/(<[^>]+>)/g,'');  // 匹配所有html标签 、然后定义一些固定的标签，以为所用
 			this.innerHTML = str ;
 			console.log(str)
 
-		});
+		});*/
 		edit.addEventListener('paste',function(event){ // 获取range，添加标签
 			// 移除空文本节点
 			removeNullTextNode(this);
@@ -38,7 +42,7 @@
 			var div = document.createElement('div') ;
 			fg.appendChild(div);
 			div = fg.querySelector('div');
-			div.textContent = event.clipboardData.getData('text/plain') ;
+			div.textContent = event.clipboardData.getData('text/plain') ; // 从剪切板获取内容
 			var children = div.childNodes[0] ;
 			range.deleteContents();
 
@@ -67,37 +71,10 @@
 
 		edit.addEventListener('mouseup',function(event){ // 很不完美
 			if(document.getElementById('preview').value == '编辑') return ;//如果是预览状态，点击无效
-			testHighL();
+			testHighL(); 
 		});
-		edit.addEventListener('mousedown',function(event){
-			//testHighL()
-		})
-		function testHighLight(event){ // 需要在提交的时候，对整个做一处理，文本样式的修饰是通过标签实现的，而非属性
-			var type = ['b','i','u','font','em','strong'].join(',').toUpperCase();
-			var obj = {B:'bold',U:'underline',I:'italic',FONT:'forecolor',EM:'italic',STRONG:'bold'} ;
-				var child = event.target ;
-				var match ,arr=[];
-				if(!!!child) return ;
-				while (child.id != 'edit') // 看当前处在哪些标签内部
-				{
-					match = type.match(child.nodeName) ;
-					if(!!match) arr.push(match[0])
-					child = child.parentNode ;
-				}
-				navItem.forEach(function(ele){ // 添加编辑状态
-					var that = ele ;
-					var have = false ;
-					arr.forEach(function(ele){
-						if(obj[ele]=== that.id || obj[ele]== that.style.fontWeight || obj[ele]== that.style.fontStyle || obj[ele]== that.color || obj[ele]== that.style.textDecoration ) 
-							have = true ;
-					})
-					if (have)
-					{
-						ele.classList.add('current')
-					}else ele.classList.remove('current')
-				});
-		}
-		function testHighL(){ // 需要在提交的时候，对整个做一处理，文本样式的修饰是通过标签实现的，而非属性
+
+		function testHighL(){ // 检测光标所处位置的文本状态
 			var type = ['b','i','u','font','em','strong'].join(',').toUpperCase();
 			var obj = {B:'bold',U:'underline',I:'italic',FONT:'forecolor',EM:'italic',STRONG:'bold'} ;
 			var selection = window.getSelection();
@@ -126,7 +103,7 @@
 				});
 			}
 		}
-		document.getElementById('preview').addEventListener('click',function(){
+		document.getElementById('preview').addEventListener('click',function(){ // 预览状态切换
 			if(edit.contentEditable == 'true'){
 				edit.setAttribute('contentEditable','false');
 				this.value = '编辑';
@@ -139,9 +116,11 @@
 			}
 			edit.classList.toggle('edit-preview');
 		});
+
 		var navItem = [].slice.call(document.querySelectorAll('.execcommand'));
 		var obj = {bold:['bold','strong'],underline:'underline',italic:['italic','em']} ;
-		navItem.forEach(function(ele){
+
+		navItem.forEach(function(ele){ // 工具栏每个按钮作用
 			ele.addEventListener('mousedown',function(event){
 				if(document.getElementById('preview').value == '编辑') return ;//如果是预览状态，点击无效
 				if (this.id == 'forecolor')
@@ -187,35 +166,37 @@
 		// 实现的功能
 		// 1，点击切换模式，就是说，点击哪个使用哪个
 		function modelToggel(that){
-				var selection = window.getSelection();
-				if(selection.rangeCount)
+			var selection = window.getSelection();
+			if(selection.rangeCount)
+			{
+				if(!selection.toString() && selection.focusNode != edit)
 				{
-					if(!selection.toString() && selection.focusNode != edit)
+					var range = selection.getRangeAt(0);
+					var child = range.endContainer ;
+					var parent ;
+					for (var i=0,len=edit.childNodes.length ; i<len ; i++)
 					{
-						var range = selection.getRangeAt(0);
-						var child = range.endContainer ;
-						var parent ;
-						for (var i=0,len=edit.childNodes.length ; i<len ; i++)
+						if (child.parentNode.nodeName == 'FONT' || (child.parentNode.id && child.parentNode.id == 'edit') )
 						{
-							if (child.parentNode.nodeName == 'FONT' || (child.parentNode.id && child.parentNode.id == 'edit') )
-							{
-								parent = child.parentNode ;
-								break ;
-							}else child = child.parentNode ;
-						}
-						if(child.parentNode.id && child.parentNode.id =='edit') return 
-						if(that.id!="forecolor") return
-						var text = document.createTextNode('·');
-						var grand = parent.parentNode ;
-						grand.insertBefore(text,parent.nextSibling);
-
-						var range = document.createRange();
-						range.selectNode(parent.nextSibling);
-
-						selection.removeAllRanges();
-						selection.addRange(range);
+							parent = child.parentNode ;
+							break ;
+						}else child = child.parentNode ;
 					}
-					selection.collapseToEnd();
-					testHighL();
+					if(child.parentNode.id && child.parentNode.id =='edit') return 
+					if(that.id!="forecolor") return
+					var text = document.createTextNode('·');
+					var grand = parent.parentNode ;
+					grand.insertBefore(text,parent.nextSibling);
+
+					var range = document.createRange();
+					range.selectNode(parent.nextSibling);
+
+					selection.removeAllRanges();
+					selection.addRange(range);
 				}
+				selection.collapseToEnd();
+				testHighL();
+			}
 		}
+	})();
+	  

@@ -21,7 +21,7 @@ var app = app || {};
                 content:'日本电影'
             },{
                 url:'/find/sex',
-                content:'法国情色'
+                content:'France érotique'
             }]
         },
         topic:{
@@ -37,7 +37,7 @@ var app = app || {};
                 content:'日本电影'
             },{
                 url:'/topic/sex',
-                content:'法国情色'
+                content:'France érotique'
             }]
         }
     };

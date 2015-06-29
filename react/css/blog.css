@@ -26,6 +26,8 @@ nav{ position:fixed; top:0; left:0; height:60px; width:100%; background:rgb(247,
 #main h1{ line-height:2; }
 #index li{ line-height:2; }
 
+#find{ line-height:2; }
+
 .main-item{ min-height:80px; cursor:pointer; padding:10px; line-height:1.8; font-size:14px;}
 .main-item:hover{ background-color:rgba(0,100,200,0); }
 .main-item+.main-item{ margin-top:2em; }

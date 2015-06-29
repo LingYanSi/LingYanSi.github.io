@@ -2,25 +2,24 @@
 * 如何解决当路由不存在时，跳转到另一个页面，单页面已经渲染的问题
 * 可以通过 location.reload() 一下
 */
-function router(){
-	// var r = routerSet ; // 这里有个问题，如果说在多处调用了router，并且对同一路由做出了
-	// console.log('新建了一个路由') // 只能有一个路由，路由有一个事件集合
-
-	var caches = [] ; // 用于缓存事件
-	this.add = function(routerSet){
+var Router = {
+	caches : [] ,
+	add : function(routerSet){
 		var this_rs = [routerSet]; // 当添加一个routerSet时，只load这个
-		load(this_rs);
-		caches.push(routerSet); //把路由routerSet缓存起来
-	}
-	this.error = function(){
+		this.run(this_rs);
+		this.caches.push(routerSet); //把路由routerSet缓存起来
+	} ,
+	init : function(){
+		var __this = this ;
+		window.addEventListener('hashchange',function(){
+			__this.run(__this.caches); // 当hash值变化时，执行所有缓存起来的routerSet
+		}); 
+	},
+	error : function(){
 		location.href = "#/error" ;
 		location.reload();
-	}
-	window.addEventListener('hashchange',function(){
-		load(caches); // 当hash值变化时，执行所有缓存起来的routerSet
-	}); 
-
-	function load(arrS){ // 把[routerSet]数组传进来，然后遍历
+	} ,
+	run : function (arrS){ // 把[routerSet]数组传进来，然后遍历
 		var router = location.hash.slice(1) ;
 		if(router.indexOf('/')!==0){
 			location.href = "#/index" ;
@@ -64,6 +63,6 @@ function router(){
 			});
 		});
 	}
-};
+}
 
-var Router = new router();
+Router.init(); // 初始化，用来监听hashchange事件

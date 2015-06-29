@@ -69,6 +69,7 @@ var app = app || {} ;
 					items = (<div id="find">
 								<h1>发现，整个世界</h1>
 								暮霭沉沉楚天阔，山雨欲来风满楼
+								<br/>安能摧眉折腰事权贵，使我不得开心颜
 								<img src="file/img/1.jpg" alt=""/>
 								<img src="file/img/2.jpg" alt=""/>
 							</div>) ;
