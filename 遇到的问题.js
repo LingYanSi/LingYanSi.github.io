@@ -450,6 +450,8 @@
 
 	-----------------------------------------------------------------------------------------------
 
+	Object
+
 	删除对象属性
 	bitch = new Object();
 	bitch.name = 'nihao';
@@ -458,7 +460,7 @@
 	delete bitch.name
 	console.log(typeof(bitch.name)) //输出undefined
 
-	直接用delelte删除不了变量
+	直接用delelte删除不了变量,可删除属性，数组中的元素
     删除不了原型链中的变量
 
 	创建一个对象 可以用【new Object()】
@@ -502,6 +504,13 @@
 		如果含有该属性，返回true，否则返回false
 
 		//设置一个不可被更改的属性
+
+	Object.defineProperty(obj,property,description);
+
+	Object.defineProperty(Object.prototype, 'get', {get: function(){
+	    return this;
+	}});
+	为Object的prototype添加了一个get方法,返回调用对象本身。
 	--------------------------------------------------------------------------
 	
 	数组Array
@@ -1207,14 +1216,29 @@
 
 	--------------------------------------------------------------------------------------
 
-	arguments
+	function/arguments
 
 	arguments 是一个类数组对象。代表传给一个function的参数列表。
 	arguments 对象是函数内部的【本地变量】; arguments 已经不再是函数的属性了。
 
+	function.name 是only ready的，不可修改
+	function.length //输出函数的形参长度
+	arguments // 输出的函数的实参伪数组
+	 	function sxf(name,age){
+			console.log(arguments.length); 
+			console.log(sxf.length); // sxf.length表示的是name,age的长度
+		}
+		sxf('宋小帆','22','1993') ; // 3,2
+
+	call/apply/bind 都是用来更改this指向的
+	function.call(obj,arg1,arg2,arg3)
+	function.apply(obj,[]) // 第二个参数可以是一个数组，或者为数组(arguments)
+	function.bind(obj)
+
 	例1:
 	function nidaye(){console.log(arguments[0])}
 	nidaye(1,213,3) // 输出1
+	console.log(nideye.length) // 输出为0
 
 	例2:
 	var arr = 11 ;
@@ -1586,6 +1610,98 @@ script标签type属性的默认值是text/javascript,也只有当type属性的�
 
 -------------------------------------------------------------------------------
 
+this
+在函数执行时，this 总是指向调用该函数的对象。要判断 this 的指向，其实就是判断 this 所在的函数属于谁。
+
+在《javaScript语言精粹》这本书中，把 this 出现的场景分为四类，简单的说就是：
+
+1.有对象就指向调用对象
+	var a = {
+		name : '周恩来',
+		getName:function(){
+			console.log(this.name)
+		}
+	}
+	a.getName(); // -->this指向a
+2.没调用对象就指向全局对象
+	this.name = '周永康'; // ---> this指向全局对象 window
+3.用new构造就指向新对象
+	function Do(){
+		this.name = '毛泽东';
+	}
+	var laRou = new Do();
+	this指向laRou
+4.通过 apply 或 call 或 bind 来改变 this 的所指。
+	var a = {
+		name : '周恩来',
+		getName:function(){
+			console.log(this.name)
+		}
+	}
+	var b = { name:'林彪' };
+	a.getName.call(b) // ---> '林彪',this指向b
+
+-------------------------------------------------------------------------------
+
+作用域链
+var name = '张子房' ;
+var tang = { name:'李世民' } ;
+function t(){
+	var name = '吕雉' ;
+	function inner(){
+		var name = '刘季' ;
+	/*	with(window){
+			console.log(name); //--> '张子房'
+		}
+		with(tang){
+			console.log(name); //--> '李世民'
+		}
+		with(t){
+			console.log(name); //--> 't',并不是吕雉，这是因为name此处对应的是t.name
+		}
+
+	*/
+	}
+	inner()
+}
+
+inner()// inner is not define;
+t(); // '刘季'，此时的作用域链 inner --> t ---> window
+
+with 可以更改作用域链，在'use strict'严格模式下，无法使用。另外with语句的性能较差，不建议使用。
+with(obj){
+	dosth //
+}
+如上作用域链就被改变了 首先会指向obj，而不是dosth语句所处的上下文。
+	obj -- > inner --> t ---> window
+需要注意的是【立即执行函数】的作用域是直接指向全局的
+但with的可能会导致程序性能下降，因此不建议使用，因为with所做的事情，call/apply/bink都可以做到的
+
+function中的变量，本质上也是以键值对的形式存储的。
+假设with指向一个对象，with内部所定义的变量，会以属性形式保存在对象上
+var o={   
+    x: 10,   
+    foo: function () {       
+        with (this) {  // --> 把作用域链指向被调用的对象，由下可知指向的是o，而在对象中 var x = 20,会被转换成 o.x = 20          
+            function bar() {                 
+                console.log(x);                 
+                console.log(this.x);            
+            }             
+            var x=20;          
+            (function() {                      
+                bar();    // --> 匿名函数的作用域指向全局window 所以 x,this.x 都是undefined             
+            })();         
+            bar.call(this);   // undfined,20   this指的是o,o中不存在变量x,  o.x 的值为 20
+       }   
+   } 
+} 
+o.foo();
+
+
+
+
+-------------------------------------------------------------------------------
+
 js运算符优先级
 							运算符	描述
 						. [] ()		字段访问、数组下标、函数调用以及表达式分组
@@ -1625,6 +1741,28 @@ short static super switch synchronized
 this throw throws transient true try typeof
 var void volatile
 while with
+
+-------------------------------------------------------------------------------
+
+性能优化
+
+最后，总结下常见的dom操作的优化方法（节选自高性能JavaScript）
+
+ 1  最小化dom访问次数，尽可能在js端执行；
+ 2  如果需要多次访问某个dom节点，请使用局部变量存储对它的引用；
+ 3  小心处理html集合，因为它实时连系着底层的文档，把集合的长度缓存到一个变量中，并在迭代中使用它，如果需要经常操作集合，建议把它拷贝到一个数组中；
+ 4  如果可能的话，使用速度更快的API，比如querySelectorAll和firstElementChild；
+ 5  要留意重绘和重排；批量修改样式时，“离线”操作dom树；使用缓存，并减少访问布局的次数；
+ 6  动画中使用绝对定位，使用拖放代理
+ 7  使用事件委托来减少事件处理器的数量
+
+ 总结下js中对数据访问的优化（节选自高性能JavaScript）
+
+ 1  函数中读写局部变量总是最快的，而全局变量的读取则是最慢的；
+ 2  尽可能地少用with 语句，因为它会增加with 语句以外的数据的访问代价；
+ 3  闭包尽管强大，但不可滥用，否则会影响到执行速度以及内存；
+ 4  嵌套的对象成员会明显影响性能，尽量少用；
+ 5  避免多次访问对象成员或函数中的全局变量，尽量将它们赋值给局部变量以缓存。
 
 -------------------------------------------------------------------------------
 		<div id="main"></div>
