@@ -1,0 +1,71 @@
+
+html{ overflow-x:hidden; }
+html,body,div,form,ul,ol,li,img,p,h1,h2,h3,h4,h5,h6{margin:0;padding:0;border:0;}
+li{list-style-position:inside ; }
+a{ text-decoration:none; color:inherit;}
+
+nav{ position:fixed; top:0; left:0; height:60px; width:100%; background:rgb(247,105,105); color:rgb(255,255,255); z-index:1000; }
+.nav{ width:1000px; height:100%; margin:0 auto; }
+.nav-flex{ width:300px; display:flex; line-height:60px; font-size:1.3em; }
+.nav-flex-item{ flex:1; display:block; text-align:center;}
+.nfi-current{ background:rgb(123,50,50); }
+
+.wrap{ width:1000px; position:relative; margin:0 auto;}
+
+/* 侧边栏 */
+#sidebar {position:absolute; top:80px; left:50%; margin-left:300px; width:200px; }
+#sidebar li { line-height:2; border:1px solid rgb(200,200,200); border-radius:6px; cursor:pointer; list-style:none; padding:0 1em;}
+#sidebar>li { margin-top:10px; background-color:rgba(255,255,255,0); color:rgb(0,0,0); }
+#sidebar>li:hover{ background-color:rgba(247,105,105,0.8); color:rgb(255,255,255); }
+#sidebar .sidebar-current{ background-color:rgba(247,105,105,0.8); color:rgb(255,255,255); }
+#sidebar a{ text-decoration:none; color:inherit; display:block; height:100%; }
+
+/* 主区域 */
+#main{ padding-top:80px; width:750px; }
+#main img{ max-width:100%; display:block; margin-top:10px; }
+#main h1{ line-height:2; }
+#index li{ line-height:2; }
+
+#find{ line-height:2; }
+
+.main-item{ min-height:80px; cursor:pointer; padding:10px; line-height:1.8; font-size:14px;}
+.main-item:hover{ background-color:rgba(0,100,200,0); }
+.main-item+.main-item{ margin-top:2em; }
+
+.info>span{ display:inline-block; font-size:0.8em; color:rgb(120,120,120); margin-right:2em; line-height:4; }
+
+/* 评论区 */
+.comment{ width:400px; line-height:1.4; border:1px solid rgb(100,100,100); border-radius:8px; padding:10px; position:relative;}
+.comment:before {
+    content: "";
+    height: 0;
+    width: 0;
+    display: block;
+    position: absolute;
+    left: 50%;
+    margin-left: -10px;
+    top: -20px;
+    border: 10px solid rgba(0,0,0,0); 
+    border-bottom-color: rgb(0,0,0);
+    /* border-bottom:10px solid red;
+    border-left:10px solid black;
+    border-right:10px solid black; */
+}
+.comment:after {
+    content: "";
+    height: 0;
+    width: 0;
+    display: block;
+    position: absolute;
+    left: 50%;
+    margin-left: -10px;
+    top: -19px;
+    border: 10px solid rgba(0,0,0,0); 
+    border-bottom-color: rgb(255,255,255);
+    /* border-bottom:10px solid red;
+    border-left:10px solid black;
+    border-right:10px solid black; */
+}
+
+.comment li { background-color:rgba(100,100,201,0.5); margin-bottom:10px; padding:4px; }
+.comment li:hover{ background-color:rgba(100,100,201,0.8); }

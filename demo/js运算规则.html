@@ -147,10 +147,35 @@
 		return p
 	})();
 	x.set([11111111]);
-	Object.defineProperty(Object.prototype, 'get', {get: function(){
-	    return this;
-	}});
-	console.log(bitch.get)
+	var value = 10
+	Object.defineProperty(Object.prototype, 'get', {
+		get: function(){
+		    return this.value;
+		},
+		set: function(newValue){
+			this.value = newValue ;
+		}
+	});
+	console.log(bitch.get,bitch.get = 100 , bitch.get)
+
+	var person = {
+		name:'周恩来',
+		get:function(){
+			return this.name ;
+		},
+		set:function(name){
+			this.name = name ;
+		}
+	}
+	Object.defineProperty(person,'name',{
+		get:function(){
+			return this.value ;
+		},
+		set:function(newValue){
+			this.value = newValue ;
+		},
+	});
+	console.log(person.name)
  </script>
  </body>
 </html>

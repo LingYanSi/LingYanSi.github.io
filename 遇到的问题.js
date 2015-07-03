@@ -507,9 +507,15 @@
 
 	Object.defineProperty(obj,property,description);
 
-	Object.defineProperty(Object.prototype, 'get', {get: function(){
-	    return this;
-	}});
+	Object.defineProperty(Object.prototype, 'get', {
+		get: function(){
+		    return this.value;
+		},
+		set: function(arg){
+			//可以在这个地方做一些处理，用来监听数据变化
+			this.value = arg
+		}
+	});
 	为Object的prototype添加了一个get方法,返回调用对象本身。
 	--------------------------------------------------------------------------
 	

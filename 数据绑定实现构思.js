@@ -37,12 +37,25 @@ var person = {
 		this.name = name ;
 	}
 }
+上面这一种方式的弊端在于，每新增一个对象，要在这个对象上加上get,set方法，有点麻烦，
+在ES5中，新增的Object.defineProperty(obj,property,decription)可以比较优雅的解决这个问题
+
+Object.defineProperty(person,'name',{
+	get:function(){
+		return this.value ;
+	},
+	set:function(newValue){
+		this.value = newValue ;
+	},
+});
 
 2.脏检测。
 
 以Angular 1.x为代表的框架使用了脏检测来获知数据变更，这个机制的大致原理是：
 保存数据的新旧值，每当有一些DOM或者网络、定时器之类的事件产生，用这个事件之后的数据去跟之前保存的数据进行比对，如果相同，就不触发界面刷新，否则就刷新。
 并不是网上有人所传的每隔多少ms，去遍历所有需要监听的数据，其实想想也明白，如果真的这么做的话，性能小号就太大了
+
+3.ES7的新特性 Object.observe
 
 需要解决
 1：传递一个对象进来后，下次对比的时候，如何在获取？
@@ -52,3 +65,41 @@ var person = {
 		cache
 	}
 })();
+
+所谓双向绑定
+
+view <---> model <---> 服务器
+
+view的dom操作，会触发model改变，model的改变会向服务器发送请求
+
+服务器响应成功，改变model，model改变改变dom
+
+model会有哪些改变呢，增删改，add,remove,属性的改变
+add,remove上面都可以绑定一些事件，触发view或者服务器层面的改变
+属性改变可以使用get/set或者Object.defineProperty来解决
+
+var collection = [
+	{
+		name:'周恩来'
+	},
+	{
+		name:'邓颖超'
+	},
+];
+
+我现在需要集合的增删改监的听功能
+
+collection.add = function(){
+
+};
+collection.remove = function(){
+	// model的销毁destory
+}
+
+需要对单一model的修改
+
+model.save({
+	key:value ; // 以键值对形式修改
+})
+
+model[index]
