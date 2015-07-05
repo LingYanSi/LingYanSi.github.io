@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" href="css/video.css">
+    <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+    <title>看，世界</title>
+</head>
+
+<body onselectstart="return false">
+    <div id="" class="" style="overflow:hidden;width:900px;margin:0 auto;">
+        <div id="video-wrap" class="video-wrap">
+            <video id="video" src="../images/video/wangsitu.mp4" width="100%" height="100%">
+                <!-- video-wrap的宽高可设为16:9 video的宽高设为100% -->
+            </video>
+            <div id="video-control" class="video-control">
+                <div id="video-playPause" class="video-playPause">
+                    play
+                </div>
+                <div id="video-time" class="video-time">
+                    <div id="" class="video-time-text">
+                        <span id="current-time" class="video-time-item"></span>/<span id="duration-time" class="video-time-item"></span>
+                    </div>
+                    <div id="video-time-range" class="video-time-range">
+                        <div id="" class="video-time-range-load"></div>
+                        <div id="video-time-range-current" class="video-time-range-current"></div>
+                    </div>
+                    <div id="video-time-range-tips" class="video-time-range-tips">
+                        <div class="vtrt-content"></div>
+                        <div class="vtrt-arrow"></div>
+                    </div>
+                </div>
+                <div id="video-volume" class="video-volume">
+                    <div id="video-volume-line-wrap" class="video-volume-line-wrap">
+                        <div id="video-volume-line" class="video-volume-line">
+                            <div id="video-volume-line-circle" class="video-volume-line-circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="video-fullScreen-toggle" class="video-fullScreen-toggle">
+                    全屏
+                </div>
+            </div>
+        </div>
+        <div id="video-list" class="video-list">
+            <ol id="video-list-ol" class="video-list-ol"></ol>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/video.js"></script>
+    <script>
+
+    </script>
+</body>
+</html>

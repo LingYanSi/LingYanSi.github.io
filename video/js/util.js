@@ -1,0 +1,1 @@
+var videoList = ['../images/video/wangsitu.mp4'];
