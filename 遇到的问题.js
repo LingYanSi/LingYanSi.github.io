@@ -1637,6 +1637,8 @@ this
 	}
 	var laRou = new Do();
 	this指向laRou
+	假如没有使用关键字new去构造一个函数，而是直接调用Do()，那此时的this是指向全局window的
+	因此立即执行函数的this也是指向window的
 4.通过 apply 或 call 或 bind 来改变 this 的所指。
 	var a = {
 		name : '周恩来',

@@ -1,38 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
-<html>
+<html lang="zh-cn">
 <head>
   <meta charset="UTF-8">
-  <meta name="Generator" content="EditPlus®">
-  <meta name="Author" content="">
+  <meta name="Author" content="lingyan 1029891106@qq.com">
   <meta name="Keywords" content="">
   <meta name="Description" content="这是一个测试">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-  <title>西厢</title>
+  <link rel="shortcut icon" href="http:/lingyansi.github.io/images/icon/icon.jpg">
+  <title>下拉刷新</title>
   <style type="text/css">
       *{margin:0;padding:0;font-size:12px;}
       img{display:block;border:0;}
       .main{max-width:500px;margin:0 auto;opacity:0;position:relative;}
       .sass{ height:300px;width:100%;position:relative;overflow:hidden;background:red; 
-                background-image:url(../images/bufazhitu.jpg); 
+                background-image:url(../images/1.jpg); 
                 background-size:cover;
                 background-position:center;
       }
-
-      .yuan{ height:50px;width:50px; border-radius:50px; position:absolute; top:-25px; left:0; background-color:pink;}
-      .xian{height:1px; background-color:rgb(0,0,0); margin-top:24px; -webkit-transform:rotateZ(0deg);}
+      .bott{height:500px;background:green;position:absolute;top:300px;width:100%;}
+      .yuan{ height:50px;width:50px; border-radius:50px; position:absolute; top:-25px; left:50px; background-color:pink;}
+      .xian{  width : 30px ; margin : 10px 0 0 10px ; -webkit-transform:rotateZ(0deg);
+              
+      }
+      .xian-animation{ -webkit-animation : xian 3s forwards; }
+      @-webkit-keyframes xian {
+         0% { }
+         50%{ -webkit-transform: translate3d(450px,-200px,0) rotateZ(0deg); }
+         60%{ -webkit-transform: translate3d(450px,-200px,0) rotateZ(0deg) rotateY(180deg); opacity:1; }
+         70%{ -webkit-transform: translate3d(200px,-200px,0) rotateY(180deg); opacity:0; }
+         90%{ -webkit-transform: translate3d(-50px,0,0) ; opacity:1; }
+         100%{ -webkit-transform: translate3d(0,0,0) ; }
+      }
+      .xian-bott{
+        height:0px; width:0;
+              border-color : rgba(0,0,0,0) ;
+              border-top : 7px solid rgb(255,255,255) ;
+              border-left : 15px solid rgb(255,255,255) ;
+              border-right : 15px solid rgba(0,0,0,0) ;
+              border-bottom : 7px solid rgba(0,0,0,0) ;
+      }
+      .xian-top{
+        height:0px; width:0;
+        border-color : rgba(0,0,0,0) ;
+              border-bottom : 7px solid rgb(255,255,255) ;
+              border-left : 15px solid rgb(255,255,255) ;
+              border-right : 15px solid rgba(0,0,0,0) ;
+              border-top : 7px solid rgba(0,0,0,0) ;
+      }
       .change{-webkit-transition:all 0.3s;}
   </style>
  </head>
  <body>
     <div id="main" class="main">
         <div id="less" class="sass"> </div>
-        <div id="bott" style="height:500px;background:green;position:absolute;top:300px;width:100%;">
+        <div id="bott" class="bott">
             <div class="yuan">
-                <div class="xian"></div>
+                <div class="xian">
+                  <div class="xian-top"></div>
+                  <div class="xian-bott"></div>
+                </div>
             </div>
         </div>
     </div>
+    <script src="js/reload.js"></script>
   <script type="text/javascript">
     window.onload = function(){
         document.querySelector('.main').style.opacity = '1';
@@ -42,44 +72,8 @@
         var xian = document.querySelector('.xian');
         var id = document.querySelector('#bott') ;
         id.style.top = top +'px' ;
-        var yy,YY,swipeY;
-        var isPhone = !!navigator.userAgent.toLowerCase().match(/phone|android|pad|pod|touch/g);
-        var touchstart = isPhone ? 'touchstart' : 'mousedown' ,
-              touchmove = isPhone ? 'touchmove' : 'mousemove' ,
-              touchend = isPhone ? 'touchend' : 'mouseup' ;
-        id.addEventListener(touchstart,function(event){
-            this.classList.remove('change');
-            sass.classList.remove('change');
-            xian.classList.remove('change');
-          if(document.body.scrollTop==0){
-                swipeY = true ;
-                YY = yy = isPhone?event.targetTouches[0].clientY : event.clientY ;
-          }
-        });
-        id.addEventListener(touchmove,function(event){
-                YY = isPhone?event.targetTouches[0].clientY : event.clientY ;
-                  if(swipeY && YY-yy>=0 ){
-                    event.stopPropagation();
-                    event.preventDefault();
-                        sass.style.height = top+YY-yy + 'px' ;
-                        xian.style.webkitTransform =  'rotateZ('+(YY-yy)/200*360+'deg)' ;
-                        this.style.webkitTransform = 'translate3d(0,'+(YY-yy)+'px,0)' ;
-                  }else{
-                    swipeY = false ;
-                  }
-        });
-        id.addEventListener(touchend,function(event){
-            if(swipeY && YY-yy>=0 ){
-                swipeY = false ;
-                this.classList.add('change');
-                xian.classList.add('change');
-                sass.classList.add('change');
-                console.log(this.offsetHeight) ;
-                this.style.webkitTransform = 'translate3d(0,0,0)' ;
-                 sass.style.height = top +'px' ;
-                  xian.style.webkitTransform =  'rotateZ(0deg)' ;
-            }
-        });
+
+        reload('#bott',sass,xian);
     };
 </script>
  </body>
