@@ -2,113 +2,191 @@
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <meta name="Generator" content="EditPlus®">
   <meta name="Author" content="">
   <meta name="Keywords" content="">
   <meta name="Description" content="">
-  <title>灵岩</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" name="viewport" />
+    <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+  <title>灵岩-首页</title>
   <style type="text/css">
 	 *{padding:0;margin:0;}
 	 body{font-size:14px;}
-	 .main{max-width:1000px;margin:0 auto;overflow:hidden;}
+	 .nav{ height:300px; background-image:url(images/1.jpg); background-size:cover; background-position:center; position:relative; overflow:hidden; }
+	 .head-img{ height:100px; width:100px;
+	 			border-radius:50px;  box-sizing:border-box; border:3px solid rgba(250,250,250,0.2);
+	 			position:absolute; left:50%; margin-left:-50px; top:50%; margin-top:-50px;
+	 			background-image:url(images/icon/icon.jpg);
+				background-size: cover ; background-position:center;
+				cursor:pointer;
+	 }
+	 .head-img:hover{ border-color:rgba(250,250,250,1);}
+	 .head-img>p{ text-align:center; color:rgb(255,255,255); font-size:2em; line-height:2; 
+	 				position:absolute; width:100%; top:100%;
+	 			}
+	 .main{max-width:1000px; margin:0 auto;overflow:hidden;}
 	 .content{}
-	 h2,h3{line-height:3;}
-	 .content-item{line-height:1.5em;padding:0 2em 1em;border-bottom:1px dashed rgb(147,147,147);}
+	 h2{ line-height:2.4; }
+	 h3{line-height:3;}
+	 .content-item{ line-height:1.5em; /*border-bottom:1px dashed rgb(147,147,147);*/ }
+	 .content-item + .content-item{ border-top:1px solid rgba(255,255,255,0.2);}
+	 .content-item>h2{ background-color : rgba(0,255,255,0.3); padding:0 30px; cursor:pointer; }
+	 .content-item>div{ display:block;  padding:0 30px 1em; }
 	 .content-item a{text-decoration:none;color:rgb(247,105,105);}
 	 .content-item ul{list-style:inside}
+	 .content-item li{ line-height:2; list-style-position: inside;}
 
-	 li{ list-style-position: inside; }
+	footer{ max-width:1000px; margin:0 auto; line-height:3; text-align:center; color:rgb(120,120,120); }
+
   </style>
  </head>
  <body>
+	<nav class="nav">
+		<div class="head-img">
+			<p>灵·岩</p>
+		</div>
+	</nav>
 	<div id="" class="main">
 		<div id="" class="content">
 			<div id="" class="content-item">
-				<h3>Java/PHP/.net/c/python/ruby等</h3>
-				<ol>
-					<li>传统服务器层，提供resetful化的api，负责数据的逻辑化操作</li>
-				</ol>
-				<h3>node层</h3>
-				<ol>
-					<li>负责模版渲染：ejs</li>
-					<li>请求的redirection(重定向)</li>
-					<li>node层只是数据处理的中间层，最后一步操作还是交给java等来操作</li>
-					<li>使用<a href="http://koa.bootcss.com/">KOA</a>/Express</li>
-				</ol>
-				<h3>web层</h3>
-				<ol>
-					<li>项目要兼容哪些浏览器</li>
-					<li>要不要使用前端框架/库：react/angular/backbone/jquery/zepto <a href="https://github.com/tastejs/todomvc">todomvc</a></li>
-					<li>要不要使用css框架/预处理器：bootstrap/less/
-						<a href="http://www.w3cplus.com/sassguide/">sass</a>
-						/Stylus[TJ出品] 
-						<a href="http://efe.baidu.com/blog/revisiting-css-preprocessors/">三者对比</a>
-						新增
-						<a href="http://cssnext.io/features/">cssnext</a>
-					</li>
-					<li>要不要使用requirejs/seajs进行js的依赖管理</li>
-					<li>使用gulp/grunt对js/css做自动化处理</li>
-					<li>使用git/svn</li>
-					<li>使用<a href="https://babeljs.io/">babel</a>吗？babel的作用在于对<a href="http://es6.ruanyifeng.com/#README">es6</a>进行Polyfill</li>
-					<li>使用HTML5的historyAPI，实现页面的无跳转刷新</li>
-				</ol>
-				<h3>项目环境的搭建</h3>
-				<ol>
-					<li>node</li>
-					<li>
-						<a href="http://baike.baidu.com/link?url=ptNb0mdBT2Nx34eWgWc5GCQ1l-KqezJwcnKlG2ZxuRy6-5uWwxX3ieeFPvRoQBpBI4N38b2nsrSa5M2-M3gMHK">nginx</a>,我觉得既然有node了，它应该就不太需要了吧</li>
-					<li>git/svn</li>
-					<li>gulp/grunt自动化处理工具</li>
-					<li>IDE/编辑器：sublime/webstorm/vim/atom</li>
-				</ol>
-			</div>
-			<div class="content-item">
-				<h3>RequireJs</h3>
-				<a href="http://www.requirejs.cn/">点击这里</a>
-				<a href="http://www.ruanyifeng.com/blog/2012/10/javascript_module.html">模块化编程，阮一峰的三篇博客</a>
-			</div>
-			<div class="content-item">
-				<h3>AngularJs</h3>
-				<a href="http://angularjs.apjs.net/">点击这里</a>
-			</div>
-			<div class="content-item">
-				<h3>Ecmascript</h3>
-				<ul>
-					<li><a href="http://lzw.me/pages/ecmascript/#8">Ecmascript5.1 文档</a></li>
-					<li><a href="http://www.zhangxinxu.com/wordpress/2012/01/introducing-ecmascript-5-1/">Ecmascript5.1 简介</a></li>
-					<li><a href="http://es6.ruanyifeng.com/#README">Ecmascript6 点击这里</a></li>
-				</ul>		
-			</div>
-			<div class="content-item">
-				<h3>AngularJs</h3>
-				<a href="http://angularjs.apjs.net/">中文文档</a>
-			</div>
-			<div class="content-item">
-				<h3>Web Components</h3>
-				<a href="http://www.html-js.com/article/2779">web components是什么</a> 
-				<a href="http://segmentfault.com/a/1190000002931974">入门教程</a> 
-				<a href="http://docs.polymerchina.org/1.0/">polymer</a>
+				<h2>前后端分离，以及项目搭建</h2>
 				<div>
-					web components组件化，shadow dom，template，私有的css样式，以及自定义的元素标签
+					<h3>Java/PHP/.net/c/python/ruby等</h3>
+					<div>
+						<ol>
+							<li>传统服务器层，提供resetful化的api，负责数据的逻辑化操作</li>
+						</ol>
+					</div>
+					
+					<h3>node层</h3>
+					<div>
+						<ol>
+							<li>负责模版渲染：ejs</li>
+							<li>请求的redirection(重定向)</li>
+							<li>node层只是数据处理的中间层，最后一步操作还是交给java等来操作</li>
+							<li>使用<a href="http://koa.bootcss.com/">KOA</a>/Express</li>
+						</ol>
+					</div>
+					
+					<h3>web层</h3>
+					<div>
+						<ol>
+							<li>项目要兼容哪些浏览器</li>
+							<li>要不要使用前端框架/库：react/angular/backbone/jquery/zepto <a href="https://github.com/tastejs/todomvc">todomvc</a></li>
+							<li>要不要使用css框架/预处理器：bootstrap/less/
+								<a href="http://www.w3cplus.com/sassguide/">sass</a>
+								/Stylus[TJ出品] 
+								<a href="http://efe.baidu.com/blog/revisiting-css-preprocessors/">三者对比</a>
+								新增
+								<a href="http://cssnext.io/features/">cssnext</a>
+							</li>
+							<li>要不要使用requirejs/seajs进行js的依赖管理</li>
+							<li>使用gulp/grunt对js/css做自动化处理</li>
+							<li>使用git/svn</li>
+							<li>使用<a href="https://babeljs.io/">babel</a>吗？babel的作用在于对<a href="http://es6.ruanyifeng.com/#README">es6</a>进行Polyfill</li>
+							<li>使用HTML5的historyAPI，实现页面的无跳转刷新</li>
+						</ol>
+					</div>
+					
+					<h3>项目环境的搭建</h3>
+					<div>
+						<ol>
+							<li>node</li>
+							<li>
+								<a href="http://baike.baidu.com/link?url=ptNb0mdBT2Nx34eWgWc5GCQ1l-KqezJwcnKlG2ZxuRy6-5uWwxX3ieeFPvRoQBpBI4N38b2nsrSa5M2-M3gMHK">nginx</a>,我觉得既然有node了，它应该就不太需要了吧</li>
+							<li>git/svn</li>
+							<li>gulp/grunt自动化处理工具</li>
+							<li>IDE/编辑器：sublime/webstorm/vim/atom</li>
+						</ol>
+					</div>
+					
 				</div>
 			</div>
 			<div class="content-item">
-				<h3>NodeJs</h3>
-				<a href="https://github.com/nswbmw/N-blog/wiki/_pages">nodejs + express + mogondb 搭建一个博客</a>
+				<h2>知识点</h2>
+				<div>
+					<h3>RequireJs</h3>
+					<div>
+						<a href="http://www.requirejs.cn/">点击这里</a>
+						<a href="http://www.ruanyifeng.com/blog/2012/10/javascript_module.html">模块化编程，阮一峰的三篇博客</a>
+					</div>
+					
+					<h3>AngularJs</h3>
+					<div>
+						<a href="http://angularjs.apjs.net/">点击这里</a>
+					</div>
+					
+					<h3>Ecmascript</h3>
+					<div>
+						<ul>
+							<li><a href="http://lzw.me/pages/ecmascript/#8">Ecmascript5.1 文档</a></li>
+							<li><a href="http://www.zhangxinxu.com/wordpress/2012/01/introducing-ecmascript-5-1/">Ecmascript5.1 简介</a></li>
+							<li><a href="http://es6.ruanyifeng.com/#README">Ecmascript6 点击这里</a></li>
+						</ul>	
+					</div>
+					
+					<h3>AngularJs</h3>
+					<div>
+						<a href="http://angularjs.apjs.net/">中文文档</a>
+					</div>
+					
+					<h3>Web Components</h3>
+					<div>
+						<a href="http://www.html-js.com/article/2779">web components是什么</a> 
+						<a href="http://segmentfault.com/a/1190000002931974">入门教程</a> 
+						<a href="http://docs.polymerchina.org/1.0/">polymer</a>
+						<div>
+							web components组件化，shadow dom，template，私有的css样式，以及自定义的元素标签
+						</div>
+					</div>
+					
+					<h3>NodeJs</h3>
+					<div>
+						<a href="https://github.com/nswbmw/N-blog/wiki/_pages">nodejs + express + mogondb 搭建一个博客</a>
+					</div>
+					
+					<h3>express</h3>
+					<div>
+						<a href="https://github.com/nswbmw/N-blog/wiki/_pages">http://www.expressjs.com.cn/4x/api.html#application</a>
+					</div>
+					
+					<h3>Koa</h3>
+					<div>
+						<a href="https://github.com/nswbmw/N-blog/wiki/_pages">https://github.com/turingou/koa-guide</a>
+					</div>
+					
+				</div>
 			</div>
+
 			<div class="content-item">
-				<h3>express</h3>
-				<a href="https://github.com/nswbmw/N-blog/wiki/_pages">http://www.expressjs.com.cn/4x/api.html#application</a>
-			</div>
-			<div class="content-item">
-				<h3>Koa</h3>
-				<a href="https://github.com/nswbmw/N-blog/wiki/_pages">https://github.com/turingou/koa-guide</a>
+				<h2>博客导航</h2>
+				<div>
+					<ul>
+						<li><a href="https://github.com/LingYanSi/blog/issues">issue博客</a></li>
+						<li><a href="player/">音乐播放器</a></li>
+						<li><a href="richEdit/">富文本编辑器</a></li>
+						<li><a href="react-mine/">Reactjs-demo</a></li>
+						<li><a href="backbone/">backbone</a></li>
+						<li><a href="angular/">angular</a></li>
+						<li><a href="swipe/">上下滑动</a></li>
+					</ul> 
+				</div>
 			</div>
 		</div>
 	</div>
+	<footer>
+		LingYanSi.Github.io 2015
+	</footer>
 	<script src="面向切面编程.js"></script>
+	<script src="build-zepto/ku.js"></script>
 	<script type="text/javascript"> 
-		//尝试构建自己的一个css库，以及js库
+		$(function(){
+			var navHeight = ($.isPhone?document.body.offsetWidth*3/4:window.screen.width*5/16)+'px' ;
+			$('.nav').height(navHeight);
+			$('a').attr({target:'_blank'});
+			$('h2').on('click',function(){
+				$(this).siblings().toggle();
+			});
+		})
 	</script>
  </body>
 </html>

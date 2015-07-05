@@ -48,6 +48,7 @@ var Zepto = (function(){
 			}
 		});
 	}
+	$.isPhone = !!navigator.userAgent.toLowerCase().match(/phone|android|pad|pod|touch/g);
 	$.fn = {
 		ready:function(fun){ // $(document).ready()
 			if(this.elements.length===1 && this.elements[0]===document){
@@ -371,14 +372,26 @@ var Zepto = (function(){
 		hide:function(){
 			this.each(function(){
 				this.style.display = "none"
-			})
+			});
 		},
 		show:function(){
 			this.each(function(){
-				this.style.display = "block"
+				this.style.display = "block" ;
 				//这里有坑，如果是行内元素，show()岂不是要溢出，
 				//先要判断其是否可见，如果可见，不做处理，如果不可见，获取data-display值，因此需要将其display值保存到哪个地方
 			})
+		},
+		toggle:function(){
+			this.each(function(){
+				if(this.style.display=="none" || (this.offsetWidth==0 && this.offsetHeight==0) )
+				{
+					$(this).show();
+				}
+				else if(this.hidden!="none")
+				{
+					$(this).hide();
+				}
+			});
 		},
 		fragment:function(html){
 			var fragment = document.createDocumentFragment();
@@ -502,11 +515,19 @@ var Zepto = (function(){
 		return this ;
 	}
 	$.fn.click = function(fun,usecaptrue){
+		if($.isPhone){
+			$.fn.tap.call(this,fun,usecaptrue);
+			return ;
+		}
 		this.each(function(){
 			appendHanlder('click',this,null,fun,usecaptrue);
 		});
 	}
 	$.fn.dblclick = function(fun,usecaptrue){
+		if($.isPhone){
+			$.fn.dblTap.call(this,fun,usecaptrue);
+			return ;
+		}
 		this.each(function(){
 			appendHanlder('dblclick',this,null,fun,usecaptrue);
 		});
@@ -523,7 +544,7 @@ var Zepto = (function(){
 					return ;
 				}
 				console.log(touchmove)
-				fun;
+				fun.call(this);
 			},usecaptrue);
 		});
 		return this ;
@@ -647,4 +668,4 @@ window.$ = Zepto
 			if (arg.error) arg.error(); // 请求失败
 		},3000); // 设置请求时间
 	}
-})(Zepto)
+})(Zepto);
