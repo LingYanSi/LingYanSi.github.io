@@ -24,6 +24,8 @@ var Lunbo = function (arg){ //以对象形式传递参数
 	//console.log(autoPlay,loop,dianNav)
 	var isPhone = !!navigator.userAgent.toLowerCase().match(/android|phone|pad/g);
 	var $id = document.querySelector('#'+idname);
+	$id.querySelector('.sass-item').style.visibility = 'visible' ;
+
 	var $item = [].slice.call($id.firstElementChild.children);
 	var $dianItem ;
 	var idWidth = $id.offsetWidth,
@@ -106,9 +108,9 @@ var Lunbo = function (arg){ //以对象形式传递参数
 			prevDom.classList.remove('swipe-change');
 			nextDom.classList.remove('swipe-change');
 
-			currentDom.style.webkitTransform = 'translate3d(0,0,0)' ;
-			prevDom.style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)' ;
-			nextDom.style.webkitTransform = 'translate3d('+leftMin+'px,'+topMax+'px,0)' ;
+			currentDom.style.cssText = ';-webkit-transform:translate3d(0,0,0); visibility:visible;' ;
+			prevDom.style.cssText = ';-webkit-transform:translate3d('+leftMin+'px,'+topMin+'px,0); visibility:visible;' ;
+			nextDom.style.cssText = ';-webkit-transform:translate3d('+leftMin+'px,'+topMax+'px,0); visibility:visible;' ;
 			
 			if(!toLeft)
 			{
@@ -243,6 +245,16 @@ var Lunbo = function (arg){ //以对象形式传递参数
 			if (callback)
 			{
 				setTimeout(function(){
+					if(cha>-50 && cha<50){ // 保持其他不可见元素的隐藏
+						pervDom.style.visibility = 'hidden' ;
+						nextDom.style.visibility = 'hidden' ;
+					}else if(cha>50){
+						pervDom.style.visibility = 'hidden' ;
+						currentDom.style.visibility = 'hidden' ;
+					}else if(cha<-50){
+						nextDom.style.visibility = 'hidden' ;
+						currentDom.style.visibility = 'hidden' ;
+					}
 					callback(currentPage);
 				},600)
 			}
