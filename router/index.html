@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" name="viewport" />
+    <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+  <title>灵岩-首页</title>
+  <style type="text/css">
+	 *{ padding:0; margin:0; }
+	 body{font-size:14px;}
+	nav{ display:flex; height:100px; background:rgba(255,105,105,1); font-size:30px; line-height:100px; }
+	a{ flex:1; text-align:center; text-decoration:none;}
+	a+a{border-left:1px solid rgba(255,255,255,0.3);}
+
+  </style>
+ </head>
+ <body>
+	<nav>
+		<a class="router" href="/GitHub/LingYanSi.github.io/router/index.html">首页</a>
+		<a class="router" href="/GitHub/LingYanSi.github.io/router/heihei.html">嘿嘿</a>
+		<a class="router" href="/GitHub/LingYanSi.github.io/router/haha.html">哈哈</a>
+		<a class="router" href="/GitHub/LingYanSi.github.io/router/dudu.html">嘟嘟</a>
+	</nav>
+	<div id="main">
+		
+	</div>
+	<script src="router-history.js"></script>
+	<script>
+	var bitch = '江青' ;
+	var $main = document.querySelector('#main');
+	Router.add({
+		RouterRoot : '/GitHub/LingYanSi.github.io/router',
+		'/index':function(){
+			$main.textContent = '我是首页啊啊啊'
+			console.log('首页')
+		},
+		'/heihei':function(){
+			$main.textContent = '嘿嘿，嘿你大爷'
+			console.log('嘿嘿')
+		},
+		'/haha':function(){
+			$main.textContent = '哈哈，国安民乐岂不美哉'
+			console.log('哈哈')
+		},
+		'/dudu':function(){
+			$main.textContent = '嘟嘟，扇你一耳光'
+			console.log('嘟嘟')
+		}
+	});
+	document.body.removeChild(document.currentScript);
+
+	var script = document.createElement('script');
+	script.src = "var.js";
+	setTimeout(function(){
+		document.body.appendChild(script);
+	},5000)
+	
+	</script>
+ </body>
+</html>
