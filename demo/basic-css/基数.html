@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+  	.relative{ counter-reset:section; }
+
+	 .parent{ counter-reset:section;}
+	 .parent .left:before {
+		  counter-increment: section;      /* 增加计数器值 */
+		  content: counters(section,'.') " " ; /* 显示计数器 */
+		}
+     p{ overflow:hidden; }
+  </style>
+ </head>
+ <body>
+	<div class="parent">
+		<div class="left">
+			<div class="parent">
+				<div class="left"></div>
+				<div class="left"></div>
+				<div class="left">
+					<div class="parent">
+						<div class="left"></div>
+						<div class="left"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="left"></div>
+		<div class="left"></div>
+	</div>
+
+ <script type="text/javascript">
+ 	/*
+	* 计数器，css2.1规范中出现的，各大浏览器全部兼容
+	*	counter-reset:section; 用于将section重置为0
+	* 	使用 counters() 函数，在不同级别的嵌套计数器之间可以插入字符串
+ 	*/
+ </script>
+ </body>
+</html>

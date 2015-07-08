@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+     *{ padding:0; margin:0; }
+	 .relative{ position:relative; height:300px; background:pink; left:200px; top:50px; margin-top:50px;}
+	 .absolute{ position:absolute; width:50px; height:200px; left:50px; top:50px; background:green; margin-top:100px; }
+	 .fixed{ position:fixed; top:0; left:0; height:50px; width:600px; background:black; margin-top:10px;}
+  </style>
+ </head>
+ <body>
+ 	<div class="top">1</div>
+	<div class="relative">
+		<div class="absolute"></div>
+		<div class="fixed"></div>
+	</div>
+	<div class="absolute"></div>
+	<div style="margin-bottom:50px;height:50px;background:gray;"></div>
+	<div style="margin :50px 0 -20px ;height:50px;background:red; "></div>
+	<div style="margin :30px 0 ;height:50px;background:blue;"></div>
+ <script type="text/javascript">
+ 	/*
+	* 关于css的布局定位position：static、absolute、relative、fixed
+	* static是元素的默认布局方式 ,没有定位，元素出现在正常的流中（忽略 top, bottom, left, right 或者 z-index 声明）。
+	* relative 相对定位，相对定位，相对的是元素本身的默认定位
+	* absolute、fixed 绝对定位，是以元素的【相对定位，绝对定位的父元素】为标准来定位的
+	* 绝对定位，假设他的没有子元素的，只设置了高度，而没有设置宽度的话，那它的宽度是0，需要手动设置宽度
+	* fixed，如果没有设置left值，那他会议【不是默认定位的父元素】的offsetLeft来定位的，如果设置了left值，这个left是以body为基准设置
+	* 还有一点是，对于非绝对定位元素的margin问题
+	* 以本页面中的relative为例,假设top是个空元素，或者不存在top元素，relative是body的第一个子元素，relative的margin-top会实现在body上
+	* 并不是我们直观的认为，margin-top会在body的内部得到实现
+	* 既然说到margin就在这里多说两句，margin的margin-collapse，也就是相邻元素的margin会折合
+	* 		两个都是正数，取最大值；两个最是负数，取最小值; 一正一负，相加取值;
+	* 什么情况下不会发生折叠呢：float，绝对定位,overflow，定义这些属性的元素的margin不会被折叠，但是依然有可能发生冒泡
+
+	*在大多数时候，绝对定位元素的 height 和 width 属性的值为 auto，它们会自动计算以适合元素的内容。
+	但是非替换（non-replaced）绝对定位元素可以占据 top 和 bottom 的值（除 auto 外）所共同指定的可用空间，而不必设置 height（也就是设其为 auto）。left、right 与 width 也类似。
+	绝对定位元素的定位值发生冲突时的解决方法:
+		如果同时指定 top 和 bottom（非 auto），优先采用 top。
+		如果同时指定 left 和 right，若 direction 为 ltr（英语、汉语等），则优先采用 left；若 direction 为 rtl（阿拉伯语、希伯来语等），则优先采用 right。
+ 	*/
+ </script>
+ </body>
+</html>

@@ -600,28 +600,31 @@
 	或使用清除分离方法）结合表示为一个单独的margin。
 	在css2.1中，水平的margin不会被折叠。
 	垂直margin可能在一些盒模型中被折叠：
-	1、在常规文档流中，2个或以上的块级盒模型相邻的垂直margin会被折叠。
-	最终的margin值计算方法如下：
-	a、全部都为正值，取最大者；
-	b、不全是正值，则都取绝对值，然后用正值减去最大值；
-	c、没有正值，则都取绝对值，然后用0减去最大值。
-	注意：相邻的盒模型可能由DOM元素动态产生并没有相邻或继承关系。
+	1、在常规文档流中，2个或以上的块级盒模型相邻的垂直margin会被折叠。最终的margin值计算方法如下：
+		a、全部都为正值，取最大者；
+		b、不全是正值，则都取绝对值，然后用正值减去最大值；
+		c、没有正值，则都取绝对值，然后用0减去最大值。
+		注意：相邻的盒模型可能由DOM元素动态产生并没有相邻或继承关系。
+		
 	2、相邻的盒模型中，如果其中的一个是浮动的（floated），垂直margin不会被折叠，甚至一个浮动的盒模型和它的子元素之间也是这样。
 	3、设置了overflow属性的元素和它的子元素之间的margin不会被折叠（overflow取值为visible除外）。
 	4、设置了绝对定位（position:absolute）的盒模型，垂直margin不会被折叠，甚至和他们的子元素之间也是一样。
 	5、设置了display:inline-block的元素，垂直margin不会被折叠，甚至和他们的子元素之间也是一样。
 	6、如果一个盒模型的上下margin相邻，这时它的margin可能折叠覆盖（collapse through）它。在这种情况下，元素的位置（position）取决于它的相邻元素的margin是否被折叠。
-	a、如果元素的margin和它的父元素的margin-top折叠在一起，盒模型border-top的边界定义和它的父元素相同。
-	b、另外，任意元素的父元素不参与margin的折叠，或者说只有父元素的margin-bottom是参与计算的。如果元素的border-top非零，那么元素的border-top边界位置和原来一样。
-	一个应用了清除操作的元素的margin-top绝不会和它的块级父元素的margin-bottom折叠。
-	注意，那些已经被折叠覆盖的元素的位置对其他已经被折叠的元素的位置没有任何影响；只有在对这些元素的子元素定位时，border-top边界位置才是必需的。
+
+		a、如果元素的margin和它的父元素的margin-top折叠在一起，盒模型border-top的边界定义和它的父元素相同。
+		b、另外，任意元素的父元素不参与margin的折叠，或者说只有父元素的margin-bottom是参与计算的。如果元素的border-top非零，那么元素的border-top边界位置和原来一样。
+		一个应用了清除操作的元素的margin-top绝不会和它的块级父元素的margin-bottom折叠。
+		注意，那些已经被折叠覆盖的元素的位置对其他已经被折叠的元素的位置没有任何影响；只有在对这些元素的子元素定位时，border-top边界位置才是必需的。
+
 	7、根元素的垂直margin不会被折叠。
 	浮动的块级元素的margin-bottom总是与它后面的浮动块级兄弟元素（floated next in-flow block-level sibling）的margin-top相邻，除非那个同级元素使用了清除操作。
 	浮动的块级元素的margin-top和它的第一个浮动块级子元素（floated first in-flow block-level child）的margin-top相邻（如果该元素没有border-top，没有padding-top，并且子元素没有使用清除操作）。
 	浮动的块级元素的margin-bottom如果符合下列条件，那么它和它的最后一个浮动块级子元素的margin-bottom相邻（如果该元素没有指定padding-bottom或border）：
-	a、指定了height:auto
-	b、min-height小于元素的实际使用高度（height）
-	c、max-height大于元素的实际使用高度（height）
+		a、指定了height:auto
+		b、min-height小于元素的实际使用高度（height）
+		c、max-height大于元素的实际使用高度（height）
+
 	如果一个元素的min-height属性设置为0，那么它所拥有的margin是相邻的，并且它既没有border-top和border- bottom，也没有padding-top和padding-bottom，它的height属性可以是0或auto，它不能包含一个内联的盒模型 （line box），它所有的浮动子元素（如果有的话）的margin也都是相邻的。
 	当一个元素拥有的margin折叠了，并且它使用了清除操作，那么它的margin-top会和紧随其后的兄弟元素的相邻margin折叠，但结果是它的margin将无法和其块级父元素的margin-bottom折叠。
 	折叠操作是以padding、margin、border的值为基础的（即在浏览器解析所有这些值之后），折叠后的margin计算将覆盖已使用的不同margin的值。

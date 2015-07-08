@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+  		div{ left:0; top:0; }
+  </style>
+ </head>
+ <body>
+	<div class="relative" style="position:relative;">
+		<div class="z1" style="position:absolute; height:50px; width:200px; z-index:1; background:red; ">
+			<div class="z1-1" style="position:absolute; height:50px; width:100px; z-index:100; background:black; "></div>
+		</div>
+		<div class="z2" style="position:absolute; height:50px; width:200px; z-index:11; background:green; top:10px; "></div>
+		<div class="z3" style="position:absolute; height:50px; width:100px; z-index:2; background:pink; "></div>
+	</div>
+
+ <script type="text/javascript">
+ 	/*
+	* z-index，数值，auto，不可继承，可动画
+		position：relative、absolute、fixed都适用
+		一个元素的的层级，只适用于他所处的父元素内
+ 	*/
+ </script>
+ </body>
+</html>
