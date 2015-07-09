@@ -74,7 +74,7 @@ var mxPlayer = (function($){
 				this.pause();
 			}
 		},
-		pause:function(){ 暂停
+		pause:function(){ // 暂停
 			audio.pause();
 			$('#play').text('play');
 		},
@@ -148,7 +148,7 @@ var mxPlayer = (function($){
 			contentArr.forEach(function(element){
 				$lyric.append('<p>'+element+'</p>'); 
 			});
-			lyricScroll.init(); // 重置歌词区滚动条
+			lyricScroll.resetTop(); // 重置歌词区滚动条
 			timeTagArr = timeArr.map(function(element){ // 对时间进行解析
 				var arr = element.replace(/[\[\]]/g,'').split(':');
 				return parseInt(arr[0],10)*60+parseFloat(arr[1]) ;
@@ -220,10 +220,15 @@ var mxPlayer = (function($){
 			});
 			var _this = this ;
 			window.addEventListener('resize',function(){
-				_this.reset();
+				gradWidth = $grad.width();
+				_this.reset($parent.width(),$grad.width());
 			})
 		},
 		scrollbar:function(dom){ // 模拟滚动条
+			/*
+				文本内容，以当前滚动条所处位置为准，当创建偶大小发生变化后
+				文本内容的宽高发生变，父元素的宽高变化
+			*/
 			var $this = $('#'+dom) ,
 				$child = $this.children().eq(0);
 			$this.append(
@@ -241,8 +246,10 @@ var mxPlayer = (function($){
 				sbTopMax = thisHeight - sbHeight ,
 				sbTopMin = 0 ;
 				biliTop = -sbTopMax/childtopMin ;
-				if (sbHeight != thisHeight) $sb.height(sbHeight);
+				if (sbHeight < thisHeight) $sb.height(sbHeight);
 				else $sb.height(0);
+
+				console.log(sbHeight)
 			}
 			this.setTop = function(childTop,sbTop){
 				if (childTop)
@@ -275,7 +282,7 @@ var mxPlayer = (function($){
 			}
 			var _this = this ;
 			window.addEventListener('resize',function(){
-				_this.resetTop();
+				_this.init();
 			})
 			dragSb($sb);
 			$this[0].addEventListener('mousewheel',function(event){
@@ -407,18 +414,18 @@ var App = {
 		lyricScroll.init();
 
 		/*------------------------------拖拽--------------------------------------------*/
-		new mxPlayer.dragCircle('jindu-circle','jindu-current','jindu',function(){ // 进度条拖拽
+		var jindutiao = new mxPlayer.dragCircle('jindu-circle','jindu-current','jindu',function(){ // 进度条拖拽
 			if (audio)
 			{
 			   $('#jinduCurrent').css({'width':audio.currentTime/audio.duration*100+'%'});
 			}
 		},function(width1,width2){
-				audio.currentTime = width1/width2*duration ;
+				audio.currentTime = width1/width2*audio.duration ;
 		});
-		new mxPlayer.dragCircle('volume-circle','volume-current','volume',function(){ // 音量条拖拽
+		var yinliang = new mxPlayer.dragCircle('volume-circle','volume-current','volume',function(){ // 音量条拖拽
 			if (audio)
 			{
-			   $('#volumeCurrent').css({'width':audio.volume*100+'%'});
+			   $('#volume-current').css({'width':audio.volume*100+'%'});
 			}
 		},function(width1,width2){
 				audio.volume = width1/width2 ;
