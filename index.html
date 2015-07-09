@@ -48,6 +48,20 @@
 	</nav>
 	<div id="" class="main">
 		<div id="" class="content">
+			<div class="content-item">
+				<h2>我的轮子</h2>
+				<div>
+					<ul>
+						<li><a href="https://github.com/LingYanSi/blog/issues">issue博客</a></li>
+						<li><a href="player/">音乐播放器</a></li>
+						<li><a href="richEdit/">富文本编辑器</a></li>
+						<li><a href="react-mine/">Reactjs-demo</a></li>
+						<li><a href="backbone/">backbone</a></li>
+						<li><a href="angular/">angular</a></li>
+						<li><a href="swipe/">上下滑动</a></li>
+					</ul> 
+				</div>
+			</div>
 			<div id="" class="content-item">
 				<h2>前后端分离，以及项目搭建</h2>
 				<div>
@@ -83,8 +97,9 @@
 							<li>要不要使用requirejs/seajs进行js的依赖管理</li>
 							<li>使用gulp/grunt对js/css做自动化处理</li>
 							<li>使用git/svn</li>
+							<li>使用bower/webpack</li>
 							<li>使用<a href="https://babeljs.io/">babel</a>吗？babel的作用在于对<a href="http://es6.ruanyifeng.com/#README">es6</a>进行Polyfill</li>
-							<li>使用HTML5的historyAPI，实现页面的无跳转刷新</li>
+							<li>使用HTML5的historyAPI/hash，做单页面应用？</li>
 						</ol>
 					</div>
 					
@@ -157,19 +172,13 @@
 					
 				</div>
 			</div>
-
 			<div class="content-item">
-				<h2>博客导航</h2>
+				<h2>相关网站</h2>
 				<div>
-					<ul>
-						<li><a href="https://github.com/LingYanSi/blog/issues">issue博客</a></li>
-						<li><a href="player/">音乐播放器</a></li>
-						<li><a href="richEdit/">富文本编辑器</a></li>
-						<li><a href="react-mine/">Reactjs-demo</a></li>
-						<li><a href="backbone/">backbone</a></li>
-						<li><a href="angular/">angular</a></li>
-						<li><a href="swipe/">上下滑动</a></li>
-					</ul> 
+					<li><a href="http://www.whycss.com/">收录了一些常用的网站，博客等</a></li>
+					<li><a href="http://www.w3school.com.cn/cssref/">css参考手册，不全比如说缺少了flex</a></li>
+					<li><a href="http://www.w3school.com.cn/cssref/css_selectors.asp">css选择器</a></li>
+					<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/range/deleteContents">MDN</a></li>
 				</div>
 			</div>
 		</div>
@@ -180,7 +189,7 @@
 	<script src="build-zepto/ku.js"></script>
 	<script type="text/javascript"> 
 		$(function(){
-			var navHeight = ($.isPhone?document.body.offsetWidth*3/4:window.screen.width*5/16)+'px' ;
+			var navHeight = ($.isPhone?document.body.offsetWidth*3/4:window.screen.width*4/16)+'px' ;
 			$('.nav').height(navHeight);
 			$('a').attr({target:'_blank'});
 			$('h2').on('click',function(){

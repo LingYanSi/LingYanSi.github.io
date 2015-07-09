@@ -1,34 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <html>
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="shortcut icon" href="" />
-  <title></title>
-  <style type="text/css">
-     *{ padding:0; margin:0; }
-	 nav{ height:100px; background:red; }
-	 article{ display:flex; }
-	 .main{ flex:5; background:green; height:200px; }
-	 .sidebar{ flex:1; }
-	 footer{ height:100px; background:red; }
-  </style>
- </head>
- <body>
- 	<div class="wrap">
- 		<nav>顶部</nav>
- 		<article>
- 			<div class="main">主内容
-				<!-- 需要左右排版，上下排版，并且每个元素的高度不同 -->
- 			</div>
- 			<div class="sidebar">侧边栏</div>
- 		</article>
- 		<footer>底部</footer>
- 	</div>
- <script type="text/javascript">
- 	
- </script>
- </body>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="shortcut icon" href="" />
+    <title></title>
+    <style type="text/css">
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    
+    nav {height: 100px; background: red; }
+    article {display: flex; height: auto; flex-direction: row; }
+    .main {flex: 5; flex-basis: 200px; background: green; }
+    .sidebar {flex: 1; flex-basis: 10px; }
+    footer {height: 100px; background: red; } 
+
+    /*#container{ flex-direction:row; }*/
+	.c-item{ display:flex; }
+	.c-item:nth-child(1){ justify-content: center; }
+	.c-item:nth-child(2){ justify-content: flex-start; }
+	.c-item:nth-child(3){ justify-content: flex-end; }
+	.c-item:nth-child(4){ justify-content: space-between; }
+	.c-item:nth-child(5){ justify-content: space-around; }
+    .c-item>div{ width:100px; height:50px; background-image:linear-gradient(45deg,rgba(255,0,0,1),rgba(0,255,255,1));}
+
+    #flex-wrap>div{ display:flex; flex-wrap:wrap; }
+    #flex-wrap>div>div{ width:300px; height:50px; background-image:linear-gradient(45deg,rgba(255,0,0,1),rgba(0,255,255,1)); }
+    #flex-wrap>div>div:nth-child(2){ height:100px; }
+    #flex-wrap>div:nth-child(1){ align-items: center;}
+    #flex-wrap>div:nth-child(2){ align-items: flex-start;}
+    #flex-wrap>div:nth-child(3){ align-items: flex-end;}
+    #flex-wrap>div:nth-child(4){ align-items: baseline;}
+    #flex-wrap>div:nth-child(5){ align-items: stretch;}
+
+    #flex-wrap>div:nth-child(5)>div:nth-child(1){ order:1; }
+    #flex-wrap>div:nth-child(5)>div:nth-child(2){ order:3; }
+    #flex-wrap>div:nth-child(5)>div:nth-child(3){ order:2; }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <nav>顶部</nav>
+        <article>
+            <div class="main">主内容
+                <!-- 需要左右排版，上下排版，并且每个元素的高度不同 -->
+                <div id="container">
+                	<div class="c-item">
+                		<div></div>
+                		<div></div>
+                		<div></div>
+                	</div>
+                	<div class="c-item">
+                		<div></div>
+                		<div></div>
+                		<div></div>
+                	</div>
+                	<div class="c-item">
+                		<div></div>
+                		<div></div>
+                		<div></div>
+                	</div>
+                	<div class="c-item">
+                		<div></div>
+                		<div></div>
+                		<div></div>
+                	</div>
+                	<div class="c-item">
+                		<div></div>
+                		<div></div>
+                		<div></div>
+                	</div>
+                </div>
+                <div id="flex-wrap">
+                	<div class="f-item">
+                		<div></div>
+                		<div></div>
+                		<div></div>
+                	</div>
+                	<div class="f-item">
+                		<div></div>
+                		<div></div>
+                		<div></div>
+                	</div>
+                	<div class="f-item">
+                		<div></div>
+                		<div></div>
+                		<div></div>
+                	</div>
+                	<div class="f-item">
+                		<div></div>
+                		<div></div>
+                		<div></div>
+                	</div>
+                	<div class="f-item">
+                		<div></div>
+                		<div></div>
+                		<div></div>
+                	</div>
+                </div>
+            </div>
+            <div class="sidebar">侧边栏</div>
+        </article>
+        <footer>底部</footer>
+    </div>
+    <script type="text/javascript">
+    /*
+    	flex ： 弹性布局
+    	flex: flex-grow flex-shrink flex-basis ; // 三者的简写
+    	flex-shrink: 1/auto/none ; auto表示1，none表示0// 表示默认值	
+    	flex-basis: 100px/2em/auto/content // 这个很有意思
+
+    	1. flex-grow属性：属性值为该伸缩项所占空间相对于其他伸缩项（声明了flex相关属性的项）的比值。
+		2. flex-shrink属性：该伸缩项相对于其他伸缩项缩小的比值，也就是说当flex-shrink: 3;时，该项所占空间为其他项的1/3。
+		3. flex-basis属性：属性值为该项所占空间占容器空间的百分比。
+    		假如父元素p的display:flex; 子元素a的flex:5 200px; b的flex:1 10px;
+    		ab的宽度是这样分配的，先把200px+10px与父元素的宽度width做对比
+    		如果200+10>=width ; ab的宽度为 200+(width-200-10)/6*5 10+(width-200-10)/6*1 ；
+    		如果200+10<width ; ab的宽度为 (200/10)*width*200 (200/10)*width*10 
+    	4. align-items : center/flex-start/flex-end/stretch/baseline 根据不同的高度自适应，是居中，置顶，置底，可伸缩的，基线
+    	5. order：数值 ，用于给flex-item一个数字，然后flex-item会根据大小，按照flex-direction进行排列
+
+    	6. flex-wrap: nowrap[默认] wrap wrap-reserve 规定flex-item是否可换行，如何是nowrap当元素的宽度小于子元素宽度之和的时候，元素会按照子元素的宽度比例，自行排版1/auto/none
+    	7. flex-direction: row/row-reserve column/column-reserve // 上下
+
+    	8. flex-flow: flex-direction flex-wrap ; // 这两首个属性的简写
+
+    	在移动开发的时候，可能还需要使用 
+    	-webkit-box // flex
+    	-webkit-box-flex // flex-grow
+    	-webkit-box-direction // 是否反转
+    	-webkit-box-orient // 上下还是左右排列 flex-direction
+    	box-align // center,start,end,baseline 和align-items 雷同
+    	box-ordinal-group // 显示顺序 和 order 一样
+
+    	flex可以和min-height min-width混合使用
+     */
+    </script>
+</body>
+
 </html>

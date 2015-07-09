@@ -3,11 +3,11 @@
 * 本布局，部分使用了flex
  */
 html,body,div,form,ul,ol,li,img,p,h1,h2,h3,h4,h5,h6{margin:0;padding:0;border:0;}
-html{ font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; }
+html{ font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; overflow:hidden;}
 
-.music-player-box{position:fixed;top:0;left:0;height:100%;width:100%; display:flex; flex-direction:column ;}
+.music-player-box{position:fixed;top:0;left:0;height:100%;width:100%; display:flex; flex-direction:column ; min-height:500px; min-width:600px;}
 
-.music-main{flex:1; display:flex; height:500px; justify-content:flex-end;}
+.music-main{flex:1; display:flex; justify-content:flex-end;}
 
 #bgd { position:absolute;height:100%;width:100%;z-index:-1; }
 #music-pic{ position:absolute; top:0; left:0; height:100%; width:100%; }
@@ -29,9 +29,9 @@ html{ font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; }
 .lyric-item-current{color:red;}
 
 .music-bott{ height:50px; width:100%; display:flex; justify-cntent:flex-end; padding:30px 0; }
-.play-prev-next{ position:relative; overflow:hidden; flex:1; display:flex; }
-.ppn-item{ height:50px; width:50px; flex:1; padding:0 10px; background-color:rgba(255,255,255,0.2); background-clip:content-box; border-radius:10px; text-align:center; line-height:50px; cursor:pointer;}
-
+.play-prev-next{ position:relative; overflow:hidden; flex:1 ;min-width:230px; display:flex; justify-content: center; }
+.ppn-item{ height:50px; width:50px;  background-color:rgba(255,255,255,0.2); background-clip:content-box; border-radius:10px; text-align:center; line-height:50px; cursor:pointer; overflow:hidden;}
+.ppn-item+.ppn-item{ margin-left:10px;}
 #prev{ color:rgb(52,158,105); }
 #play{ color:rgb(111,249,193); }
 #next{ color:rgb(179,255,188); }
