@@ -66,11 +66,8 @@ var mxPlayer = (function($){
 			}else if (audio.paused === false)
 			{
 				this.pause();
+				$('#play').text('play');
 			}
-		},
-		pause:function(){ // 暂停
-			audio.pause();
-			$('#play').text('play');
 		},
 		next:function(index,prevNext,auto){ // 无论是上一首，下一首，当前重放，都在next属性中
 			switch(this.model){
@@ -108,7 +105,7 @@ var mxPlayer = (function($){
 			$('#volume-current').css({'width':audio.volume*100+'%'});
 			$('#music-pic').attr({'src':$mliCurrent.attr('data-songPoster')})
 			$('#music-pic-wrap').css({'background-image':'url('+$mliCurrent.attr('data-songPoster')+')'});
-			audio.play();
+			this.play();
 			this.blur();
 			this.getLyric($mliCurrent.attr('data-lyricName').split('/')[1]);
 		},
