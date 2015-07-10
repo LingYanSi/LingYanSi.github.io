@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  .main{padding-top:0;background:rgb(239,239,239);}
+	  
+  </style>
+ </head>
+ <body>
+	<Rend></Rend>
+ <script type="text/javascript">
+	// console.log( .textContent );
+	var rend = document.body.querySelector('Rend') ;
+	var Rend = '<div>你大爷的</div>';
+	var div = document.createElement('div');
+		div.innerHTML = Rend ;
+	rend.parentNode.insertBefore(div,rend);
+	rend.parentNode.removeChild(rend);
+	// rend.addEventListener('click',function(){
+	// 	alert('这也能被点击？')
+	// })
+	/*
+	* 什么是双向绑定
+	* 假设有对象a , E1/E2/E3都被赋了a，当他们三个任意一个的值发生了变化，a会改变，E2,E3也都会改变
+	* 其实有点广播/分发的意思，当我改动E1的时候，其实改变的是a，然后谁监听了a，就把新的值赋给谁
+	* 元素的值什么时候会改变呢？无外乎【 http请求/各种dom事件 】，也就是说，在这两种情况下，去比较值时候发生了变化。
+	*/
+	console.log(NaN<0)
+ </script>
+ </body>
+</html>

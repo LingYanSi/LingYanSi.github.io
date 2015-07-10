@@ -124,6 +124,7 @@ var mxPlayer = (function($){
 		},
 		blur:function(){ // 高斯模糊背景
 			$('#music-pic')[0].onload = function(){
+				$('.music-player-box')[0].style.background = "none" ;
 				$('#music-pic,#music-bgd').attr({'width':$(window).width(),'height':$(window).height()});
 				stackBlurImage( "music-pic", "music-bgd", 20, false );
 			}
@@ -332,7 +333,7 @@ var mxPlayer = (function($){
 							'" data-lyricName="'+lyric+
 							'" data-songPoster="'+poster+
 							'" data-author="'+singerName+
-							'" title="'+songName+'">'+songName+'<div class="music-li-delete"></div>'+
+							'" title="'+songName+'">'+songName+'<div class="music-li-delete" title="删除"></div>'+
 						'</li>');
 			}
 			$this.append(str);
@@ -382,7 +383,7 @@ var List = {
 
 /*---------------------数据的获取与存储-----------------------------*/
 var storage = {
-	currentId : parseInt(localStorage['currentId'],10) , // 从localStorage中获取currentId
+	currentId : parseInt(localStorage['currentId'],10)>=0 ? parseInt(localStorage['currentId'],10):0 , // 从localStorage中获取currentId
 	setCurrentId : function(id){
 		localStorage.setItem('currentId',id);
 	},
@@ -407,7 +408,6 @@ var storage = {
 		});
 	}
 }
-
 /* 
 * App run，需要先去获取音乐表单，然后播放器初始化 
 * 如果，要新增一首歌曲，就需要往List中add一首歌
