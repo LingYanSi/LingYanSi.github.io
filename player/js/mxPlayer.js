@@ -17,19 +17,13 @@ var mxPlayer = (function($){
 		audio.autoplay = 'true' ;
 
 	var currentItem = 0 ,timeTagArr ,$jinduLoad = $('#jindu-load');
-	var model = 0 ;
-	$('#model').attr('data-model',model);
 
-	var $jinduCurrent = $('#jindu-current') ,
-		$duration = $('#duration') ,
-		$currentTime = $('#currentTime') ;
-	var $lyric = $('#lyric');
-	var $duration = $('#duration');
-	var duration ;
+	var $jinduCurrent = $('#jindu-current') , // 进度条
+		$duration = $('#duration') , // 总时间
+		$currentTime = $('#currentTime'), // 当前时间
+		$lyric = $('#lyric');
+	var duration ; // audio的时长
 	return {
-		run : function(){
-			// 插入表单
-		},
 		currentItem:0 ,
 		init:function(){ // 初始化
 			this.next(this.currenItem);
@@ -57,7 +51,7 @@ var mxPlayer = (function($){
 						{
 							$lyricItemCurrent = $lyricItem.eq(i);
 							$lyricItemCurrent.addClass('lyric-item-current').siblings().removeClass('lyric-item-current');
-							if(_this.lyricAuto) lyricScroll.setTop((_this.lyricTop-$lyricItemCurrent.position().top-$lyricItemCurrent[0].offsetHeight/2));
+							if(_this.lyricAuto) lyricScroll.setTop({childTop:true,top:(_this.lyricTop-$lyricItemCurrent.position().top-$lyricItemCurrent[0].offsetHeight/2)});
 							break ;
 						}
 					}
@@ -79,31 +73,31 @@ var mxPlayer = (function($){
 			$('#play').text('play');
 		},
 		next:function(index,prevNext,auto){ // 无论是上一首，下一首，当前重放，都在next属性中
-			if (model === 0)
-			{ 
-				// 下一首
-				if (typeof(index)!='number'){
-					if( prevNext == 'next') this.currentItem++;
-					else if( prevNext == 'prev' ) this.currentItem--;
-				}else this.currentItem = index 
-
-			}else if (model === 1)
-			{
-				// 随即播放
-				if (typeof(index)!='number')  this.currentItem = Math.round(Math.random()*($('.music-list-item').length-1)),console.log('无需',this.currentItem) ;
-				else this.currentItem = index 
-			}else if (model === 2)
-			{
-				// 重复播放
-				if (auto=='auto') this.currentItem = this.currentItem ; // 如果是自动下一首，就单曲循环
-				else{  // 如果是点击【上一首，下一首】按钮
+			switch(this.model){
+				case 0 : // 下一首
 					if (typeof(index)!='number'){
 						if( prevNext == 'next') this.currentItem++;
 						else if( prevNext == 'prev' ) this.currentItem--;
 					}else this.currentItem = index 
-				}
-			}
+					break;
 
+				case 1 : // 随机播放
+					if (typeof(index)!='number')  
+						this.currentItem = Math.round(Math.random()*($('.music-list-item').length-1));
+					else this.currentItem = index ;
+					break ;
+
+				case 2 : // 单曲循环
+					if (auto=='auto') this.currentItem = this.currentItem ; // 如果是自动下一首，就单曲循环
+					else{  // 如果是点击【上一首，下一首】按钮
+						if (typeof(index)!='number'){
+							if( prevNext == 'next') this.currentItem++;
+							else if( prevNext == 'prev' ) this.currentItem--;
+						}else this.currentItem = index 
+					}
+					break;
+			}
+			storage.setCurrentId(this.currentItem);
 			this.currentItem = this.checkIndex(this.currentItem) ;
 
 			/*-----------为当前播放歌曲添加状态----------------*/
@@ -134,10 +128,11 @@ var mxPlayer = (function($){
 				stackBlurImage( "music-pic", "music-bgd", 20, false );
 			}
 		},
-		model:['顺序','随机','loop'], // 当前的播放模式
+		model:0, // 当前的播放模式
+		modelArr:['顺序','随机','循环'],
 		setModel:function(index){
-			if (index>=this.model.length) index = 0;
-			return index ;
+			if (index>=this.modelArr.length || index<0) index = 0;
+			this.model = index ;
 		},
 		lyricTop:0 ,
 		lyricAuto:true ,
@@ -145,10 +140,12 @@ var mxPlayer = (function($){
 			$lyric.empty().css({'top':0}); //清空原有歌词，top回0
 			var contentArr = str.split(/\[[^\]]+\]/g); //获取所有歌词
 			var timeArr = str.match(/\[[^\]]+\]/g) ; // 获取时间
+			var str = '' ;
 			contentArr.forEach(function(element){
-				$lyric.append('<p>'+element+'</p>'); 
+				str += ('<p>'+element+'</p>'); 
 			});
-			lyricScroll.resetTop(); // 重置歌词区滚动条
+			$lyric.append(str);
+			lyricScroll.reset(); // 重置歌词区滚动条
 			timeTagArr = timeArr.map(function(element){ // 对时间进行解析
 				var arr = element.replace(/[\[\]]/g,'').split(':');
 				return parseInt(arr[0],10)*60+parseFloat(arr[1]) ;
@@ -161,11 +158,11 @@ var mxPlayer = (function($){
 				url:url,
 				type:'get'
 			}).done(function(str){
-				mxPlayer.setLyric(str);
 				mxPlayer.setLyricTop();
+				mxPlayer.setLyric(str);
 			});
 		},
-		setLyricTop:function(){
+		setLyricTop:function(){ // 设置歌词滚动区的padding
 			var lyricTop = $('#lyric-wrap')[0].offsetHeight/2 ;
 			this.lyricTop = lyricTop ;
 			$lyric.css({'padding': lyricTop + 'px 0'});
@@ -235,7 +232,8 @@ var mxPlayer = (function($){
 				'<div id="'+dom+'scrollbar" style="position:absolute;right:0;width:5px;height:0;background:rgba(247,105,105,0.6);border-radius:4px;overflow:hidden;"></div>'	
 			);
 			var $sb = $('#'+dom+'scrollbar');
-			var thisHeight , childHeight , childtopMax , childtopMin ,  bili ,biliTop , sbHeight , sbTopMax ,sbTopMin ;
+			var thisHeight , childHeight , childtopMax , childtopMin ,  bili ,biliTop , sbHeight , sbTopMax ,sbTopMin ,sbTopCurrent;
+			sbTopCurrent = 0 ;
 			this.init = function(){ // 当父元素，子元素高度有变化时，可以重置滚动条
 				thisHeight = $this.height() ,
 				childHeight = $child[0].offsetHeight,
@@ -243,41 +241,30 @@ var mxPlayer = (function($){
 				childtopMin = thisHeight - childHeight ,
 				bili = thisHeight/childHeight ,
 				sbHeight = thisHeight*bili ,
+				sbTopCurrent = (thisHeight-sbHeight)*sbTopCurrent/sbTopMax ,
 				sbTopMax = thisHeight - sbHeight ,
 				sbTopMin = 0 ;
 				biliTop = -sbTopMax/childtopMin ;
-				if (sbHeight < thisHeight) $sb.height(sbHeight);
-				else $sb.height(0);
+				(sbHeight < thisHeight) ? $sb.height(sbHeight) : ($sb.height(0),sbTopCurrent=0) ; // 如果滚动条的高度大于父元素的高度，隐藏滚动条，top值为0
 
-				console.log(sbHeight)
+				this.setTop({sbTop:true,top:sbTopCurrent});
 			}
-			this.setTop = function(childTop,sbTop){
-				if (childTop)
-				{
-					$child.css({'top':childTop});
-					$sb.css({'top':-childTop*biliTop});
-					return ;
-				}
-				if(sbTop){ 
-					$sb.css({'top':sbTop});
-					$child.css({'top':-sbTop/biliTop});
-					return ;
-				}
-			}
-			this.resetTop = function(childTop,sbTop){
-				var childTop = $child.position().top ;
-				var childHeightStore = childHeight ;
-				var biliTopStore = biliTop ;
+			this.reset = function(){
+				sbTopCurrent = 0 ;
 				this.init();
-				var biliLC = childHeightStore/childHeight ;
-				if (childHeight>thisHeight)
+			}
+			this.setTop = function(arg){
+				if (arg.childTop )
 				{
-					$child.css({'top':childTop*biliLC});
-					$sb.css({'top':-childTop*biliLC*biliTopStore});
-				}else{
-					childTop = 0 ;
-					$child.css({'top':childTop*biliLC});
-					$sb.css({'top':-childTop*biliLC*biliTopStore});
+					$child.css({'top':arg.top});
+					sbTopCurrent = -arg.top*biliTop
+					$sb.css({'top':sbTopCurrent});
+					return ;
+				}
+				if(arg.sbTop ){ 
+					$sb.css({'top':arg.top});
+					$child.css({'top':(isNaN(-arg.top/biliTop)?0:-arg.top/biliTop)});
+					return ;
 				}
 			}
 			var _this = this ;
@@ -300,8 +287,7 @@ var mxPlayer = (function($){
 				{
 					childTop = childtopMin ;
 				}
-				$sb.css({'top':-childTop*bili});
-				$child.css({'top':childTop});
+				_this.setTop({childTop:true,top:childTop});
 			});
 			function dragSb($dom){
 				var $sb = $dom ,
@@ -318,8 +304,7 @@ var mxPlayer = (function($){
 					{
 						if (sbTop<sbTopMin) sbTop = sbTopMin ;
 						else if(sbTop>sbTopMax) sbTop = sbTopMax ;
-						$sb.css({'top':sbTop});
-						$child.css({'top':-sbTop/bili})
+						_this.setTop({sbTop:true,top:sbTop});
 					}
 				});
 				$sb.on('mouseup',function(event){
@@ -332,10 +317,10 @@ var mxPlayer = (function($){
 		},
 		insertList:function(dom,list){ // 插入歌单
 			var $this = $('#'+dom) ;
-			var str = ''
+			var str = '' ;
 			for (var i=0,len=list.length;i<len ;i++ )
 			{
-				var singerName = list[i].singer[0].name ,
+				var singerName = list[i].singer[0].name , 
 				    singerUrl = list[i].singer[0].url ,
 				    songName = list[i].songName[0].name ,
 				    songNameUrl = list[i].songName[0].url ,
@@ -343,7 +328,12 @@ var mxPlayer = (function($){
 				    lyric = list[i].lyric[0].pos ,
 				    poster = list[i].poster ,
 				    songUrl = list[i].pos ;
-				str += ('<li class="music-list-item" data-songUrl="'+songUrl+'" data-lyricName="'+lyric+'" data-songPoster="'+poster+'" data-author="'+singerName+'" title="'+songName+'">'+songName+'</li>');
+				str += ('<li class="music-list-item" data-songUrl="'+songUrl+
+							'" data-lyricName="'+lyric+
+							'" data-songPoster="'+poster+
+							'" data-author="'+singerName+
+							'" title="'+songName+'">'+songName+'<div class="music-li-delete"></div>'+
+						'</li>');
 			}
 			$this.append(str);
 		}
@@ -356,9 +346,23 @@ var List = {
 	model:[] ,
 	add:function(arr){
 		//添加一条播放纪录
+		this.model = this.model.concat(arr);
 	},
-	remove:function(){
-
+	remove:function(index){
+		// 一方面需要移除这一个条目，另一方面，如果是当前播放条目，要更换播放歌曲【下一首为准】
+		// index>currentItem currentItem不需要改变
+		// index<currentItem currentItem需要减一
+		// index=currentItem 移除当前播放条目，切换到下一曲
+		var current = mxPlayer.currentItem ;
+		if(index==current){
+			mxPlayer.currentItem-- ;
+			mxPlayer.next(null,'next');
+		}else if(index>current){
+			mxPlayer.currentItem++ ;
+		}else{
+			mxPlayer.currentItem-- ;
+		}
+		this.model.splice(index,1);
 	},
 	like:function(){
 
@@ -366,44 +370,51 @@ var List = {
 	unlike:function(){
 
 	},
+	render:function(){
+		mxPlayer.insertList('music-list',this.model);
+	},
 	init:function(){
-		mxPlayer.insertList('music-list',listArr);
-		mxPlayer.insertList('music-list',listArr);
+		this.add(listArr);
+		this.add(listArr);
+		this.render();
+	}
+}
 
-		/*---------------------数据的获取与存储-----------------------------*/
-		mxPlayer.currenItem = parseInt(localStorage['currentId'],10); // 从localStorage中获取currentId
-
+/*---------------------数据的获取与存储-----------------------------*/
+var storage = {
+	currentId : parseInt(localStorage['currentId'],10) , // 从localStorage中获取currentId
+	setCurrentId : function(id){
+		localStorage.setItem('currentId',id);
+	},
+	setPlayerTime : function(){
+		var time = new Date().getTime();
+		localStorage.setItem('playerTime',time);
+	},
+	init : function(){
+		mxPlayer.currentItem = this.currentId ; // 当前播放
 		localStorage.setItem('isPlayerOpen','true'); // 播放器已经打开
-		window.addEventListener('storage',function(e){ // 获取播放id
+		setInterval(this.setPlayerTime,4000); // 每隔四秒，把时间存储一下，主要是为了避免电脑立马断电的情况
+		window.addEventListener('storage',function(e){ // 监听localstorage的变化，以播放选中歌曲
 			if (e.key == 'currentId') 
 			{
 				mxPlayer.currenItem = parseInt(localStorage['currentId'],10)
 				mxPlayer.next(mxPlayer.currenItem);
 			}
 		});
-
-		setPlayerTime();
-		function setPlayerTime(){
-			var time = new Date().getTime();
-			localStorage.setItem('playerTime',time);
-			setInterval(function(){
-				var time = new Date().getTime();
-				localStorage.setItem('playerTime',time);
-			},2000);
-		}
-
 		window.addEventListener('beforeunload',function(){  // 关闭页面前，在storage里面声明，播放器已经关闭
 															// 这里并不是很安全，应该再加上一个时间戳，避免电脑突然死机，或者关机
 			localStorage.setItem('isPlayerOpen','false');
 		});
 	}
 }
+
 /* 
 * App run，需要先去获取音乐表单，然后播放器初始化 
 * 如果，要新增一首歌曲，就需要往List中add一首歌
 * 还有一种情况下，是要批量播放，需要返回一个数组，这样的话，无论如何都返回一个数组好了
 * 喜欢，不喜欢和添加一首歌曲一样，都是以数组形式批量操作
 */
+
 var App = { 
 	setView:function(){
 		/*-------------------------------滚动条----------------------------------------*/
@@ -431,12 +442,7 @@ var App = {
 				audio.volume = width1/width2 ;
 		});
 	},
-	run:function(){ 
-
-		List.init();
-		this.setView();
-		mxPlayer.init();
-
+	domEvent:function(){
 		$('#play').on('click',function(){
 			mxPlayer.play();
 		});
@@ -447,14 +453,18 @@ var App = {
 			mxPlayer.next(null,'prev');
 		});
 		$('#model').on('click',function(){
-			model = parseInt($(this).attr('data-model'),10);
-			model++ ;
-			model = mxPlayer.setModel(model);
-			$(this).text(mxPlayer.model[model]).attr('data-model',model)
+			mxPlayer.model++
+			mxPlayer.setModel(mxPlayer.model);
+			$(this).text(mxPlayer.modelArr[mxPlayer.model]);
 		});
 		$('#music-list').on('dblclick','.music-list-item',function(){
 			mxPlayer.currentItem = $(this).index();
 			mxPlayer.next(mxPlayer.currentItem)
+		});
+		$('#music-list').on('click','.music-li-delete',function(){
+			var index = $(this).parent().index() ;
+			$(this).parent().remove();
+			List.remove(index);
 		});
 		$('#mute').on('click',function(){
 			var mute = $(this).attr('data-mute');
@@ -469,6 +479,13 @@ var App = {
 				$('#volume-current').css({'width':audio.volume*100+'%'});
 			}
 		});
+	},
+	run:function(){ 
+		storage.init(); // localStorage 主要是保存了当前播放歌曲id，以及和另外一个页面通信
+		List.init();	// 获取音乐表单
+		this.setView(); // 设置了自定义滚动条，以及拖拽进度条，音量条
+		mxPlayer.init(); // 播放器初始化
+		this.domEvent(); // 各种点击事件
 	}
 };
 	
