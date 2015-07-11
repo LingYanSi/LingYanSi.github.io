@@ -167,8 +167,22 @@ F11 全屏模式
 Shift+F11 免打扰模式
 
 // -----------------------------------
+一些插件
+	1.SideBarEnhancement 侧边栏文件操作 只对project起作用 对单个打开的文件无效，需要添加project
 
-SideBarEnhancement 只对project起作用 对单个打开的文件无效，需要添加project
+	2.emmet原来的zeCoding 方便html标签的书写
 
-如果要使用html格式化 插件 需要使用 nodejs
-在C:/programe/nodejs/node.js 如此便可
+	3.html-js-css 格式化 插件 需要使用 nodejs 在C:/programe/nodejs/node.js 如此便可
+
+	4.auto-prefixer-css ? css前缀自动补全
+
+从菜单 View - Show Console 或者 ctrl + ~ 快捷键，调出 console。将以下 Python 代码粘贴进去并 enter 执行，不出意外即完成安装。以下提供 ST3 和 ST2 的安装代码：
+
+Sublime Text 3：
+
+import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = 
+sublime.installed_packages_path(); urllib.request.install_opener( 
+urllib.request.build_opener( urllib.request.ProxyHandler()) ); 
+open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 
+'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())
+

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+  	  *{ margin:0; padding:0; }
+	  .main{ max-width:800px; margin:0 auto; color:#fff;}
+
+	  .item{ display:block; text-decoration:none; color:inherit; position:relative; height:300px; background-position:center; background-size:cover; }
+	  .item>div{ position:absolute; bottom:0px; padding:8px;}
+	  .item .name{ font-size:2em; }
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<a href="http://movie.douban.com/subject/1931974/" class="item" style="background-image:url(../../images/3.jpg);">
+				<div>
+					<p class="name">血色浪漫</p>
+					<p>时间：<span class="time">2004</span> 导演：<span class="director">钟跃民</span></p>
+				</div>
+			</a>
+		</div>
+	</div>
+ <script type="text/javascript">
+	var List = {
+		tv : [
+			{
+				name:'血色浪漫',
+				tag:'china',
+				time:'2004',
+				douban:'http://movie.douban.com/subject/1931974/',
+				poster:'../../images/life/movie/xueselangman.jpg',
+				director:'钟跃民',
+				star:''
+			},
+			{
+				name:'大明王朝1566',
+				tag:'china',
+				time:'2007',
+				douban:'http://movie.douban.com/subject/2210001/',
+				poster:'../../images/life/movie/damingwangchao.jpg',
+				director:'张黎 刘和平',
+				star:''
+			},
+			{
+				name:'贞观之治',
+				tag:'china',
+				time:'2006',
+				douban:'http://movie.douban.com/subject/2155164/',
+				poster:'../../images/life/movie/zhiguanzhizhi.jpg',
+				director:'钟跃民',
+				star:''
+			},
+			{
+				name:'走向共和',
+				tag:'china',
+				time:'2003',
+				douban:'http://movie.douban.com/subject/1441794/',
+				poster:'../../images/life/movie/zouxianggonghe.jpg',
+				director:'张黎',
+				star:''
+			},
+			{
+				name:'潜伏',
+				tag:'china',
+				time:'2009',
+				douban:'http://movie.douban.com/subject/3314870/',
+				poster:'../../images/life/movie/qianfu.jpg',
+				director:'姜伟 / 付玮',
+				star:''
+			}
+		],
+		film : {
+
+		}
+	}
+	var $main = document.querySelector('#main');
+	var height = $main.clientWidth*9/16 ;
+	var str = '';
+	List.tv.forEach(function(ele){
+		str += '<a href="'+ele.douban+'" class="item" style="background-image:url('+ele.poster+');height:'+height+'px;">'+
+			'<div>'+
+				'<p class="name">'+ele.name+'</p>'+
+				'<p>'+
+					'时间：<span className="time">'+ele.time+'</span>'+
+					' 导演：<span className="director">'+ele.director+'</span>'+
+				'</p>'+
+			'</div>'+
+		'</a>' ;
+	});
+	
+	$main.innerHTML = str ;
+
+ </script>
+ </body>
+</html>
