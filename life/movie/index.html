@@ -4,16 +4,22 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="shortcut icon" href="" />
-  <title></title>
+  <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+  <title>生活-电影</title>
   <style type="text/css">
   	  *{ margin:0; padding:0; }
+  	  a:hover{ color:inherit;}
+  	  a:active{ color:inherit;}
+  	  a:visited{ color:inherit;}
 	  .main{ max-width:800px; margin:0 auto; color:#fff;}
 
 	  .item{ display:block; text-decoration:none; color:inherit; position:relative; height:300px; background-position:center; background-size:cover; }
-	  .item>div{ position:absolute; bottom:0px; padding:8px;}
-	  .item .name{ font-size:2em; }
+	  .item>div{ position:absolute; bottom:0px; padding:8px; 
+	  				background-image:-webkit-linear-gradient(bottom, rgba(0,0,0,0.4), rgba(0,0,0,0));
+	  				background-image:-o-linear-gradient(bottom, rgba(0,0,0,0.4), rgba(0,0,0,0));
+	  				background-image:linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0));
+	  }
+	  .item .name{ font-size:1.5em; }
   </style>
  </head>
  <body>
@@ -54,7 +60,7 @@
 				time:'2006',
 				douban:'http://movie.douban.com/subject/2155164/',
 				poster:'../../images/life/movie/zhiguanzhizhi.jpg',
-				director:'钟跃民',
+				director:'张建亚',
 				star:''
 			},
 			{
@@ -74,12 +80,31 @@
 				poster:'../../images/life/movie/qianfu.jpg',
 				director:'姜伟 / 付玮',
 				star:''
+			},
+			{
+				name:'神雕侠侣',
+				tag:'china',
+				time:'1995',
+				douban:'http://movie.douban.com/subject/1863947/',
+				poster:'../../images/life/movie/shendiaoxialv.jpg',
+				director:'李添胜',
+				star:''
+			},
+			{
+				name:'天龙八部',
+				tag:'china',
+				time:'1997',
+				douban:'http://movie.douban.com/subject/1863941/',
+				poster:'../../images/life/movie/tianlongbabu.jpg',
+				director:'想我康敏素以美貌著称',
+				star:''
 			}
 		],
 		film : {
 
 		}
-	}
+	};
+
 	var $main = document.querySelector('#main');
 	var height = $main.clientWidth*9/16 ;
 	var str = '';
