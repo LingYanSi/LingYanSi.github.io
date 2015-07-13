@@ -65,7 +65,7 @@ var mxPlayer = (function($){
 				$('#play').text('pause');
 			}else if (audio.paused === false)
 			{
-				this.pause();
+				audio.pause();
 				$('#play').text('play');
 			}
 		},
