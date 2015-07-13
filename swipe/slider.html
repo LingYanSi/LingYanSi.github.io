@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="shortcut icon" href="" />
+    <title></title>
+    <style type="text/css">
+	    *{ margin:0; padding:0; }
+	    img,video {
+	        display: block; margin:0 auto;
+	    }
+
+	    .item{ position:relative; color:rgb(120,120,120); }
+	    .center{ text-align:center; margin:0 auto; }
+	    h1{ font-size:200px; font-weight:normal; }
+	    span{ font-size:120px; }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="wrap">
+        <div id="main" class="main">
+            <div class="item"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var List = [
+        [
+            '<h1 class="center">SLIDE</h1>',
+            '<span>姓名</span>',
+            '<span> 王司徒 </span>',
+            '<span>职业</span>',
+            '<span> 汉朝老臣 </span>',
+            '<video src="../images/video/wangsitu.mp4" controls></video>'
+        ],
+        [
+            '<h1>状态</h1><h2>',
+            '<span>年龄</span>',
+            '<span>1</span>',
+            '<span>9</span>',
+            '<span>9</span>',
+            '<span>2 </span><h1>Are You A Bit</h1></h2>',
+        ],
+        [
+            '<h1>信息</h1>',
+            '<span>学校</span>',
+            '<span> 荷兰理工大学 </span>',
+            '<br /><span>住址</span>',
+            '<span style="font-size:100px;"> Zhmsterdam JieFang Road 2001 号</span>',
+        ],
+    ];
+
+    var router = (function(){
+    	var obj = {
+	        init: function(hash) {
+	            if (!(this.getHash() >= 0)) {
+	                this.setHash('0');
+	            }
+	        },
+	        getHash: function() {
+	            var hash = parseInt(location.hash.slice(1));
+	            if (!(hash >= 0)) hash = 0;
+	            this.setHash(hash);
+	            return hash;
+	        },
+	        setHash: function(hash) {
+	            location.href = '#' + hash;
+	        }
+	    };
+	    obj.init();
+	    return obj ;
+    })();
+
+    var slider = (function(List,router) {
+        var currentPage = router.getHash();
+        var pageIndex = -1;
+        var $item = document.querySelector('.item');
+        var LEN = List.length - 1;
+
+        var pageSwitch = {
+            next: function() {
+                pageIndex++;
+                var arr = List[currentPage];
+                if (pageIndex > arr.length - 1) {
+                    currentPage++;
+                    if (currentPage > LEN) return currentPage--, pageIndex = arr.length - 1;
+                    pageIndex = -1;
+                    this.next();
+                    return;
+                } else {
+                    this.render(arr);
+                }
+            },
+            prev: function() {
+                pageIndex--;
+                var arr = List[currentPage];
+                if (pageIndex < 0) {
+                    currentPage--;
+                    if (currentPage < 0) return currentPage++, pageIndex = 0;
+                    pageIndex = List[currentPage].length;
+                    this.prev();
+                    return;
+                } else {
+                    this.render(arr);
+                }
+            },
+            nextPage: function() {
+                currentPage++;
+                var arr = List[currentPage];
+                if (currentPage > LEN) return currentPage--;
+                pageIndex = arr.length - 1;
+                this.render(arr);
+                
+            },
+            prevPage: function() {
+                currentPage--;
+                var arr = List[currentPage];
+                if (currentPage < 0) return currentPage++;
+                pageIndex = arr.length - 1;
+                this.render(arr);
+            },
+            render:function(arr){
+            	$item.innerHTML = arr.map(function(ele, index) {
+                    if (index <= pageIndex) return ele
+                }).join('');
+
+                router.setHash(currentPage);
+            }
+        };
+
+        pageSwitch.next();
+
+        window.addEventListener('keydown', function(event) {
+            // console.log(event.keyCode)
+            if (event.keyCode == 40) { // 下一步
+                pageSwitch.next();
+            } else if (event.keyCode == 38) { // 上一步
+                pageSwitch.prev();
+            } else if (event.keyCode == 37) { // 上一页
+                pageSwitch.prevPage();
+            } else if (event.keyCode == 39) { // 下一页
+                pageSwitch.nextPage();
+            }
+        });
+
+    })(List,router);
+    </script>
+</body>
+
+</html>
