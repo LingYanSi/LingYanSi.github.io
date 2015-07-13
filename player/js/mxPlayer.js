@@ -375,7 +375,7 @@ var mxPlayer = (function($){
 /*---------------------数据的获取与存储-----------------------------*/
 var storage = {
 	getCurrentId : function(){
-		var id = parseInt(localStorage['currentId'],10)>=0 ? parseInt(localStorage['currentId'],10):0 ;
+		var id = parseInt(localStorage['currentId'],10)>= 1 ? parseInt(localStorage['currentId'],10): 1 ;
 		return id ;
 	} , // 从localStorage中获取currentId
 	setCurrentId : function(id){
