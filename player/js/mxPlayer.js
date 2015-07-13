@@ -388,6 +388,7 @@ var storage = {
 	init : function(){
 		mxPlayer.currentItem = 0 ;
 		mxPlayer.currentId = this.getCurrentId() ; // 当前播放
+		console.info(mxPlayer.currentId)
 		localStorage.setItem('isPlayerOpen','true'); // 播放器已经打开
 		setInterval(this.setPlayerTime,4000); // 每隔四秒，把时间存储一下，主要是为了避免电脑立马断电的情况
 		window.addEventListener('beforeunload',function(){  // 关闭页面前，在storage里面声明，播放器已经关闭

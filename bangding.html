@@ -9,29 +9,45 @@
   <title></title>
   <style type="text/css">
 	  .main{padding-top:0;background:rgb(239,239,239);}
-	  
+	  img{ display:block; }
   </style>
  </head>
  <body>
-	<Rend></Rend>
+	<Nav></Nav>
+	<Main></Main>
+	<Footer></Footer>
  <script type="text/javascript">
-	// console.log( .textContent );
-	var rend = document.body.querySelector('Rend') ;
-	var Rend = '<div>你大爷的</div>';
-	var div = document.createElement('div');
-		div.innerHTML = Rend ;
-	rend.parentNode.insertBefore(div,rend);
-	rend.parentNode.removeChild(rend);
+	
+ 	/*
+	* 这是模板绑定，和React的createClass类似吧，或者angular的controller类似
+	* 其最终目的是为了实现web component，这有什么意义呢
+	* 使用了非法的html标签
+ 	*/
+	function react(tagName,templete){
+		var rend = document.body.querySelector(tagName) ;
+		var Rend = templete;
+		var div = document.createElement('div');
+			div.innerHTML = Rend ;
+		rend.parentNode.insertBefore(div,rend);
+		rend.parentNode.removeChild(rend);
+	}
+	new react('Nav','<h1>顶部导航</h1>');
+	new react('Main','<pre>念去去，千里烟波<br />暮霭沉沉楚天阔<img src="images/2.jpg" alt="" /></pre>');
+	new react('Footer','<div>底部信息栏目</div>');
+
 	// rend.addEventListener('click',function(){
 	// 	alert('这也能被点击？')
 	// })
+	
 	/*
 	* 什么是双向绑定
 	* 假设有对象a , E1/E2/E3都被赋了a，当他们三个任意一个的值发生了变化，a会改变，E2,E3也都会改变
 	* 其实有点广播/分发的意思，当我改动E1的时候，其实改变的是a，然后谁监听了a，就把新的值赋给谁
 	* 元素的值什么时候会改变呢？无外乎【 http请求/各种dom事件 】，也就是说，在这两种情况下，去比较值时候发生了变化。
 	*/
-	console.log(NaN<0)
+	console.log(NaN<0);
+
+	//单向数据流
  </script>
  </body>
 </html>
