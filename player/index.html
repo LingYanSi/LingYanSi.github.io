@@ -29,6 +29,7 @@
 				<li data-id="5"><a href="player.html" target="xiami" target="_blank">立秋</a></li>
 				<li data-id="6"><a href="player.html" target="xiami" target="_blank">暗涌</a></li>
 				<li data-id="7"><a href="player.html" target="xiami" target="_blank">青花</a></li>
+				<li data-id="8"><a href="player.html" target="xiami" target="_blank">时光</a></li>
 			</ul>
 		</div>
 	</div>
@@ -38,6 +39,7 @@
 
 			$('li').on('click',function(event){
 				var id = $(this)[0].getAttribute('data-id');
+				id = parseInt(id)+1 ;
 				if (!!id)
 				{
 					localStorage.setItem('currentId',id);
@@ -45,7 +47,7 @@
 
 					var oldTime = parseInt(localStorage['playerTime'],10);
 					var nowTime = new Date().getTime();
-					if (localStorage.isPlayerOpen == 'true' && nowTime-oldTime<4000) 
+					if (localStorage.isPlayerOpen == 'true') 
 					{
 						event.preventDefault();
 					}

@@ -7,6 +7,11 @@
 *	5.需要一个表单，歌曲的表单 // 歌曲表单是最重要的，没有了他，其他一切便都没有意义
 *	6.需要歌词 // 歌词是要注入到歌词同步机制中的，如果没有歌词，就暂时关闭歌词同步功能
 *	7.其他倒不是太核心的东西
+* -------------------------------------------------------------
+* 页面间通信
+*   1.表单传递id，那就播放id歌曲，如果歌曲在播放列表中已存在，重新播放，不存在就新增，滚动条滚动到结尾，把表单存储到storage里。
+*	2.如果页面只是刷新一下：播放表单歌曲
+*
 */
 
 
@@ -25,6 +30,25 @@ var mxPlayer = (function($){
 	var duration ; // audio的时长
 	return {
 		currentItem:0 ,
+		setCurrentId : function(id){ // 这里需要依赖List
+			var arr = List.model ;
+			var had = false ;
+			for(var len=arr.length ,i=0; i<len; i++ ){
+				if( arr[i].id == id ){
+					had = !had ;
+					break ;
+				}
+			};
+			// console.warn('had:',had,arr)
+			if (had) {
+				this.currentItem = i ;
+			} else{
+				List.add( List.get(id) );
+				this.currentItem = List.model.length-1 ;
+				// console.warn(this.currentItem)
+			};
+			this.next(this.currentItem,'next');
+		},
 		init:function(){ // 初始化
 			this.next(this.currenItem);
 			var _this = this ;
@@ -37,6 +61,7 @@ var mxPlayer = (function($){
 			};
 			audio.ontimeupdate = function(){
 					// 播放时间更新
+				if(!this.src) return ;
 				var currentTime = audio.currentTime ;
 				var $lyricItemCurrent ;
 				$currentTime.text(_this.setTime(currentTime));
@@ -94,23 +119,31 @@ var mxPlayer = (function($){
 					}
 					break;
 			}
-			storage.setCurrentId(this.currentItem);
+			// console.log(typeof(this.currentItem),this.currentItem)
 			this.currentItem = this.checkIndex(this.currentItem) ;
+			storage.setCurrentId(List.model[this.currentItem].id);
 
 			/*-----------为当前播放歌曲添加状态----------------*/
 			var $mliCurrent = $('.music-list-item').eq(this.currentItem);
 			$mliCurrent.addClass('mli-current').siblings().removeClass('mli-current');
+
 			/*----更换音乐文件/图片/歌词/歌手名等----*/
-			audio.src = $mliCurrent.attr('data-songUrl') ;
-			$('#volume-current').css({'width':audio.volume*100+'%'});
-			$('#music-pic').attr({'src':$mliCurrent.attr('data-songPoster')})
-			$('#music-pic-wrap').css({'background-image':'url('+$mliCurrent.attr('data-songPoster')+')'});
-			this.play();
-			this.blur();
-			this.getLyric($mliCurrent.attr('data-lyricName').split('/')[1]);
+			// console.log($mliCurrent[0])
+			if($mliCurrent[0]){
+				audio.src = $mliCurrent.attr('data-songUrl') ;
+				$('#volume-current').css({'width':audio.volume*100+'%'});
+				$('#music-pic').attr({'src':$mliCurrent.attr('data-songPoster')})
+				$('#music-pic-wrap').css({'background-image':'url('+$mliCurrent.attr('data-songPoster')+')'});
+				this.play();
+				this.blur();
+				this.getLyric($mliCurrent.attr('data-lyricName').split('/')[1]);
+			}else{
+				audio.src = '';
+			}
+			
 		},
 		checkIndex:function(index){ // 对currentItem进行校验
-			var len = $('.music-list-item').length
+			var len = List.model.length ;
 			if (index> len-1)
 			{
 				return 0 ;
@@ -186,7 +219,7 @@ var mxPlayer = (function($){
 				parentWidth = $parent.width();
 				XX = xx = event.pageX ;
 				YY = yy = event.pageY ;
-				console.log(parentWidth)
+				// console.log(parentWidth)
 					idmove = true ;
 			});
 			$dom.on('mousemove',function(event){
@@ -227,7 +260,7 @@ var mxPlayer = (function($){
 			var $this = $('#'+dom) ,
 				$child = $this.children().eq(0);
 			$this.append(
-				'<div id="'+dom+'scrollbar" style="position:absolute;right:0;width:5px;height:0;background:rgba(247,105,105,0.6);border-radius:4px;overflow:hidden;"></div>'	
+				'<div id="'+dom+'scrollbar" style="position:absolute;right:0;width:5px;height:0;background:rgba(247,105,105,0.2);border-radius:4px;overflow:hidden;"></div>'	
 			);
 			var $sb = $('#'+dom+'scrollbar');
 			var thisHeight , childHeight , childtopMax , childtopMin ,  bili ,biliTop , sbHeight , sbTopMax ,sbTopMin ,sbTopCurrent;
@@ -316,6 +349,7 @@ var mxPlayer = (function($){
 		insertList:function(dom,list){ // 插入歌单
 			var $this = $('#'+dom) ;
 			var str = '' ;
+			$this.empty();
 			for (var i=0,len=list.length;i<len ;i++ )
 			{
 				var singerName = list[i].singer[0].name , 
@@ -338,6 +372,38 @@ var mxPlayer = (function($){
 	}
 })(jQuery);
 
+/*---------------------数据的获取与存储-----------------------------*/
+var storage = {
+	getCurrentId : function(){
+		var id = parseInt(localStorage['currentId'],10)>=0 ? parseInt(localStorage['currentId'],10):0 ;
+		return id ;
+	} , // 从localStorage中获取currentId
+	setCurrentId : function(id){
+		localStorage.setItem('currentId',id);
+	},
+	setPlayerTime : function(){
+		var time = new Date().getTime();
+		localStorage.setItem('playerTime',time);
+	},
+	init : function(){
+		mxPlayer.currentItem = 0 ;
+		mxPlayer.currentId = this.getCurrentId() ; // 当前播放
+		localStorage.setItem('isPlayerOpen','true'); // 播放器已经打开
+		setInterval(this.setPlayerTime,4000); // 每隔四秒，把时间存储一下，主要是为了避免电脑立马断电的情况
+		window.addEventListener('beforeunload',function(){  // 关闭页面前，在storage里面声明，播放器已经关闭
+															// 这里并不是很安全，应该再加上一个时间戳，避免电脑突然死机，或者关机
+			localStorage.setItem('isPlayerOpen','false');
+		});
+		window.addEventListener('storage',function(e){ // 监听localstorage的变化，以播放选中歌曲
+			if (e.key == 'currentId') 
+			{
+				// console.info( '歌曲id:',storage.getCurrentId() )
+				mxPlayer.setCurrentId( storage.getCurrentId() );
+			}
+		});
+	}
+}
+
 //--------------- 插入数据 -------------------------
 
 var List = {
@@ -345,22 +411,23 @@ var List = {
 	add:function(arr){
 		//添加一条播放纪录
 		this.model = this.model.concat(arr);
+		this.render();
 	},
 	remove:function(index){
 		// 一方面需要移除这一个条目，另一方面，如果是当前播放条目，要更换播放歌曲【下一首为准】
 		// index>currentItem currentItem不需要改变
 		// index<currentItem currentItem需要减一
 		// index=currentItem 移除当前播放条目，切换到下一曲
+		this.model.splice(index,1);
 		var current = mxPlayer.currentItem ;
 		if(index==current){
 			mxPlayer.currentItem-- ;
-			mxPlayer.next(null,'next');
+			mxPlayer.next(mxPlayer.currentItem,'next');
 		}else if(index>current){
 			mxPlayer.currentItem++ ;
 		}else{
 			mxPlayer.currentItem-- ;
 		}
-		this.model.splice(index,1);
 	},
 	like:function(){
 
@@ -371,38 +438,13 @@ var List = {
 	render:function(){
 		mxPlayer.insertList('music-list',this.model);
 	},
+	get:function(id){ // 动态获取歌曲信息
+		return listArr.filter(function(ele){
+			if(ele.id==id) return ele
+		});
+	},
 	init:function(){
-		this.add(listArr);
-		this.add(listArr);
-		this.render();
-	}
-}
-
-/*---------------------数据的获取与存储-----------------------------*/
-var storage = {
-	currentId : parseInt(localStorage['currentId'],10)>=0 ? parseInt(localStorage['currentId'],10):0 , // 从localStorage中获取currentId
-	setCurrentId : function(id){
-		localStorage.setItem('currentId',id);
-	},
-	setPlayerTime : function(){
-		var time = new Date().getTime();
-		localStorage.setItem('playerTime',time);
-	},
-	init : function(){
-		mxPlayer.currentItem = this.currentId ; // 当前播放
-		localStorage.setItem('isPlayerOpen','true'); // 播放器已经打开
-		setInterval(this.setPlayerTime,4000); // 每隔四秒，把时间存储一下，主要是为了避免电脑立马断电的情况
-		window.addEventListener('storage',function(e){ // 监听localstorage的变化，以播放选中歌曲
-			if (e.key == 'currentId') 
-			{
-				mxPlayer.currenItem = parseInt(localStorage['currentId'],10)
-				mxPlayer.next(mxPlayer.currenItem);
-			}
-		});
-		window.addEventListener('beforeunload',function(){  // 关闭页面前，在storage里面声明，播放器已经关闭
-															// 这里并不是很安全，应该再加上一个时间戳，避免电脑突然死机，或者关机
-			localStorage.setItem('isPlayerOpen','false');
-		});
+		this.add( this.get(mxPlayer.currentId) );
 	}
 }
 /* 
@@ -428,7 +470,8 @@ var App = {
 			   $('#jinduCurrent').css({'width':audio.currentTime/audio.duration*100+'%'});
 			}
 		},function(width1,width2){
-				audio.currentTime = width1/width2*audio.duration ;
+			if(!(audio.src.length>0)) return ;
+			audio.currentTime = width1/width2*audio.duration ;
 		});
 		var yinliang = new mxPlayer.dragCircle('volume-circle','volume-current','volume',function(){ // 音量条拖拽
 			if (audio)
@@ -436,6 +479,7 @@ var App = {
 			   $('#volume-current').css({'width':audio.volume*100+'%'});
 			}
 		},function(width1,width2){
+			if(!(audio.src.length>0)) return ;
 				audio.volume = width1/width2 ;
 		});
 	},
