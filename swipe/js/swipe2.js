@@ -77,6 +77,10 @@ var Lunbo = function (arg){ //以对象形式传递参数
 		mouseMove = isPhone ? 'touchmove' : 'mousemove' ;
 		mouseEnd = isPhone ? 'touchend' : 'mouseup' ;
 
+		prevDom = $item[currentPage-1]?$item[currentPage-1]:$item[len-1];
+		nextDom = $item[currentPage+1]?$item[currentPage+1]:$item[0];
+		currentDom = $item[currentPage];
+		setDom();
 		id.addEventListener(mouseStart,function(event){
 			touchStart(event);
 		});
@@ -89,7 +93,7 @@ var Lunbo = function (arg){ //以对象形式传递参数
 
 		function touchStart(event){
 			time1 = new Date().getTime() ;
-			if(time1-time2<=time){
+			if(time1-time2<=time+150){
 				swipeX = false ;
 				swipeY = false ;
 				return
@@ -100,24 +104,7 @@ var Lunbo = function (arg){ //以对象形式传递参数
 			XX = xx ;
 			YY = yy ;
 			cha = 0 ;
-			prevDom = $item[currentPage-1]?$item[currentPage-1]:$item[len-1];
-			nextDom = $item[currentPage+1]?$item[currentPage+1]:$item[0];
-			currentDom = $item[currentPage];
-
-			currentDom.classList.remove('swipe-change');
-			prevDom.classList.remove('swipe-change');
-			nextDom.classList.remove('swipe-change');
-
-			currentDom.style.cssText = ';-webkit-transform:translate3d(0,0,0);' ;
-			prevDom.style.cssText = ';-webkit-transform:translate3d('+leftMin+'px,'+topMin+'px,0); ' ;
-			nextDom.style.cssText = ';-webkit-transform:translate3d('+leftMin+'px,'+topMax+'px,0);' ;
 			
-			if(!toLeft)
-			{
-				currentDom.style.zIndex = '0';
-				prevDom.style.zIndex = '1';
-				nextDom.style.zIndex = '1';
-			}
 			swipeY = true ;
 			swipeX = true ;
 		}
@@ -135,13 +122,15 @@ var Lunbo = function (arg){ //以对象形式传递参数
 					cha = YY-yy ;
 					if (cha>=0)
 					{
-						if (!loop && currentPage==0) return swipeY=false; // 循环模块
+						//if (!loop && currentPage==0) return swipeY=false; // 循环模块
+						if(currentPage==0 && cha>=0) cha=0 ;
 						currentDom.style.webkitTransformOrigin = 'center 125%';
 						currentDom.style.webkitTransform = 'translate3d(0,0,0) scale3d('+(1-cha/topMax/4)+','+(1-cha/topMax/4)+',1)';
 						prevDom.style.webkitTransform = 'translate3d(0,'+(cha+topMin)+'px,0)' ;
 						if (len>2) nextDom.style.webkitTransform = 'translate3d(0,'+(topMax)+'px,0)' ;// 避免因为滑动过快引起的bug
 					}else{
-						if (!loop && currentPage==len-1) return swipeY=false; // 循环模块
+						//if (!loop && currentPage==len-1) return swipeY=false; // 循环模块
+						if(currentPage==len-1 && cha<=0) cha=0 ;
 						currentDom.style.webkitTransformOrigin = 'center -25%';
 						currentDom.style.webkitTransform = 'translate3d(0,0,0) scale3d('+(1+cha/topMax/4)+','+(1+cha/topMax/4)+',1)';
 						nextDom.style.webkitTransform = 'translate3d(0,'+(topMax+cha)+'px,0)' ;
@@ -245,6 +234,7 @@ var Lunbo = function (arg){ //以对象形式传递参数
 			if (autoPlay) start();
 			if(dianNav) dianMove();
 			// setTimeout(prevNextHidden(cha),time);
+			setTimeout(setDom,time);
 			if (callback)
 			{
 				setTimeout(function(){
@@ -252,16 +242,56 @@ var Lunbo = function (arg){ //以对象形式传递参数
 				},100)
 			}
 		}
+		function setDom(){
+
+			currentDom.classList.remove('swipe-change');
+			prevDom.classList.remove('swipe-change');
+			nextDom.classList.remove('swipe-change');
+			currentDom.offsetWith ;
+
+			prevNextHidden(cha);
+			currentDom.offsetWith ;
+
+			prevDom = $item[currentPage-1]?$item[currentPage-1]:$item[len-1];
+			nextDom = $item[currentPage+1]?$item[currentPage+1]:$item[0];
+			currentDom = $item[currentPage];
+			
+			if(!toLeft)
+			{
+				currentDom.style.cssText = ';-webkit-transform:translate3d(0,0,0); visibility:visible;z-index:1;' ;
+				prevDom.style.cssText = ';-webkit-transform:translate3d('+leftMin+'px,'+topMin+'px,0); visibility:visible;z-index:2; ' ;
+				nextDom.style.cssText = ';-webkit-transform:translate3d('+leftMin+'px,'+topMax+'px,0); visibility:visible;z-index:2; ' ;
+			}else{
+				currentDom.style.cssText = ';-webkit-transform:translate3d(0,0,0); visibility:visible;' ;
+				prevDom.style.cssText = ';-webkit-transform:translate3d('+leftMin+'px,'+topMin+'px,0); visibility:visible; ' ;
+				nextDom.style.cssText = ';-webkit-transform:translate3d('+leftMin+'px,'+topMax+'px,0); visibility:visible; ' ;
+			}
+		};
 		function prevNextHidden(cha){
 			if (cha > -50 && cha < 50) { // 保持其他不可见元素的隐藏
-			    prevDom.style.visibility = 'hidden';
-			    nextDom.style.visibility = 'hidden';
+				if(!toLeft){
+					prevDom.style.cssText += ';visibility:hidden;z-index:0;';
+					nextDom.style.cssText += ';visibility:hidden;z-index:0;';
+				}else{
+					prevDom.style.visibility = 'hidden';
+					nextDom.style.visibility = 'hidden';
+				}
 			} else if (cha > 50) {
-			    nextDom.style.visibility = 'hidden';
-			    currentDom.style.visibility = 'hidden';
+				if(!toLeft){
+					nextDom.style.cssText += ';visibility:hidden;z-index:0;';
+					currentDom.style.cssText += ';visibility:hidden;z-index:0;';
+				}else{
+					nextDom.style.visibility = 'hidden';
+					currentDom.style.visibility = 'hidden';
+				}
 			} else if (cha < -50) {
-			    prevDom.style.visibility = 'hidden';
-			    currentDom.style.visibility = 'hidden';
+				if(!toLeft){
+					prevDom.style.cssText += ';visibility:hidden;z-index:0;';
+					currentDom.style.cssText += ';visibility:hidden;z-index:0;';
+				}else{
+					prevDom.style.visibility = 'hidden';
+					currentDom.style.visibility = 'hidden';
+				}
 			}
 		};
 	}
