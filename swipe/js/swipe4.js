@@ -2,7 +2,7 @@
 * 并没有做好模块化，其实应该只提供一个骨架，也就是上下/左右滑动的监听
 * 具体需要什么样的滑动效果，应该是用户自定义的，也就是说touchmove,touchstrart,touchend的事件，应该独立出来
 */
-var Lunbo = function (arg){ //以对象形式传递参数
+ Lunbo = function (arg){ //以对象形式传递参数
 	var hash = location.hash.slice(1) ;
 	var hashIndex = 0 ;
 	//console.log(hash.indexOf('swipe='))
@@ -64,6 +64,7 @@ var Lunbo = function (arg){ //以对象形式传递参数
 		if (event.keyCode==40 || event.keyCode==39) index = setPage((currentPage+1) ),toWhere(index,'next');
 		else if (event.keyCode==38 || event.keyCode==37)  index = setPage((currentPage-1) ),toWhere(index,'prev');
 	});
+	
 	function TouchMove(idname){ //触摸事件
 		var id = document.getElementById(idname);
 		var xx,XX,$current,currentDom,$prev,prevDom,$next,nextDom,swipeX,swipeY,cha;
@@ -252,13 +253,13 @@ var Lunbo = function (arg){ //以对象形式传递参数
 		}
 		function prevNextHidden(cha){
 			if (cha > -50 && cha < 50) { // 保持其他不可见元素的隐藏
-			    pervDom.style.visibility = 'hidden';
+			    prevDom.style.visibility = 'hidden';
 			    nextDom.style.visibility = 'hidden';
 			} else if (cha > 50) {
-			    pervDom.style.visibility = 'hidden';
+			    nextDom.style.visibility = 'hidden';
 			    currentDom.style.visibility = 'hidden';
 			} else if (cha < -50) {
-			    nextDom.style.visibility = 'hidden';
+			    prevDom.style.visibility = 'hidden';
 			    currentDom.style.visibility = 'hidden';
 			}
 		};
@@ -306,6 +307,12 @@ var Lunbo = function (arg){ //以对象形式传递参数
 		setTimeout(function(){
 			currentDom.style.visibility = 'hidden' ;
 		},400);
+		if (callback)
+		{
+			setTimeout(function(){
+				callback(currentPage);
+			},100)
+		}
 	}
 	this.toWhere = toWhere ;
 	function buttEvent(){

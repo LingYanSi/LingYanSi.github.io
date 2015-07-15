@@ -13,7 +13,6 @@
 	    img,video {
 	        display: block; margin:0 auto;
 	    }
-
 	    .item{ position:relative; color:rgb(120,120,120); }
 	    .center{ text-align:center; margin:0 auto; }
 	    h1{ font-size:200px; font-weight:normal; }
@@ -57,18 +56,22 @@
     var router = (function(){
     	var obj = {
 	        init: function(hash) {
-	            if (!(this.getHash() >= 0)) {
-	                this.setHash('0');
+	            if ( this.getHash().length==0 ) {
+	                this.setHash('0/0');
 	            }
 	        },
 	        getHash: function() {
-	            var hash = parseInt(location.hash.slice(1));
-	            if (!(hash >= 0)) hash = 0;
-	            this.setHash(hash);
-	            return hash;
+	            var hash = (location.hash.slice(2)) ;
+	            if ( hash.length == 0 ) this.setHash('0/0') ;
+                var arr = location.hash.slice(2).split('/').filter(function(ele){
+                    if(parseInt(ele,10)>=0){
+                        return true ;
+                    }
+                });
+	            return arr ;
 	        },
 	        setHash: function(hash) {
-	            location.href = '#' + hash;
+	            location.href = '#/' + hash;
 	        }
 	    };
 	    obj.init();
@@ -76,11 +79,12 @@
     })();
 
     var slider = (function(List,router) {
-        var currentPage = router.getHash();
-        var pageIndex = -1;
+        var routerArr = router.getHash();
+        var currentPage = routerArr[0];
+        var pageIndex = routerArr.length>=2 ? (routerArr[1]-1) : -1 ;
         var $item = document.querySelector('.item');
         var LEN = List.length - 1;
-
+        
         var pageSwitch = {
             next: function() {
                 pageIndex++;
@@ -128,7 +132,7 @@
                     if (index <= pageIndex) return ele
                 }).join('');
 
-                router.setHash(currentPage);
+                router.setHash(currentPage+'/'+pageIndex);
             }
         };
 
