@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="main" class="main">
+			<form action="" id="bitch">
+				<input type="text" name="ass">
+				<input type="text" name="baa">
+			</form>
+		</div>
+	</div>
+	<input type="button" value="确定" id="button">
+ <script type="text/javascript">
+ 	/*
+	* formadata的方法中，只有append是各大浏览器都实现的
+	* 像get/set/delete/getAll这样的方法，chrome也没有支持全
+	* chrome set/has/getAll/delete 只是不支持get, IE/Safari 都不支持
+	* getAll与get的区别在于 getALl获取的是这个key上所有的value，而get指获取第一个value
+	* append 如果此key已经存在，那么新增的value会跟在后面
+	* set 则会覆盖原有的value
+ 	*/
+	var formdata = document.querySelector('#bitch');
+ 	var form = new FormData() ;
+
+	document.querySelector('#button').onclick = function(){
+		form.append('xifu','宋小帆')
+		console.info( form ); 
+		var xhr = new XMLHttpRequest();
+		xhr.open('post','http://localhost:3000/req?bitch=12&cunt=wet',true);
+		xhr.send(form);
+	};
+ </script>
+ </body>
+</html>
