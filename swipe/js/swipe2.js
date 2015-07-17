@@ -67,7 +67,7 @@ var Lunbo = function (arg){ //以对象形式传递参数
 
 	function TouchMove(idname){ //触摸事件
 		var id = document.getElementById(idname);
-		var xx,XX,$current,currentDom,$prev,prevDom,$next,nextDom,swipeX,swipeY,cha;
+		var xx,XX,$current,currentDom,$prev,prevDom,$next,nextDom,swipeX,swipeY,cha,chaCache;
 		var mouseStart , mouseMove , mouseEnd ,isPhone ;
 		var time = 400 ;
 		var time1 = new Date().getTime() ;
@@ -233,6 +233,8 @@ var Lunbo = function (arg){ //以对象形式传递参数
 			swipeX = false ;
 			if (autoPlay) start();
 			if(dianNav) dianMove();
+			chaCache = cha ;
+
 			if (callback)
 			{
 				setTimeout(function(){
@@ -240,12 +242,19 @@ var Lunbo = function (arg){ //以对象形式传递参数
 				},100)
 			}
 		}
+/*---------------------------------------问题在这里------------------------------------------------------------*/
 		$item.forEach(function(ele){
 			ele.addEventListener('webkitTransitionEnd',function(){
-				setDom() // 重置dom
+				if(chaCache!=0){ // 因为有两个dom会发生transition，这样做是为了让其只执行一次
+					setDom(chaCache); //在mx3系统浏览器，uc浏览器中，滑动结束后prevDom,nextDom，表现为transform没改变，z-index的改变也显得很滞后
+					chaCache = 0 ;
+					// alert(1) //alert一下问题解决了
+				}
 			});
 		});
-		function setDom(){
+
+		// 通过设置z-index来解决层级问题
+		function setDom(chaCache){ // 初始化工作，不放在touchstart时执行，而是在滑动结束的时候执行，这样体验会更好些
 
 			currentDom.classList.remove('swipe-change');
 			prevDom.classList.remove('swipe-change');
@@ -263,6 +272,7 @@ var Lunbo = function (arg){ //以对象形式传递参数
 				currentDom.style.cssText = '; visibility:visible; -webkit-transform:translate3d(0,0,0); z-index:1;' ;
 				prevDom.style.cssText = '; visibility:visible; -webkit-transform:translate3d('+leftMin+'px,'+topMin+'px,0); z-index:2; ' ;
 				nextDom.style.cssText = '; visibility:visible; -webkit-transform:translate3d('+leftMin+'px,'+topMax+'px,0); z-index:2; ' ;
+				// alert(111);
 			}else{
 				currentDom.style.cssText = ';-webkit-transform:translate3d(0,0,0); visibility:visible;' ;
 				prevDom.style.cssText = ';-webkit-transform:translate3d('+leftMin+'px,'+topMin+'px,0); visibility:visible; ' ;
@@ -281,7 +291,7 @@ var Lunbo = function (arg){ //以对象形式传递参数
 			} else if (cha > 50) {
 				if(!toLeft){
 					nextDom.style.cssText += ';visibility:hidden; z-index:0;';
-					currentDom.style.cssText += ';visibility:hidden z-index:0;';
+					currentDom.style.cssText += ';visibility:hidden; z-index:0;';
 				}else{
 					nextDom.style.visibility = 'hidden';
 					currentDom.style.visibility = 'hidden';
