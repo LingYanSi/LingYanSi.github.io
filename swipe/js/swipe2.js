@@ -53,11 +53,16 @@ var Lunbo = function (arg){ //以对象形式传递参数
 	}
 	$item.forEach(function(ele,index){
 		if (index != currentPage) ele.style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
-	})
+	});
+
 	if (dianNav) dianInit();
+
 	if (autoPlay) start();
-	TouchMove(idname);//touch事件
+
+	// TouchMove(idname);//touch事件
+
 	buttEvent(); // 按钮事件
+
 	window.addEventListener('keyup',function(event){ // 按键监听
 		if(!keyEvent) return
 		var index ;
@@ -65,9 +70,9 @@ var Lunbo = function (arg){ //以对象形式传递参数
 		else if (event.keyCode==38 || event.keyCode==37)  index = setPage((currentPage-1) ),toWhere(index,'prev');
 	});
 
-	function TouchMove(idname){ //触摸事件
+	// function TouchMove(idname){ //触摸事件
 		var id = document.getElementById(idname);
-		var xx,XX,$current,currentDom,$prev,prevDom,$next,nextDom,swipeX,swipeY,cha,chaCache;
+		var xx,XX,currentDom,prevDom,nextDom,swipeX,swipeY,cha,chaCache;
 		var mouseStart , mouseMove , mouseEnd ,isPhone ;
 		var time = 400 ;
 		var time1 = new Date().getTime() ;
@@ -248,7 +253,6 @@ var Lunbo = function (arg){ //以对象形式传递参数
 				if(chaCache!=0){ // 因为有两个dom会发生transition，这样做是为了让其只执行一次
 					setDom(chaCache); //在mx3系统浏览器，uc浏览器中，滑动结束后prevDom,nextDom，表现为transform没改变，z-index的改变也显得很滞后
 					chaCache = 0 ;
-					// alert(1) //alert一下问题解决了
 				}
 			});
 		});
@@ -256,18 +260,19 @@ var Lunbo = function (arg){ //以对象形式传递参数
 		// 通过设置z-index来解决层级问题
 		function setDom(chaCache){ // 初始化工作，不放在touchstart时执行，而是在滑动结束的时候执行，这样体验会更好些
 
-			currentDom.classList.remove('swipe-change');
+			currentDom.classList.remove('swipe-change'); // 移除transition
 			prevDom.classList.remove('swipe-change');
 			nextDom.classList.remove('swipe-change');
-			currentDom.offsetWith ;
+			currentDom.offsetWith ; // 强制repaint
 
-			prevNextHidden(cha);
+			prevNextHidden(chaCache); // 修改visibility/z-index，
 
-			prevDom = $item[currentPage-1]?$item[currentPage-1]:$item[len-1];
+			prevDom = $item[currentPage-1]?$item[currentPage-1]:$item[len-1]; // 重置 上一个/当前/下一个
 			nextDom = $item[currentPage+1]?$item[currentPage+1]:$item[0];
 			currentDom = $item[currentPage];
 			
-			if(!toLeft)
+			nextDom.getBoundingClientRect().width ;
+			if(!toLeft) // 
 			{
 				currentDom.style.cssText = '; visibility:visible; -webkit-transform:translate3d(0,0,0); z-index:1;' ;
 				prevDom.style.cssText = '; visibility:visible; -webkit-transform:translate3d('+leftMin+'px,'+topMin+'px,0); z-index:2; ' ;
@@ -280,33 +285,21 @@ var Lunbo = function (arg){ //以对象形式传递参数
 			}
 		};
 		function prevNextHidden(cha){
-			if (cha > -50 && cha < 50) { // 保持其他不可见元素的隐藏
-				if(!toLeft){
-					prevDom.style.cssText += ';visibility:hidden; z-index:0;';
-					nextDom.style.cssText += ';visibility:hidden; z-index:0;';
-				}else{
-					prevDom.style.visibility = 'hidden';
-					nextDom.style.visibility = 'hidden';
-				}
-			} else if (cha > 50) {
+			if (cha > 50) {
 				if(!toLeft){
 					nextDom.style.cssText += ';visibility:hidden; z-index:0;';
-					currentDom.style.cssText += ';visibility:hidden; z-index:0;';
 				}else{
 					nextDom.style.visibility = 'hidden';
-					currentDom.style.visibility = 'hidden';
 				}
 			} else if (cha < -50) {
 				if(!toLeft){
 					prevDom.style.cssText += ';visibility:hidden; z-index:0;';
-					currentDom.style.cssText += ';visibility:hidden; z-index:0;';
 				}else{
 					prevDom.style.visibility = 'hidden';
-					currentDom.style.visibility = 'hidden';
 				}
 			}
 		};
-	}
+	// }
 	
 	function setPage(page){ //设置page
 		if (page>len-1){ 
@@ -320,36 +313,52 @@ var Lunbo = function (arg){ //以对象形式传递参数
 		return page ;
 	}
 	function toWhere(index,dir){ //主要是给左右点击事件使用
+		// 这个地方因该重构一下
+		// 1.参数中有方向，目标值
+		// 2.清除前后两个dom所含有的transition，visibility:hidden,
+		// 3.设置目标值的transition，visibility:visible;
+		// 4.结束后，才会重置，前中后
+		// 5.回调
 		var index = setPage(index);
 		if (index === currentPage) return
 
-		var currentDom = $item[currentPage];
-		var nextDom = $item[index];
+		currentDom.classList.remove('swipe-change'); // 移除transition
+		prevDom.classList.remove('swipe-change');
+		nextDom.classList.remove('swipe-change');
+
+		currentDom = $item[currentPage];
+		nextDom = $item[index];
 		if(autoPlay) stop();
-		$item.forEach(function(ele){ ele.classList.remove('swipe-change')});
+		var leftPrev , leftNext , topPrev, topNext ; 
 		if (dir=='next') //下一张
 		{
-			nextDom.style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
-			nextDom.style.visibility = 'visible' ;
-			nextDom.offsetWidth  ;
-			currentDom.classList.add('swipe-change');
-			nextDom.classList.add('swipe-change');
-			currentDom.style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)' ;
-		}else if(dir=='prev'){   // 上一张
-			nextDom.style.webkitTransform = 'translate3d('+leftMin+'px,'+topMin+'px,0)' ;
-			nextDom.style.visibility = 'visible' ;
-			currentDom.offsetWidth ;
-			currentDom.classList.add('swipe-change');
-			nextDom.classList.add('swipe-change');
-			currentDom.style.webkitTransform = 'translate3d('+leftMax+'px,'+topMax+'px,0)' ;
+			leftPrev = leftMax ,
+			topPrev = topMax ,
+			leftNext = leftMin ,
+			topNext = topMin ;
+			chaCache = 100 ;
+		}else {
+			leftPrev = leftMin  ,
+			topPrev = topMin ,
+			leftNext = leftMax ,
+			topNext = topMax ;
+			chaCache = -100 ;
 		}
-		nextDom.style.webkitTransform = 'translate3d(0,0,0)' ;
+		// currentDom.style.cssText += '; ' ;
+		nextDom.style.cssText += '; visibility:visible; -webkit-transform:translate3d('+leftPrev+'px,'+topPrev+'px,0);  ' ;
+		console.log(nextDom.getBoundingClientRect().width) ;
+
+		currentDom.classList.add('swipe-change'); // 移除transition
+		nextDom.classList.add('swipe-change');
+
+		currentDom.style.cssText += ';-webkit-transform:translate3d('+leftNext+'px,'+topNext+'px,0);' ;
+		nextDom.style.cssText += ';-webkit-transform:translate3d(0,0,0);' ;
+
 		currentPage = index ;
+
 		if(dianNav) dianMove();
 		if(autoPlay) start();
-		setTimeout(function(){
-			currentDom.style.visibility = 'hidden' ;
-		},400);
+		
 		if (callback)
 		{
 			setTimeout(function(){
@@ -358,42 +367,34 @@ var Lunbo = function (arg){ //以对象形式传递参数
 		}
 	}
 	this.toWhere = toWhere ;
+
 	function buttEvent(){
 		if (!!buttPrev)
 		{
-			if(isPhone){
-				document.querySelector('#'+buttPrev).addEventListener('touchend',function(){
-					var index = currentPage-1 ;
-					toWhere(index,'prev');
-				});
-			}else{
-				document.querySelector('#'+buttPrev).addEventListener('click',function(){
-					var index = currentPage-1 ;
-					toWhere(index,'prev');
-				});
-			}
+			var click = isPhone ? 'touchend' : 'click' ;
+			document.querySelector('#'+buttPrev).addEventListener(click,function(){
+				var index = currentPage-1 ;
+				toWhere(index,'prev');
+			});
 		}
 		if (!!buttNext)
 		{
-			if(isPhone){
-				document.querySelector('#'+buttNext).addEventListener('touchend',function(){
-					var index = currentPage+1 ;
-					toWhere(index,'next');
-				});
-			}else{
-				document.querySelector('#'+buttNext).addEventListener('click',function(){
-					var index = currentPage+1 ;
-					toWhere(index,'next');
-				});
-			}
+			var click = isPhone ? 'touchend' : 'click' ;
+			document.querySelector('#'+buttNext).addEventListener(click,function(){
+				var index = currentPage+1 ;
+				toWhere(index,'next');
+			});
 		}
 	}
+
+
 	function dianMove(){ //下面小点的运动
 		$dianItem.forEach(function(ele,index){
 			if(index==currentPage) ele.classList.add('dian-item-current')
 			else ele.classList.remove('dian-item-current')
 		});
 	}
+
 	function appendDian(){ //添加点
 		var dian = [];
 		for (var i=0;i<len ;i++ )
@@ -414,6 +415,7 @@ var Lunbo = function (arg){ //以对象形式传递参数
 		$dianItem = [].slice.call(document.querySelector('#'+idname).querySelectorAll('.dian-item'));
 		dianMove();
 	}
+	
 	function start(){ //自动轮播
 		timeIn=setInterval(move,1000);
 	}
