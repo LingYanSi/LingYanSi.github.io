@@ -17,6 +17,46 @@ var MyDate = (function(){
 	var day = d.getDay() || 7 ; // 星期几
 	var date = d.getDate() ; // 一月中的几天
 
+	function getMonthDate(month){
+		var monthDate ;
+		if(month_31.indexOf(month)>-1){
+			monthDate = 31 ;
+		}else if(month==2){
+			if(year%4==0){
+				monthDate = 29 ;
+			}else{
+				monthDate = 28 ;
+			}
+		}else{
+			monthDate = 30 ;
+		}
+		return monthDate ;
+	}
+
+	var monthDate = getMonthDate(8);
+	// 获取到monthDate后，就可以
+	function toList(monthDate){
+		var arr = [] ;
+		for( var i=1 ,len=monthDate+1; i<len ; i++){
+			arr.push('<span class="myDate-invable-item">'+i+'</span>') ;
+		}
+		return arr.join('') ;
+	}
+
+	console.log(month+'月有'+monthDate+'天');
+	document.querySelector('#myDate').innerHTML = ( toList(monthDate) );
+
+
 	// 有以上数据得出当月的天数，以及其对应星期几
 	console.log(year,month,date,day);
+
+	/*var obj = {
+		template:'<div> <div> <div>左</div> <div></div> <div>右</div> </div> <div> <div>1</div> <div>2</div> <div>3</div> <div>4</div> <div>5</div> <div>6</div> <div>7</div> </div> </div>',
+		render:function(){
+			var div = document.createElement('div');
+			div.innerHTML = this.template ;
+			document.body.appendChild(div);
+		}
+	};
+	obj.render();*/
 })();

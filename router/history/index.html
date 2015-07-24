@@ -31,6 +31,7 @@
 	<script>
 	var bitch = '江青' ;
 	var $main = document.querySelector('#main');
+
 	Router.add({
 		RouterRoot : '/GitHub/LingYanSi.github.io/router',
 		'/index':function(){
@@ -50,13 +51,14 @@
 			console.log('嘟嘟')
 		}
 	});
+
 	document.body.removeChild(document.currentScript);
 
 	var script = document.createElement('script');
 	script.src = "var.js";
 	setTimeout(function(){
 		document.body.appendChild(script);
-	},5000)
+	},5000);
 	
 	</script>
  </body>
