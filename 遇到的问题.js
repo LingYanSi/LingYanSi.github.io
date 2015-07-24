@@ -449,7 +449,7 @@
 	-----------------------------------------------------------------------------------------------
 
 	css文本溢出后，显示省略号
-	{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;height:100px;width:100px;} /* 高度是必需的 */
+	{ overflow:hidden;text-overflow:ellipsis;white-space:nowrap; height:100px;width:100px;} /* 高度是必需的 */
 
 	overflow:hidden;;/* 内容超出宽度时隐藏超出部分的内容 */
 	text-overflow:ellipsis;;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
@@ -459,7 +459,7 @@
 	多行文本用下方法
 
 	overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient: vertical; text-overflow: ellipsis;
-	-webkit-line-clamp:2;数字表示行数
+	-webkit-line-clamp:2; 数字表示行数
 
 	-----------------------------------------------------------------------------------------------
 
