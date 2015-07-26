@@ -287,6 +287,15 @@ var Zepto = (function(){
 		length: function(){
 			return this.elements.length ;
 		},
+		index: function(){
+			var ele = this.elements[0];
+			var index = -1 ;
+			while(ele){
+				index++ ;
+				ele = ele.previousElementSibling ;
+			}
+			return index ;
+		},
 		// ------------------------------------- 前一个/后一个/兄弟元素 -----------------------------------
 		prev:function(index){
 			var previousSibling = this.elements[0].previousSibling ;
