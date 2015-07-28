@@ -6,20 +6,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <link rel="stylesheet" href="css/reset.css">
   <link rel="shortcut icon" href="" />
-  <title></title>
+  <title>Stacking Context</title>
   <style type="text/css">
   		div{ left:0; top:0; }
   </style>
  </head>
  <body>
-	<div class="relative" style="position:relative;">
-		<div class="z1" style="position:absolute; height:50px; width:200px; z-index:1; background:red; ">
-			<div class="z1-1" style="position:absolute; height:50px; width:100px; z-index:100; background:black; "></div>
-		</div>
-		<div class="z2" style="position:absolute; height:50px; width:200px; z-index:11; background:green; top:10px; "></div>
-		<div class="z3" style="position:absolute; height:50px; width:100px; z-index:2; background:pink; "></div>
-	</div>
+ 	<h1>Block Formatting Context</h1>
+ 	<p>
+ 		说起BFC还真是没有完全理解明白<br>
+ 		要知道对于html的根元素是一个层，对于非正常布局的元素比如z-index，translate，opacity，float会新建一个层<br>
+ 	</p>
 
+ 	<h2>translate</h2>
+ 	<div>
+ 		<p style="height:50px;width:50px;background:blue;transform:translate(0,30px);"></p>
+ 		<p style="height:50px;width:50px;background:red;"></p>
+ 		<p style="height:50px;width:50px;background:green;transform:translate(30px,-60px);"></p>
+ 	</div>
+ 	<p>
+ 		上图中红色的方块实在正常的布局流中，[蓝色，绿色]方块在红色块位于文档结构的上下方，他们使用了transform属性<br>
+ 		因为新创建了BFC的缘故，他们布局在正常流的上方，并且按照元素出现的先后顺序来堆叠，后出现的在上方<br>
+ 		translate是想对自身进行为位移
+ 	</p>
+
+ 	<h2>z-index</h2>
+	<div class="relative" style="position:relative;height:100px;">
+		<div class="z1" style="position:absolute; height:50px; width:200px; z-index:1; background:red; ">
+			<div class="z1-1" style="position:absolute; left:20px; top:20px; height:50px; width:100px; z-index:100; background:black; "></div>
+		</div>
+		<div class="z2" style="position:absolute; height:50px; width:200px; z-index:11; background:green; top:20px; "></div>
+		<div class="z3" style="position:absolute; height:50px; width:100px; z-index:2; background:pink; "></div>
+ 		<p style="height:50px;width:50px;background:yellow;transform:translate(30px,0px);"></p>
+	</div>
+	<p>
+		关于z-index就有更多的疑惑，比如z-index之间的层级堆叠到底是怎么个优先级呢？<br>
+		经过上面的一番试验后，发现：<br>
+		1.z-index是相对于他所在的BFC中的同样非static定位的元素来堆叠的<br>
+		2.如果一个元素新建了一个BFC，那么子元素的布局和其他元素是没有关系的<br>
+		3.translate的优先级没有非static的元素的优先级高
+	</p>
+
+	<h2>float</h2>
+	<div style="overflow:hidden;">
+		<div style="height:50px;width:50px;background:red;float:left;position:relative;left:20px;">
+			<div style="position:absolute;height:50px;width:50px;top:20px;left:20px;background:green;"></div>
+		</div>
+		我是文字测试
+	</div>
+	<p>
+		float虽说新建了一个BFC，但是对于position:absolute;来说，他的定位还是相对父元素中的【非static元素/根元素】<br>
+		干，意识到一个问题就是，所有非static的元素的定位都是要相对于父元素中的【非static元素/根元素】<br>
+		话说回来，float使元素浮动，如果不闭合浮动的，就会导致其他后面的元素跟随浮动<br>
+		故而要闭合浮动，方式有几种如下：<br>
+		1.父元素overflow:hidden; <br>
+		2.当前元素clear:both/left/right
+	</p>
  <script type="text/javascript">
  	/*
 	* z-index，数值，auto，不可继承，可动画
