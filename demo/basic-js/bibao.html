@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+  	#wrap>div{background:red; height:50px; width:50px;}
+	#wrap>div:nth-child(odd){ background:green;}
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+		<div id="_1"></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+	<input type="button" value="确定" id="button">
+ <script type="text/javascript">
+ 	var $div = document.querySelectorAll('#wrap>div');
+ 	var len = $div.length ;
+ 	for(var i=0;i<len;i++){
+ 		$div[i].id = i ;
+ 		$div[i].addEventListener('click',function(){
+ 			alert(this.id)
+ 		});
+ 	}
+
+ 	// console.log( document.querySelector('#_1').id=1 )
+ 	// console.log( document.querySelector('#wrap>div').id  )
+ </script>
+ </body>
+</html>
