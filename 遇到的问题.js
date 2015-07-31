@@ -42,6 +42,19 @@
 	
 	-------------------------------------------------------------------------------
 
+	css hack
+	hack主要是为了优雅降级，因为老版本的浏览器不支持一些新特性
+	故而需要在不影响老版本基础功能的使用的情况下，做一些hack。
+	hack一般指的是对ie的hack，这主要是因为ie升级太蛋疼了
+	ie10,ie11乃至edge其实对html5的支持已经很不错，但奈何还有ie9，乃至一下的浏览器
+	ie9还好只吃了一些基础的html5，css3特性，比如css3选择器，但是不支持linear-gradient，placeholder等
+
+	ie9的hack background:#fff\9\0;
+	ie8的hack background:#fff\0; IE8和IE9都支持
+	待补充
+	
+	-----------------------------------------------------------------------------------
+
 	行内元素
 	<p>
 		<div></div>
@@ -115,6 +128,31 @@
 		pre - 格式化文本
 		table - 表格
 		ul - 无序列
+
+	----------------------------------------------------------------------------
+
+	input
+	1.在ie10上，会给input type="text/password"等形式的输入框，添加一些样式
+	可使用：
+		::-ms-clear{display: none;}
+		::-ms-reveal{display: none;}
+	清除样式
+
+	2.placeholder的样式
+	[placeholder] { font-family: 'Microsoft yahei'; } //字体
+	::-moz-placeholder {
+		color: mediumvioletred; //颜色值
+		text-indent: 5px; /* 没有用 */
+		opacity: 1!important; //透明度？
+	}
+	:-ms-input-placeholder {
+		color: mediumvioletred;
+		text-indent: 5px;
+	}
+	::-webkit-input-placeholder {
+		color: mediumvioletred;
+		text-indent: 5px; //顾名思义，placeholder的缩进
+	}
 
 	----------------------------------------------------------------------------
 
@@ -429,22 +467,6 @@
 
 	document 并不是一个element对象， document.documentElement 返回的是一个文档的【root element】 一半是指 <html></html>
 
-	--------------------------------------------------------------------------------------------
-	placeholder样式设定
-	[placeholder] { font-family: 'Microsoft yahei'; } //字体
-	::-moz-placeholder {
-		color: mediumvioletred; //颜色值
-		text-indent: 5px; /* 没有用 */
-		opacity: 1!important; //透明度？
-	}
-	:-ms-input-placeholder {
-		color: mediumvioletred;
-		text-indent: 5px;
-	}
-	::-webkit-input-placeholder {
-		color: mediumvioletred;
-		text-indent: 5px; //顾名思义，placeholder的缩进
-	}
 
 	-----------------------------------------------------------------------------------------------
 
