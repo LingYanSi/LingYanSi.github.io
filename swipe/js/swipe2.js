@@ -62,15 +62,6 @@ var Lunbo = function(arg) { //以对象形式传递参数
 
     buttEvent(); // 按钮事件
 
-    if (!isPhone) {
-        window.addEventListener('keyup', function(event) { // 按键监听
-            if (!keyEvent) return
-            var index;
-            if (event.keyCode == 40 || event.keyCode == 39) index = setPage((currentPage + 1)), toWhere(index, 'next');
-            else if (event.keyCode == 38 || event.keyCode == 37) index = setPage((currentPage - 1)), toWhere(index, 'prev');
-        });
-    }
-
     var id = $id ;
     var xx, XX, currentDom, prevDom, nextDom, swipeX, swipeY, cha, chaCache;
     var mouseStart, mouseMove, mouseEnd, isPhone;
@@ -91,8 +82,14 @@ var Lunbo = function(arg) { //以对象形式传递参数
     currentDom = $item[currentPage];
     resetStyle();
 
+    // 这个地方可以再整合一下，towhere和滑动的本质应该是一样的
+    // 上一页、下一页也只是towhere的参数
+    // 并且要有全局的时间管理
     id.addEventListener(mouseStart, function(event) {
-        touchStart(event);
+        stateControl.start();
+        XX = xx = isPhone ? event.targetTouches[0].screenX : event.pageX;
+        YY = yy = isPhone ? event.targetTouches[0].screenY : event.pageY;
+
     });
     id.addEventListener(mouseMove, function(event) {
         touchMove(event);
@@ -100,33 +97,40 @@ var Lunbo = function(arg) { //以对象形式传递参数
     id.addEventListener(mouseEnd, function(event) {
         touchEnd(event);
     });
-    
-
-    function touchStart(event) { // 开始滑动
-        time1 = new Date().getTime();
-        if (!swipeable || time1 - time2 <= time) {
-            swipeX = false;
-            swipeY = false;
-            return
-        }
-        cha = 0;
-        if (autoPlay) stop();
-        xx = isPhone ? event.targetTouches[0].screenX : event.pageX;
-        yy = isPhone ? event.targetTouches[0].screenY : event.pageY;
-        XX = xx;
-        YY = yy;
-
-        swipeY = true;
-        swipeX = true;
+    var stateControl = {
+    	end:function(){
+    		swipeY = false ;
+        	swipeX = false ;
+       		swipeable = false ;
+            time2 = new Date().getTime();
+    	},
+    	canSwipe:function(){
+        	time1 = new Date().getTime();
+    		return !swipeable || time1 - time2 <= time ;
+    	},
+    	start:function(){
+    		if ( stateControl.canSwipe() ) {
+	            swipeX = false;
+	            swipeY = false;
+	            return
+	        }
+	        cha = 0;
+	        if (autoPlay) stop();
+	        swipeY = true;
+	        swipeX = true;
+    	},
+    	removeTransition:function(){
+    		currentDom.style.webkitTransition = 'none';
+	        prevDom.style.webkitTransition = 'none';
+	        nextDom.style.webkitTransition = 'none';
+    	}
     }
-
     function touchMove(event) { // 滑动中
         XX = isPhone ? event.targetTouches[0].screenX : event.pageX;
         YY = isPhone ? event.targetTouches[0].screenY : event.pageY;
 
         if (swipeY && (!swipeX || Math.abs(XX - xx) - Math.abs(YY - yy) < 0)) {
             swipeX = false;
-            console.log(11)
             if (!toLeft) {
                 event.stopPropagation();
                 event.preventDefault();
@@ -169,6 +173,9 @@ var Lunbo = function(arg) { //以对象形式传递参数
     }
 
     function touchEnd(event) { // 滑动结束
+    		// 需要参数 向哪边滑动/cha决定
+    		// 除了currentDom 还要有另个dom
+    		// 滑动结束后currentPage的重置
         if (cha == 0 || !swipeable) {
             swipeY = false;
             swipeX = false;
@@ -178,10 +185,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
         scale.toFixed(1);
         if (!toLeft && swipeY) // 上下滑动
         {
-        	swipeY = false ;
-        	swipeX = false ;
-       		swipeable = false ;
-            time2 = new Date().getTime();
+        	stateControl.end();
             if (cha > 0) {
                 currentDom.style.webkitTransition = TRANSTION ;
                 prevDom.style.webkitTransition = TRANSTION ;
@@ -211,11 +215,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
         }
         if (toLeft && swipeX) // 左右滑动
         {
-        	swipeY = false ;
-        	swipeX = false ;
-        	swipeable = false ;
-            time2 = new Date().getTime();
-            console.log(1111111111)
+        	stateControl.end();
             if (cha > 0) {
                 currentDom.style.webkitTransition = TRANSTION ;
                 prevDom.style.webkitTransition = TRANSTION ;
@@ -242,8 +242,6 @@ var Lunbo = function(arg) { //以对象形式传递参数
                 }
             }
         }
-        swipeY = false;
-        swipeX = false;
         if (autoPlay) start();
         if (dianNav) dianMove();
         chaCache = cha;
@@ -253,6 +251,16 @@ var Lunbo = function(arg) { //以对象形式传递参数
                 callback(currentPage);
             }, 100)
         }
+    }
+
+
+    if (!isPhone) {
+        window.addEventListener('keyup', function(event) { // 按键监听
+            if (!keyEvent) return
+            var index;
+            if (event.keyCode == 40 || event.keyCode == 39) index = setPage((currentPage + 1)), toWhere(index, 'next');
+            else if (event.keyCode == 38 || event.keyCode == 37) index = setPage((currentPage - 1)), toWhere(index, 'prev');
+        });
     }
     /*---------------------------------------问题在这里------------------------------------------------------------*/
     $item.forEach(function(ele) {
@@ -270,9 +278,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
     // 通过设置z-index来解决层级问题
     function setDom(chaCa) { // 初始化工作，不放在touchstart时执行，而是在滑动结束的时候执行，这样体验会更好些
 
-        currentDom.style.webkitTransition = 'none';
-        prevDom.style.webkitTransition = 'none';
-        nextDom.style.webkitTransition = 'none';
+        stateControl.removeTransition();
 
         if (cha < 50 && cha > -50) return;
         prevNextHidden(chaCa); // 修改visibility/z-index，
@@ -288,19 +294,19 @@ var Lunbo = function(arg) { //以对象形式传递参数
         if (cha >= 50) dom = nextDom;
         else if (cha <= -50) dom = prevDom;
 
-        if (toLeft) dom.style.visibility = 'hidden';
-        else dom.style.cssText += ';visibility:hidden; z-index:0;';
+        if (toLeft) dom && (dom.style.visibility = 'hidden');
+        else dom && (dom.style.cssText += ';visibility:hidden; z-index:0;');
     };
     function resetStyle() {
         if (!toLeft) // 
         {
             currentDom.style.cssText += '; visibility:visible; -webkit-transform:translate3d(0,0,0); z-index:1;';
             prevDom.style.cssText += '; visibility:visible; -webkit-transform:translate3d(' + leftMin + 'px,' + topMin + 'px,0); z-index:2;  ';
-            nextDom.style.cssText += '; visibility:visible; -webkit-transform:translate3d(' + leftMin + 'px,' + topMax + 'px,0); z-index:2;  ';
+            nextDom.style.cssText += '; visibility:visible; -webkit-transform:translate3d(' + leftMax + 'px,' + topMax + 'px,0); z-index:2;  ';
         } else {
             currentDom.style.cssText += ';-webkit-transform:translate3d(0,0,0); visibility:visible;';
             prevDom.style.cssText += ';-webkit-transform:translate3d(' + leftMin + 'px,' + topMin + 'px,0); visibility:visible; ';
-            nextDom.style.cssText += ';-webkit-transform:translate3d(' + leftMin + 'px,' + topMax + 'px,0); visibility:visible; ';
+            nextDom.style.cssText += ';-webkit-transform:translate3d(' + leftMax + 'px,' + topMax + 'px,0); visibility:visible; ';
         }
     }
 
@@ -316,62 +322,40 @@ var Lunbo = function(arg) { //以对象形式传递参数
     }
 
     function toWhere(index, dir) { //主要是给左右点击事件使用
+    	if(!swipeable) return
         var index = setPage(index);
         if (index === currentPage) return
 
-        currentDom.style.webkitTransition = 'none';
-        prevDom.style.webkitTransition = 'none';
-        nextDom.style.webkitTransition = 'none';
+    	stateControl.start();
+        cha = (dir=="next") ? -100 : 100 ;
+
+        stateControl.removeTransition();
 
         currentDom = $item[currentPage];
-        nextDom = $item[index];
-        if (autoPlay) stop();
-        var leftPrev, leftNext, topPrev, topNext;
-        if (dir == 'next') //下一张
-        {
-            leftPrev = leftMax,
-            topPrev = topMax,
-            leftNext = leftMin,
-             topNext = topMin;
-            chaCache = 100;
-        } else {
-            leftPrev = leftMin,
-            topPrev = topMin,
-            leftNext = leftMax,
-            topNext = topMax;
-            chaCache = -100;
+        cha<0 ? (nextDom = $item[index]) : (prevDom = $item[index] ) ;
+
+        stateControl.removeTransition();
+        resetStyle();
+
+        if(!toLeft){
+        	if(cha>0) currentDom.style.webkitTransformOrigin = 'center 125%';
+       		else currentDom.style.webkitTransformOrigin = 'center -25%';
         }
-        nextDom.style.cssText += '; visibility:visible; -webkit-transform:translate3d(' + leftPrev + 'px,' + topPrev + 'px,0);  ';
-        // console.log(nextDom.getBoundingClientRect().width);
 
-        currentDom.style.webkitTransition = TRANSTION ;
-        nextDom.style.webkitTransition = TRANSTION ;
-
-        currentDom.style.cssText += ';-webkit-transform:translate3d(' + leftNext + 'px,' + topNext + 'px,0);';
-        nextDom.style.cssText += ';-webkit-transform:translate3d(0,0,0);';
-
-        currentPage = index;
-
-        if (dianNav) dianMove();
-        if (autoPlay) start();
-
-        if (callback) {
-            setTimeout(function() {
-                callback(currentPage);
-            }, 100)
-        }
+        touchEnd();
+        currentPage = index ;
     }
     this.toWhere = toWhere;
 
     function buttEvent() {
-        if (!!buttPrev) {
+        if (!!buttNext) {
             var click = isPhone ? 'touchend' : 'click';
             document.querySelector('#' + buttPrev).addEventListener(click, function() {
                 var index = currentPage - 1;
                 toWhere(index, 'prev');
             });
         }
-        if (!!buttNext) {
+        if (!!buttPrev) {
             var click = isPhone ? 'touchend' : 'click';
             document.querySelector('#' + buttNext).addEventListener(click, function() {
                 var index = currentPage + 1;
