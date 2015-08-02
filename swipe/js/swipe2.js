@@ -102,6 +102,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
 	        }
     	}
     }
+    stateControl.init();
 
     // 这个地方可以再整合一下，towhere和滑动的本质应该是一样的
     // 上一页、下一页也只是towhere的参数
