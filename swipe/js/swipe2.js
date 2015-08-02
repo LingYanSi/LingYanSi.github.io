@@ -95,11 +95,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
     	callback:function(){
 	        if (autoPlay) start();
 	        if (dianNav) dianMove();
-	        if (callback) {
-	            setTimeout(function() {
-	                callback(currentPage);
-	            }, 100)
-	        }
+	        if (callback) callback(currentPage);
     	}
     }
     stateControl.init();
