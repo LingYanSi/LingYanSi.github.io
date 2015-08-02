@@ -24,50 +24,22 @@ var Lunbo = function(arg) { //以对象形式传递参数
         buttNext = arg.buttNext,
         keyEvent = arg.keyEvent,
         currentPage = isNaN(parseInt(arg.currentPage,10))?0:arg.currentPage ;
+
     var isPhone = !!navigator.userAgent.toLowerCase().match(/android|phone|pad/g);
     var $id = document.querySelector('#' + idname);
-
     var $item = [].slice.call($id.firstElementChild.children);
     var $dianItem;
     var idWidth = $id.offsetWidth,
         idHeight = $id.offsetHeight;
 
-    var topMin = -idHeight,
-        topCurrent = 0,
-        topMax = idHeight,
-        leftMin = 0,
-        leftMax = 0,
-        leftCurrent = 0,
-        toLeft = false,
-        len = $item.length,
-        timeIn ;
-
+    var topMin = -idHeight, topCurrent = 0, topMax = idHeight, leftMin = 0, leftMax = 0, leftCurrent = 0, toLeft = false, len = $item.length, timeIn ;
     if (top == 'left') //左右滑动
     {
-        toLeft = true,
-        topMin = 0,
-        topMax = 0,
-        topCureent = 0,
-        leftMin = -idWidth,
-        leftMax = idWidth,
-        leftCurrent = 0;
+        toLeft = true, topMin = 0, topMax = 0, topCureent = 0, leftMin = -idWidth, leftMax = idWidth, leftCurrent = 0; 
     }
 
-    $item.forEach(function(ele, index) {
-        if (index != currentPage) ele.style.webkitTransform = 'translate3d(' + leftMax + 'px,' + topMax + 'px,0)';
-    });
-
-    if (dianNav) dianInit();
-    if (autoPlay) start();
-
-    buttEvent(); // 按钮事件
-
-    var id = $id ;
     var xx, XX, currentDom, prevDom, nextDom, swipeX, swipeY, cha, chaCache;
-    var mouseStart, mouseMove, mouseEnd, isPhone;
-    var time = toLeft ? (isPhone?(400 + 50):(400+20)) : (isPhone?(400 + 200):(400+20));
-    var time1 = new Date().getTime();
-    var time2 = 0;
+    var mouseStart, mouseMove, mouseEnd ;
     var swipeable = true ;
     var TRANSTION = 'all 0.4s ease' ;
 
@@ -75,41 +47,32 @@ var Lunbo = function(arg) { //以对象形式传递参数
     mouseMove = isPhone ? 'touchmove' : 'mousemove';
     mouseEnd = isPhone ? 'touchend' : 'mouseup';
 
-    /*----------初始化一下----------*/
-    currentPage = setPage(currentPage);
-    prevDom = $item[currentPage - 1] ? $item[currentPage - 1] : $item[len - 1];
-    nextDom = $item[currentPage + 1] ? $item[currentPage + 1] : $item[0];
-    currentDom = $item[currentPage];
-    resetStyle();
+    $item.forEach(function(ele, index) {
+        if (index != currentPage) ele.style.webkitTransform = 'translate3d(' + leftMax + 'px,' + topMax + 'px,0)';
+    });
 
-    // 这个地方可以再整合一下，towhere和滑动的本质应该是一样的
-    // 上一页、下一页也只是towhere的参数
-    // 并且要有全局的时间管理
-    id.addEventListener(mouseStart, function(event) {
-        stateControl.start();
-        XX = xx = isPhone ? event.targetTouches[0].screenX : event.pageX;
-        YY = yy = isPhone ? event.targetTouches[0].screenY : event.pageY;
-
-    });
-    id.addEventListener(mouseMove, function(event) {
-        touchMove(event);
-    });
-    id.addEventListener(mouseEnd, function(event) {
-        touchEnd(event);
-    });
+    if (dianNav) dianInit();
+    if (autoPlay) start();
+    if(buttNext || buttPrev) buttEvent();
     var stateControl = {
+    	init:function(){
+		    /*----------初始化一下----------*/
+		    currentPage = setPage(currentPage);
+		    currentDom = $item[currentPage];
+		    prevDom = $item[currentPage - 1] ? $item[currentPage - 1] : $item[len - 1];
+		    nextDom = $item[currentPage + 1] ? $item[currentPage + 1] : $item[0];
+		    resetStyle();
+    	},
     	end:function(){
     		swipeY = false ;
         	swipeX = false ;
        		swipeable = false ;
-            time2 = new Date().getTime();
-    	},
-    	canSwipe:function(){
-        	time1 = new Date().getTime();
-    		return !swipeable || time1 - time2 <= time ;
+            currentDom.style.webkitTransition = TRANSTION ;
+            prevDom.style.webkitTransition = TRANSTION ;
+            nextDom.style.webkitTransition = TRANSTION ;
     	},
     	start:function(){
-    		if ( stateControl.canSwipe() ) {
+    		if ( !swipeable ) {
 	            swipeX = false;
 	            swipeY = false;
 	            return
@@ -123,8 +86,38 @@ var Lunbo = function(arg) { //以对象形式传递参数
     		currentDom.style.webkitTransition = 'none';
 	        prevDom.style.webkitTransition = 'none';
 	        nextDom.style.webkitTransition = 'none';
+    	},
+    	setTransform:function(dom,translateX,translateY,scaleX,scaleY){
+    		scaleX = scaleX || 1 ;
+    		scaleY = scaleY || 1 ;
+    		dom.style.webkitTransform = toLeft ? 'translate3d('+translateX+'px,'+translateY+'px,0)' : 'translate3d('+translateX+'px,'+translateY+'px,0) scale3d('+scaleX+','+scaleY+',1)' ;
+    	},
+    	callback:function(){
+	        if (autoPlay) start();
+	        if (dianNav) dianMove();
+	        if (callback) {
+	            setTimeout(function() {
+	                callback(currentPage);
+	            }, 100)
+	        }
     	}
     }
+
+    // 这个地方可以再整合一下，towhere和滑动的本质应该是一样的
+    // 上一页、下一页也只是towhere的参数
+    // 并且要有全局的时间管理
+    $id.addEventListener(mouseStart, function(event) {
+        stateControl.start();
+        XX = xx = isPhone ? event.targetTouches[0].screenX : event.pageX;
+        YY = yy = isPhone ? event.targetTouches[0].screenY : event.pageY;
+
+    });
+    $id.addEventListener(mouseMove, function(event) {
+        touchMove(event);
+    });
+    $id.addEventListener(mouseEnd, function(event) {
+        touchEnd(event);
+    });
     function touchMove(event) { // 滑动中
         XX = isPhone ? event.targetTouches[0].screenX : event.pageX;
         YY = isPhone ? event.targetTouches[0].screenY : event.pageY;
@@ -136,17 +129,17 @@ var Lunbo = function(arg) { //以对象形式传递参数
                 event.preventDefault();
                 cha = YY - yy;
                 if (cha >= 0) {
-                    if (len > 2) nextDom.style.cssText += ';-webkit-transform:translate3d(0,' + (topMax) + 'px,0);'; // 避免因为滑动过快引起的bug
+                    if (len > 2) stateControl.setTransform(nextDom,leftMax,topMax); // 避免因为滑动过快引起的bug
                     if (!loop && currentPage == 0) return cha = 0;
                     currentDom.style.webkitTransformOrigin = 'center 125%';
-                    currentDom.style.cssText += ';-webkit-transform:translate3d(0,0,0) scale3d(' + (1 - cha / topMax / 4) + ',' + (1 - cha / topMax / 4) + ',1);';
-                    prevDom.style.cssText += ';-webkit-transform:translate3d(0,' + (cha + topMin) + 'px,0);';
+                    stateControl.setTransform(currentDom,0,0,(1 - cha / topMax / 4),(1 - cha / topMax / 4));
+                    stateControl.setTransform(prevDom,0,(cha + topMin));
                 } else {
-                    if (len > 2) prevDom.style.cssText += ';-webkit-transform:translate3d(0,' + (topMax) + 'px,0);'; // 避免因为滑动过快引起的bug
+                    if (len > 2) stateControl.setTransform(prevDom,0,topMax);  // 避免因为滑动过快引起的bug
                     if (!loop && currentPage == len - 1) return cha = 0;
                     currentDom.style.webkitTransformOrigin = 'center -25%';
-                    currentDom.style.cssText += ';-webkit-transform:translate3d(0,0,0) scale3d(' + (1 + cha / topMax / 4) + ',' + (1 + cha / topMax / 4) + ',1);';
-                    nextDom.style.cssText += ';-webkit-transform:translate3d(0,' + (topMax + cha) + 'px,0); ';
+                    stateControl.setTransform(currentDom,0,0,(1 + cha / topMax / 4),(1 + cha / topMax / 4));
+                    stateControl.setTransform(nextDom,0,(cha + topMax));
                 }
             }
         }
@@ -158,58 +151,51 @@ var Lunbo = function(arg) { //以对象形式传递参数
                 event.preventDefault();
                 cha = XX - xx;
                 if (cha >= 0) {
-                    if (len > 2) nextDom.style.cssText += ';-webkit-transform:translate3d(' + leftMax + 'px,0,0);'; // 避免因为滑动过快引起的bug
+                    if (len > 2) stateControl.setTransform(nextDom,leftMax,topMax);  // 避免因为滑动过快引起的bug
                     if (!loop && currentPage == 0) return cha = 0;
-                    currentDom.style.cssText += '-webkit-transform:translate3d(' + (cha) + 'px,0,0);';
-                    prevDom.style.cssText += ';-webkit-transform:translate3d(' + (leftMin + cha) + 'px,0,0);';
+                    stateControl.setTransform(currentDom,cha,0);  
+                    stateControl.setTransform(prevDom,(leftMin + cha),0);  
                 } else {
-                    if (len > 2) prevDom.style.cssText += ';-webkit-transform:translate3d(' + leftMax + 'px,0,0);'; // 避免因为滑动过快引起的bug
+                    if (len > 2) stateControl.setTransform(prevDom,leftMax,topMax); // 避免因为滑动过快引起的bug
                     if (!loop && currentPage == len - 1) return cha = 0;
-                    currentDom.style.cssText += ';-webkit-transform:translate3d(' + cha + 'px,0,0);';
-                    nextDom.style.cssText += ';-webkit-transform:translate3d(' + (leftMax + cha) + 'px,0,0);';
+                    stateControl.setTransform(currentDom,cha,0);  
+                    stateControl.setTransform(nextDom,(leftMax + cha),0);  
                 }
             }
         }
     }
 
     function touchEnd(event) { // 滑动结束
-    		// 需要参数 向哪边滑动/cha决定
-    		// 除了currentDom 还要有另个dom
-    		// 滑动结束后currentPage的重置
         if (cha == 0 || !swipeable) {
             swipeY = false;
             swipeX = false;
             return;
         }
-        var scale = cha > 0 ? (1 - cha / topMax / 4 * 1.4) : (1 + cha / topMax / 4 * 1.4);
-        scale.toFixed(1);
         if (!toLeft && swipeY) // 上下滑动
         {
+	        var scale = cha > 0 ? (1 - cha / topMax / 4 * 1.4) : (1 + cha / topMax / 4 * 1.4);
+	        scale.toFixed(1);
+
         	stateControl.end();
             if (cha > 0) {
-                currentDom.style.webkitTransition = TRANSTION ;
-                prevDom.style.webkitTransition = TRANSTION ;
                 if (cha > 50) {
-                    currentDom.style.webkitTransform = 'scale3d(' + scale + ',' + scale + ',1)';
-                    prevDom.style.webkitTransform = 'translate3d(0,0,0)';
+                    stateControl.setTransform(currentDom,0,0,scale,scale); 
+                    stateControl.setTransform(prevDom,0,0);  
 
-                    currentPage--;
-                    currentPage = setPage(currentPage);
+                    setPage( (--currentPage) );
                 } else {
-                    currentDom.style.webkitTransform = 'translate3d(0,0,0)';
-                    prevDom.style.webkitTransform = 'translate3d(0,0,0)';
+                    stateControl.setTransform(currentDom,0,0); 
+                    stateControl.setTransform(prevDom,0,topMin); 
                 }
             } else {
-                currentDom.style.webkitTransition = TRANSTION ;
-                nextDom.style.webkitTransition = TRANSTION ;
                 if (cha < -50) {
-                    currentDom.style.webkitTransform = 'scale3d(' + scale + ',' + scale + ',1)';
-                    nextDom.style.webkitTransform = 'translate3d(0,0,0)';
-                    currentPage++;
-                    currentPage = setPage(currentPage);
+                    stateControl.setTransform(currentDom,0,0,scale,scale); 
+                    stateControl.setTransform(nextDom,0,0);  
+
+                    setPage( (++currentPage) );
                 } else {
-                    currentDom.style.webkitTransform = 'translate3d(0,0,0)';
-                    nextDom.style.webkitTransform = 'translate3d(0,' + (topMax) + 'px,0)';
+                    stateControl.setTransform(currentDom,0,0); 
+                    stateControl.setTransform(nextDom,0,topMax); 
                 }
             }
         }
@@ -217,40 +203,29 @@ var Lunbo = function(arg) { //以对象形式传递参数
         {
         	stateControl.end();
             if (cha > 0) {
-                currentDom.style.webkitTransition = TRANSTION ;
-                prevDom.style.webkitTransition = TRANSTION ;
                 if (cha > 50) {
-                    currentDom.style.webkitTransform = 'translate3d(' + leftMax + 'px,0,0)';
-                    prevDom.style.webkitTransform = 'translate3d(0,0,0)';
-                    currentPage--;
-                    currentPage = setPage(currentPage);
+                    stateControl.setTransform(currentDom,leftMax,0 ); 
+                    stateControl.setTransform(prevDom,0,0);  
+
+                    setPage( (--currentPage) );
                 } else {
-                    currentDom.style.webkitTransform = 'translate3d(0,0,0)';
-                    prevDom.style.webkitTransform = 'translate3d(' + leftMin + 'px,0,0)';
+                    stateControl.setTransform(currentDom,0,0 ); 
+                    stateControl.setTransform(prevDom,leftMin,0); 
                 }
             } else {
-                currentDom.style.webkitTransition = TRANSTION ;
-                nextDom.style.webkitTransition = TRANSTION ;
                 if (cha < -50) {
-                    currentDom.style.webkitTransform = 'translate3d(' + leftMin + 'px,0,0)';
-                    nextDom.style.webkitTransform = 'translate3d(0,0,0)';
-                    currentPage++;
-                    currentPage = setPage(currentPage);
+                    stateControl.setTransform(currentDom,leftMin,0 ); 
+                    stateControl.setTransform(nextDom,0,0); 
+
+                    setPage( (++currentPage) );
                 } else {
-                    currentDom.style.webkitTransform = 'translate3d(0,0,0)';
-                    nextDom.style.webkitTransform = 'translate3d(' + leftMax + 'px,0,0)';
+                    stateControl.setTransform(currentDom,0,0 ); 
+                    stateControl.setTransform(nextDom,leftMax,0); 
                 }
             }
         }
-        if (autoPlay) start();
-        if (dianNav) dianMove();
-        chaCache = cha;
 
-        if (callback) {
-            setTimeout(function() {
-                callback(currentPage);
-            }, 100)
-        }
+        chaCache = cha;
     }
 
 
@@ -258,8 +233,8 @@ var Lunbo = function(arg) { //以对象形式传递参数
         window.addEventListener('keyup', function(event) { // 按键监听
             if (!keyEvent) return
             var index;
-            if (event.keyCode == 40 || event.keyCode == 39) index = setPage((currentPage + 1)), toWhere(index, 'next');
-            else if (event.keyCode == 38 || event.keyCode == 37) index = setPage((currentPage - 1)), toWhere(index, 'prev');
+            if (event.keyCode == 40 || event.keyCode == 39) index = setPage((currentPage+1),true), toWhere(index, 'next');
+            else if (event.keyCode == 38 || event.keyCode == 37) index = setPage((currentPage-1),true), toWhere(index, 'prev');
         });
     }
     /*---------------------------------------问题在这里------------------------------------------------------------*/
@@ -270,6 +245,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
                 chaCache = 0;
                 setDom(cha); //在mx3系统浏览器，uc浏览器中，滑动结束后prevDom,nextDom，表现为transform没改变，z-index的改变也显得很滞后
                 // alert(111); // 阻塞滞后
+                stateControl.callback();
             }
             swipeable = true ;
         });
@@ -282,6 +258,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
 
         if (cha < 50 && cha > -50) return;
         prevNextHidden(chaCa); // 修改visibility/z-index，
+
         prevDom = $item[currentPage - 1] ? $item[currentPage - 1] : $item[len - 1]; // 重置 上一个/当前/下一个
         nextDom = $item[currentPage + 1] ? $item[currentPage + 1] : $item[0];
         currentDom = $item[currentPage];
@@ -298,19 +275,17 @@ var Lunbo = function(arg) { //以对象形式传递参数
         else dom && (dom.style.cssText += ';visibility:hidden; z-index:0;');
     };
     function resetStyle() {
-        if (!toLeft) // 
-        {
-            currentDom.style.cssText += '; visibility:visible; -webkit-transform:translate3d(0,0,0); z-index:1;';
-            prevDom.style.cssText += '; visibility:visible; -webkit-transform:translate3d(' + leftMin + 'px,' + topMin + 'px,0); z-index:2;  ';
-            nextDom.style.cssText += '; visibility:visible; -webkit-transform:translate3d(' + leftMax + 'px,' + topMax + 'px,0); z-index:2;  ';
-        } else {
-            currentDom.style.cssText += ';-webkit-transform:translate3d(0,0,0); visibility:visible;';
-            prevDom.style.cssText += ';-webkit-transform:translate3d(' + leftMin + 'px,' + topMin + 'px,0); visibility:visible; ';
-            nextDom.style.cssText += ';-webkit-transform:translate3d(' + leftMax + 'px,' + topMax + 'px,0); visibility:visible; ';
-        }
+    	var str1 = ';-webkit-transform:translate3d(0,0,0); visibility:visible;' ,
+    		str2 = ';-webkit-transform:translate3d(' + leftMin + 'px,' + topMin + 'px,0); visibility:visible; ' ,
+    		str3 = ';-webkit-transform:translate3d(' + leftMax + 'px,' + topMax + 'px,0); visibility:visible; ';
+        
+            currentDom.style.cssText += str1+(toLeft?'':'z-index:1;');
+            prevDom.style.cssText += str2+(toLeft?'':'z-index:2;');
+            nextDom.style.cssText += str3+(toLeft?'':'z-index:2;');
+        
     }
 
-    function setPage(page) { //设置page
+    function setPage(page,option) { //设置page
         if (page > len - 1) {
             page = 0;
             if (!loop) page = len - 1;
@@ -318,12 +293,13 @@ var Lunbo = function(arg) { //以对象形式传递参数
             page = len - 1;
             if (!loop) page = 0;
         }
-        return page;
+        if(!option) currentPage = page;
+        return page ;
     }
 
     function toWhere(index, dir) { //主要是给左右点击事件使用
     	if(!swipeable) return
-        var index = setPage(index);
+        index = setPage(index,true);
         if (index === currentPage) return
 
     	stateControl.start();
@@ -341,7 +317,6 @@ var Lunbo = function(arg) { //以对象形式传递参数
         	if(cha>0) currentDom.style.webkitTransformOrigin = 'center 125%';
        		else currentDom.style.webkitTransformOrigin = 'center -25%';
         }
-
         touchEnd();
         currentPage = index ;
     }
@@ -351,14 +326,14 @@ var Lunbo = function(arg) { //以对象形式传递参数
         if (!!buttNext) {
             var click = isPhone ? 'touchend' : 'click';
             document.querySelector('#' + buttPrev).addEventListener(click, function() {
-                var index = currentPage - 1;
+                var index = currentPage-1;
                 toWhere(index, 'prev');
             });
         }
         if (!!buttPrev) {
             var click = isPhone ? 'touchend' : 'click';
             document.querySelector('#' + buttNext).addEventListener(click, function() {
-                var index = currentPage + 1;
+                var index = currentPage+1;
                 toWhere(index, 'next');
             });
         }
