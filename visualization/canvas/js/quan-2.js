@@ -15,9 +15,7 @@
         var center = { left: r+1, top: r+1 }
 
         var changeItem = 1 ; // 主要是为动画准备
-        // window.requestAnimationFrame(change);
-        if(option && false) animation();
-        else bing(info);
+        bing(info);
 
 
         function bing(info,events){ // 画饼
