@@ -104,10 +104,11 @@ var prevent = (function(){
 			var str = arr.map(function(element,index,arr){
 				var obj = preventObj[arr[index]] ;
 				return '<div class="prevent-comment-item"><h2>'+
-						obj.name+'</h2><p>'+
-						obj.content+'</p><span>'+
+						obj.name+'</h2><span>'+
 						_this.formatDate(obj.time)+'</span><span> '+
-						(index+1)+'楼 </span><span class="prevent-comment-delete"> 删除 </span></div>' ;
+						(index+1)+'楼 </span><span class="prevent-comment-delete"> 删除 </span><p>'+
+						obj.content+
+					'</p></div>' ;
 			}).join('');
 			$idPresent.innerHTML = str ;
 			// console.log( JSON.parse(localStorage.getItem('data')) );
@@ -125,4 +126,6 @@ var prevent = (function(){
 		}
 	}
 })();
+
+// prevent.bind('#comment');
  // prevent.add( {name:'赵敏',time:'1027年',content:'张无忌，赵敏啊'} );
