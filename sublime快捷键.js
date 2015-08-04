@@ -38,8 +38,29 @@ Shift+右键拖动：光标多不，用来更改或插入列内容
 按Ctrl，依次点击或选取，可需要编辑的多个位置
 按Ctrl+Shift+上下键，可替换行
 
-选择类
+PS.关于Emmet 及 ST3 的快捷键什么的网上一找一堆，这里举几个个人常用的快捷键：
 
+ctrl+shift+p  所有命令
+
+ctrl+g 跳转行
+
+ctrl+/ 注释
+
+ctrl+d 选择相同字符
+
+ctrl+shift+up/down 整行移动
+
+ctrl+alt+right 跳到下一个编辑点
+
+ctrl+u 图片原始大小更新
+
+ctrl+shift+g 批量格式生成
+
+ctrl+shift+y 直接公式计算
+
+ctrl+up CSS数值加减1（alt+up 数值加减0.1）
+
+选择类
 Ctrl+D 选中光标所占的文本，继续操作则会选中下一个相同的文本。
 
 Alt+F3 选中文本按下快捷键，即可一次性选择全部的相同文本进行同时编辑。举个栗子：快速选中并更改所有相同的变量名、函数名等。
@@ -86,8 +107,8 @@ Ctrl+Alt+↑ 向上添加多行光标，可同时编辑多行。
 
 Ctrl+Alt+↓ 向下添加多行光标，可同时编辑多行。
 
-编辑类
 
+编辑类
 Ctrl+J 合并选中的多行代码为一行。举个栗子：将多行格式的CSS属性合并为一行。
 
 Ctrl+Shift+D 复制光标所在整行，插入到下一行。
@@ -120,8 +141,8 @@ Ctrl+T 左右字母互换。
 
 F6 单词检测拼写
 
-搜索类
 
+搜索类
 Ctrl+F 打开底部搜索框，查找关键字。
 
 Ctrl+shift+F 在文件夹内查找，与普通编辑器不同的地方是sublime允许添加多个文件夹进行查找，略高端，未研究。
@@ -138,8 +159,8 @@ Ctrl+Shift+P 打开命令框。场景栗子：打开命名框，输入关键字�
 
 Esc 退出光标多行选择，退出搜索框，命令框等。
 
-显示类
 
+显示类
 Ctrl+Tab 按文件浏览过的顺序，切换当前窗口的标签页。
 
 Ctrl+PageDown 向左切换当前窗口的标签页。
@@ -166,6 +187,7 @@ F11 全屏模式
 
 Shift+F11 免打扰模式
 
+
 // -----------------------------------
 一些插件
 	1.SideBarEnhancement 侧边栏文件操作 只对project起作用 对单个打开的文件无效，需要添加project
@@ -176,8 +198,78 @@ Shift+F11 免打扰模式
 
 	4.auto-prefixer-css ? css前缀自动补全
 
+	5.LESS
+		功能：LESS高亮插件
+		简介：用LESS的同学都知道，sublime没有支持less的语法高亮，所以这个插件可以帮上我们
+		使用：打开.less文件或者设置为less格式
+	6.Less2CSS
+		功能：编译Less
+		简介：监测到文件改动时，编译保存为.css文件
+		使用：打开.less文件，编写代码保存即可看到同时生成.css的文件，
+				如果没有则需要安装node。不推荐用这种方法编译，要么用koala，要么就用grunt编译。
+	7.AutoFileName
+		功能：快捷输入文件名
+		简介：自动完成文件名的输入，如图片选取
+		使用：输入”/”即可看到相对于本项目文件夹的其他文件
+
+	8.Bracket Highlighter
+		功能：代码匹配
+		简介：可匹配[], (), {}, “”, ”, <tag></tag>，高亮标记，便于查看起始和结束标记
+		使用：点击对应代码即可
+
+	9.AutoFileName
+		功能：快捷输入文件名
+		简介：自动完成文件名的输入，如图片选取
+		使用：输入”/”即可看到相对于本项目文件夹的其他文件
+	10.php-connector就可以安装完成了。
+		如果用Sublime 写markdown，推荐一个不错的插件。可以把markdown转换成HTML或者PDF的格式。
+		插件使用的快捷键为Ctrl + Shift + R。
+    11.Quote​HTML，把HTML拼接成js插入字符串，神器
+    12.ClickableURLs 使用小插件ClickableURLs可以让文件中的URL能够点击。【右键可打开链接】
+
+
+// -----------------------------------
+Preferences/setting-user 配置
+{
+    "font_size": 12, // 字体大小
+    "ignored_packages":
+    [
+        "CSScomb",
+        "Vintage"
+    ],
+    "preview_on_click": false, // 文件双击打开
+    "tab_size": 4, // tab缩进4空格
+    "translate_tabs_to_spaces": true,
+    "trim_trailing_white_space_on_save": true,
+    "update_check": false, // 更新检查
+    "word_separators": "()\"',;<>~!@#$%^&*|+=[]{}`~?",
+    "word_wrap": true,
+    "ensure_newline_at_eof_on_save": true, // 文件末尾自动保留一个空行，懂的人自然知道它的用处。
+    "highlight_line": true, // 当前行高亮
+}
+
+基础用户设置
+"trim_trailing_white_space_on_save": true,  自动移除行尾多余空格，处女座更安心了。
+"ensure_newline_at_eof_on_save": true,      文件末尾自动保留一个空行，懂的人自然知道它的用处。
+"font_face": "Microsoft YaHei Mono",        设置字体。Microsoft YaHei Mono 是一款混合字体，专为代码优化，看起来很舒服。当然你也可以使用你自己喜欢的字体，或者删掉本行，使用默认字体。
+"disable_tab_abbreviations": true,          设置为 true ，禁用 Emmet 的 tab 键功能（请使用 ctrl+e），系统自带的 tab 功能还是可圈可点的。当然你也可以不设置它，以完全使用 Emmet 的 tab 补全功能。
+"translate_tabs_to_spaces": true,           很明白就是把代码 tab 对齐转换为空格对齐，tab_size 配合设置空格数。这个需求因人而异了，不喜欢可以去掉。
+"tab_size": 2,
+"draw_minimap_border": true,                用于右侧代码预览时给所在区域加上边框，方便识别。
+"save_on_focus_lost": true,                 窗口失焦立即保存文件，嘛嘛再也不用担心你忘记保存了。
+"highlight_line": true,                     当前行高亮。word_wrap，设置自动换行。
+"word_wrap": "true",
+"fade_fold_buttons": false,                 默认显示行号右侧的代码段闭合展开三角号
+"bold_folder_labels": true,                 侧边栏文件夹显示加粗，区别于文件。
+"highlight_modified_tabs": true,            高亮未保存文件。
+
+Microsoft YaHei Mono 字体下载，链接: http://pan.baidu.com/s/1mgnAyBA  密码: q5wd
+
+
+
+// -----------------------------------
+Sublime Text 3：并不能直接安装插件，需要开启此功能，开启方法如下
 从菜单 View - Show Console 或者 ctrl + ~ 快捷键，调出 console。将以下 Python 代码粘贴进去并 enter 执行，不出意外即完成安装。以下提供 ST3 和 ST2 的安装代码：
 
-Sublime Text 3：
 
 import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener(urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen('http://sublime.wbond.net/' + pf.replace(' ','%20')).read())
