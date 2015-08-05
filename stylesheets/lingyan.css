@@ -1,0 +1,9 @@
+@import url(reset.css);
+
+a{ text-decoration: none; color:rgb(247,104,104); }
+li{ list-style : inside disc; }
+h1{ font-size:2em; line-height:2; }
+h2{ font-size:1.4em; line-height:1.8; }
+
+.LY-text-center{ text-align:center; }
+.LY-main{ max-width:1200px; margin:0 auto; }
