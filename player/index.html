@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-  <link rel="shortcut icon" href="http:/lingyansi.github.io/images/icon/icon.jpg">
+  <link rel="shortcut icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
   <title>我的音乐</title>
   <style type="text/css">
   	  html,body,div,form,ul,ol,li,img,p,h1,h2,h3,h4,h5,h6{margin:0;padding:0;border:0;}
@@ -21,25 +21,23 @@
 		<div id="main" class="main">
 			<h2 class="title">List</h2>
 			<ul id="music-list" class="">
-				<li data-id="0"><a href="player.html" target="xiami" target="_blank">爱情的枪</a></li>
-				<li data-id="1"><a href="player.html" target="xiami" target="_blank">简单爱</a></li>
-				<li data-id="2"><a href="player.html" target="xiami" target="_blank">意大利语</a></li>
-				<li data-id="3"><a href="player.html" target="xiami" target="_blank">Dancing</a></li>
-				<li data-id="4"><a href="player.html" target="xiami" target="_blank">青花瓷</a></li>
-				<li data-id="5"><a href="player.html" target="xiami" target="_blank">立秋</a></li>
-				<li data-id="6"><a href="player.html" target="xiami" target="_blank">暗涌</a></li>
-				<li data-id="7"><a href="player.html" target="xiami" target="_blank">青花</a></li>
-				<li data-id="8"><a href="player.html" target="xiami" target="_blank">时光</a></li>
 			</ul>
 		</div>
 	</div>
  <script src="js/jquery-2.1.1.min.js"></script>
+ <script src="js/util.js"></script>
  <script type="text/javascript">
 		window.onload = function(){
 
+			$('ul').html(listArr.map(function(ele,index){
+				return '<li data-id="'+ele.id+'">' +
+							'<a href="player.html" target="xiami" target="_blank">'+ele.songName[0].name+' —— '+ele.singer[0].name+'</a>' +
+						'</li>';
+			}).join(''));
+
 			$('li').on('click',function(event){
 				var id = $(this)[0].getAttribute('data-id');
-				id = parseInt(id)+1 ;
+				id = parseInt(id) ;
 				if (!!id)
 				{
 					localStorage.setItem('currentId',id);
@@ -47,7 +45,7 @@
 
 					var oldTime = parseInt(localStorage['playerTime'],10);
 					var nowTime = new Date().getTime();
-					if (localStorage.isPlayerOpen == 'true') 
+					if (localStorage.isPlayerOpen == 'true')
 					{
 						event.preventDefault();
 					}

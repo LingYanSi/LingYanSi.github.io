@@ -1,5 +1,5 @@
 
-/* 
+/*
 * 本布局，部分使用了flex
  */
 html,body,div,form,ul,ol,li,img,p,h1,h2,h3,h4,h5,h6{margin:0;padding:0;border:0;}
@@ -15,15 +15,15 @@ html{ font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; overflow:hidden;}
 
 #music-list-wrap{overflow:hidden; position:relative; flex:4; min-width:400px;}
 .music-list{background-color:rgba(255,255,255,0.2);width:100%;min-height:100%;position:absolute;}
-.music-list-item{list-style:decimal-leading-zero outside;cursor:default;height:50px;line-height:50px;padding-left:2em; position:relative;}
+.music-list-item{list-style:decimal-leading-zero outside; cursor:pointer; height:50px; line-height:50px; padding-left:2em; position:relative;}
 .music-list-item+.music-list-item{border-top:1px solid rgba(255,255,255,0.3);}
-.music-list-item:hover{}
-.music-li-delete{ position:absolute; top:0; right:0; height:20px; width:20px; border-radius:20px; 
+.music-list-item:not(.mli-current):hover{ background-color:rgba(255,255,255,0.1); }
+.music-li-delete{ position:absolute; top:0; right:0; height:20px; width:20px; border-radius:20px;
 				  border:1px solid rgba(0,0,0,0.1); cursor:pointer;
-	              background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0) 0px, rgba(255,255,255,0) 14px, rgba(255,255,255,0.2) 14px, rgba(255,255,255,0.2) 15px, rgba(255,255,255,0) 15px), 
+	              background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0) 0px, rgba(255,255,255,0) 14px, rgba(255,255,255,0.2) 14px, rgba(255,255,255,0.2) 15px, rgba(255,255,255,0) 15px),
 	              				repeating-linear-gradient(135deg, rgba(255,255,255,0) 0px, rgba(255,255,255,0) 14px, rgba(255,255,255,0.2) 14px, rgba(255,255,255,0.2) 15px, rgba(255,255,255,0) 15px); }
 .music-li-delete:hover{
-	background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 14px, rgba(247,105,105,1) 14px, rgba(247,105,105,1) 15px, rgba(255,255,255,0.2) 15px), 
+	background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 14px, rgba(247,105,105,1) 14px, rgba(247,105,105,1) 15px, rgba(255,255,255,0.2) 15px),
 	              	repeating-linear-gradient(135deg, rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 14px, rgba(247,105,105,1) 14px, rgba(247,105,105,1) 15px, rgba(255,255,255,0.2) 15px);
 
 }

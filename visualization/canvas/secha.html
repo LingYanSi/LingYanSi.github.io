@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="灵岩">
+    <meta name="Description" content="灵岩">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" name="viewport" />
+    <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+    <link rel="stylesheet" href="http://lingyansi.github.io/stylesheets/lingyan.css">
+    <title>灵岩</title>
+    <style>
+        div{ height:100px; width:400px; }
+        .green{ background:rgb(120,20,90); }
+        .red{ background:rgb(130,230,160); }
+    </style>
+</head>
+
+<body>
+    <header></header>
+    <section>
+        <div class="green"></div>
+        <div class="red"></div>
+        <canvas></canvas>
+        <div class="b"></div>
+        <div class="d"></div>
+    </section>
+    <footer></footer>
+    <script src="http://lingyansi.github.io/build-zepto/ku.js"></script>
+    <script type="text/javascript">
+        'use strict';
+        var img = document.createElement('img');
+        img.src = '4.jpg' ;
+        img.onload = function(){
+            getThemeColor(this);
+        };
+        function getThemeColor(img){
+            var canvas = document.querySelector('canvas');
+            canvas.height = 200 ;
+            canvas.width = 200 ;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img,0,0,200,200);
+            var arr = ctx.getImageData(0,0,200,200).data ;
+            // console.log(arr.length,(arr.length)/4);
+            var len = arr.length/4 ,
+                i = 0 ,
+                r,g,b,a ;
+            r = g = b = a = 0 ;
+            // console.time();
+            for(i=0;i<len;i++){
+                r += arr[i*4+0] ;
+                g += arr[i*4+1] ;
+                b += arr[i*4+2] ;
+                a += arr[i*4+3] ;
+            }
+            // console.log(r/len,g/len,b/len,a/len);
+            // console.timeEnd();
+
+            var arr1 = [r,g,b,a].map(function(ele){
+                return Math.round(ele/len);
+            }).splice(0,3);
+            var arr2 = arr1.map(function(ele,index){
+                if(index>1) return ele
+                return 250-ele ;
+            });
+            document.querySelector('.b').style.background = 'rgb('+arr1.join(',')+')';
+            document.querySelector('.d').style.background = 'rgb('+arr2.join(',')+')';
+        }
+    </script>
+</body>
+
+</html>

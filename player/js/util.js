@@ -169,5 +169,24 @@ var listArr = [{
     }],
     "poster": "audio/shiguang.jpg",
     "pos": "audio/shiguang.mp3"
+}, {
+    id: 10 ,
+    "singer": [{
+        "name": "曹方",
+        "url": ""
+    }],
+    "songName": [{
+        "name": "南部小城",
+        "url": "audio/nanbuxiaocheng.mp3"
+    }],
+    "album": [{
+        "name": "哼一首歌 等日落",
+        "url": ""
+    }],
+    "lyric": [{
+        "pos": "audio/nanbuxiaocheng"
+    }],
+    "poster": "audio/nanbuxiaocheng.jpg",
+    "pos": "audio/nanbuxiaocheng.mp3"
 }];
 
