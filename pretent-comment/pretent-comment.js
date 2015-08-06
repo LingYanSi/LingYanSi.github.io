@@ -2,7 +2,7 @@
 * date: 2015-08-04
 * 使用localstorage来进行数据存储。
 * 数据格式
-	{ 
+	{
 		name:'胡锦涛'
 		time:1234556,
 		content:'what the fuck'
@@ -22,6 +22,7 @@ var prevent = (function(){
 		bind:function(id,arg1){
 			dataStr = 'data'+( arg1||'' ) ;
 			preventStr = localStorage.getItem(dataStr);
+			console.log(preventStr)
 			preventObj = JSON.parse(preventStr)|| {} ;
 			arr = Object.keys(preventObj) ;
 
@@ -40,7 +41,7 @@ var prevent = (function(){
 			$idPresent.addEventListener('click',function(event){
 				if(event.target.className == 'prevent-comment-delete'){
 					var siblings = [].slice.call($idPresent.children) ;
-					var index = siblings.indexOf(event.target.parentElement); 
+					var index = siblings.indexOf(event.target.parentElement.parentElement);
 					_this.remove(index);
 				}
 			});
@@ -103,12 +104,15 @@ var prevent = (function(){
 			var _this = this ;
 			var str = arr.map(function(element,index,arr){
 				var obj = preventObj[arr[index]] ;
-				return '<div class="prevent-comment-item"><h2>'+
-						obj.name+'</h2><span>'+
-						_this.formatDate(obj.time)+'</span><span> '+
-						(index+1)+'楼 </span><span class="prevent-comment-delete"> 删除 </span><p>'+
-						obj.content+
-					'</p></div>' ;
+				return '<div class="prevent-comment-item">'+
+							'<h2>'+obj.name+'</h2>'+
+							'<p>'+
+								'<span>'+_this.formatDate(obj.time)+'</span>'+
+								'<span> '+ (index+1)+'楼 </span>'+
+								'<span class="prevent-comment-delete" style="cursor:pointer;"> 删除 </span>'+
+							'</p>'+
+							'<p>'+obj.content+'</p>'+
+						'</div>' ;
 			}).join('');
 			$idPresent.innerHTML = str ;
 			// console.log( JSON.parse(localStorage.getItem('data')) );
@@ -122,7 +126,7 @@ var prevent = (function(){
 				min = date.getMinutes(),
 				sec = date.getSeconds();
 
-			return year+'-'+month+'-'+day+' '+hour+':'+min+':'+sec ;  
+			return year+'-'+month+'-'+day+' '+hour+':'+min+':'+sec ;
 		}
 	}
 })();

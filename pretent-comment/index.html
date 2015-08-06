@@ -1,16 +1,44 @@
+
 <!DOCTYPE html>
-<html lang="zh-cn">
-	<head>
-		<meta charset="utf-8">
-	    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" name="viewport" />
-	    <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
-		<title>测试navigator</title>
-	</head>
-	<body>
-		<div id="comment"></div>
-		<script src="pretent-comment.js"></script>
-		<script>
-			prevent.bind('#comment');
-		</script>
-	</body>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="灵岩">
+    <meta name="Description" content="灵岩">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" name="viewport" />
+    <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+    <link rel="stylesheet" href="http://lingyansi.github.io/stylesheets/lingyan.css">
+    <title>灵岩-假装能评论</title>
+
+    <style style="text/css">
+
+    	.prevent-comment-present{ padding:0 8px; border-bottom:1px dashed gray; border-left:none; border-right:none; }
+    	.prevent-comment-item{ padding:10px; }
+    	.prevent-comment-item h2{ font-size:1.2em; }
+    	.prevent-comment-item p:nth-child(2){ color:rgb(120,120,120); }
+		.prevent-comment-item+.prevent-comment-item{ border-top:1px dashed gray;}
+
+		.prevent-comment-write{ margin-top:10px; padding:0 8px; }
+		.prevent-comment-write input,.prevent-comment-write textarea{ display:block; width:100%; resize:none; }
+		.prevent-comment-write button{ display:inline-block; border:none; outline:none; background-color:rgb(247,104,104); color:#fff; height:2em; width:4em;  }
+		.prevent-comment-write .prevent-cw-add{ margin-left:2em; }
+
+    </style>
+</head>
+
+<body>
+    <header></header>
+    <section class="LY-main">
+    	<div id="comment"></div>
+    </section>
+    <footer></footer>
+    <script src="http://lingyansi.github.io/build-zepto/ku.js"></script>
+	<script src="pretent-comment.js"></script>
+	<script>
+		prevent.bind('#comment');
+	</script>
+</body>
+
 </html>

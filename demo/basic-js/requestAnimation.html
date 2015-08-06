@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="shortcut icon" href="" />
+    <title></title>
+    <style type="text/css">
+        #color{
+            width:100px;height:100px; background:green; position:relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="wrap">
+        <div id="color" style="">
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        var start = null;
+        var element = document.getElementById("color");
+
+        function step(timestamp) {
+        console.log(timestamp)
+        window.cancelAnimationFrame(step);
+          if (!start) start = timestamp;
+          var progress = timestamp - start;
+          element.style.left = Math.min(progress/10, 200) + "px";
+          if (progress < 2000) {
+            window.requestAnimationFrame(step);
+          }
+        }
+
+        window.requestAnimationFrame(step);
+
+    </script>
+</body>
+
+</html>

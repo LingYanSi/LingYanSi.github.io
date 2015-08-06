@@ -16,11 +16,10 @@ html,pre, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, block
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
 	font-weight: normal;
 	vertical-align: baseline;
 	background: transparent;
-	font-family:'微软雅黑', 'Heiti SC','Helvetica Neue',Helvetica,Arial,sans-serif;
+	font-family: 'Heiti SC','Helvetica Neue',Helvetica,Arial,sans-serif;
 }
 
 article, aside, figure, footer, header, nav, section, details, summary {display: block;}
@@ -135,4 +134,4 @@ input[type=button] {width: auto; overflow: visible;}
 
 
 body{ -webkit-tap-highlight-color:rgba(0,0,0,0); }
-html body, html input, html textarea, html select, html button{ font-family: '微软雅黑','Heiti SC','Helvetica Neue',Helvetica,Arial,sans-serif; }
+html body, html input, html textarea, html select, html button{ font-family: 'Heiti SC','Helvetica Neue',Helvetica,Arial,sans-serif; }

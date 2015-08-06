@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+    <link rel="stylesheet" href="../../stylesheets/lingyan.css">
+    <link rel="shortcut icon" href="" />
+    <title>行内元素，块级元素</title>
+    <style>
+    /* 对于span来说
+        高度无用,宽度无用，
+        padding的左右方向有用，上下放下对文档的排版无影响，但也可以看到背景颜色还是着上的
+        margin上下方向无用，左右有用
+        line-height 可撑开高度，但是并不计算在span的高度内，可以通过背景颜色看出
+    */
+    span.inline {
+        height: 100px;
+        width: 200px;
+        background: pink;
+        padding: 20px;
+        margin:20px;
+        line-height:6;
+    }
+
+    .inline-block{
+        display:inline-block;
+        background:green;
+        padding:20px;
+        margin:20px;
+        line-height:6;
+        height:50px;
+        width:200px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="LY-main">
+        <h2>inline</h2>
+        <pre>
+            对于行内元素span来说
+            高度无用,宽度无用，
+            padding的左右方向有用，上下放下对文档的排版无影响，但也可以看到背景颜色还是着上的
+            margin上下方向无用，左右有用
+            line-height 可撑开高度，但是并不计算在span的高度内，可以通过背景颜色看出
+        </pre>
+        <div>
+            <span class="inline">我是span呢</span><i>我是倾斜</i>
+            <br>
+            <strong>我是strong</strong>
+        </div>
+
+        <hr>
+        <h2>inline-block</h2>
+        <pre>
+            对于inline-block行内块级元素span来说
+            高度有用,宽度有用，
+            padding的左右方向有用，上下放下对文档的排版有影响
+            margin上下方向有用，左右有用
+            line-height 可撑开高度，但如果高度一已定义，有可能会发生溢出现象
+            <strong>也就是说，行内块级元素除了不换行以外，其他属性与块级元素一致</strong>
+        </pre>
+        <div>
+            <span class="inline-block">我是inline-block呢</span><i>我是倾斜</i>
+            <br>
+            <strong>我是strong</strong>
+        </div>
+
+        <hr>
+        <h2>结论</h2>
+        <pre class="LY-quote">
+            1.块级元素会独占一行，其宽度自动填满其父元素宽度行内元素不会独占一行，相邻的行内元素会排列在同一行里，知道一行排不下，才会换行，其宽度随元素的内容         而变化
+
+            2. 块级元素可以设置 width, height属性，行内元素设置width,  height无效【注意：块级元素即使设置了宽度，仍然是独占一行的】
+
+            3. 块级元素可以设置margin 和 padding.  行内元素的水平方向的padding-left,padding-right,margin-left,margin-right 都产生边距效果
+            但是竖直方向的padding-top,padding-bottom,margin-top,margin-bottom都不会产生边距效果。（水平方向有效，竖直方向无效）
+        </pre>
+
+        <hr>
+        <h2>附录行内元素&块级元素</h2>
+        <hr>
+        <h3>行内元素[内联元素]inline</h3>
+        <pre class="LY-quote">
+            a           锚点
+            img         图片
+            u           下划线
+            strike      中划线
+            i           斜体
+    b/bold/strong       加粗
+            span        常用内联容器，定义文本内区块
+            big         大字体
+            small       小字体
+            br          换行
+            sub         上标
+            sup         下标
+            em          强调
+            textarea/input/select/label
+        </pre>
+        <hr>
+        <h3>块级元素block</h3>
+        <pre class="LY-quote">
+            h1,h2,h3,h4,h5,h6
+            p,div,form,table,pre
+            ul,ol,li
+            hr,address,blockquote
+        </pre>
+
+        <hr>
+        <h3>可变元素</h3>
+        <pre class="LY-quote">
+            可变元素为根据上下文语境决定该元素为块元素或者内联元素。<sup>这是什么鬼</sup>
+            iframe,object,button
+        </pre>
+    </div>
+    <script type="text/javascript">
+    /*
+     * 计数器，css2.1规范中出现的，各大浏览器全部兼容
+     *   counter-reset:section; 用于将section重置为0
+     *   使用 counters() 函数，在不同级别的嵌套计数器之间可以插入字符串
+     */
+    </script>
+</body>
+
+</html>

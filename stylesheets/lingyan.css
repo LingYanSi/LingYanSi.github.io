@@ -1,9 +1,28 @@
-@import url(reset.css);
+/*
+* Author: 灵岩 ;
+* Create time: 2015-08-05 10:13 ;
+* Last update: 8888888 ;
+*/
+
+@import url(reset.css);  /* 依赖reset.css主要是用来格式化 */
 
 a{ text-decoration: none; color:rgb(247,104,104); }
 li{ list-style : inside disc; }
-h1{ font-size:2em; line-height:2; }
-h2{ font-size:1.4em; line-height:1.8; }
+h1,h2,h3,h4,h5,h6{ line-height:2; }
+h1{ font-size:2.2em;  }
+h2{ font-size:2em;  }
+h3{ font-size:1.8em; }
+h4{ font-size:1.6em; }
+h5{ font-size:1.4em; }
+h5{ font-size:1.2em; }
 
 .LY-text-center{ text-align:center; }
-.LY-main{ max-width:1200px; margin:0 auto; }
+.LY-main{ max-width:1220px; margin:0 auto; padding:0 10px; }
+/* 文字和装饰类 */
+.LY-quote{ border-left:4px solid rgb(210,210,210); padding:8px 10px; color:rgb(120,120,120); }
+
+
+/* 对于移动端的兼容 */
+@media( max-width:640px ){
+    body,html { font-size:14px;  }
+}
