@@ -11,9 +11,17 @@
     <link rel="stylesheet" href="http://lingyansi.github.io/stylesheets/lingyan.css">
     <title>灵岩</title>
     <style>
-        div{ height:100px; width:400px; }
+        section{ font-size:0; }
+        .green,.red{ height:100px; width:400px; }
         .green{ background:rgb(120,20,90); }
         .red{ background:rgb(130,230,160); }
+
+        canvas{ display:none; }
+
+        div.item{ position:relative;  width:50%; display:inline-block; }
+        .item img{ width:100%; height:auto; }
+        .item p{ position:absolute; width:100%; top:50%; text-align:center; font-size:100px;
+            -webkit-transform: translate(0,-50%); transform: translate(0,-50%); }
     </style>
 </head>
 
@@ -22,24 +30,52 @@
     <section>
         <div class="green"></div>
         <div class="red"></div>
-        <canvas></canvas>
-        <div class="b"></div>
-        <div class="d"></div>
+        <canvas></canvas> <br>
+       <!--  <div class="b"></div>
+        <div class="d"></div> -->
+        <div id="container"></div>
+
     </section>
     <footer></footer>
     <script src="http://lingyansi.github.io/build-zepto/ku.js"></script>
     <script type="text/javascript">
+
         'use strict';
-        var img = document.createElement('img');
-        img.src = '4.jpg' ;
-        img.onload = function(){
-            getThemeColor(this);
-        };
+        var util = [{url:'1.jpg',title:'昆 仑'},
+                    {url:'2.jpg',title:'Everything will flow'},
+                    {url:'3.jpg',title:'天堂魔影'},
+                    {url:'4.jpg',title:'Ton oncle il'},
+                    {url:'5.jpg',title:'夏日の作战'},
+                    {url:'6.jpg',title:'秒速五厘米'},
+                    {url:'7.jpg',title:'小城之春'},
+                    {url:'8.jpg',title:'芙 蓉 镇'},
+                    {url:'9.jpg',title:'小 武'}];
+        $('#container').append(
+            util.map(function(ele){
+                return '<div class="item" style="visibility:hidden;">' +
+                            '<img src="'+ele.url+'" >' +
+                            '<p>'+ele.title+'</p>' +
+                        '</div>';
+            }).join('')
+        );
+        var containerWidth = $('#container').width() ;
+        var $items = [].slice.call(document.querySelectorAll('.item'));
+        $items.forEach(function(ele){
+            var $img = ele.querySelector('img');
+            if($img.complete) getThemeColor($img);
+            else{
+                $img.onload = function(){
+                    getThemeColor($img);
+                };
+            }
+        })
         function getThemeColor(img){
+            console.log('进来了')
             var canvas = document.querySelector('canvas');
             canvas.height = 200 ;
             canvas.width = 200 ;
             var ctx = canvas.getContext('2d');
+            ctx.clearRect(0,0,200,200);
             ctx.drawImage(img,0,0,200,200);
             var arr = ctx.getImageData(0,0,200,200).data ;
             // console.log(arr.length,(arr.length)/4);
@@ -52,7 +88,7 @@
                 r += arr[i*4+0] ;
                 g += arr[i*4+1] ;
                 b += arr[i*4+2] ;
-                a += arr[i*4+3] ;
+                // a += arr[i*4+3] ;
             }
             // console.log(r/len,g/len,b/len,a/len);
             // console.timeEnd();
@@ -62,10 +98,13 @@
             }).splice(0,3);
             var arr2 = arr1.map(function(ele,index){
                 if(index>1) return ele
-                return 250-ele ;
+                return 255-ele ;
             });
-            document.querySelector('.b').style.background = 'rgb('+arr1.join(',')+')';
-            document.querySelector('.d').style.background = 'rgb('+arr2.join(',')+')';
+           /* document.querySelector('.b').style.background = 'rgb('+arr1.join(',')+')';
+            document.querySelector('.d').style.background = 'rgb('+arr2.join(',')+')';*/
+
+            img.nextElementSibling.style.cssText = ';color:rgb('+arr2.join(',')+');font-size:'+containerWidth*100/1920+'px;';
+            img.parentElement.style.visibility = 'visible' ;
         }
     </script>
 </body>

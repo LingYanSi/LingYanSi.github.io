@@ -51,7 +51,7 @@
                 ctx.fill();
                 ctx.restore();
 
-                
+
             }
             for( var i=0,len=info.length;i<len;i++){
                 ctx.save();
@@ -67,8 +67,8 @@
                 ctx.beginPath();
                 ctx.arc( 250*bili,  2.6*100*bili+40*i ,3*bili, 0 , PI ,true);
                 ctx.fillStyle = info[i].color ;
-                ctx.fill(); 
-                
+                ctx.fill();
+
                 ctx.beginPath();
                 ctx.font = 16*bili+'px serif' ;
                 ctx.fillStyle = info[i].color ;
