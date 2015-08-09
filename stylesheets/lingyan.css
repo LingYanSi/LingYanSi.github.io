@@ -16,9 +16,14 @@ h4{ font-size:1.6em; }
 h5{ font-size:1.4em; }
 h5{ font-size:1.2em; }
 
-.LY-text-center{ text-align:center; }
-.LY-main{ max-width:1220px; margin:0 auto; padding:0 10px; }
+.LY-main{ max-width:1220px; margin:0 auto; padding:0 10px; overflow:hidden;}
+
+/* 代码，实例 */
+.LY-code-render{ margin:10px; padding:10px; border:1px solid rgb(210,210,210); }
+
 /* 文字和装饰类 */
+.LY-text-center{ text-align:center; }
+.LY-p{ text-indent:2em; }
 .LY-quote{ border-left:4px solid rgb(210,210,210); padding:8px 10px; color:rgb(120,120,120); }
 
 

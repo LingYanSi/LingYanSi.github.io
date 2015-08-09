@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+    <link rel="stylesheet" href="../../stylesheets/lingyan.css">
+    <title>灵岩-字体大小</title>
+    <style type="text/css">
+        html{ font-size:16px; }
+    </style>
+</head>
+
+<body>
+    <div class="LY-main">
+        <h1 class="LY-text-center">Font</h1>
+        <pre class="LY-p">
+            和设计师沟通的时候，设计师总是说，你的实现和我的设计有偏差。其中多的争议在于，要不要把设计将至缩放实现。举个例子，比如说设计师按照6plus来设计，如何将他实现到iPhone5上呢，iPhone5和plus的比例相同，但大小不同。
+            两种方案：
+            1.字体等比例缩放，图片等比例缩放，两个屏幕上显示内容相同。
+            2.字体大小一样，图片等比例放大，6plus上多显示点内容。
+        </pre>
+
+        <hr>
+        <h2>font-size</h2>
+        <pre class="LY_p">
+            如何实现字体的等比例缩放呢？可以先在一个固定大小的div内布局，依据宽度的变化，进行缩放，以达到这个效果。
+            这是整体缩放以达到字体缩放。还有一种方式是css中的新的字体大小单位<strong>rem</strong>。
+        </pre>
+        <div class="LY-code-render" style="font-size:2rem;">
+            <span style="font-size:1.8rem">rem比em多了个r，em是相对父元素字体大小的一种单位，rem是相对html根元素的单位。</span><br>
+            <span style="font-size:1rem;">rem使用起来更方便一些。</span>
+            <div style="font-size:14px;">
+                <strong>我是em</strong>
+                <span style="font-size:1em">雨霖铃</span>
+                <span style="font-size:2em">一任点滴到天明</span>
+            </div>
+        </div>
+        <h4>px/rem/em的优劣</h4>
+        <pre class="LY-quote">
+            <strong>px</strong> 更精准，但是带来的问题是，将如浏览器的字体大小或者网页被缩放，会面临布局混乱的结果
+            <strong>rem</strong> 相对html来设定font-size，这是极好的，所有的字体大小都使用相对单位，不过rem是css3新特性，ie9以下不支持
+            <strong>em</strong> 相对父元素设定font-size，不适合全局把控，未来有被淘汰的可能，如果能用rem就用rem
+            题外话：
+            其实我不觉得，去适配浏览器缩放或者默认字体被修改，是一件必须的事情，浪费时间。
+        </pre>
+
+    </div>
+    <script src="http://lingyansi.github.io/build-zepto/ku.js"></script>
+    <script type="text/javascript">
+
+    </script>
+</body>
+
+</html>

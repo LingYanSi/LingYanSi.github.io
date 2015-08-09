@@ -4,14 +4,15 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="shortcut icon" href="" />
+  <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+  <link rel="stylesheet" href="../../stylesheets/lingyan.css">
   <title>Stacking Context</title>
   <style type="text/css">
   		div{ left:0; top:0; }
   </style>
  </head>
  <body>
+<div class="LY-main">
  	<h1>Block Formatting Context</h1>
  	<p>
  		说起BFC还真是没有完全理解明白<br>
@@ -29,6 +30,7 @@
  		因为新创建了BFC的缘故，他们布局在正常流的上方，并且按照元素出现的先后顺序来堆叠，后出现的在上方<br>
  		translate是想对自身进行为位移
  	</p>
+	<hr>
 
  	<h2>z-index</h2>
 	<div class="relative" style="position:relative;height:100px;">
@@ -46,6 +48,7 @@
 		2.如果一个元素新建了一个BFC，那么子元素的布局和其他元素是没有关系的<br>
 		3.translate的优先级没有非static的元素的优先级高
 	</p>
+	<hr>
 
 	<h2>float</h2>
 	<div style="overflow:hidden;">
@@ -62,6 +65,7 @@
 		1.父元素overflow:hidden; <br>
 		2.当前元素clear:both/left/right
 	</p>
+</div>
  <script type="text/javascript">
  	/*
 	* z-index，数值，auto，不可继承，可动画

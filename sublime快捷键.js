@@ -226,6 +226,7 @@ Shift+F11 免打扰模式
 		插件使用的快捷键为Ctrl + Shift + R。
     11.Quote​HTML，把HTML拼接成js插入字符串，神器
     12.ClickableURLs 使用小插件ClickableURLs可以让文件中的URL能够点击。【右键可打开链接】
+    13.IMESupport 解决在win8系统下。sublime输入法不跟随的现象
 
 
 // -----------------------------------

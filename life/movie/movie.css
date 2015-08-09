@@ -7,7 +7,7 @@ a{ color:inherit; }
 body{background:#f2f2f2;}
 .main{ max-width:800px; margin:0 auto; color:#fff;}
 
-.item{ display:block; text-decoration:none; color:inherit; position:relative; height:300px; background-position:center; background-size:cover; 
+.item{ display:block; text-decoration:none; color:inherit; position:relative; height:300px; background-position:center; background-size:cover;
 	/*-webkit-filter:grayscale(100%); */
 }
 .item>div{ position:absolute; bottom:0px; padding:8px; width:100%; box-sizing:border-box;
@@ -21,7 +21,7 @@ aside,nav{display:none; }
 /* 使用媒体查询 */
 @media(min-width: 1000px){
 	nav{ position:fixed; height:50px; width:100%; top:0; left:0; display:block;
-		background-image:linear-gradient(180deg,rgba(247,104,104,1),rgba(247,104,104,0.7)); z-index:1000; 
+		background-image:linear-gradient(180deg,rgba(247,104,104,1),rgba(247,104,104,0.7)); z-index:1000;
 	}
 	nav>div{ max-width:1000px; height:100%; margin:0 auto; font-size:0;}
 	nav span{ display:inline-block; padding:0 1em; line-height:50px; font-size:20px; color:rgb(255,255,255); cursor:pointer; }

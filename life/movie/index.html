@@ -50,7 +50,7 @@
 		var movie = {
 			init:function(type,area){
 				if( type==this.state.type && area==this.state.area ) return
-				this.state.type = type , this.state.area = area ; 
+				this.state.type = type , this.state.area = area ;
 				var arr = List[type] ;
 				this.render(arr);
 			},
@@ -77,7 +77,7 @@
 		movie.init('film'); // 初始化，默认加载film
 		return movie ;
 	})(List,$main);
-	
+
 	// 切换状态
 	$('nav').find('span').on('click',function(){
 		$(this).addClass('nav-span-current').siblings().removeClass('nav-span-current');
