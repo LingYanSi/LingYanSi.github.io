@@ -72,6 +72,65 @@
 		position：relative、absolute、fixed都适用
 		一个元素的的层级，只适用于他所处的父元素内
  	*/
+ 	/* BFC —— Block Format Context 【直译：块级格式化上下文】 http://www.tuicool.com/articles/uUfYNr
+		前言
+
+		在 CSS 2.1 中，有三种定位方案——普通流 (Normal Flow) 、浮动 (Floats) 和绝对定位 (Absolute Positioning) ，下面分别对这三种布局简略说明一下。
+
+		普通流(Normal Flow)
+
+		在普通流中，元素按照其在 HTML 中的先后位置至上而下布局，在这个过程中，行内元素水平排列，直到当行被占满然后换行，块级元素则会被渲染为完整的一个新行， 除非另外指定，否则所有元素默认都是普通流定位，也可以说，普通流中元素的位置由该元素在 HTML 文档中的位置决定。
+
+		浮动 (Floats)
+
+		在浮动布局中，元素首先按照普通流的位置出现，然后根据浮动的方向尽可能的向左边或右边偏移，其效果与印刷排版中的文本环绕相似。
+
+		绝对定位 (Absolute Positioning)
+
+		在绝对定位布局中，元素会整体脱离普通流，因此绝对定位元素不会对其兄弟元素造成影响（如果看了上文的童鞋，会发现这点与浮动元素会影响兄弟元素是不同的），而元素具体的位置由绝对定位的坐标决定。
+
+		一、什么是块格式化上下文
+
+		有了上面的知识后，就可以介绍Block formatting context （块格式化上下文）了。
+
+		Block Formatting Context （块格式化上下文）是 W3C CSS 2.1 规范中的一个概念，它决定了元素如何对其内容进行定位，以及与其他元素的关系和相互作用。
+
+		在创建了 Block Formatting Context 的元素中，其子元素会一个接一个地放置。垂直方向上他们的起点是一个包含块的顶部，两个相邻的元素之间的垂直距离取决于 'margin' 特性。在 Block Formatting Context 中相邻的块级元素的垂直边距会折叠（collapse）。
+
+		二、触发BFC的条件
+
+		the root element or something that contains it
+		floats (elements where float is not none)
+		absolutely positioned elements (elements where position is absolute or fixed)
+		inline-blocks (elements with display: inline-block)
+		table cells (elements with display: table-cell, which is the default for HTML table cells)
+		table captions (elements with display: table-caption, which is the default for HTML table captions)
+		elements where overflow has a value other than visible
+		flex boxes (elements with display: flex or inline-flex)
+		翻译成中文大概有5点
+
+		1、"float"的值不是"none"
+
+		 2、"overflow"的值不是"visible"
+
+		 3、"display"的值是"table-cell"
+
+		 4、"table-caption",或"inline-block"
+
+		 5、"position"的值既不是"static"也不是"relative"
+
+		三、BFC的用处
+
+		1、Block Formatting Context可以阻止边距折叠（margin collapsing）。
+		2、Block Formatting Context可以包含内部元素的浮动。
+		3、Block Formatting Context可以阻止元素被浮动覆盖
+
+		四、总结
+
+		为了减少现代浏览器和IE(<8)之间的问题，编程人员可以给框(box)一个布局来创建新的块级格式化上下文。
+		在这种情况下，流式相同的，元素也是通过相同的方式清除浮动，clear也是清除相同的浮动，外边距也像预期的那样叠加。
+		同时，编程人员在通过触发hasLayout的方式来给框添加样式时必须留意因为这种添加样式的方法可能使那个元素变成新的块级格式化上下文。
+ 	*/
  </script>
  </body>
 </html>
