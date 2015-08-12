@@ -12,10 +12,12 @@
 		#LY-date table td,#LY-date table th{ padding:10px; }
 		#LY-date table tr:not(:first-child) td{  border-top:1px solid rgba(210,210,210,0.5); }
 		#LY-date table td:not(:first-child){ border-left:1px solid rgba(210,210,210,0.5); }
-	    #LY-date .nidaye {background: red; cursor:pointer; }
-	    #LY-date .tamabi {background: green; cursor:pointer;  }
+	    #LY-date .nidaye {background: rgb(38,157,128); cursor:pointer; }
+	    #LY-date .tamabi {background: rgb(230,214,110); cursor:pointer;  }
 
-	    #LY-date span{ display:inline-block; line-height:3; padding:0 0.5em; background:rgb(92,167,186); color:#fff; }
+	    #LY-date span{ display:inline-block; line-height:3; width:4em; text-align:center; background:rgb(92,167,186); color:#fff; }
+
+        #info{ line-height:2; font-size:2em;}
     </style>
 </head>
 
@@ -32,6 +34,7 @@
             </p>
             <table cellspacing="0"></table>
         </div>
+        <pre id="info"> </pre>
     </div>
     <script type="text/javascript" src="../build-zepto/ku.js"></script>
     <script type="text/javascript" src="date.js"> </script>

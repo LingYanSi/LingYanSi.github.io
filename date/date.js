@@ -24,7 +24,31 @@ var LY_date = (function() {
     var LY_date = {
         pointDate_obj:{},
         init:function(){
-        	this.render(this.nowDate().str);
+        	this.render(this.nowDate().str, {
+                    arr: [{
+                        date: 1,
+                        LYDateId: '陈',
+                    }, {
+                        date: 2,
+                        LYDateId: '宋',
+                    }, {
+                        date: 3,
+                        LYDateId: '李',
+                    }],
+                    className: 'nidaye',
+                }, {
+                    arr: [{
+                        date: 12,
+                        LYDateId: '周芷若',
+                    }, {
+                        date: 21,
+                        LYDateId: '神仙姐姐',
+                    }, {
+                        date: 18,
+                        LYDateId: '月明人倚楼',
+                    }],
+                    className: 'tamabi',
+                });
         },
         nowDate: function() {
             var date = new Date();
