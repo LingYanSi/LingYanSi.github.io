@@ -192,7 +192,7 @@ Shift+F11 免打扰模式
 一些插件
 	1.SideBarEnhancement 侧边栏文件操作 只对project起作用 对单个打开的文件无效，需要添加project
 
-	2.emmet原来的zeCoding 方便html标签的书写
+	2.emmet原来的zeCoding 方便html标签的书写，emmet提供了一个快速构建html文件的快捷键 html:5 ctrl+e
 
 	3.html-js-css 格式化 插件 需要使用 nodejs 在C:/programe/nodejs/node.js 如此便可
 
@@ -231,23 +231,23 @@ Shift+F11 免打扰模式
 
 // -----------------------------------
 Preferences/setting-user 配置
-{
-    "font_size": 12, // 字体大小
-    "ignored_packages":
-    [
-        "CSScomb",
-        "Vintage"
-    ],
-    "preview_on_click": false, // 文件双击打开
-    "tab_size": 4, // tab缩进4空格
-    "translate_tabs_to_spaces": true,
-    "trim_trailing_white_space_on_save": true,
-    "update_check": false, // 更新检查
-    "word_separators": "()\"',;<>~!@#$%^&*|+=[]{}`~?",
-    "word_wrap": true,
-    "ensure_newline_at_eof_on_save": true, // 文件末尾自动保留一个空行，懂的人自然知道它的用处。
-    "highlight_line": true, // 当前行高亮
-}
+    {
+        "font_size": 12, // 字体大小
+        "ignored_packages":
+        [
+            "CSScomb",
+            "Vintage"
+        ],
+        "preview_on_click": false, // 文件双击打开
+        "translate_tabs_to_spaces": true,
+        "tab_size": 4, // tab缩进4空格
+        "trim_trailing_white_space_on_save": true,
+        "update_check": false, // 更新检查
+        "word_separators": "()\"',;<>~!@#$%^&*|+=[]{}`~?",
+        "word_wrap": true,
+        "ensure_newline_at_eof_on_save": true, // 文件末尾自动保留一个空行，懂的人自然知道它的用处。
+        "highlight_line": true, // 当前行高亮
+    }
 
 基础用户设置
 "trim_trailing_white_space_on_save": true,  自动移除行尾多余空格，处女座更安心了。

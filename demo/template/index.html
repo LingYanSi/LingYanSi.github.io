@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="song"></div>
+    <script id="bitch" type="text/template">
+        {{if bitch==false }}
+            {{each list}}
+                <div> {{$index}} : {{$value.username}}</div>
+            {{/each}}
+        {{/if}}
+    </script>
+    <script src="js/art-template.js"></script>
+    <script>
+        var util = {
+            bitch: false,
+            list:[
+                {username:'李晓波'},
+                {username:'李洪志'},
+                {username:'张弛没'},
+                {username:'宇文化及'}
+            ]
+        }
+        var html = template('bitch',util);
+        document.querySelector('#song').innerHTML = html ;
+    </script>
+</body>
+</html>
