@@ -43,7 +43,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
     var xx, XX, currentDom, prevDom, nextDom, swipeX, swipeY, cha, chaCache;
     var mouseStart, mouseMove, mouseEnd ;
     var swipeable = true ;
-    var TRANSTION = 'all 1s ease' ;
+    var TRANSTION = 'all 0.6s ease' ;
 
     mouseStart = isPhone ? 'touchstart' : 'mousedown';
     mouseMove = isPhone ? 'touchmove' : 'mousemove';

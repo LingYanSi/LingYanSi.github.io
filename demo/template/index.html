@@ -6,11 +6,23 @@
 </head>
 <body>
     <div id="song"></div>
+    <!-- 依我之见，这样的写法是在太搓 -->
     <script id="bitch" type="text/template">
         {{if bitch==false }}
             {{each list}}
                 <div> {{$index}} : {{$value.username}}</div>
             {{/each}}
+            <div>
+                <p>{{party.name}}</p>
+                <div>
+                    {{each party.partner}}
+                        {{if $value=="王羲之"}}
+                            <p>{{$value}}</p>
+                        {{/if}}
+                    {{/each}}
+                </div>
+                <p>{{party.price}}</p>
+            </div>
         {{/if}}
     </script>
     <script src="js/art-template.js"></script>
@@ -22,8 +34,17 @@
                 {username:'李洪志'},
                 {username:'张弛没'},
                 {username:'宇文化及'}
-            ]
-        }
+            ],
+            party:{
+                name:'兰亭集',
+                partner:[
+                    '王羲之',
+                    '顾炎武',
+                    '路由',
+                ],
+                price:'黄金万两',
+            }
+        };
         var html = template('bitch',util);
         document.querySelector('#song').innerHTML = html ;
     </script>
