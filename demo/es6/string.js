@@ -1,9 +1,9 @@
 /*
-* @Author: 灵岩寺
-* @Date:   2015-08-16 22:41:53
-* @Last Modified by:   灵岩寺
-* @Last Modified time: 2015-08-16 23:50:56
-*/
+ * @Author: 灵岩寺
+ * @Date:   2015-08-16 22:41:53
+ * @Last Modified by:   Administrator
+ * @Last Modified time: 2015-08-18 09:30:35
+ */
 
 'use strict';
 //es6全称ecmascript6或者ecmascript2015
@@ -11,17 +11,16 @@
 // 查看api的话，MDN是更好的去处
 
 // string对象新增了一下方法 startsWith,endsWith,repeat,includes
+(function() {
+    var str = 'i\'m string ';
+    str = str.trim();
+    console.log(str.startsWith('i')); // 以i开头
+    console.log(str.endsWith('g')); // 以g结尾
+    console.log(str.includes('ing')); // 是否包含ing
+    console.log(str.repeat(3)); // 重复三遍
 
-var str = 'i\'m string ' ;
-str = str.trim();
-console.log( str.startsWith('i') ); // 以i开头
-console.log( str.endsWith('g') ); // 以g结尾
-console.log( str.includes('ing') ); // 是否包含ing
-console.log( str.repeat(3) ); // 重复三遍
-
-// 可使用``来表示字符串，省去了+号连接，更直观
-var instr = `not ${str}` ;
-var str = `you are ${instr} alone` ;
-console.log(str)
-
-
+    // 可使用``来表示字符串，省去了+号连接，更直观
+    var instr = `not ${str}`;
+    var str = `you are ${instr} alone`;
+    console.log(str)
+})();

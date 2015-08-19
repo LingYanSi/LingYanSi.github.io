@@ -101,6 +101,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
     	}
     }
     stateControl.init();
+    stateControl.callback();
 
     // 这个地方可以再整合一下，towhere和滑动的本质应该是一样的
     // 上一页、下一页也只是towhere的参数
@@ -311,6 +312,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
         stateControl.removeTransition();
 
         resetStyle();
+        currentDom.offsetWidth ;
 
         if(!toLeft){
         	if(cha>0) currentDom.style.webkitTransformOrigin = 'center 125%';
