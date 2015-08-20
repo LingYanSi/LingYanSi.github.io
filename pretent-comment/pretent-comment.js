@@ -48,6 +48,8 @@
 
 	});
 */
+
+// 应该自己写个前端模板出来
 var prevent = (function(){
 	var dataStr ;
 	var preventStr ;

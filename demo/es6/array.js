@@ -2,13 +2,14 @@
  * @Author: Administrator
  * @Date:   2015-08-18 09:35:17
  * @Last Modified by:   Administrator
- * @Last Modified time: 2015-08-18 10:57:04
+ * @Last Modified time: 2015-08-20 13:17:37
  */
 
 'use strict';
 
 // Array 数组
 (function() {
+    console.log('----------------------Array----------------------')
 
 /* 1
  * Array.from用于将一切含有length的对象，转换为数组，chrome暂不支持

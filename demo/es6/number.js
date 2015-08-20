@@ -2,7 +2,7 @@
  * @Author: Administrator
  * @Date:   2015-08-17 11:08:48
  * @Last Modified by:   Administrator
- * @Last Modified time: 2015-08-18 09:32:01
+ * @Last Modified time: 2015-08-20 13:17:47
  */
 
 'use strict';
@@ -12,6 +12,7 @@
 // 在es6中Number也提供了这些方法，为的是减少全局对象，加强模块化
 
 (function() {
+    console.log('----------------------Number----------------------')
     Number.isNaN(NaN);
     Number.parseInt('100', 8);
     Number.parseFloat('100.23');

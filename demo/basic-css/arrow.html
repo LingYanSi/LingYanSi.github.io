@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <title>一些奇技淫巧</title>
+        <style>
+            .arrow:before{ content:''; display:block; height:0; width:0;
+                border-width:40px 10px ;
+                border-style: solid;
+                border-color:rgba(0,0,0,0);
+                border-bottom-color:rgba(255,0,100,0.6);
+                border-right-color:rgba(255,0,100,0.6);
+            }
+            .arrow:after{ content:''; display:block; height:0; width:0; border:50px solid red; box-shadow: 0px 0px 0px 1px green;
+                margin-left: 200px;
+                transform: translate(0, -50%) rotateZ(45deg) ;
+                transform-origin: -200% center;
+                animation: row 3s linear infinite;
+            }
+            @keyframes row{
+                form{ transform: translate(0, -50%) rotateZ(45deg); }
+                to{ transform: translate(0, -50%) rotateZ(405deg); }
+            }
+
+            .arrow>div{ position:relative; z-index:1; height:100px; border-left:10px solid blue; border-top:10px solid pink;}
+
+            .skew{ display:inline-block; background:pink; transform: skewX(-30deg); padding:0.5rem 1.2em;}
+            .skew>span{ display:inline-block; transform: skewX(30deg); }
+
+            .radio{ height:60px; width:60px;
+                /* 使用radial-gradient画个圆，在PC端表现令人感动 */
+                background-image: radial-gradient(circle farthest-corner at 50% 50% , #fff 0%, #fff 50%, #0000FF 50%, #0000FF 65%,#fff 65%);
+            }
+
+            .circle{ height:50px; width:50px; margin:10px;
+                border-radius: 50%;
+                border:10px solid red;
+                box-shadow:0px 0px 0px 10px pink ;
+            }
+
+            .hua:after{ content:''; display:inline-block; height:40px; width:40px;
+                background-image: radial-gradient(circle farthest-corner at 100% 0px , #fff 0%, #fff 70%, #0000FF 70% );
+            }
+            .hua:before{ content:''; display:inline-block; height:40px; width:40px;
+                background-image: radial-gradient(circle farthest-corner at 0px 0px , #fff 0%, #fff 70%, #0000FF 70% );
+            }
+        </style>
+    </head>
+    <body>
+        <div class="arrow">
+            <div>asdasdasdasdasd</div>
+        </div>
+
+        <div class="skew"><span>念去去</span></div>
+
+        <div class="radio"></div>
+        <div class="circle"></div>
+        <div class="hua">我是蚊子</div>
+        <script>
+            document.querySelector('.skew').onclick = function(){
+                alert('杭州')
+            }
+        </script>
+    </body>
+</html>

@@ -2,13 +2,15 @@
 * @Author: Administrator
 * @Date:   2015-08-18 11:05:08
 * @Last Modified by:   Administrator
-* @Last Modified time: 2015-08-19 18:03:20
+* @Last Modified time: 2015-08-20 13:17:28
 */
 
 'use strict';
 
 // Function函数
 (function(){
+
+    console.log('----------------------function----------------------')
 
 /* 1------------------------------------------------------------------------------
  * 默认参数 chrome暂不支持

@@ -2,12 +2,14 @@
  * @Author: Administrator
  * @Date:   2015-08-17 14:40:52
  * @Last Modified by:   Administrator
- * @Last Modified time: 2015-08-18 09:31:18
+ * @Last Modified time: 2015-08-20 13:18:00
  */
 
 'use strict';
 // Object主要增加了 observe、unobserve、watch、unwatch
 (function() {
+    console.log('----------------------Object----------------------');
+
     var obj = {};
 
     function abs(change) {

@@ -2,7 +2,7 @@
  * @Author: 灵岩寺
  * @Date:   2015-08-16 22:41:53
  * @Last Modified by:   Administrator
- * @Last Modified time: 2015-08-18 09:30:35
+ * @Last Modified time: 2015-08-20 13:18:13
  */
 
 'use strict';
@@ -12,6 +12,8 @@
 
 // string对象新增了一下方法 startsWith,endsWith,repeat,includes
 (function() {
+    console.log('----------------------String----------------------');
+
     var str = 'i\'m string ';
     str = str.trim();
     console.log(str.startsWith('i')); // 以i开头
