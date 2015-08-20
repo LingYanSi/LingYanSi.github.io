@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <style>
+            html{ font-size:14em; }
+            img{display:block; max-width:100%; height:auto; min-height:5rem;}
+        </style>
+    </head>
+    <body>
+        <div>
+            <img src="" data-src="../../images/1.jpg" alt="图片" >
+            <img src="" data-src="../../images/1.jpg" alt="图片">
+            <img src="" data-src="../../images/1.jpg" alt="图片">
+            <img src="" data-src="../../images/1.jpg" alt="图片">
+            <img src="" data-src="../../images/1.jpg" alt="图片">
+            <img src="" data-src="../../images/1.jpg" alt="图片">
+        </div>
+        <script>
+            var width = window.innerWidth ;
+            document.querySelector('html').style.fontSize = width/10 + 'px' ;
+
+
+
+
+            var ImgLazyLoad = (function(){
+                var height = window.innerHeight ;
+                var $imgs = [].slice.call(document.querySelectorAll('img'));
+                var LEN = $imgs.length ;
+                var n = 0 ;
+                var allow = true ;
+                check();
+                window.addEventListener('scroll',check);
+                function check(){
+                    if(!allow) return ;
+                    allow = !allow ;
+                    var minTop = document.body.scrollTop ;
+                    var maxTop = minTop + height ;
+                    $imgs.forEach(function(ele){
+                        if(!ele.getAttribute('src') && ele.offsetTop>minTop && ele.offsetTop<maxTop )
+                        {
+                            ele.setAttribute( 'src', ele.getAttribute("data-src") );
+                            n++ ;
+                        }
+                    });
+                    allow = !allow ;
+                    if(n==LEN) window.removeEventListener('scroll',check);
+                }
+            })();
+        </script>
+    </body>
+</html>
