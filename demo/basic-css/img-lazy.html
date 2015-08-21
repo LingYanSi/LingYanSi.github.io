@@ -3,49 +3,71 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <title>懒加载</title>
         <style>
             html{ font-size:14em; }
-            img{display:block; max-width:100%; height:auto; min-height:5rem;}
+            img{ display:block; max-width:100%; height:auto; min-height:5rem; background-color:rgba(255,0,100,0.2); }
         </style>
     </head>
     <body>
-        <div>
+        <div class="nani">
+            <img src="" data-backgroundImage="../../images/1.jpg" alt="图片" >
             <img src="" data-src="../../images/1.jpg" alt="图片" >
+            <img src="" data-src="../../images/2.jpg" alt="图片">
             <img src="" data-src="../../images/1.jpg" alt="图片">
+            <img src="" data-src="../../images/3.jpg" alt="图片">
             <img src="" data-src="../../images/1.jpg" alt="图片">
-            <img src="" data-src="../../images/1.jpg" alt="图片">
-            <img src="" data-src="../../images/1.jpg" alt="图片">
-            <img src="" data-src="../../images/1.jpg" alt="图片">
+            <img src="" data-src="../../images/2.jpg" alt="图片">
         </div>
+        <div data-left="aaa"></div>
         <script>
             var width = window.innerWidth ;
             document.querySelector('html').style.fontSize = width/10 + 'px' ;
 
 
-
+            console.log( document.querySelector('[data-left]') );
+            /*
+             * 只接能做到Img标签懒加载，其实还需要做到背景图片的懒加载 ;
+             * 给需要懒加载的图片元素的地址存储到 data-src 属性上，可能还需要 data-backgroundImage
+             * 原理是根据浏览器的高度以及每个图片所在文档流中的offsetTop，来决定是否加载图片
+            */
 
             var ImgLazyLoad = (function(){
                 var height = window.innerHeight ;
-                var $imgs = [].slice.call(document.querySelectorAll('img'));
+                var $imgs = ([].slice.call( document.querySelectorAll('.nani [data-src]') ))
+                            .concat( [].slice.call( document.querySelectorAll('.nani [data-backgroundImage]') ) );
                 var LEN = $imgs.length ;
                 var n = 0 ;
                 var allow = true ;
-                check();
+
+                check(); // 初始化执行
                 window.addEventListener('scroll',check);
+
                 function check(){
                     if(!allow) return ;
                     allow = !allow ;
                     var minTop = document.body.scrollTop ;
                     var maxTop = minTop + height ;
+
                     $imgs.forEach(function(ele){
-                        if(!ele.getAttribute('src') && ele.offsetTop>minTop && ele.offsetTop<maxTop )
+                        if(ele.getAttribute('LY-load')=='complete') return ;
+
+                        var src = ele.getAttribute('src') ,
+                            backgroundImage = ele.style.backgroundImage ;
+                        var data_src = ele.getAttribute('data-src') ,
+                            data_backgroundImage = ele.getAttribute('data-backgroundImage');
+
+                        if( ele.offsetTop>=minTop && ele.offsetTop<=maxTop )
                         {
-                            ele.setAttribute( 'src', ele.getAttribute("data-src") );
-                            n++ ;
+                            if(data_src) ele.setAttribute( 'src', data_src );
+                            if(data_backgroundImage) ele.style.backgroundImage = 'url('+data_backgroundImage+')' ;
+                            ele.setAttribute('LY-load','complete');
                         }
                     });
+
                     allow = !allow ;
-                    if(n==LEN) window.removeEventListener('scroll',check);
+                    if(n==LEN) // 如果所有图片已加载就移除 check监听事件
+                        window.removeEventListener('scroll',check);
                 }
             })();
         </script>
