@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div id="daye"></div>
+    <div id="zhou">周芷若</div>
+    <script src="ly.js"></script>
+    <script src="..\..\build-zepto\ku.js"></script>
+    <script>
+        var daye = new ly({
+            el : '#daye',
+            template : '<div>{{state}}</div><div>{{info[0].name}}</div>',
+            data : {
+                state: true ,
+                info :[
+                    {
+                        name:'周芷若',
+                        age:18,
+                    },
+                    {
+                        name:'赵敏',
+                        age:'16',
+                    }
+                ]
+            }
+        });
+
+        var data = { name:'周芷若' } ;
+        var $zhou = document.querySelector('#zhou') ;
+        lyan(data,'name',function(newValue){
+            $zhou.textContent = newValue ;
+        });
+        var arrName = ['宋小帆','陈莹','李倩'] ;
+        var index = 0 ;
+        $('#daye').on('click',function(){
+            data.name = arrName[index++] ;
+        });
+
+        lyan_arr(arrName,function(arr){
+            console.log('数组长度增加了');
+            console.log(arr);
+        });
+        arrName.push('周芷若','赵敏','小昭');
+        arrName.unshift('波多野结衣')
+        arrName.splice(1,1)
+            console.log(arrName)
+    </script>
+</body>
+
+</html>

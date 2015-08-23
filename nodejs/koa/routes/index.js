@@ -1,10 +1,11 @@
- 
+
 var app = require('koa') ;
 var Router = require('koa-router');
 var route = new Router();
 
 route.get('/',function *(next){
-	yield this.render('index',{'title':'西方哪个国家我没去过'});
+
+	yield this.render('index',{title:'谈笑风生',content:'西方哪个国家我没去过'});
 });
 route.get('/hei',function *(next){
 	this.body= this.request.query ;

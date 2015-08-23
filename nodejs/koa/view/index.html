@@ -6,7 +6,10 @@
   </head>
   <body>
     <div  style="max-width:1000px;margin:0 auto;">
-		<p>Welcome to<%- title %></p>
+		<p>Welcome to<%= content %></p>
+        <% for(var i=1;i<6;i++){ %>
+            <p>你大爷华莱士</p>
+        <% } %>
     </div>
   </body>
 </html>
