@@ -40,14 +40,14 @@
             data.name = arrName[index++] ;
         });
 
-        lyan_arr(arrName,function(arr){
-            console.log('数组长度增加了');
-            console.log(arr);
+        lyan_arr(arrName,function(){
+            console.log('数组长度改变了');
+            console.log( [].slice.call(arguments) );
         });
         arrName.push('周芷若','赵敏','小昭');
-        arrName.unshift('波多野结衣')
+        arrName.unshift('兖州')
         arrName.splice(1,1)
-            console.log(arrName)
+        console.log(arrName)
     </script>
 </body>
 
