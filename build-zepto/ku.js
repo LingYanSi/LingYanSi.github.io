@@ -102,7 +102,7 @@ var Zepto = (function(){
 		css:function(obj){
 			if (typeof(obj)==='string')
 			{
-				return window.getComputedStyle(this.elements[0],null).getPropertyValue(obj); 
+				return window.getComputedStyle(this.elements[0],null).getPropertyValue(obj);
 			}else if (obj instanceof Object)
 			{
 				this.each(function(){
@@ -153,7 +153,7 @@ var Zepto = (function(){
 		html:function(str){
 			if (str === undefined)
 			{
-				return this.elements[0].innerHTML 
+				return this.elements[0].innerHTML
 			}else{
 				this.each(function(element){
 					this.innerHTML = str
@@ -164,7 +164,7 @@ var Zepto = (function(){
 		text:function(str){
 			if (str === undefined)
 			{
-				return this.elements[0].textContent 
+				return this.elements[0].textContent
 			}else{
 				this.each(function(element){
 					this.textContent = str
@@ -183,7 +183,7 @@ var Zepto = (function(){
 				return this ;
 			}
 		},
-		//--------------------- parent/find/children/parents 
+		//--------------------- parent/find/children/parents
 		eq:function(index){
 			return $(this.elements[index]);
 		},
@@ -495,7 +495,7 @@ var Zepto = (function(){
 			handler = (handler || []).filter(function(element){
 				if(element.type === type && element.selector === selector && element.funName === funName){
 					that.removeEventListener(type,element.proxy)
-					return false 
+					return false
 				}
 				return true ;
 			 })
@@ -503,7 +503,7 @@ var Zepto = (function(){
 			 handler = (handler || []).filter(function(element){
 				if(element.type === type && element.selector === selector){
 					that.removeEventListener(type,element.proxy)
-					return false 
+					return false
 				}
 				return true ;
 			 })
@@ -567,7 +567,7 @@ var Zepto = (function(){
 				timeEnd1 = new Date().getTime();
 				if (timeEnd1 - timeEnd2<300)
 				{
-					dosth.call(this); 
+					dosth.call(this);
 				}
 			},usecaptrue);
 		});
@@ -614,7 +614,7 @@ window.$ = Zepto
 			      dataType = arg.dataType || 'json',
 			       url = arg.url ,
 			       asyn = arg.asyn || true ;
-			xhr.open(arg.type,arg.url,arg.asyn); 
+			xhr.open(arg.type,arg.url,arg.asyn);
 			// xhr.timeout= 3000;//设置响应时间
 			// xhr.ontimeout = function(){ // 请求超时的处理
 			// 	xhr.abort() // 终止请求
@@ -656,11 +656,12 @@ window.$ = Zepto
 	$.jsonp = function(arg){
 		var script = document.createElement('script') ,
 			cbFunction = 'Jquery'+new Date().getTime() ,
-			url = arg.url + '?callback=' + cbFunction  ,
+			url = arg.url.match(/\?/)?(arg.url + '&callback=' + cbFunction) : (arg.url + '?callback=' + cbFunction ),
+			// url = arg.url,
 			data = arg.data ;
 
 		if (data) // 如果需要传递数据，就将数据添加到url 后面
-		{ 
+		{
 			for (key in data)
 			{
 				url = url +'&'+key+'='+data[key]
@@ -670,9 +671,11 @@ window.$ = Zepto
 		script.src = url ;
 		document.head.appendChild(script); // 启动请求
 		 //自定义的回调函数result
-		 if (arg.success)  window[cbFunction] = arg.success; 
+		 if (arg.success) {
+		 	window[cbFunction] = arg.success;
+		 }
 
-		setTimeout(function(){ 
+		setTimeout(function(){
 			document.head.removeChild(script);
 			if (arg.error) arg.error(); // 请求失败
 		},3000); // 设置请求时间
