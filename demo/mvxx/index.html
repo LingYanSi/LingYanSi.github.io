@@ -1,54 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="http://lingyansi.github.io/stylesheets/reset.css">
+    <link rel="shortcut icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+    <title>双向绑定</title>
 </head>
 
 <body>
     <div id="daye"></div>
-    <div id="zhou">周芷若</div>
+    <div id="zhou"></div>
     <script src="ly.js"></script>
     <script src="..\..\build-zepto\ku.js"></script>
-    <script>
-        var daye = new ly({
-            el : '#daye',
-            template : '<div>{{state}}</div><div>{{info[0].name}}</div>',
-            data : {
-                state: true ,
-                info :[
-                    {
-                        name:'周芷若',
-                        age:18,
-                    },
-                    {
-                        name:'赵敏',
-                        age:'16',
-                    }
-                ]
-            }
-        });
-
-        var data = { name:'周芷若' } ;
-        var $zhou = document.querySelector('#zhou') ;
-        lyan(data,'name',function(newValue){
-            $zhou.textContent = newValue ;
-        });
-        var arrName = ['宋小帆','陈莹','李倩'] ;
-        var index = 0 ;
-        $('#daye').on('click',function(){
-            data.name = arrName[index++] ;
-        });
-
-        lyan_arr(arrName,function(){
-            console.log('数组长度改变了');
-            console.log( [].slice.call(arguments) );
-        });
-        arrName.push('周芷若','赵敏','小昭');
-        arrName.unshift('兖州')
-        arrName.splice(1,1)
-        console.log(arrName)
-    </script>
+    <script src="object-test.js"></script>
 </body>
 
 </html>
