@@ -2,26 +2,12 @@
  * @Author: 灵岩寺
  * @Date:   2015-08-25 17:40:34
  * @Last Modified by:   灵岩寺
- * @Last Modified time: 2015-08-26 16:48:17
+ * @Last Modified time: 2015-08-27 10:51:24
  */
 
 'use strict';
 
 (function() {
-    // var daye = new ly({
-    //     el: '#daye',
-    //     template: '<div>{{state}}</div><div>{{info[0].name}}</div>',
-    //     data: {
-    //         state: true,
-    //         info: [{
-    //             name: '周芷若',
-    //             age: 18,
-    //         }, {
-    //             name: '赵敏',
-    //             age: '16',
-    //         }]
-    //     }
-    // });
     var arrName = [{
         name: '宋小帆',
         age: 22 ,
@@ -33,9 +19,10 @@
         age: 21
     }, ];
 
+    // 假如重新给数组赋值，就无法监听了，因为数组是对象，是引用类型
     Lyan_Arr.create({
-        obj:arrName,
-        template:'<p><span>{{$wife.name}}</span><span>{{$wife.age}}</span><span>cunt状态</span></p>',
+        data:arrName,
+        template:'<p><span>{{$wife.name}}</span><span>{{$wife.age}}</span><span></p>',
         ele:'#daye',
         renderBefore:function(){
             console.log('数组开始渲染');
@@ -47,6 +34,7 @@
             console.log('数组渲染中')
         }
     });
+
     arrName.push({
         name: '周芷若',
         age: 16
@@ -97,15 +85,41 @@
         },
     });
 
+    var partyArr = [];
+    Lyan_Arr.create({
+        data:partyArr,
+        template:'<p><img src="{{$party.avatar}}" alt="" /><span>{{$party.beginTime}}</span><span>{{$party.intro}}</span></p>',
+        ele:'bottom',
+        renderBefore:function(){
+            console.log('数组开始渲染','监听ajax数组');
+        },
+        renderAfter:function(){
+            console.log('数组渲染结束','监听ajax数组');
+        },
+        render:function(){
+            console.log('数组渲染中');
+            console.log(partyArr,'监听ajax数组');
+        }
+    });
+
     $.jsonp({
         type:'get',
         url:'http://app.nacute.com/api/ajax/party/list?pageNo=1&pageSize=10',
         success:function(data){
-            console.log(data)
+            partyArr.push.apply(partyArr,data.info);
         }
     });
     /* lyan_arr(arrName, function() {
          console.log('数组长度改变了');
          console.log([].slice.call(arguments));
      });*/
+    var bitch = {};
+    Lyan.create({
+        data:bitch,
+        property:'name',
+        render:function(){
+            // alert('bitch的名字改变了')
+        }
+    });
+    bitch.name = "周恩来" ;
 })();

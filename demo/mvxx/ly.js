@@ -2,7 +2,7 @@
  * @Author: 灵岩寺
  * @Date:   2015-08-22 17:51:26
  * @Last Modified by:   灵岩寺
- * @Last Modified time: 2015-08-26 16:47:48
+ * @Last Modified time: 2015-08-27 10:44:20
  */
 
 'use strict';
@@ -34,7 +34,15 @@ var LY = {
         return str ;
     },
 }
-// 对对象的监听
+// 对对象的监听,假如有多个地方需要对一个属性的变化做监听
+// 这个时候，属性变化所触发的事件，应该是一个队列
+// 当需要重新监听数据的时候，就需要
+
+var LyanData = {
+    ly_id_1:[
+
+    ]
+}
 var Lyan = (function() {
     var Lyan = {
         create:function(obj){
@@ -54,7 +62,7 @@ function Lyan_instance(obj){
             render = obj.render ;
             renderBefore = obj.renderBefore ;
             renderAfter = obj.renderAfter ;
-            $dom = document.querySelector(obj.ele);
+            $dom = obj.ele ? document.querySelector(obj.ele) : null;
 
             var _this = this ;
             Object.defineProperty(object, property, {
@@ -67,12 +75,9 @@ function Lyan_instance(obj){
                     // 还要有一个状态，模板是否渲染完成，开始渲染，渲染结束
                     // 如果这个渲染没有结束，就不进入到下一个渲染
                     if ( !Lyan.fu && newValue === value) return;
-                    Lyan.fu = false ;
 
-                    _this.renderBefore();
                     _this.render(newValue,value,$dom);
                     value = newValue;
-                    _this.renderAfter();
                 },
                 enumberable: true,
                 configurable: true,
@@ -87,17 +92,21 @@ function Lyan_instance(obj){
         init: function(){
             this.forceUpdate();
             object[property] = value ;
-        },
-        render: function(){
-           var arr = [].slice.call(arguments);
-           render && render.apply(null,arr);
-           console.log('渲染中');
+            Lyan.fu = false ;
         },
         renderBefore: function(){
-            renderBefore();
+            renderBefore && renderBefore();
         },
         renderAfter: function(){
-            renderAfter();
+            renderAfter && renderAfter();
+        },
+        render: function(){
+           this.renderBefore();
+
+           var arr = [].slice.call(arguments);
+           render && render.apply(null,arr);
+
+           this.renderAfter();
         },
     };
     Lyan.create(obj);
@@ -125,8 +134,8 @@ function Lyan_Arr_instance(object){
             renderBefore = object.renderBefore ,
             renderAfter = object.renderAfter ,
             template = object.template ,
-            $dom = document.querySelector(object.ele),
-            obj = object.obj ;
+            $dom = object.ele ? document.querySelector(object.ele) : null ,
+            obj = object.data ;
 
             Arr_props.forEach(function(prop){
                 set(obj,prop);
@@ -150,17 +159,17 @@ function Lyan_Arr_instance(object){
            var str = obj.map(function(ele,index,arr){
                 return LY.rendeTpl(template,ele) ;
             }).join('');
-           console.log('拼接字符串',str,obj,template)
+           // console.log('拼接字符串',str,obj,template)
            $dom.innerHTML = str ;
         },
         forceUpdate:function(){
             this.init();
         },
         renderBefore:function(){ // 渲染前
-            renderBefore();
+            renderBefore && renderBefore();
         },
         renderAfter:function(){ // 渲染后
-            renderAfter();
+            renderAfter && renderAfter();
         },
         render:function(){ // 渲染
             var arr = slice.call(arguments);
