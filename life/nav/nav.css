@@ -1,0 +1,72 @@
+.main {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 300px;
+}
+
+.search {
+    width: 800px;
+    margin: 0 auto;
+    height: 50px;
+    font-size: 0;
+}
+
+.search input {
+    box-sizing: border-box;
+    font-size: 18px;
+}
+
+.search-input {
+    display: inline-block;
+    height: 100%;
+    width: 600px;
+    padding: 0 0.5em;
+}
+
+input.search-butt {
+    display: inline-block;
+    height: 100%;
+    width: 200px;
+    border: none;
+    background: rgb(247, 105, 105);
+    color: #fff;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover,
+a:link,
+a:active {
+    color: inherit;
+}
+
+.nav {
+    font-size: 0;
+    margin-top: 1rem;
+}
+
+.nav li {
+    border-radius:4px;
+    font-size: 14px;
+    width: 200px;
+    padding: 0.5em;
+    display: inline-block;
+}
+
+.nav li:hover {
+    background: rgb(240, 240, 240);
+}
+
+.nav li a {
+    display: block;
+    padding-left: 2em;
+    height: 2em;
+    line-height: 2em;
+    background-size: auto 1.6em;
+    background-position: 0 center;
+    background-repeat: no-repeat;
+    background-image: url(http://lingyansi.github.io/images/icon/icon.jpg);
+}

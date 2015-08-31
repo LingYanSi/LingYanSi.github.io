@@ -1,0 +1,20 @@
+{
+    "name": "宋小帆",
+    "manifest_version": 2,
+    "version": "2.1",
+    "description": "Gets information from Google.",
+    "icons": {
+        "128": "img/icon.jpg"
+    },
+    "background_page": "bg.html",
+    "browser_action": {
+        "default_title": "寻找下载链接",
+        "default_icon": "img/icon.jpg",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [{
+        "matches": ["http://cl.naki.pw/*", "http://www.t66y.com/*"],
+        "css": ["css/get-url.css"],
+        "js": ["js/get-url.js"]
+    }]
+}

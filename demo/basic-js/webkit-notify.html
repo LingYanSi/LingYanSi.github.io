@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div>你大呀的</div>
+    <script type="text/javascript">
+    var deskNotify = (function() {
+        var able = false;
+        var data = {};
+        Notification.requestPermission(function(result) {
+            console.log(result)
+            if (result === 'denied') {
+                console.log('Permission wasn\'t granted. Allow a retry.');
+                return;
+            } else if (result === 'default') {
+                console.log('The permission request was dismissed.');
+                return;
+            } else if (result === 'granted') {
+                able = !able;
+                if (data.title) new Notification(data.title, data.option);
+            }
+            // Do something with the granted permission.
+        });
+        Notification.onclick = function() {
+            window.open('http://www.baidu.com');
+        };
+
+        var notify = {
+            create: function(title, option) {
+                data.title = title;
+                data.option = option;
+                if (able) new Notification(title, option);
+            }
+        };
+        return notify;
+    })();
+
+    deskNotify.create('最新消息', {
+        body: '蛤蛤死了，华莱士也死了',
+        icon: '../../images/icon/icon.jpg',
+    });
+
+
+    // document.querySelector('div').addEventListener('click',notify,false);
+    </script>
+</body>
+
+</html>

@@ -1,8 +1,8 @@
-/*
+/*- 千万45
  * @Author: 灵岩寺
  * @Date:   2015-08-22 17:51:26
  * @Last Modified by:   灵岩寺
- * @Last Modified time: 2015-08-27 10:44:20
+ * @Last Modified time: 2015-08-31 14:07:33
  */
 
 'use strict';
@@ -40,7 +40,11 @@ var LY = {
 
 var LyanData = {
     ly_id_1:[
-
+        {
+            renderBefore:,
+            render:,
+            render:,
+        }
     ]
 }
 var Lyan = (function() {
@@ -208,6 +212,10 @@ function Lyan_Arr_instance(object){
         },
         render_splice:function(){
             var arr = slice.call(arguments);
+            arr.splice(0,2);
+            $dom.innerHTML = arr.map(function(ele,index,arr){
+                return LY.rendeTpl(template,ele) ;
+            }).join('')+$dom.innerHTML ;
             console.log('调用了splice方法',arr);
             // $dom.remove().find().after();
         }

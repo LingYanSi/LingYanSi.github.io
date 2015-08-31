@@ -192,6 +192,9 @@ Shift+F11 免打扰模式
 sublime open in browser失败
     解决方案是把源文件的默认打开方式设为浏览器
 
+修改fileheader 插件的html默认配置模板
+Preferences -> bowser packages -> fileheader -> templete -> body -> html.tpl
+
 // -----------------------------------
 一些插件
 	1.SideBarEnhancement 侧边栏文件操作 只对project起作用 对单个打开的文件无效，需要添加project

@@ -64,9 +64,21 @@
             <strong>也就是说，行内块级元素除了不换行以外，其他属性与块级元素一致</strong>
         </pre>
         <div>
-            <span class="inline-block">我是inline-block呢</span><i>我是倾斜</i>
+            <span class="inline-block">我是inline-block呢</span> <i>我是倾斜</i>
             <br>
             <strong>我是strong</strong>
+            <div style="line-height:5;background:red;display:inline-block;">念去去，千里烟波</div>
+            <div style="line-height:2;background:red;display:inline-block;">念去去，千里烟波</div>
+            <p>奇怪的行内布局</p>
+            <div>
+                <img style="height:100px;width:100px;background:green;display:inline-block; " alt="图片">
+                <div style="height:100px;width:100px;background:pink;display:inline-block;  vertical-align:top; ">吊死扶伤</div>
+                <div style="height:100px;width:100px;background:pink;display:inline-block;  ">111</div>
+                <div style="height:100px;width:100px;background:pink;display:inline-block;  "></div>
+                <span style="vertical-align:middle; ">我是span</span>
+                <span style="vertical-align:10px">我是span</span>
+                <span style="vertical-align:top;">我是span</span>
+            </div>
         </div>
 
         <hr>

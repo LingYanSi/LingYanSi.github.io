@@ -1,0 +1,23 @@
+/*
+* @Author: 灵岩寺
+* @Date:   2015-08-28 14:15:33
+* @Last Modified by:   灵岩寺
+* @Last Modified time: 2015-08-28 14:47:40
+*/
+
+#lingyan-download {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 100px;
+    width: 100px;
+    background-color: rgba(247, 105, 105, 0.6 );
+    text-align: center;
+    line-height: 100px;
+    font-size: 2em;
+}
+
+/*
+E:\nginx-1.9.2\html\LingYanSi.github.io\demo\chrome-extend
+E:\nginx-1.9.2\html\LingYanSi.github.io\demo\chrome-extend.pem
+*/

@@ -1,0 +1,37 @@
+var data = [{
+    name: 'MDN',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/API/Range.deleteContents',
+    logo: '',
+}, {
+    name: 'segamentfault',
+    url: 'http://segmentfault.com/',
+    logo: '',
+}, {
+    name: 'w3school',
+    url: 'http://www.w3school.com.cn/',
+    logo: '',
+}, {
+    name: 'es6',
+    url: 'http://es6.ruanyifeng.com/',
+    logo: '',
+}, {
+    name: 'stackoverflow',
+    url: 'http://stackoverflow.com/',
+    logo: '',
+}, {
+    name: '正则表达式',
+    url: 'http://www.css119.com/book/RegExp/',
+    logo: '',
+}, {
+    name: 'Github',
+    url: 'https://github.com/',
+    logo: '',
+}, {
+    name: '知乎',
+    url: 'http://www.zhihu.com/',
+    logo: '',
+}, {
+    name: '微博',
+    url: 'http://weibo.com/xuewumichen/home',
+    logo: '',
+}];

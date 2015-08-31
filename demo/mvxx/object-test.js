@@ -2,7 +2,7 @@
  * @Author: 灵岩寺
  * @Date:   2015-08-25 17:40:34
  * @Last Modified by:   灵岩寺
- * @Last Modified time: 2015-08-27 10:51:24
+ * @Last Modified time: 2015-08-30 17:57:51
  */
 
 'use strict';
@@ -85,41 +85,5 @@
         },
     });
 
-    var partyArr = [];
-    Lyan_Arr.create({
-        data:partyArr,
-        template:'<p><img src="{{$party.avatar}}" alt="" /><span>{{$party.beginTime}}</span><span>{{$party.intro}}</span></p>',
-        ele:'bottom',
-        renderBefore:function(){
-            console.log('数组开始渲染','监听ajax数组');
-        },
-        renderAfter:function(){
-            console.log('数组渲染结束','监听ajax数组');
-        },
-        render:function(){
-            console.log('数组渲染中');
-            console.log(partyArr,'监听ajax数组');
-        }
-    });
 
-    $.jsonp({
-        type:'get',
-        url:'http://app.nacute.com/api/ajax/party/list?pageNo=1&pageSize=10',
-        success:function(data){
-            partyArr.push.apply(partyArr,data.info);
-        }
-    });
-    /* lyan_arr(arrName, function() {
-         console.log('数组长度改变了');
-         console.log([].slice.call(arguments));
-     });*/
-    var bitch = {};
-    Lyan.create({
-        data:bitch,
-        property:'name',
-        render:function(){
-            // alert('bitch的名字改变了')
-        }
-    });
-    bitch.name = "周恩来" ;
 })();

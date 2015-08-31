@@ -3,18 +3,27 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="stylesheet" href="http://lingyansi.github.io/stylesheets/reset.css">
     <link rel="shortcut icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
     <title>双向绑定</title>
+    <style>
+        .ju-item{ max-width:600px; border-bottom: 1px solid rgb(230,230,230); padding:10px;}
+        .ju-item>div:first-child>img{ height:80px; width:80px; border-radius: 50%; display:inline-block;  }
+        .ju-item>div:first-child>div{ line-height:80px;  display:inline-block; background:pink; vertical-align: top; }
+        .ju-item>div:last-child{ max-height:100px; overflow:hidden; }
+    </style>
 </head>
 
 <body>
     <div id="daye"></div>
     <div id="zhou"></div>
+
     <bottom></bottom>
     <script src="ly.js"></script>
     <script src="..\..\build-zepto\ku.js"></script>
     <script src="object-test.js"></script>
+    <script src="array-test.js"></script>
 </body>
 
 </html>

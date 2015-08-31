@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+    <link rel="stylesheet" href="../../stylesheets/lingyan.css">
+    <title>响应式布局初探</title>
+<script>
+    (function(){
+        document.querySelector('html').style.fontSize = window.innerWidth/10+'px' ;
+        window.addEventListener('resize',function(){
+            document.querySelector('html').style.fontSize = window.innerWidth/10+'px' ;
+        });
+    })();
+</script>
+<style type="text/css">
+    body{ font-size:12px; }
+    .f1{ width:1rem; height:0.64rem; background:red; }
+    .f2{ width:2rem; }
+    .f3{ width:3rem; }
+    .f4{ width:4rem; }
+    .f5{ width:5rem; }
+    .f6{ width:6rem; }
+    .f7{ width:7rem; }
+    .f8{ width:8rem; }
+    .f9{ width:9rem; }
+    .f10{ width:10rem; }
+
+    p{ height:10vh; background:green; }
+</style>
+</head>
+
+<body>
+     <div class="f1"></div>
+     <div class="f1 f2"></div>
+     <div class="f1 f3"></div>
+     <div class="f1 f4"></div>
+     <div class="f1 f5"></div>
+     <div class="f1 f6"></div>
+     <div class="f1 f7"></div>
+     <div class="f1 f8"></div>
+     <div class="f1 f9"></div>
+     <div class="f1 f10"></div>
+     <p>念去去千里烟波，暮霭沉沉楚天阔</p>
+    <script type="text/javascript">
+        /*
+         * vw ：设备宽度的1%
+         * vh ：设备高度的1%
+         * vmax : vw，vh两者较大的1%
+         * vmin ：两者较小的1%
+        */
+    </script>
+</body>
+
+</html>

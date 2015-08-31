@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>promise</title>
+</head>
+
+<body>
+    <script>
+    var p1 = new Promise(function(resove, reject) {
+        console.log('promise开始');
+        setTimeout(function() {
+            reject();
+        }, 5000)
+    });
+    p1.then(function() {
+        console.log('promise结束')
+    }, function() {
+        console.log('promise失败')
+    })
+    console.log(p1);
+
+    // 链式延时
+    function await (time) {
+        var obj = {
+            do: function(fun) {
+                return new Promise(function(resove, reject) {
+                    setTimeout(resove, time)
+                }).then(function() {
+                    fun();
+                    return obj;
+                });
+            },
+            await: function(time) {
+                // 这里需要有一个状态判断，判断promise是否完成，如说是就可以继续执行，否则等
+                console.log('你大爷的')
+                return await (time);
+            },
+        };
+        return obj;
+    };
+    // 这样做只是解决的，单一的链式延时，假如我想过3000ms再过3000ms呢？如何解决？
+    /*await (3000).do(function() {
+        console.log('过去了3000ms');
+    }).await(3000).do(function() {
+        console.log('过去了3000ms');
+    });*/
+
+
+    new Promise(function(a, b) {
+        a();
+    }).then(function() {
+        console.log('diyife');
+        return new Promise(function(a, b) {
+            a(111111111)
+        });
+    }).then(function(x) {
+        console.log('第二个', x)
+    });
+    // 所以问题在哪里
+    function await (time) {
+        return new Promise(function(a, b) {
+            setTimeout(a, time);
+        })
+    }
+    console.log(await (2000).then(function() {
+        console.log('宋小帆');
+        return await (1000)
+    }).then(function() {
+        console.log('优衣库');
+        throw new Error('我错了')
+    }).catch(function(error){
+        console.log('error',error)
+    }) )
+
+    // 使用promise写一个链式的xh请求
+    var ajax = function(url) {
+        return new Promise(function(resove, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('get', url, true);
+            xhr.onreadystatechange = function(state) {
+                if (xhr.readyState == 4) {
+                    resove(xhr.response);
+                }
+            }
+            xhr.send();
+        })
+    };
+    ajax('promise.html').then(function(a) {
+        console.log(a);
+    })
+    </script>
+</body>
+
+</html>
