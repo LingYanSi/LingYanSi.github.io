@@ -2,7 +2,7 @@
  * @Author: 灵岩寺
  * @Date:   2015-08-22 17:51:26
  * @Last Modified by:   灵岩寺
- * @Last Modified time: 2015-08-31 14:07:33
+ * @Last Modified time: 2015-09-02 14:24:46
  */
 
 'use strict';
@@ -27,7 +27,7 @@ var LY = {
                 for(var i=0,len=arr3.length;i<len;i++){
                     obj_1 = obj_1[arr3[i]] ;
                 }
-                str = obj_1 ;
+                str = obj_1?obj_1:'' ;
             }
             return ele+str ;
         }).join('');
@@ -38,32 +38,24 @@ var LY = {
 // 这个时候，属性变化所触发的事件，应该是一个队列
 // 当需要重新监听数据的时候，就需要
 
-var LyanData = {
+/*var LyanData = {
     ly_id_1:[
         {
-            renderBefore:,
-            render:,
-            render:,
+            renderBefore:'',
+            render:'',
+            render:'',
         }
     ]
-}
-var Lyan = (function() {
-    var Lyan = {
-        create:function(obj){
-            return new Lyan_instance(obj) ;
-        }
-    };
-    return Lyan ;
-})();
-
+};*/
 function Lyan_instance(obj){
-    var object , property , fun , value , renderBefore , renderAfter , render , $dom ;
+    var object , property , fun , value , renderBefore , renderAfter , render , $dom ,template ;
     var Lyan = {
         create: function(obj) {
             object = obj.data ;
             property = obj.property ;
             value = object[property];
             render = obj.render ;
+            template = obj.template ;
             renderBefore = obj.renderBefore ;
             renderAfter = obj.renderAfter ;
             $dom = obj.ele ? document.querySelector(obj.ele) : null;
@@ -79,9 +71,9 @@ function Lyan_instance(obj){
                     // 还要有一个状态，模板是否渲染完成，开始渲染，渲染结束
                     // 如果这个渲染没有结束，就不进入到下一个渲染
                     if ( !Lyan.fu && newValue === value) return;
+                    value = newValue;
 
                     _this.render(newValue,value,$dom);
-                    value = newValue;
                 },
                 enumberable: true,
                 configurable: true,
@@ -97,6 +89,7 @@ function Lyan_instance(obj){
             this.forceUpdate();
             object[property] = value ;
             Lyan.fu = false ;
+            $dom.innerHTML = LY.rendeTpl(template,object);
         },
         renderBefore: function(){
             renderBefore && renderBefore();
@@ -109,22 +102,24 @@ function Lyan_instance(obj){
 
            var arr = [].slice.call(arguments);
            render && render.apply(null,arr);
+           $dom.innerHTML = LY.rendeTpl(template,object);
 
            this.renderAfter();
         },
     };
     Lyan.create(obj);
 }
+var Lyan = (function() {
+    var Lyan = {
+        create:function(obj){
+            return new Lyan_instance(obj) ;
+        }
+    };
+    return Lyan ;
+})();
+
 
 // 对数组的监听
-var Lyan_Arr = (function(){
-    var Lyan_Arr = {
-        create:function(args){
-            return new Lyan_Arr_instance(args);
-        }
-    }
-    return Lyan_Arr ;
-})();
 function Lyan_Arr_instance(object){
     var obj , template , $dom , renderAfter ,renderBefore ,render ,currentProp;
     var Arr_proto = Array.prototype;
@@ -177,6 +172,9 @@ function Lyan_Arr_instance(object){
         },
         render:function(){ // 渲染
             var arr = slice.call(arguments);
+            // 真实的数组操作
+            Arr_proto[currentProp].apply(obj, arr);
+
             Lyan_Arr.renderBefore();
             render.apply(null, arr);
             switch(currentProp){
@@ -191,8 +189,8 @@ function Lyan_Arr_instance(object){
                     break ;
             }
             Lyan_Arr.renderAfter();
-            // 真实的数组操作
-            return Arr_proto[currentProp].apply(obj, arr);
+
+            return obj ;
         },
         render_push:function(){
             var arr = slice.call(arguments);
@@ -200,7 +198,6 @@ function Lyan_Arr_instance(object){
                 return LY.rendeTpl(template,ele) ;
             }).join('');
             console.log('调用了push方法',arr);
-            // $dom.append();
         },
         render_unshift:function(){
             var arr = slice.call(arguments);
@@ -208,27 +205,28 @@ function Lyan_Arr_instance(object){
                 return LY.rendeTpl(template,ele) ;
             }).join('')+$dom.innerHTML ;
              console.log('调用了unshift方法',arr);
-            // $dom.prepend();
         },
         render_splice:function(){
             var arr = slice.call(arguments);
             arr.splice(0,2);
-            $dom.innerHTML = arr.map(function(ele,index,arr){
+            $dom.innerHTML = obj.map(function(ele,index,arr){
                 return LY.rendeTpl(template,ele) ;
-            }).join('')+$dom.innerHTML ;
+            }).join('') ;
             console.log('调用了splice方法',arr);
-            // $dom.remove().find().after();
         }
     };
     Lyan_Arr.create(object);
 }
+var Lyan_Arr = (function(){
+    var Lyan_Arr = {
+        create:function(args){
+            return new Lyan_Arr_instance(args);
+        }
+    }
+    return Lyan_Arr ;
+})();
 
-// wtf
-function ly(obj) {
-    var data = obj.data,
-        ele = obj.el,
-        template = obj.template;
-    document.querySelector(ele).innerHTML = template;
-    fenxi(template);
-}
+
+
+
 

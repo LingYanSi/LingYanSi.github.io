@@ -1,0 +1,22 @@
+
+$themColor : rgba(247,105,105,1);
+
+#player{ position:relative;  }
+#p-bgd{ position:fixed; top:0; left:0; height:100%; width:100%; z-index:-1;
+    background-image:  url(../images/yun.jpg);
+    background-size:cover;
+    -webkit-filter:blur(20px);
+}
+
+#p-bar{ /* position: absolute; bottom:0; width:100%;   */padding:0 30px;}
+#p-bar-butt{ display:flex; text-align:center; height:50px; line-height:50px; }
+#p-bar-butt>div{ flex:1; background:$themColor; border-radius:20%; }
+#p-bar-butt>div:not(:first-child){margin-left:20%;}
+
+#p-bar-tiao{ overflow-x:hidden; }
+
+#p-main-list{ height:30rem; position:relative; overflow:hidden; background:rgba(255,255,255,0.3); }
+.pml-item{ position:absolute; top:0; left:0; height:100%; width:100%;
+    padding:10px; background:none;
+    li{ line-height:2; border-bottom:1px solid $themColor;}
+}

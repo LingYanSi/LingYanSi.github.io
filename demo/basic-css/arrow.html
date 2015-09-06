@@ -45,6 +45,13 @@
             .hua:before{ content:''; display:inline-block; height:40px; width:40px;
                 background-image: radial-gradient(circle farthest-corner at 0px 0px , #fff 0%, #fff 70%, #0000FF 70% );
             }
+
+            .arrow-1{
+                height:0; width:0;
+                border-width:0px 100px 150px 100px;
+                border-style:solid;
+                border-color: rgba(0,0,0,0) rgba(0,0,0,0) rgba(0,0,0,0) rgba(247,105,105,0.6);
+            }
         </style>
     </head>
     <body>
@@ -57,6 +64,8 @@
         <div class="radio"></div>
         <div class="circle"></div>
         <div class="hua">我是蚊子</div>
+
+        <div class="arrow-1"></div>
         <script>
             document.querySelector('.skew').onclick = function(){
                 alert('杭州')

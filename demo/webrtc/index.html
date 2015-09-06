@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+    <link rel="stylesheet" href="http://lingyansi.github.io/stylesheets/lingyan.css">
+    <title></title>
+    <style type="text/css">
+
+    </style>
+</head>
+
+<body>
+    <div class="LY-main">
+        <video src="" autoplay></video>
+    </div>
+    <script type="text/javascript" >
+
+    // 兼容性 http://caniuse.com/#search=getUser
+    // chrome支持webkit前缀，Firefox支持moz前缀，edge标准支持，Safari不支持
+        var video = document.querySelector('video');
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia ;
+
+        // getUserMedia参数有三，第一个配置需要哪些元素
+        // 第二个参数：连接成功
+        // 第三个参数：连接失败
+
+        navigator.getUserMedia({
+            audio:true,
+            video:true,
+        },function(stream){
+            console.log('连接成功')
+            video.src = URL.createObjectURL(stream);
+        },function(){
+            console.log('出错了')
+        });
+
+    </script>
+</body>
+
+</html>

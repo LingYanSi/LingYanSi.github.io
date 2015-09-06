@@ -1,8 +1,8 @@
 {
-    "name": "宋小帆",
+    "name": "草榴下载",
     "manifest_version": 2,
-    "version": "2.1",
-    "description": "Gets information from Google.",
+    "version": "0.1",
+    "description": "download the torrent",
     "icons": {
         "128": "img/icon.jpg"
     },

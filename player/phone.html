@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+    <link rel="stylesheet" href="http://lingyansi.github.io/stylesheets/lingyan.css">
+    <link rel="stylesheet" href="phone.css">
+    <title></title>
+</head>
+
+<body>
+    <div id="player">
+        <!-- 背景 -->
+        <div id="p-bgd">
+            <canvas id="p-bgd-canvas"></canvas>
+        </div>
+        <div id="p-main">
+            <div id="p-main-list">&nbsp
+                <div class="item-wrap">
+                    <div class="pml-item">
+                        <li>苏秦</li>
+                        <li>张仪</li>
+                        <li>孟尝君</li>
+                        <li>长陵君</li>
+                    </div>
+                    <div class="pml-item">
+                        你是谁
+                    </div>
+                    <div class="pml-item">
+                        <li>宋小帆</li>
+                        <li>陈莹</li>
+                        <li>李倩</li>
+                        <li>another</li>
+                    </div>
+                </div>
+            </div>
+            <!-- 上下播停按钮 -->
+            <div id="p-bar">
+                <div id="p-bar-tiao">
+                    <Ctlstrip id="jdt"></Ctlstrip>
+                    <p>&nbsp <br> &nbsp</p>
+                    <Ctlstrip id="bit"></Ctlstrip>
+                </div>
+                <div id="p-bar-butt">
+                    <div class="p-bar-prev">上</div>
+                    <div class="p-bar-sp">播</div>
+                    <div class="p-bar-next">下</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../swipe/js/swipe2.js"></script>
+    <script src="../javascripts/reload.js"></script>
+    <script type="text/javascript" >
+        var swipe = new Lunbo({
+            idname:'p-main-list',
+            top:'left',
+            autoPlay:false,
+            loop:true,
+            keyEvent:true,
+            time:'0.3s',
+        });
+
+        var audio = document.createElement('audio');
+        audio.src = 'audio/EppureSentire.mp3' ;
+        document.querySelector('.p-bar-sp').addEventListener('click',function(event){
+            if(audio.paused){
+                audio.play()
+            }else{
+                audio.pause();
+            }
+        })
+        new xxx('#jdt');
+        new xxx('#bit');
+        function xxx(dom){
+            var templete = '<div class="tiao-wrap" style="height:1px; background: rgba(0,0,0,0.5); margin:10px 0; position:relative;">' +
+                        '<div class="tiao" style="-webkit-transform: translate3d(-100%, 0, 0);  position: absolute; width: 100%; top: 0; left: 0; height: 1px; background: #f76969;">' +
+                            '<div class="tiao-butt" style="background: #f76969; border-radius: 50%; position: absolute; width: 20px; height: 20px; right: 0; top: 0; -webkit-transform: translate(50%, -50%); -ms-transform: translate(50%, -50%); transform: translate(50%, -50%); "></div>' +
+                        '</div>' +
+                    '</div>';
+
+            var $wrap = document.querySelector(dom);
+            $wrap.innerHTML = templete ;
+            var $dom = $wrap.querySelector('.tiao');
+            var $butt = $dom.querySelector('.tiao-butt');
+
+            var xx,yy,XX,YY,leftMax,leftMin ,leftCurrent, lc ,domWidth;
+            var buttWidth = $butt.offsetWidth ;
+            domWidth = $dom.parentElement.offsetWidth ;
+            leftMax = -buttWidth/2 ;
+            leftMin = -domWidth+buttWidth/2 ;
+            leftCurrent = leftMin ;
+            $dom.style.webkitTransform = 'translate3d('+ (leftCurrent)+'px,0,0)' ;
+
+            $butt.addEventListener('touchstart',function(event){
+                XX = xx = event.targetTouches[0].screenX ;
+                YY = yy = event.targetTouches[0].screenY ;
+            });
+            $butt.addEventListener('touchmove',function(event){
+                event.preventDefault();
+                XX = event.targetTouches[0].screenX ;
+                YY = event.targetTouches[0].screenY ;
+                lc = leftCurrent+XX-xx ;
+                if( lc >= leftMin && lc <= leftMax ){
+                    $dom.style.webkitTransform = 'translate3d('+ (lc)+'px,0,0)' ;
+                }
+            });
+            $butt.addEventListener('touchend',function(event){
+                leftCurrent = lc ;
+            });
+        }
+    </script>
+</body>
+
+</html>

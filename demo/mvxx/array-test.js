@@ -2,7 +2,7 @@
  * @Author: 灵岩寺
  * @Date:   2015-08-30 17:57:18
  * @Last Modified by:   灵岩寺
- * @Last Modified time: 2015-08-30 18:52:56
+ * @Last Modified time: 2015-09-02 14:28:14
  */
 
 'use strict';
@@ -29,24 +29,21 @@
         type: 'get',
         url: 'http://app.nacute.com/api/ajax/party/list?pageNo='+1+'&pageSize=10',
         success: function(data) {
+            var info = data.info.slice(0) ;
+            console.log(info);
+
+            // 在数组的任意位置插入一个数组
             data.info.unshift(partyArr.length)
             data.info.unshift(0);
             partyArr.splice.apply(partyArr,data.info);
+
+            partyArr.unshift(info[2]);
+            partyArr.splice(2,0,info[6]);
+
+            // 这样来删除数组中的元素，不要使用 delete arr[index]的方式
+            partyArr.splice(0,1);
         }
     });
 
-
-    /* lyan_arr(arrName, function() {
-         console.log('数组长度改变了');
-         console.log([].slice.call(arguments));
-     });*/
-    var bitch = {};
-    Lyan.create({
-        data: bitch,
-        property: 'name',
-        render: function() {
-            // alert('bitch的名字改变了')
-        }
-    });
-    bitch.name = "周恩来";
 })();
+

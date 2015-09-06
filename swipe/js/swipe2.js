@@ -23,6 +23,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
         buttPrev = arg.buttPrev,
         buttNext = arg.buttNext,
         keyEvent = arg.keyEvent,
+        time = arg.time ? arg.time : '0.6s' ,
         currentPage = isNaN(parseInt(arg.currentPage,10))?0:arg.currentPage ;
 
     var isPhone = !!navigator.userAgent.toLowerCase().match(/android|phone|pad/g);
@@ -43,7 +44,8 @@ var Lunbo = function(arg) { //以对象形式传递参数
     var xx, XX, currentDom, prevDom, nextDom, swipeX, swipeY, cha, chaCache;
     var mouseStart, mouseMove, mouseEnd ;
     var swipeable = true ;
-    var TRANSTION = 'all 0.6s ease' ;
+    var MINSDISTANCE = 50 ;
+    var TRANSTION = 'all '+time+' cubic-bezier(0.455, 0.03, 0.515, 0.955)' ;
 
     mouseStart = isPhone ? 'touchstart' : 'mousedown';
     mouseMove = isPhone ? 'touchmove' : 'mousemove';
@@ -105,18 +107,15 @@ var Lunbo = function(arg) { //以对象形式传递参数
 
     // 这个地方可以再整合一下，towhere和滑动的本质应该是一样的
     // 上一页、下一页也只是towhere的参数
-    // 并且要有全局的时间管理
     $id.addEventListener(mouseStart, function(event) {
         stateControl.start(event);
         XX = xx = isPhone ? event.targetTouches[0].screenX : event.pageX;
         YY = yy = isPhone ? event.targetTouches[0].screenY : event.pageY;
     });
-    $id.addEventListener(mouseMove, function(event) {
-        touchMove(event);
-    });
-    $id.addEventListener(mouseEnd, function(event) {
-        touchEnd(event);
-    });
+    // 这里有个问题，如果在PC端，一直移动鼠标会阻塞其他程序执行
+    // 当然在移动端，不听滑动屏幕，也会有这个问题
+    $id.addEventListener(mouseMove, touchMove);
+    $id.addEventListener(mouseEnd, touchEnd);
 
     function touchMove(event) { // 滑动中
         if(!swipeable) return
@@ -179,7 +178,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
 
         	stateControl.end();
             if (cha > 0) {
-                if (cha > 50) {
+                if (cha > MINSDISTANCE) {
                     stateControl.setTransform(currentDom,0,0,scale,scale);
                     stateControl.setTransform(prevDom,0,0);
 
@@ -189,7 +188,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
                     stateControl.setTransform(prevDom,0,topMin);
                 }
             } else {
-                if (cha < -50) {
+                if (cha < -MINSDISTANCE) {
                     stateControl.setTransform(currentDom,0,0,scale,scale);
                     stateControl.setTransform(nextDom,0,0);
 
@@ -204,7 +203,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
         {
         	stateControl.end();
             if (cha > 0) {
-                if (cha > 50) {
+                if (cha > MINSDISTANCE) {
                     stateControl.setTransform(currentDom,leftMax,0 );
                     stateControl.setTransform(prevDom,0,0);
 
@@ -214,7 +213,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
                     stateControl.setTransform(prevDom,leftMin,0);
                 }
             } else {
-                if (cha < -50) {
+                if (cha < -MINSDISTANCE) {
                     stateControl.setTransform(currentDom,leftMin,0 );
                     stateControl.setTransform(nextDom,0,0);
 
@@ -225,7 +224,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
                 }
             }
         }
-
+        // 重置chaCache
         chaCache = 0;
     }
 
@@ -259,12 +258,13 @@ var Lunbo = function(arg) { //以对象形式传递参数
 
         stateControl.removeTransition();
 
-        if (cha < 50 && cha > -50) return;
-        else if (cha >= 50) dom = nextDom;
-        else if (cha <= -50) dom = prevDom;
+        var dom ;
+        if (cha < MINSDISTANCE && cha > -MINSDISTANCE) return;
+        else if (cha >= MINSDISTANCE) dom = nextDom;
+        else if (cha <= -MINSDISTANCE) dom = prevDom;
 
         if (toLeft) dom && (dom.style.visibility = 'hidden');
-        else dom && (dom.style.cssText += ';visibility:hidden; z-index:0;');
+        else dom && (dom.style.cssText += ';visibility:hidden; z-index:auto;');
 
         prevDom = $item[currentPage - 1] ? $item[currentPage - 1] : $item[len - 1]; // 重置 上一个/当前/下一个
         nextDom = $item[currentPage + 1] ? $item[currentPage + 1] : $item[0];
@@ -295,8 +295,13 @@ var Lunbo = function(arg) { //以对象形式传递参数
         return page ;
     }
 
-    function toWhere(index, dir) { //主要是给左右点击事件使用
-        console.log(111,swipeable)
+    /*
+     * 主要是给左右点击事件使用
+     * index 下一个页面的 页码？
+     * dir 向左还是向右滑动 next/prev
+    */
+    function toWhere(index, dir) {
+        // console.log(111,swipeable)
     	if(!swipeable) return
         index = setPage(index,true);
         if (index === currentPage) return
@@ -323,17 +328,18 @@ var Lunbo = function(arg) { //以对象形式传递参数
     }
     this.toWhere = toWhere;
 
+    // 点击事件
     function buttEvent() {
         if (!!buttNext) {
             var click = isPhone ? 'touchend' : 'click';
-            document.querySelector('#' + buttPrev).addEventListener(click, function(event) {
+            document.querySelector(buttPrev).addEventListener(click, function(event) {
                 var index = currentPage-1;
                 toWhere(index, 'prev');
             });
         }
         if (!!buttPrev) {
             var click = isPhone ? 'touchend' : 'click';
-            document.querySelector('#' + buttNext).addEventListener(click, function() {
+            document.querySelector(buttNext).addEventListener(click, function() {
                 var index = currentPage+1;
                 toWhere(index, 'next');
             });
@@ -343,8 +349,8 @@ var Lunbo = function(arg) { //以对象形式传递参数
 
     function dianMove() { //下面小点的运动
         $dianItem.forEach(function(ele, index) {
-            if (index == currentPage) ele.classList.add('dian-item-current')
-            else ele.classList.remove('dian-item-current')
+            if (index == currentPage) ele.classList.add('dian-item-current');
+            else ele.classList.remove('dian-item-current');
         });
     }
 
@@ -370,7 +376,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
     }
 
     function start() { //自动轮播
-        timeIn = setInterval(move, 1000);
+        timeIn = setInterval(move, 4000);
     }
 
     function stop() { //清除自动轮播
