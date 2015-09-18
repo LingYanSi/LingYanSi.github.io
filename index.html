@@ -235,6 +235,36 @@
 			});
 			$('body').css({opacity:'1'});
 		});
+
+		var obj = {
+			name : {
+				daye: '胡锦涛',
+				heihei: [
+					'杨玉环',
+					'唐明皇'
+				]
+			}
+		}
+		var objStr = JSON.stringify(obj) ;
+		console.log('json字符串',typeof(objStr),objStr)
+
+		with(obj){
+			console.log(name,name.daye)
+		}
+
+		console.log('performance',performance)
+
+		var arr = [
+			'2015-11-10 0:0:0',
+			'2015-11-20 0:0:0',
+			'2015-11-20 0:0:0',
+			'2015-11-23 0:0:0',
+		]
+		arr.forEach(function(ele){
+			console.log(
+				'----', new Date(ele).getTime()/1000
+			)
+		});
 	</script>
  </body>
 </html>
