@@ -1,44 +1,110 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0 , maximum-scale=1.0, user-scalable=1.0">
-    <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
-    <link rel="stylesheet" href="../stylesheets/lingyan.css">
-    <title>灵岩-日历</title>
+    <meta charset="UTF-8">
+    <title>我的日历</title>
     <style>
-    	#LY-date{ width:400px; max-width:100%; }
-		#LY-date table{ border:1px solid rgba(210,210,210,1); text-align:center; width:100%; }
-		#LY-date table td,#LY-date table th{ padding:10px; }
-		#LY-date table tr:not(:first-child) td{  border-top:1px solid rgba(210,210,210,0.5); }
-		#LY-date table td:not(:first-child){ border-left:1px solid rgba(210,210,210,0.5); }
-	    #LY-date .nidaye {background: rgb(38,157,128); cursor:pointer; }
-	    #LY-date .tamabi {background: rgb(230,214,110); cursor:pointer;  }
+        .LY-date{ width:400px; max-width:100%; }
+        .LY-date table{ border:1px solid rgba(210,210,210,1); text-align:center; width:100%; }
+        .LY-date table td,.LY-date table th{ padding:10px; }
+        .LY-date table tr:not(:first-child) td{  border-top:1px solid rgba(210,210,210,0.5); }
+        .LY-date table td:not(:first-child){ border-left:1px solid rgba(210,210,210,0.5); }
 
-	    #LY-date span{ display:inline-block; line-height:3; width:4em; text-align:center; background:rgb(92,167,186); color:#fff; }
+        .LY-date-item-disabled{ color:rgb(210,210,210); }
+        .LY-date-item-1{
+            background: rgb(38,157,128); cursor:pointer;
+        }
 
-        #info{ line-height:2; font-size:2em;}
+        .LY-date-year,.LY-date-month,
+        .LY-date-year-prev,.LY-date-year-next,
+        .LY-date-month-prev,.LY-date-month-next{
+            display:inline-block; line-height:3; width:4em; text-align:center;
+            background:rgb(92,167,186); color:#fff;
+        }
+
+
+        .LY-date-year-prev,.LY-date-year-next,
+        .LY-date-month-prev,.LY-date-month-next{ cursor: pointer; background: rgb(230,214,110); float:right; width:3em;}
+        .LY-date-month{
+            float: right ;
+        }
+        .LY-date-year,.LY-date-year-prev,.LY-date-year-next{
+            float: left ;
+        }
     </style>
 </head>
 
 <body>
-    <div class="LY-main">
-        <div style="margin:20px 0;">
-			<input type="text" placeholder="2015-08-11" style="padding:4px 10px;">
-        	<input type="button" id="render" value="渲染" style="padding:4px 10px;">
+    <div id="date"></div>
+    <div id="date1"></div>
+    <script type="text/template" id="LY-date-template">
+        <div class="LY-date">
+            <div>
+                <span class="LY-date-year-prev">next</span>
+                <span class="LY-date-year"></span>
+                <span class="LY-date-year-next">prev</span>
+
+                <span class="LY-date-month-next">next</span>
+                <span class="LY-date-month"></span>
+                <span class="LY-date-month-prev">prev</span>
+            </div>
+            <table border="0" cellspacing="0">
+                <tr>
+                    <th>1</th> <th>2</th> <th>3</th> <th>4</th> <th>5</th> <th>6</th> <th>7</th>
+                </tr>
+                <tr>
+                    <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                </tr>
+                <tr>
+                    <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                </tr>
+                <tr>
+                    <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                </tr>
+                <tr>
+                    <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                </tr>
+                <tr>
+                    <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                </tr>
+                <tr>
+                    <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                </tr>
+            </table>
         </div>
-        <div id="LY-date">
-            <p>
-                <span class="year"></span>
-                <span class="month" style=" float:right; "></span>
-            </p>
-            <table cellspacing="0"></table>
-        </div>
-        <pre id="info"> </pre>
-    </div>
-    <script type="text/javascript" src="../build-zepto/ku.js"></script>
-    <script type="text/javascript" src="date.js"> </script>
-	<script src="app.js"></script>
+    </script>
+    <script src="new-date.js"></script>
+    <script>
+
+        // 作为数据源，为日历提供数据
+        var dataArr = [
+            {
+                date: 11 ,
+                id: 12 ,
+                info: 'WTF,测试成功了吗？'
+            }
+        ]
+
+        // 只有id是必须的
+        new lyDate({
+            id: 'date' ,
+            dataArr: dataArr ,
+            selectCallback: function(date,dom){
+                console.log('日期被选中了')
+                if(dom.classList.contains('LY-date-item-1')){
+                    console.log('选中了被标记的日期')
+                }
+            },
+            prevMonthCallback: function(){
+                console.log('上一月')
+            },
+            nextMonthCallback: function(){
+                console.log('下一月')
+            }
+        });
+
+    </script>
 </body>
 
 </html>
