@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-09 11:35:00
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-09-16 17:15:49
+* @Last Modified time: 2015-09-21 20:55:13
 */
 
 'use strict';
@@ -12,6 +12,21 @@
 3.git copy http://url
 4.svn checkout http://url
 
+--------------------------------------------
+http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013758404317281e54b6f5375640abbb11e67be4cd49e0000
+github 忽略文件
+需要在工作文件夹下 新建一个.gitignore的文件
+-> 文件配置 https://github.com/github/gitignore
+其实配置规范很简单
+# 这里写注释
+*.js // 具体文件
+node_modules // 文件夹
+这样就可以了
+
+虽说配置简单，可遇到了在 mac shell环境下，使用vim .gitignore 编辑文件不知如何保存
+其实也简单 先按下 esc 按键，然后 shift+: 输入 wq 就可以保存退出了
+更多vim 快捷键
+-> http://www.cnblogs.com/lee0oo0/p/3548030.html
 ----------------------------------------------
 
 1.上传文件到svn
