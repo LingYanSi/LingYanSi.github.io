@@ -6,17 +6,17 @@
 </head>
 
 <body>
+    <div id="gaoHuan"></div>
     <script type="text/template" id="temp">
-        if(xx){
-            <div>
-                <span>我是谁呢</span>
-            </div>
-        }
-
+    {{ if x>0 }}
+       <span>{{user.name}}</span>
+       <p>{{user.info}}</p>
+    {{ /if }}
     </script>
+    <script src="./js/my-template.js"></script>
     <script>
-        var str = document.querySelector('#temp').innerHTML ;
-        console.log( str );
+        var data = {name:'高欢',info:'北魏孝文帝'}
+        document.querySelector('#gaoHuan').innerHTML = template('temp',data);
     </script>
 </body>
 
