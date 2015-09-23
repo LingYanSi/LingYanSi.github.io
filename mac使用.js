@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-09 11:35:00
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-09-21 20:55:13
+* @Last Modified time: 2015-09-23 11:09:44
 */
 
 'use strict';
@@ -58,3 +58,6 @@ http://mops.mogujie.org/deploy/add
 测试：
 本地测试，使用 lotus（莲藕）约定好数据
 
+----------------------------
+等多发布之后，再上传到git、也就是把文件合并到f2e开发分枝上
+主要是因为，团队其他人也可能修改这个文件

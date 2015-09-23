@@ -12,6 +12,12 @@
         .LY-date table td:not(:first-child){ border-left:1px solid rgba(210,210,210,0.5); }
 
         .LY-date-item-disabled{ color:rgb(210,210,210); }
+        .LY-date-item:not(.LY-date-item-disabled){
+            cursor:pointer;
+        }
+        .LY-date-item-current{
+            background: red ;
+        }
         .LY-date-item-1{
             background: rgb(38,157,128); cursor:pointer;
         }
@@ -36,8 +42,11 @@
 </head>
 
 <body>
+
     <div id="date"></div>
     <div id="date1"></div>
+    <input type="text" id="myInput">
+
     <script type="text/template" id="LY-date-template">
         <div class="LY-date">
             <div>
@@ -86,6 +95,7 @@
             }
         ]
 
+        var $date1 = document.querySelector('#date1');
         // 只有id是必须的
         new lyDate({
             id: 'date' ,
@@ -101,7 +111,16 @@
             },
             nextMonthCallback: function(){
                 console.log('下一月')
+            },
+            dateChange: function(date){
+                $date1.innerHTML = date.year+'-'+date.month+'-'+date.date+' '+date.hours+':'+date.min+':'+date.sec
             }
+        });
+
+        document.querySelector('#myInput').addEventListener('click',function(){
+            this.value = '1111'
+            this.setAttribute('value','111111111');
+            console.log(this.value)
         });
 
     </script>

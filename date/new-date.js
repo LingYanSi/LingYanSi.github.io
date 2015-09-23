@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-21 15:13:11
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-09-21 18:47:42
+* @Last Modified time: 2015-09-23 00:41:29
 */
 
 'use strict';
@@ -16,18 +16,21 @@ var lyDate = (function(){
     // dataArr: 可绑定在日期上的数据
     var DATE = function(arg){
         var id = arg.id ,
+            dateChange = arg.dateChange ,
             selectCallback = arg.selectCallback ,
             prevMonthCallback = arg.prevMonthCallback ,
             nextMonthCallback = arg.nextMonthCallback ,
+            prevYearCallback = arg.prevYearCallback ,
+            nextYearCallback = arg.nextYearCallback ,
             dataArr = arg.dataArr ;
+
 
         var $date = document.getElementById(id);
         $date.innerHTML = document.getElementById('LY-date-template').innerHTML ;
 
         var $month = $date.querySelector('.LY-date-month') ;
         var $year = $date.querySelector('.LY-date-year') ;
-        var $trs = [].slice.call($date.querySelectorAll('table tr') );
-        $trs.splice(0,1);
+        var $tds = [].slice.call($date.querySelectorAll('table td') );
 
         // 新建一个时间对象
         var d = new Date();
@@ -41,6 +44,10 @@ var lyDate = (function(){
                 year: d.getFullYear() ,
                 month: d.getMonth()+1 ,
                 date: d.getDate() ,
+                hours: d.getHours() ,
+                min: d.getMinutes() ,
+                sec: d.getSeconds() ,
+                times: d.getTime() ,
                 monthDays: 0 ,
                 prevMonthDays: 0
             },
@@ -68,22 +75,42 @@ var lyDate = (function(){
                 this.nowDate.day = d.getDay()?d.getDay():7 ;
                 // 一个月有几天
                 var month = d.getMonth();
+                var monthDays = 0 ;
                 this.nowDate.month = ++month ;
 
                 if(month===2){
-                  this.nowDate.monthDates = d.getFullYear()%4===0?29:28 ;
+                  monthDays = d.getFullYear()%4===0?29:28 ;
                 }
                 month30.forEach(function(ele){
                     if(month===ele)
-                        this.nowDate.monthDates = 30
+                        monthDays = 30
                 },this);
                 month31.forEach(function(ele){
                     if(month===ele)
-                        this.nowDate.monthDates = 31
+                        monthDays = 31
                 },this);
+
+                // 如果当天日期为31，但有些月份只有30天/29/28天，因此需要处理一下
+                if(monthDays<this.nowDate.date)
+                    this.nowDate.date = monthDays
+
+                this.nowDate.monthDays = monthDays ;
 
                 this.setPrevMonthDays(--month);
                 this.render();
+            },
+            resetNowDate: function(){
+                var needResetArr = ['month','date','hours','min','sec'] ;
+                needResetArr.forEach(function(ele){
+                   this.nowDate[ele] = this.checkValue( this.nowDate[ele] )
+                },this)
+            },
+            checkValue: function(val){
+                val = parseInt(val,10);
+                if(val<10){
+                    return '0'+val
+                }
+                return val
             },
             setPrevMonthDays: function(month){
                 var monthDays = 0 ;
@@ -104,44 +131,49 @@ var lyDate = (function(){
             },
             // 数据渲染
             render: function(){
+
                 var dateStart = 1 ;
-                var dateEnd = this.nowDate.monthDates ;
+                var dateEnd = this.nowDate.monthDays ;
+                this.resetNowDate();
 
                 $month.innerHTML = this.nowDate.month ;
                 $year.innerHTML = this.nowDate.year ;
 
-                $trs.forEach(function(ele,index){
-                    [].slice.call( ele.querySelectorAll('td') ).forEach(function(ele1,index1){
-                        // 开头处理
-                        if((index===0 && tools.nowDate.day-(index1+1)>0 ) ){
-                            ele1.classList.remove('LY-date-item');
-                            ele1.classList.add('LY-date-item-disabled');
-                            ele1.innerHTML = tools.nowDate.prevMonthDays+index1+2-tools.nowDate.day;
-                            return
-                        }
-                        // 结尾处理
-                        if(dateStart>dateEnd){
-                            ele1.classList.remove('LY-date-item');
-                            ele1.classList.add('LY-date-item-disabled');
-                            ele1.innerHTML = dateStart - dateEnd ;
-                            dateStart++
-                            return
-                        }
+                $tds.forEach(function(ele1,index1){
+                    var classList = ele1.classList ;
+                    classList.remove('LY-date-item-current');
+                    // 开头处理
+                    if( tools.nowDate.day-(index1+1)>0  ){
+                        classList.remove('LY-date-item');
+                        classList.add('LY-date-item-disabled');
+                        ele1.innerHTML = tools.nowDate.prevMonthDays+index1+2-tools.nowDate.day;
+                        return
+                    }
+                    // 结尾处理
+                    if(dateStart>dateEnd){
+                        classList.remove('LY-date-item');
+                        classList.add('LY-date-item-disabled');
+                        ele1.innerHTML = dateStart - dateEnd ;
+                        dateStart++
+                        return
+                    }
+                    if(dateStart===parseInt(this.nowDate.date,10) ){
+                        // 本月当前选中date
+                        classList.add('LY-date-item-current');
+                    }
 
+                    classList.remove('LY-date-item-disabled');
+                    classList.remove('LY-date-item-1');
 
-                        ele1.classList.remove('LY-date-item-disabled');
-                        ele1.classList.remove('LY-date-item-1');
+                    // 是否有标记的月份
+                    dataArr && dataArr.forEach(function(ele){
+                        if(ele.date==dateStart)
+                            classList.add('LY-date-item-1')
+                    });
 
-                        // 是否有标记的月份
-                        dataArr && dataArr.forEach(function(ele){
-                            if(ele.date==dateStart)
-                                ele1.classList.add('LY-date-item-1')
-                        });
-
-                        ele1.innerHTML = dateStart++ ;
-                        ele1.classList.add('LY-date-item');
-                    })
-                });
+                    ele1.innerHTML = dateStart++ ;
+                    classList.add('LY-date-item');
+                },this);
             },
             // 初始化
             init: function(){
@@ -156,36 +188,45 @@ var lyDate = (function(){
                     if( classlist.contains('LY-date-year-prev') ){
                         // 上一年
                         _this.cheackYMD(--_this.nowDate.year,_this.nowDate.month,_this.nowDate.date);
+                        prevYearCallback && prevYearCallback( _this.nowDate );
                     }else if( classlist.contains('LY-date-year-next') ){
                         // 下一年
                         _this.cheackYMD(++_this.nowDate.year,_this.nowDate.month,_this.nowDate.date);
+                        nextYearCallback && nextYearCallback( _this.nowDate );
                     }else if( classlist.contains('LY-date-month-prev') ){
                         // 上一月
                         _this.cheackYMD(_this.nowDate.year,--_this.nowDate.month,_this.nowDate.date);
+                        prevMonthCallback && prevMonthCallback( _this.nowDate );
                     }else if( classlist.contains('LY-date-month-next') ){
                         // 下一月
                         _this.cheackYMD(_this.nowDate.year,++_this.nowDate.month,_this.nowDate.date);
+                        nextMonthCallback && nextMonthCallback( _this.nowDate );
                     }
 
                     var date = {
                         year: _this.nowDate.year ,
                         month: _this.nowDate.month
                     };
-                    prevMonthCallback && prevMonthCallback( date );
+                    dateChange && dateChange( _this.nowDate );
                 });
                 // 选中日期
                 $date.addEventListener('click',function(event){
-                    var $dom = event.target ;
-                    if(event.target.classList.contains('LY-date-item')){
-                        var date = {
-                            year: d.getFullYear() ,
-                            month: d.getMonth()+1 ,
-                            date: parseInt($dom.textContent,10)
-                        }
-                        console.log('被选中了:',date);
-                        selectCallback && selectCallback( date,$dom );
-                    }
+                    _this.dateSelect.call(_this,event);
                 });
+
+                $date.querySelector('.LY-date-item-current').click();
+
+            },
+            dateSelect: function(event){
+                var $dom = event.target ;
+                if(event.target.classList.contains('LY-date-item')){
+                    this.nowDate.date = parseInt($dom.textContent,10);
+                    // nowDate.date被修改，从新渲染日期组件
+                    this.render();
+
+                    selectCallback && selectCallback( this.nowDate, $dom );
+                    dateChange && dateChange( this.nowDate );
+                }
             }
         }
 
