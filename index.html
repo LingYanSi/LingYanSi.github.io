@@ -7,9 +7,9 @@
   <meta name="Description" content="灵岩">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" name="viewport" />
   <link rel="icon" href="http://lingyansi.github.io/images/icon/icon.jpg">
+  <link rel="stylesheet" href="stylesheets/reset.css">
   <title>灵岩-首页</title>
   <style type="text/css">
-	 *{ padding:0; margin:0; }
 	 body{font-size:14px; opacity:0;}
 	 .nav{ height:300px; background-image:url(images/1.jpg); background-size:cover; background-position:center; position:relative; overflow:hidden; }
 	 .head-img{ height:100px; width:100px;
@@ -42,6 +42,13 @@
  </head>
  <body>
 	<nav class="nav">
+		<div id="nav-bgd" style="height:100%;position:absolute;width:100%;">
+			<div id="nav-bgd-items">
+				<div style="background-image:url(images/1.jpg);background-size:cover;"></div>
+				<div style="background-image:url(images/2.jpg);background-size:cover;"></div>
+				<div style="background-image:url(images/3.jpg);background-size:cover;"></div>
+			</div>
+		</div>
 		<div class="head-img">
 			<p>灵·岩</p>
 		</div>
@@ -224,7 +231,8 @@
 	<footer>
 		LingYanSi.Github.io 2015
 	</footer>
-	<script src="build-zepto/ku.js"></script>
+	<script src="javascripts/library/jquery-2.1.4.min.js"></script>
+	<script src="demo/slider/slide.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			var navHeight = ($.isPhone?document.body.offsetWidth*3/4:window.screen.width*4/16)+'px' ;
@@ -234,6 +242,21 @@
 				$(this).siblings().toggle();
 			});
 			$('body').css({opacity:'1'});
+
+			var navBgd = new Slider({
+			    id:'nav-bgd',
+			    autoPlay: true ,
+			    loop: true ,
+			    time: 8000 ,
+			    num: 1 ,
+			    isNavShow: false ,
+			    isPrevNextShow: false ,
+			    currentPage: 2 ,
+    			animationStyle: 2 ,
+			    onPageChange: function(prevIndex,currentIndex,len){
+			        // console.log(prevIndex,currentIndex,len);
+			    }.bind(this),
+			});
 		});
 
 		var obj = {
@@ -252,7 +275,7 @@
 			console.log(name,name.daye)
 		}
 
-		console.log('performance',performance)
+		console.log('performance:性能报告',performance)
 
 		var arr = [
 			'2015-11-10 0:0:0',
@@ -265,6 +288,7 @@
 				'----', new Date(ele).getTime()/1000
 			)
 		});
+
 	</script>
  </body>
 </html>

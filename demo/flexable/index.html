@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" >
+    <script src="../../javascripts/flexable.js"></script>
+    <title>弹性布局</title>
+    <link rel="stylesheet" href="../../stylesheets/reset.css"></link>
+    <style style="text/css" id="my">
+        body{
+            font-size: 36px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style=" height:4rem;background:rgb(247,105,105);"></div>
+    <div style="border-left:1px solid #000; width:300px; height:200px;">
+        你说什么呢？
+    </div>
+    <form action="" method="post" id="form">
+        <input type="text" name="nima" require="" errorMsg="我没有被天蝎">
+        <input type="checkbox" name="checkbox" require errorMsg="我没有被选中">
+        <select name="select" id="">
+            <option value="11">11</option>
+            <option value="22">22</option>
+        </select>
+        <input type="radio" name='wife' value="宋小帆">
+        <input type="radio" name='wife' value="李倩">
+        <input type="radio" name='wife' value="陈莹">
+        <input type="submit" value="提交">
+        <input type="reset" value="重置">
+    </form>
+    <div id="modalTest">
+        <button class="alert">alert</button>
+        <button class="tips">tips</button>
+        <button class="confirm">confirm</button>
+        <button class="diy">diy</button>
+    </div>
+
+    <script src="../../javascripts/cookie.js"></script>
+    <script src="../../javascripts/url.js"></script>
+    <script src="../../javascripts/serialize.js"></script>
+    <script src="../../javascripts/modal.js"></script>
+    <script>
+        // 可以动态修改style 内容
+        document.querySelector('#my').innerHTML=`
+            body{
+                background: ;
+            }
+        `;
+
+        // 可动态添加style
+        var style = document.createElement('style');
+        style.innerHTML = `
+            body{
+                font-size: 36px ;
+                color: #000 ;
+            }
+        `
+        document.head.appendChild(style);
+
+        // 可动态添加script标签
+        var script = document.createElement('script');
+        script.innerHTML = `
+            console.log('新增加的script打印出来的')
+        `;
+        document.body.appendChild(script);
+    </script>
+</body>
+
+</html>

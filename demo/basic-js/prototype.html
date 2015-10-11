@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+<script>
+    var fn = function(){
+        this.cup = 'E'
+    }
+    fn.prototype = {
+        cup: 'D' ,
+        dfj: function(){
+            console.log('prototype上的打飞机方法')
+        }
+    }
+
+    var nice = function(){
+        this.cup = '好大';
+    };
+    nice.prototype = new fn();
+    console.log( new nice().cup )
+
+    var ob = Object.prototype.toString ;
+    console.log(ob.call(nice),
+                ob.call(false),
+                ob.call(11),
+                ob.call({}),
+                ob.call(null),
+                ob.call(undefined)
+        )
+</script>
+</body>
+
+</html>

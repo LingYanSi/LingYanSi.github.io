@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-21 15:13:11
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-09-23 00:41:29
+* @Last Modified time: 2015-09-27 01:50:07
 */
 
 'use strict';
@@ -16,6 +16,8 @@ var lyDate = (function(){
     // dataArr: 可绑定在日期上的数据
     var DATE = function(arg){
         var id = arg.id ,
+            isShow = arg.isShow===undefined?true:arg.isShow ,
+            defaultTime = arg.defaultTime ,
             dateChange = arg.dateChange ,
             selectCallback = arg.selectCallback ,
             prevMonthCallback = arg.prevMonthCallback ,
@@ -24,16 +26,25 @@ var lyDate = (function(){
             nextYearCallback = arg.nextYearCallback ,
             dataArr = arg.dataArr ;
 
-
+            console.log('默认时间说',defaultTime)
         var $date = document.getElementById(id);
+        $date.style.display = isShow?'inline-block':'none' ;
         $date.innerHTML = document.getElementById('LY-date-template').innerHTML ;
+
+        if(!isShow){
+            console.log('默认不显示')
+            $date.addEventListener('blur',function(){
+                console.log('失去了焦点')
+                this.style.display = "none" ;
+            },true);
+        }
 
         var $month = $date.querySelector('.LY-date-month') ;
         var $year = $date.querySelector('.LY-date-year') ;
         var $tds = [].slice.call($date.querySelectorAll('table td') );
 
         // 新建一个时间对象
-        var d = new Date();
+        var d = defaultTime ? new Date(defaultTime) : new Date();
         // 31天、30天的两个数组
         var month31 = [1,3,5,7,8,10,12];
         var month30 = [4,6,9,11];
@@ -100,6 +111,13 @@ var lyDate = (function(){
                 this.render();
             },
             resetNowDate: function(){
+                d.setFullYear(this.nowDate.year);
+                d.setMonth(this.nowDate.month-1);
+                d.setDate(this.nowDate.date);
+                d.setHours(this.nowDate.hours);
+                d.setMinutes(this.nowDate.min);
+                d.setSeconds(this.nowDate.sec);
+
                 var needResetArr = ['month','date','hours','min','sec'] ;
                 needResetArr.forEach(function(ele){
                    this.nowDate[ele] = this.checkValue( this.nowDate[ele] )
@@ -134,7 +152,9 @@ var lyDate = (function(){
 
                 var dateStart = 1 ;
                 var dateEnd = this.nowDate.monthDays ;
+
                 this.resetNowDate();
+                this.nowDate.times = d.getTime();
 
                 $month.innerHTML = this.nowDate.month ;
                 $year.innerHTML = this.nowDate.year ;
@@ -220,6 +240,7 @@ var lyDate = (function(){
             dateSelect: function(event){
                 var $dom = event.target ;
                 if(event.target.classList.contains('LY-date-item')){
+
                     this.nowDate.date = parseInt($dom.textContent,10);
                     // nowDate.date被修改，从新渲染日期组件
                     this.render();
@@ -231,7 +252,72 @@ var lyDate = (function(){
         }
 
         tools.init();
+
+        return {
+            dom: $date
+        }
     }
     return DATE ;
 })();
+
+console.log(3333333);
+[].slice.call(document.querySelectorAll('.lydd-input')).forEach(function(ele){
+    if(!ele.getAttribute('isDateComponent')){
+        ele.setAttribute('isDateComponent',true);
+
+        var $date = document.createElement('div');
+        var idName = 'date'+ new Date().getTime();
+        $date.id = idName ;
+
+        ele.parentElement.style.position = 'relative' ;
+        ele.parentElement.appendChild($date);
+        var input = ele ;
+        // var $date = document.querySelector('#'+idName)；
+        var LD = new lyDate({
+            id: idName ,
+            isShow: false ,
+            defaultTime: parseInt(input.getAttribute('defaultValue'),10) ,
+            timeFormat: 'yy-mm-dd hh:mm:ss' ,
+            selectCallback: function(date,dom){
+                console.log('日期被选中了')
+                if(dom.classList.contains('LY-date-item-1')){
+                    console.log('选中了被标记的日期')
+                }
+            },
+            prevMonthCallback: function(){
+                console.log('上一月')
+            },
+            nextMonthCallback: function(){
+                console.log('下一月')
+            },
+            dateChange: function(date){
+                input.value = date.year+'-'+
+                                date.month+'-'+
+                                date.date+' '+
+                                date.hours+':'+
+                                date.min+':'+
+                                date.sec ;
+                ele.setAttribute('timeStr',date.times);
+            }
+        });
+    }
+    ele.addEventListener('click',function(event){
+        console.log(this,event,this.getBoundingClientRect(),window.innerHeight);
+        var winHeight = window.innerHeight ;
+        var BoundingClientRect = this.getBoundingClientRect() ;
+        if(BoundingClientRect.top>winHeight-BoundingClientRect.bottom){
+            $date.style.cssText = 'position:absolute;left:0px;bottom:100%;';
+        }else{
+            $date.style.cssText = 'position:absolute;left:0px;top:100%;';
+        }
+        var $dateWrap = LD.dom ;
+        if( window.getComputedStyle($dateWrap,null).display=="none" ){
+            $dateWrap.style.display = "inline-block";
+            $dateWrap.focus();
+        }
+    })
+    ele.addEventListener('keydown',function(event){
+        event.preventDefault();
+    });
+})
 

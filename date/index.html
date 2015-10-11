@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>我的日历</title>
     <style>
-        .LY-date{ width:400px; max-width:100%; }
+        .LY-date{ width:400px; max-width:100%; display:inline-block; outline:none; background:#fff;}
         .LY-date table{ border:1px solid rgba(210,210,210,1); text-align:center; width:100%; }
         .LY-date table td,.LY-date table th{ padding:10px; }
         .LY-date table tr:not(:first-child) td{  border-top:1px solid rgba(210,210,210,0.5); }
@@ -45,10 +45,12 @@
 
     <div id="date"></div>
     <div id="date1"></div>
-    <input type="text" id="myInput">
+    <div class="lydd">
+        <input type="text" class="lydd-input" placeholder="选择日期" defaultValue="1"  />
+    </div>
 
     <script type="text/template" id="LY-date-template">
-        <div class="LY-date">
+        <div class="LY-date" tabindex="1">
             <div>
                 <span class="LY-date-year-prev">next</span>
                 <span class="LY-date-year"></span>
@@ -113,15 +115,16 @@
                 console.log('下一月')
             },
             dateChange: function(date){
-                $date1.innerHTML = date.year+'-'+date.month+'-'+date.date+' '+date.hours+':'+date.min+':'+date.sec
+                $date1.innerHTML = date.year+'-'+date.month+'-'+date.date+' '+date.hours+':'+date.min+':'+date.sec ;
             }
         });
 
-        document.querySelector('#myInput').addEventListener('click',function(){
-            this.value = '1111'
-            this.setAttribute('value','111111111');
-            console.log(this.value)
-        });
+
+        // 需要为添加一个新的日期，点击input后，跳出日历
+        // input可以设置默认值，可以设置placeholder，在disabled="true" 的情况下点击不能呼出日历插件
+        // 因此需要，div>input
+
+        console.log(new Date(1).getTime());
 
     </script>
 </body>
