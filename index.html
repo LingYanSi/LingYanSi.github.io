@@ -11,7 +11,11 @@
   <title>灵岩-首页</title>
   <style type="text/css">
 	 body{font-size:14px; opacity:0;}
-	 .nav{ height:300px; background-image:url(images/1.jpg); background-size:cover; background-position:center; position:relative; overflow:hidden; }
+	 .nav{ height:300px; position:relative; overflow:hidden; }
+	 #nav-bgd-items>div{
+	 	background-position: center ;
+	 	background-size: cover ;
+	 }
 	 .head-img{ height:100px; width:100px;
 	 			border-radius:50px;  box-sizing:border-box; border:3px solid rgba(250,250,250,0.2);
 	 			position:absolute; left:50%; margin-left:-50px; top:50%; margin-top:-50px;
@@ -44,9 +48,9 @@
 	<nav class="nav">
 		<div id="nav-bgd" style="height:100%;position:absolute;width:100%;">
 			<div id="nav-bgd-items">
-				<div style="background-image:url(images/1.jpg);background-size:cover;"></div>
-				<div style="background-image:url(images/2.jpg);background-size:cover;"></div>
-				<div style="background-image:url(images/3.jpg);background-size:cover;"></div>
+				<div style="background-image:url(images/1.jpg); "></div>
+				<div style="background-image:url(images/2.jpg); "></div>
+				<div style="background-image:url(images/3.jpg); "></div>
 			</div>
 		</div>
 		<div class="head-img">
@@ -233,9 +237,11 @@
 	</footer>
 	<script src="javascripts/library/jquery-2.1.4.min.js"></script>
 	<script src="demo/slider/slide.js"></script>
+	<script src="javascripts/device.js"></script>
+	<script src="javascripts/modal.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			var navHeight = ($.isPhone?document.body.offsetWidth*3/4:window.screen.width*4/16)+'px' ;
+			var navHeight = (Device.isPhone?document.body.offsetWidth*3/4:window.screen.width*4/16)+'px' ;
 			$('.nav').height(navHeight);
 			$('a').attr({target:'_blank'});
 			$('h2').on('click',function(){
@@ -252,11 +258,19 @@
 			    isNavShow: false ,
 			    isPrevNextShow: false ,
 			    currentPage: 2 ,
-    			animationStyle: 2 ,
+    			animationStyle: 1 ,
 			    onPageChange: function(prevIndex,currentIndex,len){
 			        // console.log(prevIndex,currentIndex,len);
 			    }.bind(this),
 			});
+
+			$('.head-img').on('click',function(){
+				modal.confirm('要去西方的哪一个国家吗？',function(){
+					location.href = 'http://cl.ueos.pw'
+				},function(){
+					location.href = 'http://www.zhihu.com'
+				});
+			})
 		});
 
 		var obj = {
