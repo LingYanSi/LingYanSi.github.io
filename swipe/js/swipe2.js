@@ -100,7 +100,10 @@ var Lunbo = function(arg) { //以对象形式传递参数
 	        if (autoPlay) start();
 	        if (dianNav) dianMove();
 	        if (callback) callback(currentPage);
-    	}
+            swipeable = true ;
+            stateControl.animationFrame.map(window.cancelAnimationFrame)
+    	},
+        animationFrame:[]
     }
     stateControl.init();
     stateControl.callback();
@@ -245,8 +248,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
                 // var cha = chaCache;
                 setDom(); //在mx3系统浏览器，uc浏览器中，滑动结束后prevDom,nextDom，表现为transform没改变，z-index的改变也显得很滞后
                 // alert(111); // 阻塞滞后
-                stateControl.callback();
-                swipeable = true ;
+                stateControl.animationFrame.push(window.requestAnimationFrame(stateControl.callback) )
                 // console.log('yijingjiehsu') // 如果连续不断点击下一页，会导致回调被阻塞
                 // alert(chaCache)
             }else return

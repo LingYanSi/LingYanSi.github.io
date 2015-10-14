@@ -59,33 +59,6 @@
 	</nav>
 	<div id="" class="main">
 		<div id="" class="content">
-			<div class="content-item">
-				<h2>我的轮子</h2>
-				<div>
-					<ul>
-						<li>既然一天醒着的一半时间都在工作，为什么不把它做的更好呢？</li>
-						<li><a href="https://github.com/LingYanSi/blog/issues">issue博客</a></li>
-						<li><a href="player/">音乐播放器</a></li>
-						<li><a href="richEdit/">富文本编辑器</a></li>
-						<li>
-							<a href="swipe/">上下滑动</a>
-							<a href="swipe/3d.html">3d旋转</a>
-							<a href="swipe/reload.html">下拉刷新</a>
-							<a href="swipe/sudu.html">模拟滑动</a>
-							<a href="http://www.swiper.com.cn/demo/index.html">比较流行的解决方案</a>
-						</li>
-						<li><a href="router/hash/">SLIDE（上下左右按键）</a> </li>
-						<li><a href="router/history/">Router（使用了history）</a></li>
-						<li><a href="visualization/">可视化</a></li>
-						<li><a href="pretent-comment/">假装能评论</a></li>
-						<li><a href="date/">日历</a></li>
-						<li><a href="https://github.com/LingYanSi/LingYanSi.github.io/blob/master/build-zepto/ku.js">弱鸡版zepto</a></li>
-						<li><a href="react-mine/">Reactjs-demo</a></li>
-						<li><a href="backbone/">backbone-demo</a></li>
-						<li><a href="angular/">angular-demo</a></li>
-					</ul>
-				</div>
-			</div>
 			<div id="" class="content-item">
 				<h2>前后端分离，以及项目搭建</h2>
 				<div>
@@ -202,39 +175,12 @@
 
 				</div>
 			</div>
-
-			<div class="content-item">
-				<h2>相关网站</h2>
-				<div>
-					<li><a href="http://www.whycss.com/">收录了一些常用的网站，博客等</a></li>
-					<li><a href="http://www.w3school.com.cn/cssref/">css参考手册，不全比如说缺少了flex</a></li>
-					<li><a href="http://www.w3school.com.cn/cssref/css_selectors.asp">css选择器</a></li>
-					<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/range/deleteContents">MDN</a></li>
-					<li><a href="http://www.ituring.com.cn/">图灵社区</a></li>
-					<li><a href="http://jiongks.name/blog/vue-code-review/">勾三股四</a></li>
-					<li><a href="http://read.douban.com/reader/ebook/7412854/">three.js入门</a></li>
-					<li><a href="https://github.com/xiaojue/ES-shim">ES-shim</a></li>
-				</div>
-			</div>
-
-			<div class="content-item">
-				<h2>工具篇</h2>
-				<div>
-					<h3>sublime text3</h3>
-					<li>
-						<a href="http://www.sublimetext.com/3">download</a>
-						<a href="http://www.zhihu.com/question/19976788">知乎</a>
-						<a href="http://www.sheyilin.cn/2015/05/sublime_text_3_tiao_jiao_ni_de_si_ren_li_qi_1/">个人</a>
-						<a href="https://github.com/jikeytang/sublime-text">Github</a>
-						<a href="https://github.com/LingYanSi/LingYanSi.github.io/blob/master/sublime%E5%BF%AB%E6%8D%B7%E9%94%AE.js">我收集的</a>
-					</li>
-				</div>
-			</div>
 		</div>
 	</div>
 	<footer>
 		LingYanSi.Github.io 2015
 	</footer>
+
 	<script src="javascripts/library/jquery-2.1.4.min.js"></script>
 	<script src="demo/slider/slide.js"></script>
 	<script src="javascripts/device.js"></script>
@@ -268,41 +214,169 @@
 				modal.confirm('要去西方的哪一个国家吗？',function(){
 					location.href = 'http://cl.ueos.pw'
 				},function(){
-					location.href = 'http://www.zhihu.com'
+					// location.href = 'http://www.zhihu.com'
 				});
 			})
 		});
-
-		var obj = {
-			name : {
-				daye: '胡锦涛',
-				heihei: [
-					'杨玉环',
-					'唐明皇'
+	</script>
+	<script  id="tpl">
+		var data =[
+			{
+				title: '我的轮子',
+				list: [
+					{
+						link:'http://www.sublimetext.com/3',
+						text:'既然一天醒着的一半时间都在工作，为什么不把它做的更好呢？'
+					},
+					{
+						link:'https://github.com/LingYanSi/blog/issues',
+						text:'issue博客'
+					},
+					{
+						link:'/player/',
+						text:'音乐播放器'
+					},
+					{
+						link:'/richEdit/',
+						text:'富文本编辑器'
+					},
+					{
+						link:'/router/hash/',
+						text:'SLIDE（上下左右按键）'
+					},
+					{
+						link:'/router/history/',
+						text:'Router（使用了history）'
+					},
+					{
+						link:'/visualization/',
+						text:'可视化'
+					},
+					{
+						link:'/pretent-comment/',
+						text:'假装能评论'
+					},
+					{
+						link:'/date/',
+						text:'日历'
+					},
+					{
+						link:'https://github.com/LingYanSi/LingYanSi.github.io/blob/master/build-zepto/ku.js',
+						text:'zepto'
+					},
+					{
+						link:'/react-mine/',
+						text:'Reactjs-demo'
+					},
+					{
+						link:'/backbone/',
+						text:'backbone-demo'
+					},
+					{
+						link:'/angular/',
+						text:'angular-demo'
+					},
+					{
+						link:'/swipe/',
+						text:'上下滑动'
+					},
+					{
+						link:'/swipe/3d.html',
+						text:'3d旋转'
+					},
+					{
+						link:'/swipe/reload.html',
+						text:'下拉刷新'
+					},
+					{
+						link:'/swipe/sudu.html',
+						text:'模拟滑动'
+					},
+				]
+			},
+			{
+				title: 'sublime text3',
+				list: [
+					{
+						link:'http://www.sublimetext.com/3',
+						text:'download'
+					},
+					{
+						link:'http://www.zhihu.com/question/19976788',
+						text:'知乎'
+					},
+					{
+						link:'http://www.sheyilin.cn/2015/05/sublime_text_3_tiao_jiao_ni_de_si_ren_li_qi_1/',
+						text:'个人'
+					},
+					{
+						link:'https://github.com/jikeytang/sublime-text',
+						text:'Github'
+					},
+					{
+						link:'https://github.com/LingYanSi/LingYanSi.github.io/blob/master/sublime%E5%BF%AB%E6%8D%B7%E9%94%AE.js',
+						text:'我收集的'
+					},
+				]
+			},
+			{
+				title: '相关网站',
+				list: [
+					{
+						link:'http://www.whycss.com/',
+						text:'收录了一些常用的网站，博客等'
+					},
+					{
+						link:'http://www.w3school.com.cn/cssref/',
+						text:'css参考手册，不全比如说缺少了flex'
+					},
+					{
+						link:'http://www.w3school.com.cn/cssref/css_selectors.asp',
+						text:'css选择器'
+					},
+					{
+						link:'https://developer.mozilla.org/en-US/docs/Web/API/range/deleteContents',
+						text:'MDN'
+					},
+					{
+						link:'http://www.ituring.com.cn/',
+						text:'图灵社区'
+					},
+					{
+						link:'http://jiongks.name/blog/vue-code-review/',
+						text:'勾三股四'
+					},
+					{
+						link:'http://read.douban.com/reader/ebook/7412854/',
+						text:'three.js入门'
+					},
+					{
+						link:'https://github.com/xiaojue/ES-shim',
+						text:'ES-shim'
+					},
 				]
 			}
-		}
-		var objStr = JSON.stringify(obj) ;
-		console.log('json字符串',typeof(objStr),objStr)
-
-		with(obj){
-			console.log(name,name.daye)
-		}
-
-		console.log('performance:性能报告',performance)
-
-		var arr = [
-			'2015-11-10 0:0:0',
-			'2015-11-20 0:0:0',
-			'2015-11-20 0:0:0',
-			'2015-11-23 0:0:0',
 		]
-		arr.forEach(function(ele){
-			console.log(
-				'----', new Date(ele).getTime()/1000
-			)
-		});
-
+		function tpl(data){
+			return `<div class="content-item">
+					<h2>${data.title}</h2>
+					<ol>
+						${data.list.map(function(ele){
+							return `<li><a href="${ele.link}">${ele.text}</a></li>`
+						}).join('')}
+					</ol>
+				</div>`
+		}
+		var str = data.map(function(ele){
+			return tpl(ele)
+		}).join('');
+		$('.content').append(str);
+	</script>
+	<script>
+	(function(){
+		var str = 'public/xd/js/promotion/src/privilege.js [@zikong]   [r608246]';
+		console.log( str.match(/\[(.)+\]/) );
+	})()
 	</script>
  </body>
 </html>
