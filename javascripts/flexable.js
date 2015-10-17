@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-28 15:52:40
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-09-28 16:51:14
+* @Last Modified time: 2015-10-16 23:22:20
 */
 
 'use strict';
@@ -14,13 +14,16 @@
         var width = window.innerWidth ;
         document.querySelector('html').style.fontSize = width/10 + 'px' ;
         console.log('设备像素比:',window.devicePixelRatio,window);
-
+        var PR = window.devicePixelRatio ;
         // 动态添加viewPort
         var meta = document.createElement('meta');
         meta.name = "viewport" ;
-        meta.content = "width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no" ;
+        meta.content = 'width=device-width, initial-scale='+1/PR+', maximum-scale='+1/PR+', user-scalable=no' ;
         document.head.appendChild(meta);
 
+        var style = document.createElement('style');
+        style.innerHTML = 'body{font-size:'+12*PR+'px}'
+        document.head.appendChild(style);
     }
     flexable();
     window.addEventListener('resize',flexable);

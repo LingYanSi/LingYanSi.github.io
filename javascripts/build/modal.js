@@ -2,28 +2,29 @@
 * @Author: zikong
 * @Date:   2015-09-29 17:04:38
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-05 23:55:55
+* @Last Modified time: 2015-10-17 20:43:56
 */
 
 'use strict';
 
 // modal的层级 z-index 设置为 1000 ;
-var modal = (function(){
+var LY = LY || {} ;
+LY.modal = (function(){
     var $modal , $bgd, $main ,$close , $content;
     // 样式
     var styleStr = `
         #modal{
             height:100%; width:100%;
-            position:fixed; top:0; left:0; z-index:1000; display:none; font-size:14px;
+            position:fixed; top:0; left:0; z-index:1000; display:none;
         }
         .modal-bgd{
             position:fixed;top:0;left:0;height:100%;width:100%;background:rgba(0,0,0,0.2);
         }
         .modal-main{
             position:absolute; top:40%; left:50%;
-            -webkit-transform: translate(-50%,-50%);
-            -ms-transform: translate(-50%,-50%);
-            -moz-transform: translate(-50%,-50%);
+            -webkit-transform: translate(-50%,-50%) scale(0.1,0.1);
+            -ms-transform: translate(-50%,-50%) scale(0.1,0.1);
+            -moz-transform: translate(-50%,-50%) scale(0.1,0.1);
             transform: translate(-50%,-50%) scale(0.1,0.1);
             transition: all 0.1s linear ;
             transform-origin: center;
@@ -34,6 +35,12 @@ var modal = (function(){
             /*border: 4px solid rgba(0,0,0,0.2);*/
             text-align:center;
             overflow: hidden;
+        }
+        .modal-main-show{
+            -webkit-transform: translate(-50%,-50%) scale(1,1);
+            -ms-transform: translate(-50%,-50%) scale(1,1);
+            -moz-transform: translate(-50%,-50%) scale(1,1);
+            transform: translate(-50%,-50%) scale(1,1);
         }
         #modal-close{
             position:absolute;
@@ -136,13 +143,13 @@ var modal = (function(){
         open: function(){
             $modal.style.display = 'block' ;
             $modal.offsetWidth ;
-            $main.style.transform = 'translate(-50%,-50%) scale(1,1)';
+            $main.classList.add('modal-main-show');
         },
         hideCloseBtn: function(){
             $close.style.display = 'none' ;
         },
         close: function(){
-            $main.style.transform = 'translate(-50%,-50%) scale(0.1,0.1)';
+            $main.classList.remove('modal-main-show');
             $modal.style.display = 'none' ;
             $close.style.display = 'block' ;
         }
@@ -151,28 +158,5 @@ var modal = (function(){
     return modal ;
 })();
 
-document.querySelector('#modalTest').addEventListener('click',function(event){
-    var className = event.target.className ;
-    switch (className){
-        case 'tips':
-            modal.tips('确认提交？',500);
-            break ;
-        case 'alert':
-            modal.alert('You A Bit',function(){
-                console.log('you r bitch');
-            });
-            break ;
-        case 'confirm':
-            modal.confirm('是否放弃提交？',function(){
-                console.log('点击了确定','放弃')
-            },function(){
-                console.log('点击了取消','不放弃')
-            });
-            break ;
-        case 'diy':
-            modal.diy('<p>自定義的</p><button class="modal-close">確定</button>');
-            break ;
-    }
 
-});
 

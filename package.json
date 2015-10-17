@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "混合项目",
   "devDependencies": {
+    "babel": "^5.8.23",
     "gulp": "^3.9.0",
     "gulp-add-src": "^0.2.0",
     "gulp-autoprefixer": "^3.0.1",
+    "gulp-babel": "^5.3.0",
     "gulp-cache": "^0.2.9",
     "gulp-clean": "^0.3.1",
     "gulp-concat": "^2.5.2",

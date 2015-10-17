@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-13 02:00:20
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-17 20:24:54
+* @Last Modified time: 2015-10-17 20:45:19
 */
 
 'use strict';
@@ -18,7 +18,7 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     notify = require('gulp-notify'),
     babel = require('gulp-babel');
-
+/*
 gulp.task('css', function() {
   return gulp.src(['build/css/*.css','build/css/*.scss'])
     .pipe(sass())
@@ -26,40 +26,28 @@ gulp.task('css', function() {
     .pipe(minifycss())
     .pipe(gulp.dest('dist/css'))
     .pipe(notify({ message: 'Styles task complete' }));
-});
+});*/
 
 gulp.task('js', function() {   // *表示任意的js文件
-  return gulp.src(['build/js/*.js'])
+  return gulp.src(['build/*.js'])
     .pipe(babel())
-    .pipe(gulp.dest('dist/js'))
-    .pipe(notify({ message: 'Scripts task complete' }));
+    .pipe(concat('LYTools.js'))
+    .pipe(gulp.dest('./'))
+    .pipe(notify({ message: '灵岩-tools.js任务完成' }));
+
+    console.log('js打包合并完成');
 });
 
-// gulp.task('clean', function() {  // 先清除目标文件夹
-//   return gulp.src(['dist/css', 'dist/js' ], {read: false}).pipe(clean());
-// });
 
 gulp.task('default',['watch'], function() {  // 配置默认任务
-    gulp.start('css', 'js');
+    gulp.start('js');
 });
 
 gulp.task('watch', function() {
 
-  // 看守所有.scss档
-  gulp.watch('build/css/*.scss', ['css']);
 
   // 看守所有.js档
-  gulp.watch('build/js/*.js', ['js']);
+  gulp.watch('build/*.js', ['js']);
 
-  // 看守所有图片档
-  // gulp.watch('src/images/**/*', ['images']);
-
-  // // 建立即时重整伺服器
-  // var server = livereload();
-
-  // // 看守所有位在 dist/  目录下的档案，一旦有更动，便进行重整
-  // gulp.watch(['dist/**']).on('change', function(file) {
-  //   server.changed(file.path);
-  // });
 
 });

@@ -183,11 +183,10 @@
 
 	<script src="javascripts/library/jquery-2.1.4.min.js"></script>
 	<script src="demo/slider/slide.js"></script>
-	<script src="javascripts/device.js"></script>
-	<script src="javascripts/modal.js"></script>
+	<script src="javascripts/LYTools.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			var navHeight = (Device.isPhone?document.body.offsetWidth*3/4:window.screen.width*4/16)+'px' ;
+			var navHeight = (LY.device.isPhone?document.body.offsetWidth*3/4:window.screen.width*4/16)+'px' ;
 			$('.nav').height(navHeight);
 			$('a').attr({target:'_blank'});
 			$('h2').on('click',function(){
@@ -204,14 +203,14 @@
 			    isNavShow: false ,
 			    isPrevNextShow: false ,
 			    currentPage: 2 ,
-    			animationStyle: 1 ,
+    			animationStyle: 2 ,
 			    onPageChange: function(prevIndex,currentIndex,len){
 			        // console.log(prevIndex,currentIndex,len);
 			    }.bind(this),
 			});
 
 			$('.head-img').on('click',function(){
-				modal.confirm('要去西方的哪一个国家吗？',function(){
+				LY.modal.confirm('要去西方的哪一个国家吗？',function(){
 					location.href = 'http://cl.ueos.pw'
 				},function(){
 					// location.href = 'http://www.zhihu.com'
@@ -220,6 +219,8 @@
 		});
 	</script>
 	<script  id="tpl">
+		console.log(new Date(1447343999*1000))
+		console.log(new Date(1447084799*1000))
 		var data =[
 			{
 				title: '我的轮子',
@@ -371,12 +372,6 @@
 			return tpl(ele)
 		}).join('');
 		$('.content').append(str);
-	</script>
-	<script>
-	(function(){
-		var str = 'public/xd/js/promotion/src/privilege.js [@zikong]   [r608246]';
-		console.log( str.match(/\[(.)+\]/) );
-	})()
 	</script>
  </body>
 </html>

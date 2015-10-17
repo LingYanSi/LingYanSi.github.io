@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-10-10 09:58:52
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-10 10:04:59
+* @Last Modified time: 2015-10-15 21:25:53
 */
 
 'use strict';
@@ -62,3 +62,5 @@ Committed revision 586945. 提交后版本
 time cost: 5.082s =======
 
 ---------------------------------------------------------------------------------------
+
+svn 文件提交不上，被锁定

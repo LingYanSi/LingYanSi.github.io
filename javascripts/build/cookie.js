@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-28 17:23:06
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-09-29 11:02:02
+* @Last Modified time: 2015-10-17 20:44:30
 */
 
 'use strict';
@@ -16,8 +16,8 @@
   该方法不会对 ASCII 字母和数字进行编码，也不会对这些 ASCII 标点符号进行编码： - _ . ! ~ * ' ( ) 。
   其他字符（比如 ：;/?:@&=+$,# 这些用于分隔 URI 组件的标点符号），都是由一个或多个十六进制的转义序列替换的。
 */
-
-var LyCookie = (function(){
+var LY = LY || {} ;
+LY.cookie = (function(){
 
     var cookie = document.cookie ;
     var obj =  {
@@ -69,10 +69,10 @@ var LyCookie = (function(){
 })();
 
 /*
-LyCookie.add('wife1','songxiaofan',60*60*24);
-LyCookie.add('wife2','liqian',60*60*2);
+LY.cookie.add('wife1','songxiaofan',60*60*24);
+LY.cookie.add('wife2','liqian',60*60*2);
 
-console.log(LyCookie.getAll())
-LyCookie.remove('wife1','wife2')
-console.log(LyCookie.getAll(),document.cookie )
+console.log(LY.cookie.getAll())
+LY.cookie.remove('wife1','wife2')
+console.log(LY.cookie.getAll(),document.cookie )
 */

@@ -2,7 +2,7 @@
  * @Author: zikong
  * @Date:   2015-09-28 23:10:20
  * @Last Modified by:   zikong
- * @Last Modified time: 2015-09-29 11:14:31
+ * @Last Modified time: 2015-10-17 20:42:35
  */
 
 'use strict';
@@ -20,7 +20,9 @@
     search: "?a=b&c=1111"
 */
 
-var LyURL = (function() {
+var LY = LY || {} ;
+
+LY.url = (function() {
 
     var obj = {
         // 获取当前url中的search字符串，并将其转换成对象

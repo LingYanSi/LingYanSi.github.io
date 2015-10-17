@@ -7,15 +7,15 @@
     <title>弹性布局</title>
     <link rel="stylesheet" href="../../stylesheets/reset.css"></link>
     <style style="text/css" id="my">
-        body{
-            font-size: 36px;
+        button,input,select,option,input[type="reset"]{
+            font-size: 1em;
         }
     </style>
 </head>
 
 <body>
     <div style=" height:4rem;background:rgb(247,105,105);"></div>
-    <div style="border-left:1px solid #000; width:300px; height:200px;">
+    <div style="border-left:1px solid #000; height:2rem; border-bottom:1px solid red;">
         你说什么呢？
     </div>
     <form action="" method="post" id="form">
@@ -32,6 +32,7 @@
         <input type="reset" value="重置">
     </form>
     <div id="modalTest">
+        <input type="text" placeholder="niyayyayay">
         <button class="alert">alert</button>
         <button class="tips">tips</button>
         <button class="confirm">confirm</button>
@@ -44,7 +45,7 @@
     <script src="../../javascripts/modal.js"></script>
     <script>
         // 可以动态修改style 内容
-        document.querySelector('#my').innerHTML=`
+        /*document.querySelector('#my').innerHTML=`
             body{
                 background: ;
             }
@@ -58,7 +59,7 @@
                 color: #000 ;
             }
         `
-        document.head.appendChild(style);
+        document.head.appendChild(style);*/
 
         // 可动态添加script标签
         var script = document.createElement('script');
