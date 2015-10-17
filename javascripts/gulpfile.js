@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-13 02:00:20
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-17 20:45:19
+* @Last Modified time: 2015-10-17 21:12:57
 */
 
 'use strict';
@@ -38,9 +38,19 @@ gulp.task('js', function() {   // *表示任意的js文件
     console.log('js打包合并完成');
 });
 
+gulp.task('index', function(){
+  return gulp.src(['./index/index-build.js'])
+    .pipe(babel())
+    .pipe(uglify())
+    .pipe(rename('index.js'))
+    .pipe(gulp.dest('./index/'));
+
+    console.log('首页js编译完');
+})
+
 
 gulp.task('default',['watch'], function() {  // 配置默认任务
-    gulp.start('js');
+    gulp.start('js','index');
 });
 
 gulp.task('watch', function() {
@@ -48,6 +58,7 @@ gulp.task('watch', function() {
 
   // 看守所有.js档
   gulp.watch('build/*.js', ['js']);
+  gulp.watch('build/index-build.js', ['index']);
 
 
 });
