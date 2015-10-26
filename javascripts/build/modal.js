@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-29 17:04:38
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-17 20:43:56
+* @Last Modified time: 2015-10-17 22:29:32
 */
 
 'use strict';
@@ -80,14 +80,14 @@ LY.modal = (function(){
             var dfg = document.createDocumentFragment();
             var container = document.createElement('div');
             container.style.cssText = '';
-            container.id = 'modal'
+            container.id = 'modal' ;
 
-            container.innerHTML = '<div class="modal-bgd" style=""></div>' +
-            '<div class="modal-main" style="">' +
-                '<a href="javascript:;" id="modal-close" class="modal-close" title="关闭">x</a>' +
-                '<div class="modal-content">'+
-                '</div>' +
-            '</div>';
+            container.innerHTML = `<div class="modal-bgd" style=""></div>
+            <div class="modal-main" style="">
+                <a href="javascript:;" id="modal-close" class="modal-close" title="关闭">x</a>
+                <div class="modal-content">
+                </div>
+            </div>`;
             dfg.appendChild(container);
             document.body.appendChild(dfg.querySelector('#modal'));
 
@@ -109,7 +109,12 @@ LY.modal = (function(){
                     modal.close();
                     modal.cancelCb && modal.cancelCb();
                 }
-            })
+            });
+            window.addEventListener('keydown',function(event){
+                if(event.keyCode===27){
+                    modal.close();
+                }
+            });
         },
         alertCb: null ,
         cancelCb: null ,

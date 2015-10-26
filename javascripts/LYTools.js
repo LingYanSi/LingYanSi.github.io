@@ -79,7 +79,7 @@ console.log(LY.cookie.getAll(),document.cookie )
 * @Author: zikong
 * @Date:   2015-10-12 00:12:45
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-17 20:41:47
+* @Last Modified time: 2015-10-17 23:02:12
 */
 
 'use strict';
@@ -90,16 +90,20 @@ LY.device = (function () {
     var nav = window.navigator.userAgent.toLowerCase();
 
     var obj = {
-        isPhone: !!nav.match(/phone|ipad|android|pod/)
+        isPhone: !!nav.match(/phone|ipad|android|pod/),
+        isApp: !!nav.match('appname'),
+        isIE: nav.match('ie'),
+        isIphone: !!nav.match('iphone'),
+        isAndroid: !!nav.match('android'),
+        isWphone: !!nav.match('windows phone')
     };
-    console.log(obj);
     return obj;
 })();
 /*
 * @Author: zikong
 * @Date:   2015-09-29 17:04:38
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-17 20:43:56
+* @Last Modified time: 2015-10-17 22:29:32
 */
 
 'use strict';
@@ -125,7 +129,7 @@ LY.modal = (function () {
             container.style.cssText = '';
             container.id = 'modal';
 
-            container.innerHTML = '<div class="modal-bgd" style=""></div>' + '<div class="modal-main" style="">' + '<a href="javascript:;" id="modal-close" class="modal-close" title="关闭">x</a>' + '<div class="modal-content">' + '</div>' + '</div>';
+            container.innerHTML = '<div class="modal-bgd" style=""></div>\n            <div class="modal-main" style="">\n                <a href="javascript:;" id="modal-close" class="modal-close" title="关闭">x</a>\n                <div class="modal-content">\n                </div>\n            </div>';
             dfg.appendChild(container);
             document.body.appendChild(dfg.querySelector('#modal'));
 
@@ -146,6 +150,11 @@ LY.modal = (function () {
                 } else if (idName == 'modal-cancel') {
                     modal.close();
                     modal.cancelCb && modal.cancelCb();
+                }
+            });
+            window.addEventListener('keydown', function (event) {
+                if (event.keyCode === 27) {
+                    modal.close();
                 }
             });
         },
@@ -199,7 +208,7 @@ LY.modal = (function () {
 * @Author: zikong
 * @Date:   2015-09-29 15:32:25
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-17 20:44:47
+* @Last Modified time: 2015-10-17 22:53:28
 */
 
 'use strict';
@@ -240,12 +249,11 @@ LY.serialize = (function () {
         requireArr.forEach(function (ele) {
             if (isSubmitAbel && !obj[ele.name]) {
                 isSubmitAbel = false;
-                console.log(ele.name + ':', ele.getAttribute('errormsg'));
-                modal.alert(ele.getAttribute('errormsg'));
+                if (ele.getAttribute('errormsg')) ;
+                LY.modal.alert(ele.getAttribute('errormsg'));
             }
         });
 
-        console.log(obj);
         return obj;
     };
 

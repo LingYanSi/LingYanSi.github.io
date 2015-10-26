@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-28 15:52:40
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-16 23:22:20
+* @Last Modified time: 2015-10-17 23:02:58
 */
 
 'use strict';
@@ -13,7 +13,7 @@
         // 修改html的font-size，以达到修改rem相对单位的目的
         var width = window.innerWidth ;
         document.querySelector('html').style.fontSize = width/10 + 'px' ;
-        console.log('设备像素比:',window.devicePixelRatio,window);
+        // console.log('设备像素比:',window.devicePixelRatio,window);
         var PR = window.devicePixelRatio ;
         // 动态添加viewPort
         var meta = document.createElement('meta');

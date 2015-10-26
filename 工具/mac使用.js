@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-09 11:35:00
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-10 09:59:02
+* @Last Modified time: 2015-10-20 19:03:02
 */
 
 'use strict';
@@ -63,6 +63,15 @@ http://mops.mogujie.org/deploy/add
 主要是因为，团队其他人也可能修改这个文件
 
 
+-------------------------------------
+命令行
+ls 列出当前文件夹下所有文件名称
+ls -ll
+
+pwd 当前文件夹的绝对位置
+vim file 编辑文件
+sudo chmod -R 777 dir/file // root文件夹/文件的权限
+sudo chown -R zikong:staff /data/app  // 更改文件夹的权限从root变为用户 免除sudo之苦
 
 
 

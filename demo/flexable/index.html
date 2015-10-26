@@ -7,7 +7,7 @@
     <title>弹性布局</title>
     <link rel="stylesheet" href="../../stylesheets/reset.css"></link>
     <style style="text/css" id="my">
-        button,input,select,option,input[type="reset"]{
+        button,input,select,option{
             font-size: 1em;
         }
     </style>
@@ -19,8 +19,8 @@
         你说什么呢？
     </div>
     <form action="" method="post" id="form">
-        <input type="text" name="nima" require="" errorMsg="我没有被天蝎">
-        <input type="checkbox" name="checkbox" require errorMsg="我没有被选中">
+        <input type="text" name="nima" require="" errorMsg="文本不能为空">
+        <input type="checkbox" name="checkbox" require errorMsg="选择一个吧" >
         <select name="select" id="">
             <option value="11">11</option>
             <option value="22">22</option>
@@ -39,34 +39,18 @@
         <button class="diy">diy</button>
     </div>
 
-    <script src="../../javascripts/cookie.js"></script>
-    <script src="../../javascripts/url.js"></script>
-    <script src="../../javascripts/serialize.js"></script>
-    <script src="../../javascripts/modal.js"></script>
+    <script src="../../javascripts/LYTools.js"></script>
     <script>
-        // 可以动态修改style 内容
-        /*document.querySelector('#my').innerHTML=`
-            body{
-                background: ;
-            }
-        `;
-
-        // 可动态添加style
-        var style = document.createElement('style');
-        style.innerHTML = `
-            body{
-                font-size: 36px ;
-                color: #000 ;
-            }
-        `
-        document.head.appendChild(style);*/
-
-        // 可动态添加script标签
-        var script = document.createElement('script');
-        script.innerHTML = `
-            console.log('新增加的script打印出来的')
-        `;
-        document.body.appendChild(script);
+         var $ = function(selector){
+            if(selector.startsWith('#'))
+                return document.querySelector(selector);
+            else
+                return [].slice.call(document.querySelectorAll(selector))
+         };
+         $('[type="submit"]')[0].addEventListener('click',function(e){
+            e.preventDefault();
+            LY.serialize('form');
+         });
     </script>
 </body>
 

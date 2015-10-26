@@ -46,6 +46,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
     var swipeable = true ;
     var MINSDISTANCE = 50 ;
     var TRANSTION = 'all '+time+' cubic-bezier(0.455, 0.03, 0.515, 0.955)' ;
+    var touchState = 'touchend';
 
     mouseStart = isPhone ? 'touchstart' : 'mousedown';
     mouseMove = isPhone ? 'touchmove' : 'mousemove';
@@ -110,20 +111,30 @@ var Lunbo = function(arg) { //以对象形式传递参数
 
     // 这个地方可以再整合一下，towhere和滑动的本质应该是一样的
     // 上一页、下一页也只是towhere的参数
+    var targetTouch , event ;
     $id.addEventListener(mouseStart, function(event) {
+        touchState = 'touchstart' ;
+        targetTouch = event.targetTouches[0] ;
         stateControl.start(event);
-        XX = xx = isPhone ? event.targetTouches[0].screenX : event.pageX;
-        YY = yy = isPhone ? event.targetTouches[0].screenY : event.pageY;
+        XX = xx = isPhone ? targetTouch.screenX : event.pageX;
+        YY = yy = isPhone ? targetTouch.screenY : event.pageY;
     });
     // 这里有个问题，如果在PC端，一直移动鼠标会阻塞其他程序执行
     // 当然在移动端，不听滑动屏幕，也会有这个问题
-    $id.addEventListener(mouseMove, touchMove);
+    $id.addEventListener(mouseMove, newTouchMove);
     $id.addEventListener(mouseEnd, touchEnd);
-
+    function newTouchMove(event){
+        touchState = 'touchmove';
+        targetTouch = event.targetTouches[0] ;
+        console.log('华东至',touchState,targetTouch.screenY)
+        window.requestAnimationFrame(touchMove.bind(this,event));
+    }
     function touchMove(event) { // 滑动中
-        if(!swipeable) return
-        XX = isPhone ? event.targetTouches[0].screenX : event.pageX;
-        YY = isPhone ? event.targetTouches[0].screenY : event.pageY;
+        console.log('滑动中')
+        if(!swipeable || touchState!='touchmove') return
+        console.log('华东至',touchState,targetTouch.screenY)
+        XX = isPhone ? targetTouch.screenX : event.pageX;
+        YY = isPhone ? targetTouch.screenY : event.pageY;
 
         if (swipeY && (!swipeX || Math.abs(XX - xx) - Math.abs(YY - yy) < 0)) {
             swipeX = false;
@@ -169,6 +180,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
     }
 
     function touchEnd(event) { // 滑动结束
+        touchState = 'touchend';
         if (cha == 0 || !swipeable) {
             swipeY = false;
             swipeX = false;

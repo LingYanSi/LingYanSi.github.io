@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-29 15:32:25
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-17 20:44:47
+* @Last Modified time: 2015-10-17 22:53:28
 */
 
 'use strict';
@@ -45,12 +45,11 @@ LY.serialize = (function(){
         requireArr.forEach(function(ele){
             if(isSubmitAbel && !obj[ele.name]){
                 isSubmitAbel=false ;
-                console.log(ele.name+':',ele.getAttribute('errormsg')  );
-                modal.alert(ele.getAttribute('errormsg'))
+                if( ele.getAttribute('errormsg') );
+                    LY.modal.alert(ele.getAttribute('errormsg'))
             }
         });
 
-        console.log(obj);
         return obj ;
     }
 

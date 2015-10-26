@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-21 15:13:11
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-09-27 01:50:07
+* @Last Modified time: 2015-10-25 18:50:44
 */
 
 'use strict';
@@ -26,10 +26,13 @@ var lyDate = (function(){
             nextYearCallback = arg.nextYearCallback ,
             dataArr = arg.dataArr ;
 
-            console.log('默认时间说',defaultTime)
+            // console.log('默认时间说',defaultTime)
         var $date = document.getElementById(id);
         $date.style.display = isShow?'inline-block':'none' ;
         $date.innerHTML = document.getElementById('LY-date-template').innerHTML ;
+        $date.addEventListener('selectstart',function(event){
+            event.preventDefault()
+        })
 
         if(!isShow){
             console.log('默认不显示')
@@ -260,7 +263,6 @@ var lyDate = (function(){
     return DATE ;
 })();
 
-console.log(3333333);
 [].slice.call(document.querySelectorAll('.lydd-input')).forEach(function(ele){
     if(!ele.getAttribute('isDateComponent')){
         ele.setAttribute('isDateComponent',true);
@@ -315,7 +317,8 @@ console.log(3333333);
             $dateWrap.style.display = "inline-block";
             $dateWrap.focus();
         }
-    })
+    });
+
     ele.addEventListener('keydown',function(event){
         event.preventDefault();
     });

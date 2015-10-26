@@ -97,35 +97,6 @@
             }
         ]
 
-        var $date1 = document.querySelector('#date1');
-        // 只有id是必须的
-        new lyDate({
-            id: 'date' ,
-            dataArr: dataArr ,
-            selectCallback: function(date,dom){
-                console.log('日期被选中了')
-                if(dom.classList.contains('LY-date-item-1')){
-                    console.log('选中了被标记的日期')
-                }
-            },
-            prevMonthCallback: function(){
-                console.log('上一月')
-            },
-            nextMonthCallback: function(){
-                console.log('下一月')
-            },
-            dateChange: function(date){
-                $date1.innerHTML = date.year+'-'+date.month+'-'+date.date+' '+date.hours+':'+date.min+':'+date.sec ;
-            }
-        });
-
-
-        // 需要为添加一个新的日期，点击input后，跳出日历
-        // input可以设置默认值，可以设置placeholder，在disabled="true" 的情况下点击不能呼出日历插件
-        // 因此需要，div>input
-
-        console.log(new Date(1).getTime());
-
     </script>
 </body>
 

@@ -29,16 +29,19 @@
 	 				position:absolute; width:100%; top:100%;
 	 			}
 	 .main{max-width:1000px; margin:0 auto; }
-	 .content{}
 	 h2{ line-height:2.4; }
 	 h3{line-height:3;}
-	 .content-item{ line-height:1.5em; /*border-bottom:1px dashed rgb(147,147,147);*/ }
+	 .content-item{ line-height:1.5em;}
 	 .content-item + .content-item{ border-top:1px solid rgba(255,255,255,0.2);}
-	 .content-item>h2{ background-color : rgba(0,255,255,0.3); padding:0 30px; cursor:pointer; }
-	 .content-item>div{ display:block;  padding:0 30px 1em; }
-	 .content-item a{text-decoration:none;color:rgb(247,105,105);}
-	 .content-item ul{list-style:inside}
+	 .content-item>h2{ background-color : rgba(0,255,255,0.2); padding:0 1em; cursor:pointer; }
+	 .content-item a{text-decoration:none; color:inherit; display:block; }
+	 .content-item ul{list-style:inside;  padding:0 1em; color:rgb(80,80,80); }
 	 .content-item li{ line-height:2; list-style-position: inside;}
+	 .content-item li:hover{
+	 	background: rgb(247,105,105);
+	 	background-image: linear-gradient(10deg,rgba(247,105,105,1),rgba(100,200,100,1));
+	 	color: #fff;
+	 }
 
 	footer{ max-width:1000px; margin:0 auto; line-height:3; text-align:center; color:rgb(120,120,120); }
 
@@ -62,6 +65,8 @@
 	</div>
 	<footer>
 		LingYanSi.Github.io 2015
+		<input type="checkbox" value="gangan">你妹
+		<button id="nimei">啊啊</button>
 	</footer>
 
 	<script src="javascripts/library/jquery-2.1.4.min.js"></script>
@@ -69,5 +74,11 @@
 	<script src="javascripts/LYTools.js"></script>
 	<script src="javascripts/index/data.js"></script>
 	<script src="javascripts/index/index.js"></script>
+	<script>
+	$('#nimei').click(function(){
+		console.log($(this).prev().val())
+		$(this).prev()[0].checked = !$(this).prev()[0].checked ;
+	})
+	</script>
  </body>
 </html>

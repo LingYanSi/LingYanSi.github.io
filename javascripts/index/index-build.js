@@ -2,7 +2,7 @@
  * @Author: zikong
  * @Date:   2015-10-17 20:49:42
  * @Last Modified by:   zikong
- * @Last Modified time: 2015-10-17 21:06:35
+ * @Last Modified time: 2015-10-25 18:59:44
  */
 
 'use strict';
@@ -50,7 +50,7 @@ function tpl(data){
             <h2>${data.title}</h2>
             <ul>
                 ${data.list.map(function(ele){
-                    return `<li><a href="${ele.link}">${ele.text}</a></li>`
+                    return `<li><a href="${ele.link?ele.link:"javascript:void(0);"}">${ele.title}</a></li>`
                 }).join('')}
             </ul>
         </div>`
