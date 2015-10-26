@@ -47,6 +47,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
     var MINSDISTANCE = 50 ;
     var TRANSTION = 'all '+time+' cubic-bezier(0.455, 0.03, 0.515, 0.955)' ;
     var touchState = 'touchend';
+    var ISRAF = !!window.requestAnimationFrame ;
 
     mouseStart = isPhone ? 'touchstart' : 'mousedown';
     mouseMove = isPhone ? 'touchmove' : 'mousemove';
@@ -101,8 +102,10 @@ var Lunbo = function(arg) { //以对象形式传递参数
 	        if (autoPlay) start();
 	        if (dianNav) dianMove();
 	        if (callback) callback(currentPage);
+            setDom();
             swipeable = true ;
             stateControl.animationFrame.map(window.cancelAnimationFrame)
+            stateControl.animationFrame.length = 0 ;
     	},
         animationFrame:[]
     }
@@ -114,33 +117,68 @@ var Lunbo = function(arg) { //以对象形式传递参数
     var targetTouch , event ;
     $id.addEventListener(mouseStart, function(event) {
         touchState = 'touchstart' ;
-        targetTouch = event.targetTouches[0] ;
         stateControl.start(event);
-        XX = xx = isPhone ? targetTouch.screenX : event.pageX;
-        YY = yy = isPhone ? targetTouch.screenY : event.pageY;
+        XX = xx = isPhone ? event.targetTouches[0].screenX : event.pageX;
+        YY = yy = isPhone ? event.targetTouches[0].screenY : event.pageY;
     });
     // 这里有个问题，如果在PC端，一直移动鼠标会阻塞其他程序执行
     // 当然在移动端，不听滑动屏幕，也会有这个问题
-    $id.addEventListener(mouseMove, newTouchMove);
+    $id.addEventListener(mouseMove, touchMove);
     $id.addEventListener(mouseEnd, touchEnd);
-    function newTouchMove(event){
-        touchState = 'touchmove';
-        targetTouch = event.targetTouches[0] ;
-        console.log('华东至',touchState,targetTouch.screenY)
-        window.requestAnimationFrame(touchMove.bind(this,event));
-    }
-    function touchMove(event) { // 滑动中
-        console.log('滑动中')
-        if(!swipeable || touchState!='touchmove') return
-        console.log('华东至',touchState,targetTouch.screenY)
-        XX = isPhone ? targetTouch.screenX : event.pageX;
-        YY = isPhone ? targetTouch.screenY : event.pageY;
 
+    // 按键监听
+    if (!isPhone) {
+        window.addEventListener('keyup', function(event) { // 按键监听
+            if (!keyEvent) return
+            var index;
+            if (event.keyCode == 40 || event.keyCode == 39) index = setPage((currentPage+1),true), toWhere(index, 'next');
+            else if (event.keyCode == 38 || event.keyCode == 37) index = setPage((currentPage-1),true), toWhere(index, 'prev');
+        });
+        window.addEventListener('wheel',function(event){
+            console.log('鼠标滚动',event)
+        })
+    }
+    /*---------------------------------------问题在这里------------------------------------------------------------*/
+    $item.forEach(function(ele) {
+        ele.addEventListener('webkitTransitionEnd', function() {
+            chaCache++ ;
+            if (chaCache === 2) {
+                ISRAF ? stateControl.animationFrame.push(window.requestAnimationFrame(stateControl.callback) ) : stateControl.callback() ;
+            }
+        });
+    });
+    function touchMove(event){
+        touchState = 'touchmove';
+        if(!swipeable || touchState!='touchmove') return
+        XX = isPhone ? event.targetTouches[0].screenX : event.pageX;
+        YY = isPhone ? event.targetTouches[0].screenY : event.pageY;
         if (swipeY && (!swipeX || Math.abs(XX - xx) - Math.abs(YY - yy) < 0)) {
             swipeX = false;
             if (!toLeft) {
                 event.stopPropagation();
                 event.preventDefault();
+            }
+        }
+        if (swipeX && (!swipeY || Math.abs(XX - xx) - Math.abs(YY - yy) > 0)) {
+            swipeY = false;
+            if (toLeft) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        }
+
+        if(ISRAF){
+            window.requestAnimationFrame(touchMoveRender.bind(this,event));
+        }
+        else{
+           touchMoveRender(event)
+        }
+    }
+    // move render dom
+    function touchMoveRender(event) { // 滑动中
+
+        if (swipeY && (!swipeX || Math.abs(XX - xx) - Math.abs(YY - yy) < 0)) {
+            if (!toLeft) {
                 cha = YY - yy;
                 if (cha >= 0) {
                     if (len > 2) stateControl.setTransform(nextDom,leftMax,topMax); // 避免因为滑动过快引起的bug
@@ -159,10 +197,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
         }
 
         if (swipeX && (!swipeY || Math.abs(XX - xx) - Math.abs(YY - yy) > 0)) {
-            swipeY = false;
             if (toLeft) {
-                event.stopPropagation();
-                event.preventDefault();
                 cha = XX - xx;
                 if (cha >= 0) {
                     if (len > 2) stateControl.setTransform(nextDom,leftMax,topMax);  // 避免因为滑动过快引起的bug
@@ -243,29 +278,6 @@ var Lunbo = function(arg) { //以对象形式传递参数
         chaCache = 0;
     }
 
-
-    if (!isPhone) {
-        window.addEventListener('keyup', function(event) { // 按键监听
-            if (!keyEvent) return
-            var index;
-            if (event.keyCode == 40 || event.keyCode == 39) index = setPage((currentPage+1),true), toWhere(index, 'next');
-            else if (event.keyCode == 38 || event.keyCode == 37) index = setPage((currentPage-1),true), toWhere(index, 'prev');
-        });
-    }
-    /*---------------------------------------问题在这里------------------------------------------------------------*/
-    $item.forEach(function(ele) {
-        ele.addEventListener('webkitTransitionEnd', function() {
-            chaCache++ ;
-            if (chaCache === 2) { // 因为有两个dom会发生transition，这样做是为了让其只执行一次
-                // var cha = chaCache;
-                setDom(); //在mx3系统浏览器，uc浏览器中，滑动结束后prevDom,nextDom，表现为transform没改变，z-index的改变也显得很滞后
-                // alert(111); // 阻塞滞后
-                stateControl.animationFrame.push(window.requestAnimationFrame(stateControl.callback) )
-                // console.log('yijingjiehsu') // 如果连续不断点击下一页，会导致回调被阻塞
-                // alert(chaCache)
-            }else return
-        });
-    });
 
     // 通过设置z-index来解决层级问题
     function setDom() { // 初始化工作，不放在touchstart时执行，而是在滑动结束的时候执行，这样体验会更好些

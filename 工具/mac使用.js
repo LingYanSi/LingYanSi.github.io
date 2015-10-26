@@ -2,14 +2,14 @@
 * @Author: zikong
 * @Date:   2015-09-09 11:35:00
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-20 19:03:02
+* @Last Modified time: 2015-10-26 11:24:19
 */
 
 'use strict';
 
 1.安装git工具
 2.terminal命令行终端
-3.git copy http://url
+3.git clone http://url
 4.svn checkout http://url
 
 --------------------------------------------
@@ -72,6 +72,15 @@ pwd 当前文件夹的绝对位置
 vim file 编辑文件
 sudo chmod -R 777 dir/file // root文件夹/文件的权限
 sudo chown -R zikong:staff /data/app  // 更改文件夹的权限从root变为用户 免除sudo之苦
+
+----------------------------------------
+svn
+svn up // 跟你新
+svn diff // 对比
+svn checkout url
+svn log -l 10 file/dir // 查看提交信息
+svn merge -r 最新commitId:回滚版本commitId file/dir // 回滚
+svn commit -m "Revert revision from r28 to r25,because of ..."
 
 
 
