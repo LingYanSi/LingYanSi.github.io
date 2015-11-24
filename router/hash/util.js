@@ -1,19 +1,24 @@
 var List = [
     [
-        `<h1 class="center">SLIDE</h1>`,
-        `<span>姓名</span>`,
-        `<span> 王司徒 </span>`,
-        `<span>职业</span>`,
-        `<span> 汉朝老臣 </span>`,
+        `<h1>SLIDE</h1>`,
+        `<div>
+            <span>姓名：</span>`,
+            `<span>王勇</span><br/>`,
+            `<span>现居：</span>`,
+            `<span>杭州</span>
+        </div>`,
         `<video src="../../images/video/wangsitu.mp4" controls></video>`
     ],
     [
-        `<h1>状态</h1><h2>`,
-        `<span>年龄</span>`,
-        `<span>1</span>`,
-        `<span>9</span>`,
-        `<span>9</span>`,
-        `<span>2 </span><h1>Are You A Bit</h1></h2>`,
+        `<h1>状态</h1>
+        <h2>`,
+            `<span>年龄</span>`,
+            `<span>1</span>`,
+            `<span>9</span>`,
+            `<span>9</span>`,
+            `<span>2 </span>
+            <h1>Are You A Bit</h1>
+        </h2>`,
     ],
     [
         `<h1>信息</h1>`,

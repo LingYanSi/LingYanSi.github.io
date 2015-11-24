@@ -7,15 +7,16 @@
 
 'use strict';
 
-var React = require('react');
-var ReactDom = require('react-dom');
+import React from 'react' ;
+import ReactDom from 'react-dom' ;
 
 require('./style.less');
 
 var WTF = React.createClass({
     render(){
-        return <div id="cao">他妈的
+        return <div id="cao">回忆
             <p>李倩：身高171，生于1993年，河南焦作人，与她相识于2013年夏<br/></p>
+            <div>pass</div>
         </div>
     }
 });

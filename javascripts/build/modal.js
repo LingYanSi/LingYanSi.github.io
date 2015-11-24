@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-29 17:04:38
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-17 22:29:32
+* @Last Modified time: 2015-10-27 00:13:22
 */
 
 'use strict';
@@ -98,7 +98,7 @@ LY.modal = (function(){
 
             $close = document.querySelector('.modal-main>a');
 
-            $main.addEventListener('click',function(){
+            $modal.addEventListener('click',function(event){
                 var idName = event.target.id ;
                 if( event.target.classList.contains('modal-close')){
                     modal.close();
@@ -108,6 +108,8 @@ LY.modal = (function(){
                 }else if( idName == 'modal-cancel' ){
                     modal.close();
                     modal.cancelCb && modal.cancelCb();
+                }else if( event.target.className==='modal-bgd' ){
+                    modal.close()
                 }
             });
             window.addEventListener('keydown',function(event){

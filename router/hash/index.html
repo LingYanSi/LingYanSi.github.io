@@ -7,16 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="stylesheet" href="css/reset.css">
     <link rel="shortcut icon" href="" />
+    <script>
+        var fontSize = window.innerWidth/10+'px' ;
+        style = document.createElement('style');
+        style.innerHTML = `html{
+            font-size: ${fontSize}
+        }`;
+        document.head.appendChild(style);
+    </script>
     <title></title>
     <style type="text/css">
 	    *{ margin:0; padding:0; }
+        body{ font-size:0.5rem; }
 	    img,video {
-	        display: block; margin:0 auto;
+	        display: block;
 	    }
 	    .item{ position:relative; color:rgb(120,120,120); }
 	    .center{ text-align:center; margin:0 auto; }
-	    h1{ font-size:200px; font-weight:normal; }
-	    span{ font-size:120px; }
     </style>
 </head>
 
@@ -26,7 +33,7 @@
             <div class="item"></div>
         </div>
     </div>
-    
+
     <script type="text/javascript" src="util.js"></script>
     <script type="text/javascript" src="slider.js"></script>
 </body>

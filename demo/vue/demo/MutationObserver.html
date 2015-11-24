@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div id="aa"></div>
+    <script>
+    var target = document.querySelector('#aa');
+    var config = {
+        childList: true,
+        attributes: true
+    };
+    var observer = new MutationObserver(function(mutations) {
+        console.log( mutations );
+        mutations.forEach(function(mutation) {
+            console.log(mutation.type);
+        });
+    });
+
+    observer.observe(target, config);
+
+    var a = document.createElement('div');
+    target.appendChild( a);
+
+    </script>
+</body>
+
+</html>

@@ -10,8 +10,23 @@
 var React = require('react');
 var ReactDom = require('react-dom');
 
+var JB = React.createClass({
+    render(){
+        console.log(new Date(2015,10,1,0,0,0).getTime())
+        return <div onClick={About.getData}>点我一下有好看的</div>
+    }
+});
+
 var About = React.createClass({
+    // 用于外部访问此组件
+    statics:{
+        self: null,
+        getData(){
+            console.log('你大爷的',About.self.state )
+        }
+    },
     getInitialState(){
+        About.self = this ;
         return {
             list: [
                 '西安-秦汉隋唐',
@@ -34,6 +49,7 @@ var About = React.createClass({
     },
     render(){
         return <div>
+            <JB></JB>
             <h1>游走天下</h1>
             <ul>
                 {this.state.list.map(function(ele,index){

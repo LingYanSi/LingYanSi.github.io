@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div id="vue">
+        <p>{{message}}</p>
+        <input type="text" v-model="message" v-on:keyup.enter="addOne">
+        <ol v-if="state">
+            <li v-for="item in list">
+                <span>{{item.title}}</span>
+                <button v-on:click="removeOne($index)">删除</button>
+            </li>
+        </ol>
+        <pre v-else>被关闭了</pre>
+    </div>
+
+    <div id="test">
+        <button v-on:click="vueHide">切换</button>
+    </div>
+<script src="../vue.js"></script>
+<script>
+    var vue = new Vue({
+        el: '#vue',
+        data: {
+            state: true ,
+            message: '你大爷',
+            list: [
+                {title:'怎么回事儿'},
+                {title:'怎么回事儿'},
+                {title:'怎么回事儿'},
+            ]
+        },
+        created: function(){
+            console.log('wtf!!!')
+        },
+        methods:{
+            addOne: function(){
+                this.list.push({
+                    title: this.message
+                });
+            },
+            removeOne: function(index){
+                this.list.splice(index,1);
+            },
+        }
+    });
+
+    var test = new Vue({
+        el: '#test',
+        data: {
+            state: 'true',
+        },
+        methods: {
+            vueHide: function(){
+                console.log( vue.state );
+                vue.state = !vue.state ;
+            }
+        }
+    })
+</script>
+</body>
+
+</html>

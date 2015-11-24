@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-27 01:52:53
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-10-11 23:57:36
+* @Last Modified time: 2015-11-01 18:34:58
 */
 
 'use strict';
@@ -173,7 +173,7 @@ var AS = {
                 return newPage
             },
             isCanChange: function(){
-                console.log( new Date().getTime()-tools.lastTime<=tools.moveTime )
+                // console.log( new Date().getTime()-tools.lastTime<=tools.moveTime )
                 if(new Date().getTime()-tools.lastTime<=tools.moveTime) return false
                 tools.lastTime = new Date().getTime();
                 return true ;

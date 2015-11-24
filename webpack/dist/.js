@@ -42,11 +42,28 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 
-	var React = __webpack_require__(1);
+	console.log(111);
+
+/***/ }
+/******/ ]);equireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(157);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var Travel = _react2['default'].createClass({
+	    displayName: 'Travel'
+	});
+
+	_reactDom2['default'].render(_react2['default'].createElement(Travel, null), document.getElementById('bitch'));
 
 /***/ },
 /* 1 */
@@ -19589,6 +19606,14 @@
 
 	module.exports = deprecated;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 157 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = __webpack_require__(3);
 
 /***/ }
 /******/ ]);

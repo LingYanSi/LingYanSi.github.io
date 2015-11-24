@@ -2,7 +2,7 @@
  * @Author: zikong
  * @Date:   2015-10-17 20:50:56
  * @Last Modified by:   zikong
- * @Last Modified time: 2015-10-26 09:50:44
+ * @Last Modified time: 2015-11-04 09:38:16
  */
 
 'use strict';
@@ -150,5 +150,8 @@ var data = [{
     },{
         link: 'http://div.io/topic/398',
         title: 'touch事件相关'
+    },{
+        link: 'http://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html',
+        title: 'JavaScript Source Map 详解'
     }]
 }]

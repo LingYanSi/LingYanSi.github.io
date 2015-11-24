@@ -2,7 +2,7 @@
  * @Author: zikong
  * @Date:   2015-10-17 20:49:42
  * @Last Modified by:   zikong
- * @Last Modified time: 2015-10-25 18:59:44
+ * @Last Modified time: 2015-11-01 18:55:10
  */
 
 'use strict';
@@ -24,7 +24,7 @@ $(function() {
         isNavShow: false,
         isPrevNextShow: false,
         currentPage: 2,
-        animationStyle: 1,
+        animationStyle: 2,
         onPageChange: function(prevIndex, currentIndex, len) {
             // console.log(prevIndex,currentIndex,len);
         }.bind(this),
@@ -33,17 +33,15 @@ $(function() {
         opacity: '1'
     });
 
-
     $('.head-img').on('click', function() {
-        LY.modal.confirm('要去西方的哪一个国家吗？', function() {
+        // 次城中可有妓女？
+        LY.modal.confirm('汝之妻吾养也，汝勿虑也', function() {
             location.href = 'http://cl.ueos.pw'
         }, function() {
             // location.href = 'http://www.zhihu.com'
         });
     })
 });
-console.log(new Date(1447343999*1000))
-console.log(new Date(1447084799*1000))
 
 function tpl(data){
     return `<div class="content-item">

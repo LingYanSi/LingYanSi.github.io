@@ -107,7 +107,8 @@ var Lunbo = function(arg) { //以对象形式传递参数
             stateControl.animationFrame.map(window.cancelAnimationFrame)
             stateControl.animationFrame.length = 0 ;
     	},
-        animationFrame:[]
+        animationFrame:[],
+        moveAnimationFrame:[],
     }
     stateControl.init();
     stateControl.callback();
@@ -133,10 +134,10 @@ var Lunbo = function(arg) { //以对象形式传递参数
             var index;
             if (event.keyCode == 40 || event.keyCode == 39) index = setPage((currentPage+1),true), toWhere(index, 'next');
             else if (event.keyCode == 38 || event.keyCode == 37) index = setPage((currentPage-1),true), toWhere(index, 'prev');
-        });
+        });/*
         window.addEventListener('wheel',function(event){
             console.log('鼠标滚动',event)
-        })
+        })*/
     }
     /*---------------------------------------问题在这里------------------------------------------------------------*/
     $item.forEach(function(ele) {
@@ -212,6 +213,7 @@ var Lunbo = function(arg) { //以对象形式传递参数
                 }
             }
         }
+        stateControl.moveAnimationFrame.length = 0 ;
     }
 
     function touchEnd(event) { // 滑动结束
@@ -305,8 +307,8 @@ var Lunbo = function(arg) { //以对象形式传递参数
     		str3 = ';-webkit-transform:translate3d(' + leftMax + 'px,' + topMax + 'px,0); visibility:visible; ';
 
             currentDom.style.cssText += str1+(toLeft?'':'z-index:1;');
-            prevDom.style.cssText += str2+(toLeft?'':'z-index:2;');
-            nextDom.style.cssText += str3+(toLeft?'':'z-index:2;');
+            prevDom.style.cssText += str2+(toLeft?'':'z-index:200;');
+            nextDom.style.cssText += str3+(toLeft?'':'z-index:200;');
     }
 
     function setPage(page,option) { //设置page

@@ -1,0 +1,131 @@
+body {
+    font-size: 14px;
+    opacity: 0;
+}
+
+.nav {
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+}
+
+#nav-bgd-items>div {
+    background-position: center;
+    background-size: cover;
+}
+
+.head-img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50px;
+    box-sizing: border-box;
+    border: 3px solid rgba(250, 250, 250, 0.2);
+    position: absolute;
+    left: 50%;
+    margin-left: -50px;
+    top: 50%;
+    margin-top: -50px;
+    background-image: url(../../images/icon/icon.jpg);
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    transition: border-color 0.5s;
+}
+
+.head-img:hover {
+    border-color: rgba(250, 250, 250, 1);
+}
+
+.head-img>p {
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-size: 2em;
+    line-height: 2;
+    position: absolute;
+    width: 100%;
+    top: 100%;
+}
+
+.main {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+h2 {
+    line-height: 2.4;
+}
+
+h3 {
+    line-height: 3;
+}
+
+.content-item {
+    line-height: 1.5em;
+    position: relative;
+}
+
+.content-item:before {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: 0;
+    left: 0;
+    border: 10px solid rgba(300, 40, 100, 0.5);
+    border-width: 5px 20px;
+    border-right-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-top-left-radius: 50%;
+}
+
+.content-item:after {
+    /*content:""; position:absolute; height:50px; width:10px; top:0; left: 0;
+background: rgba(100,50,200,0.1);
+border-bottom-right-radius: 100%;*/
+}
+
+.content-item + .content-item {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.content-item>h2 {
+    background-color: rgba(0, 255, 255, 0.2);
+    padding: 0 1em;
+    cursor: pointer;
+}
+
+.content-item a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.content-item ul {
+    list-style: inside;
+    padding: 0 1em;
+    color: rgb(80, 80, 80);
+}
+
+.content-item li {
+    line-height: 2.2;
+    list-style-position: inside;
+}
+
+.content-item li:hover {
+    background: rgb(247, 105, 105);
+    background-clip: padding-box;
+    background-image: linear-gradient(10deg, rgba(247, 105, 105, 1), rgba(100, 200, 100, 1));
+    color: #fff;
+}
+
+li:not(:first-child) {
+    border-top: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    background: linear-gradient(45deg, rgba(247, 50, 100, 1), rgba(50, 50, 50, 1));
+    background: rgba(80, 80, 80, 1);
+    line-height: 6;
+    text-align: center;
+    color: #fff;
+}
