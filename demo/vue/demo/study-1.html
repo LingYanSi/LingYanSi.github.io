@@ -3,39 +3,74 @@
 
 <head>
     <meta charset="utf-8">
+    <style>
+        .red{ background: red; }
+        .blue{ background: blue; }
+        .fade-transition{
+            transition: all 0.3s;
+            transform: none;
+        }
+        .fade-enter{
+            transform: rotateX(-90deg);
+        }
+        .fade-leave{
+            transform: rotateX(90deg);
+        }
+    </style>
 </head>
 
 <body>
-    <div id="vue">
-        <p>{{message}}</p>
-        <input type="text" v-model="message" v-on:keyup.enter="addOne">
-        <ol v-if="state">
-            <li v-for="item in list">
-                <span>{{item.title}}</span>
-                <button v-on:click="removeOne($index)">删除</button>
-            </li>
-        </ol>
-        <pre v-else>被关闭了</pre>
+    <template id="vue">
+        <div>
+            <p>{{message+state}}</p>
+            <input type="text" v-model="message" @keyup.enter="addOne" @keyup.8="deleteOne($event)">
+            <span>{{deleting?"正在删除····":""}}</span>
+            <ol v-if="state"
+                :class="className"
+                @click="handleClick"
+                @dblclick="alert"
+                transition="fade" >
+                <li v-for="item in list">
+                    <span>{{item.title}}</span>
+                    <button v-on:click.stop="removeOne($index)">删除</button>
+                </li>
+            </ol>
+            <pre v-else>被关闭了</pre>
+        </div>
+    </template>
+
+    <template id="btn">
+        <button v-on:click="notify">切换</button>
+    </template>
+
+    <div id="parent" @click="callChild">
+        <v-head :state="headState" ></v-head>
+        <btn></btn>
     </div>
 
-    <div id="test">
-        <button v-on:click="vueHide">切换</button>
-    </div>
+    <input type="file" accept="image/png,image/jpg,image/jpeg,image/gif" multiple>
 <script src="../vue.js"></script>
 <script>
-    var vue = new Vue({
-        el: '#vue',
-        data: {
-            state: true ,
-            message: '你大爷',
-            list: [
-                {title:'怎么回事儿'},
-                {title:'怎么回事儿'},
-                {title:'怎么回事儿'},
-            ]
+
+    // 子组件
+    Vue.component('v-head',{
+        template: '#vue',
+        props:['state'],
+        data: function(){
+            return {
+                message: '念去去',
+                list: [
+                    {title:'怎么回事儿'},
+                    {title:'怎么回事儿'},
+                    {title:'怎么回事儿'},
+                ],
+                className:'red',
+                deleting: false
+            }
         },
         created: function(){
-            console.log('wtf!!!')
+            console.log('wtf!!!');
+            console.log( this.state)
         },
         methods:{
             addOne: function(){
@@ -43,23 +78,75 @@
                     title: this.message
                 });
             },
+            deleteOne: function(event){
+                // console.log(11,event.keyCode)
+                this.deleting = 1 ;
+                setTimeout(function(){
+                    this.deleting = 0 ;
+                }.bind(this),500)
+            },
             removeOne: function(index){
                 this.list.splice(index,1);
             },
+            handleClick: function(){
+                this.className = this.className==='blue'?'red':'blue'
+            },
+            alert: function(){
+                alert(111);
+            }
+        },
+        // 用来存放父子组件间的通信事件
+        events: {
+            'parent-msg': function(){
+                console.log('子组件1触发了')
+            }
         }
     });
 
-    var test = new Vue({
-        el: '#test',
-        data: {
-            state: 'true',
+    // 子组件
+    Vue.component('btn',{
+        template:'#btn' ,
+        data: function(){
+            return {
+                state: true ,
+                msg: '你好啊'
+            }
         },
         methods: {
-            vueHide: function(){
-                console.log( vue.state );
-                vue.state = !vue.state ;
+            notify: function(){
+                // 通知父组件
+                this.$dispatch('child-msg',this.msg)
+            }
+        },
+        events: {
+            'parent-msg': function( msg){
+                console.log('爹爹来的通知',msg)
             }
         }
+    });
+
+    // 父组件
+    var parent = new Vue({
+        el: '#parent',
+        data: {
+            headState: 'props数据'
+        },
+        methods: {
+            callChild: function(){
+                // 通知子组件
+                this.$broadcast('parent-msg','你爹通知你了')
+            }
+        },
+        events: {
+            'child-msg': function( data){
+                console.log( data);
+                this.headState = !this.headState ;
+            }
+        }
+    });
+
+    document.querySelector('input[type=file]').addEventListener('change',function(){
+        console.log( this.value );
     })
 </script>
 </body>

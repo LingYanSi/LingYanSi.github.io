@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-10-10 09:58:41
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-11-18 13:47:39
+* @Last Modified time: 2015-11-25 18:34:24
 */
 
 'use strict';
@@ -64,5 +64,17 @@ pull的时候Tower提示: could not read Username for 'https://github.com': Devi
     git remote set-url git@github.com:michaelliao/learngit.git
 ```
 [issues](https://github.com/kemayo/sublime-text-git/issues/176)
+
+ssh: connect to host github.com port 22: Connection refused
+
+If you get a connection refused, it means you actually got a packet back which states that your destination does not accept your connection. This could mean a few things:
+
+github.com is down (not too likely, but you could always check their status on https://status.github.com/)
+
+you have an invalid IP address for github.com (manual entry in /etc/hosts or your resolver) which blocks ssh from at least your IP address
+
+you have a firewall along the way to github.com which blocks the ssh traffic (eg. local firewall or corporate firewall)
+
+
 
 
