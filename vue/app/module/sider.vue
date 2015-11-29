@@ -6,6 +6,7 @@
             position: absolute ;
             height: 100% ; width: 100% ; left: 0 ; top: 0;
             background-size: cover ; background-position: center ;
+            background-color: red;
             // transform: translate3d(100%,0,0);
         }
         &>div.slider-item-current{ transform: translate3d(0, 0, 0); }
@@ -55,7 +56,7 @@
     export default{
         props: ['height', 'current', 'list'],
         data(){
-            console.log( this.list)
+            console.log( this.list.length)
             return {
                 translateList: this.list.map((ele,index)=>{
                         return index==this.current ?'translate3d(0%,0,0)':'translate3d(100%, 0, 0)'
@@ -72,6 +73,9 @@
                     width: document.body.clientWidth ,
                     prev: 0 ,
                     next: 0 ,
+                    isCanSwipe: 1 ,
+                    swiping: 0 ,
+                    transitionendNum: 0 ,
                 }
             }
         },
@@ -80,27 +84,33 @@
             [].slice.call( document.querySelectorAll('.slider-item') ).forEach((ele)=>{
                 ele.addEventListener('transitionend',()=>{
                     this.moveList = this.moveList.map(()=> false);
+                    this.touch.transitionendNum++ ;
+                    if(this.touch.transitionendNum==2){
+                        this.touch.isCanSwipe = 1
+                    }
                 })
             })
         },
         methods: {
             touchstart(){
-
-                var touches = event.touches[0] ,
-                    touch = this.touch ;
+                var touch = this.touch ;
+                if(!touch.isCanSwipe) return
+                var touches = event.touches[0] ;
                 touch.leftS = touches.pageX ;
                 touch.topS = touches.pageY ;
                 touch.prev = this.checkIndex(this.current-1,'prev')
                 touch.next = this.checkIndex(this.current+1,'next')
+                touch.swiping = 1
             },
             touchmove(event){
                 var touch = this.touch ;
+                if(!touch.isCanSwipe || !touch.swiping) return
+
                 var touches = event.touches[0] ;
                 var left = touches.pageX ;
                 var top = touches.pageY ;
                 touch.cha = left - touch.leftS ;
 
-                // console.log( touch.prev, this.current ,touch.cha ,touch.cha-touch.width )
                 if( touch.moveX || (!touch.moveY && Math.abs(top - touch.topS) - Math.abs( touch.cha)<0)){
                     event.preventDefault();
                     touch.moveX = 1 ;
@@ -118,6 +128,9 @@
             },
             touchend(){
                 var touch = this.touch ;
+                if(!touch.isCanSwipe || !touch.swiping) return
+                touch.isCanSwipe = 0 , touch.swiping = 0;
+
                 this.moveList.splice(this.current,1,true);
 
                 if( touch.cha>0 ){
@@ -142,9 +155,9 @@
                         this.translateList.splice(touch.next,1,`translate3d(100%,0,0)`)  ;
                     }
                 }
-                Object.keys(this.touch).forEach((ele)=>{
+                Object.keys(touch).forEach((ele)=>{
                     if( ele!='width')
-                        this.touch[ele] = 0 ;
+                        touch[ele] = 0 ;
                 });
             },
             checkIndex(index, dir){

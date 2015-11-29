@@ -9844,6 +9844,7 @@
 	exports.default = {
 	    data: function data() {
 	        return {
+	            bannerList: [{ image: './../../images/1.jpg', url: '' }, { image: './../../images/2.jpg', url: '' }, { image: '', url: '' }],
 	            listStore: [[{ name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }, { name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }, { name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }], [{ name: '念去去', tag: '嘿嘿' }, { name: '千里烟波', tag: '嘿嘿' }], [{ name: '都夜愿', tag: '嘿嘿' }, { name: '赛江南', tag: '嘿嘿' }]],
 	            listCurrent: 0
 	        };
@@ -9876,7 +9877,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n        <Banner height=\"6rem\"\n                current=\"1\"\n                :list=\"[{image:'./../../images/1.jpg',url:''},{image:'./../../images/2.jpg',url:''} ]\"></Banner>\n        <Sidebar :list-store=\"listStore\" :current.sync=\"listCurrent\"></Sidebar>\n        <Commit></Commit>\n    </div>";
+	module.exports = "<div>\n        <Banner height=\"6rem\"\n                :current=\"1\"\n                :list=\"bannerList\"></Banner>\n        <Sidebar :list-store=\"listStore\" :current.sync=\"listCurrent\"></Sidebar>\n        <Commit></Commit>\n    </div>";
 
 /***/ },
 /* 11 */,
@@ -10176,7 +10177,7 @@
 
 
 	// module
-	exports.push([module.id, ".slider-transition {\n  -webkit-transition: all 0.3s;\n  transition: all 0.3s; }\n\n.slider-item-wrap {\n  height: 100%; }\n  .slider-item-wrap > div {\n    position: absolute;\n    height: 100%;\n    width: 100%;\n    left: 0;\n    top: 0;\n    background-size: cover;\n    background-position: center; }\n  .slider-item-wrap > div.slider-item-current {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0); }\n\n.slider-dian {\n  position: absolute;\n  bottom: 0;\n  left: 50%;\n  line-height: 2;\n  -webkit-transform: translate3d(-50%, 0, 0);\n          transform: translate3d(-50%, 0, 0); }\n  .slider-dian span {\n    display: inline-block;\n    height: 12px;\n    width: 12px;\n    border-radius: 50%;\n    background: #fff; }\n  .slider-dian span.slider-dian-current {\n    background: red; }\n  .slider-dian span + span {\n    margin-left: 12px; }\n\n.slider {\n  text-align: center;\n  position: relative;\n  overflow: hidden; }\n", ""]);
+	exports.push([module.id, ".slider-transition {\n  -webkit-transition: all 0.3s;\n  transition: all 0.3s; }\n\n.slider-item-wrap {\n  height: 100%; }\n  .slider-item-wrap > div {\n    position: absolute;\n    height: 100%;\n    width: 100%;\n    left: 0;\n    top: 0;\n    background-size: cover;\n    background-position: center;\n    background-color: red; }\n  .slider-item-wrap > div.slider-item-current {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0); }\n\n.slider-dian {\n  position: absolute;\n  bottom: 0;\n  left: 50%;\n  line-height: 2;\n  -webkit-transform: translate3d(-50%, 0, 0);\n          transform: translate3d(-50%, 0, 0); }\n  .slider-dian span {\n    display: inline-block;\n    height: 12px;\n    width: 12px;\n    border-radius: 50%;\n    background: #fff; }\n  .slider-dian span.slider-dian-current {\n    background: red; }\n  .slider-dian span + span {\n    margin-left: 12px; }\n\n.slider {\n  text-align: center;\n  position: relative;\n  overflow: hidden; }\n", ""]);
 
 	// exports
 
@@ -10195,7 +10196,7 @@
 	    data: function data() {
 	        var _this = this;
 
-	        console.log(this.list);
+	        console.log(this.list.length);
 	        return {
 	            translateList: this.list.map(function (ele, index) {
 	                return index == _this.current ? 'translate3d(0%,0,0)' : 'translate3d(100%, 0, 0)';
@@ -10211,7 +10212,10 @@
 	                moveY: false,
 	                width: document.body.clientWidth,
 	                prev: 0,
-	                next: 0
+	                next: 0,
+	                isCanSwipe: 1,
+	                swiping: 0,
+	                transitionendNum: 0
 	            }
 	        };
 	    },
@@ -10224,28 +10228,34 @@
 	                _this2.moveList = _this2.moveList.map(function () {
 	                    return false;
 	                });
+	                _this2.touch.transitionendNum++;
+	                if (_this2.touch.transitionendNum == 2) {
+	                    _this2.touch.isCanSwipe = 1;
+	                }
 	            });
 	        });
 	    },
 
 	    methods: {
 	        touchstart: function touchstart() {
-
-	            var touches = event.touches[0],
-	                touch = this.touch;
+	            var touch = this.touch;
+	            if (!touch.isCanSwipe) return;
+	            var touches = event.touches[0];
 	            touch.leftS = touches.pageX;
 	            touch.topS = touches.pageY;
 	            touch.prev = this.checkIndex(this.current - 1, 'prev');
 	            touch.next = this.checkIndex(this.current + 1, 'next');
+	            touch.swiping = 1;
 	        },
 	        touchmove: function touchmove(event) {
 	            var touch = this.touch;
+	            if (!touch.isCanSwipe || !touch.swiping) return;
+
 	            var touches = event.touches[0];
 	            var left = touches.pageX;
 	            var top = touches.pageY;
 	            touch.cha = left - touch.leftS;
 
-	            // console.log( touch.prev, this.current ,touch.cha ,touch.cha-touch.width )
 	            if (touch.moveX || !touch.moveY && Math.abs(top - touch.topS) - Math.abs(touch.cha) < 0) {
 	                event.preventDefault();
 	                touch.moveX = 1;
@@ -10262,9 +10272,10 @@
 	            }
 	        },
 	        touchend: function touchend() {
-	            var _this3 = this;
-
 	            var touch = this.touch;
+	            if (!touch.isCanSwipe || !touch.swiping) return;
+	            touch.isCanSwipe = 0, touch.swiping = 0;
+
 	            this.moveList.splice(this.current, 1, true);
 
 	            if (touch.cha > 0) {
@@ -10289,8 +10300,8 @@
 	                    this.translateList.splice(touch.next, 1, 'translate3d(100%,0,0)');
 	                }
 	            }
-	            Object.keys(this.touch).forEach(function (ele) {
-	                if (ele != 'width') _this3.touch[ele] = 0;
+	            Object.keys(touch).forEach(function (ele) {
+	                if (ele != 'width') touch[ele] = 0;
 	            });
 	        },
 	        checkIndex: function checkIndex(index, dir) {

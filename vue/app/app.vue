@@ -7,8 +7,8 @@
 <template>
     <div>
         <Banner height="6rem"
-                current="1"
-                :list="[{image:'./../../images/1.jpg',url:''},{image:'./../../images/2.jpg',url:''} ]"></Banner>
+                :current="1"
+                :list="bannerList"></Banner>
         <Sidebar :list-store="listStore" :current.sync="listCurrent"></Sidebar>
         <Commit></Commit>
     </div>
@@ -22,6 +22,9 @@
     export default {
         data(){
             return {
+                bannerList:[{image:'./../../images/1.jpg',url:''},
+                            {image:'./../../images/2.jpg',url:''},
+                            {image:'',url:''} ],
                 listStore: [
                             [
                                 {name:'春江花月夜',tag:'嘿嘿'},
