@@ -6,12 +6,12 @@
 
 <template>
     <div>
-        <Banner height="6rem"
+        <Banner height="6rem" id="banner"
                 :current="1"
                 :list="bannerList"></Banner>
         <Sidebar :list-store="listStore" :current.sync="listCurrent"></Sidebar>
         <Commit></Commit>
-        <Banner height="2rem"
+        <Banner height="2rem" id="banner2"
                 :current="1"
                 :list="bannerList"></Banner>
     </div>

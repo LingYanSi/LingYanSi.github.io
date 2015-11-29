@@ -31,8 +31,8 @@
                  v-model="commit">
         </textarea>
         <div>
-            <button @click="handleCommit">commit</button>
-            <button @click="handleCancel">cancel</button>
+            <button v-touch:tap="handleCommit">commit</button>
+            <button v-touch:tap="handleCancel">cancel</button>
         </div>
     </div>
 </template>

@@ -20,7 +20,7 @@
         <div class="fenlei">
             <span v-for="item in fenleiList"
                   :class="{current:$index==current?true:false}"
-                  @click="fenleiChange($index, $event)">
+                  v-touch:tap="fenleiChange($index, $event)">
                 {{item}}
             </span>
         </div>

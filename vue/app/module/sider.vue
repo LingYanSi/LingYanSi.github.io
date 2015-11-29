@@ -32,12 +32,11 @@
 </style>
 
 <template>
-    <div class="slider"
+    <div class="slider" :id="id"
          :style="{height:height}"
          @touchstart="touchstart"
          @touchmove="touchmove"
          @touchend="touchend"
-         ref="bit"
          >
         <div class="slider-item-wrap">
             <div class="slider-item slider-transition"
@@ -57,7 +56,7 @@
 
 <script lang="babel">
     export default{
-        props: ['height', 'current', 'list'],
+        props: ['height', 'current', 'list', 'id'],
         data(){
             console.log( this.list.length)
             return {
@@ -84,12 +83,12 @@
         },
         ready(){
             // console.log( '组件构建完成',  document.querySelectorAll('.slider-item'));
-            [].slice.call( document.querySelectorAll('.slider-item') ).forEach((ele)=>{
-                ele.addEventListener('transitionend',()=>{
-                    this.transitionend()
-                });
+            [].slice.call( document.querySelectorAll(`#${this.id} .slider-item`) ).forEach((ele)=>{
+                // ele.addEventListener('transitionend',()=>{
+                //     this.transitionend()
+                // });
                 ele.addEventListener('webkitTransitionEnd',()=>{
-                    this.transitionend()
+                    this.transitionend();
                 });
             });
             window.addEventListener('resize',()=>{
@@ -101,16 +100,17 @@
         },
         methods: {
             transitionend(){
-                this.moveList = this.moveList.map(()=> false);
                 this.touch.transitionendNum++ ;
-
                 // console.log( this.touch.transitionendNum );
                 if(this.touch.transitionendNum==2){
-                    this.touch.isCanSwipe = 1
+                    this.moveList = this.moveList.map(()=> false);
+                    this.touch.isCanSwipe = 1 ;
+                    // alert(1111)
                 }
             },
             touchstart(event){
                 // console.log(this.touch.isCanSwipe, this.touch.swiping)
+                // alert(this.touch.isCanSwipe)
                 var touch = this.touch ;
                 if(!touch.isCanSwipe) return
                 var touches = event.touches[0] ;
