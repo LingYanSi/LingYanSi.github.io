@@ -121,9 +121,9 @@
                 var touches = event.touches[0] ;
                 var left = touches.pageX ;
                 var top = touches.pageY ;
-                touch.cha = left - touch.leftS ;
 
-                if( touch.moveX || (!touch.moveY && Math.abs(top - touch.topS) - Math.abs( touch.cha)<0)){
+                if( touch.moveX || (!touch.moveY && Math.abs(top - touch.topS) - Math.abs( left - touch.leftS)<0)){
+                    touch.cha = left - touch.leftS ;
                     event.preventDefault();
                     touch.moveX = 1 ;
                     this.translateList.splice(this.current,1,`translate3d(${touch.cha/touch.width*100}%,0,0)`) ;
@@ -138,17 +138,21 @@
                         this.translateList.splice(touch.next,1,`translate3d(${(touch.cha+touch.width)/touch.width*100}%,0,0)`) ;
                     }
                 }
-                if( touch.moveY || (!touch.moveX && Math.abs(top - touch.topS) - Math.abs( touch.cha)>0)){
+                if( touch.moveY || (!touch.moveX && Math.abs(top - touch.topS) - Math.abs( left - touch.leftS)>0)){
                     touch.moveY = 1 ;
                 }
             },
             touchend(){
+                console.log(this.touch.isCanSwipe, this.touch.swiping)
                 var touch = this.touch ;
-                if(!touch.isCanSwipe || !touch.swiping) return
-                if( touch.cha != 0){
+                if(!touch.isCanSwipe || !touch.swiping ) {
+                    // touch.cha == 0 && this.resetTouch(touch)
+                    // console.log('wtf')
+                    return
+                }
+                if( touch.cha!=0){
                     touch.isCanSwipe = 0 , touch.swiping = 0;
                 }
-
                 if( touch.cha>0 ){
                     this.moveList.splice(this.current,1,true);
                     this.moveList.splice(touch.prev,1,true);
@@ -172,6 +176,9 @@
                         this.translateList.splice(touch.next,1,`translate3d(100%,0,0)`)  ;
                     }
                 }
+                this.resetTouch(touch)
+            },
+            resetTouch(touch){
                 Object.keys(touch).forEach((ele)=>{
                     if( ele!='width' && ele!='isCanSwipe')
                         touch[ele] = 0 ;
