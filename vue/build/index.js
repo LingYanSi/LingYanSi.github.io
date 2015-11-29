@@ -10239,6 +10239,9 @@
 	        window.addEventListener('resize', function () {
 	            _this2.touch.width = document.body.clientWidth;
 	        });
+	        document.addEventListener('visibilitychange', function () {
+	            !document.hidden && (_this2.touch.isCanSwipe = 1);
+	        });
 	    },
 
 	    methods: {
@@ -10284,7 +10287,9 @@
 	        touchend: function touchend() {
 	            var touch = this.touch;
 	            if (!touch.isCanSwipe || !touch.swiping) return;
-	            touch.isCanSwipe = 0, touch.swiping = 0;
+	            if (touch.cha != 0) {
+	                touch.isCanSwipe = 0, touch.swiping = 0;
+	            }
 
 	            if (touch.cha > 0) {
 	                this.moveList.splice(this.current, 1, true);
@@ -10310,7 +10315,7 @@
 	                }
 	            }
 	            Object.keys(touch).forEach(function (ele) {
-	                if (ele != 'width') touch[ele] = 0;
+	                if (ele != 'width' && ele != 'isCanSwipe') touch[ele] = 0;
 	            });
 	        },
 	        checkIndex: function checkIndex(index, dir) {
