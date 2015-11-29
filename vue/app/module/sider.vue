@@ -86,14 +86,11 @@
             // console.log( '组件构建完成',  document.querySelectorAll('.slider-item'));
             [].slice.call( document.querySelectorAll('.slider-item') ).forEach((ele)=>{
                 ele.addEventListener('transitionend',()=>{
-                    this.moveList = this.moveList.map(()=> false);
-                    this.touch.transitionendNum++ ;
-
-                    console.log( this.touch.transitionendNum );
-                    if(this.touch.transitionendNum==2){
-                        this.touch.isCanSwipe = 1
-                    }
-                })
+                    this.transitionend()
+                });
+                ele.addEventListener('webkitTransitionend',()=>{
+                    this.transitionend()
+                });
             });
             window.addEventListener('resize',()=>{
                 this.touch.width = document.body.clientWidth
@@ -103,8 +100,17 @@
             })
         },
         methods: {
+            transitionend(){
+                this.moveList = this.moveList.map(()=> false);
+                this.touch.transitionendNum++ ;
+
+                // console.log( this.touch.transitionendNum );
+                if(this.touch.transitionendNum==2){
+                    this.touch.isCanSwipe = 1
+                }
+            },
             touchstart(event){
-                console.log(this.touch.isCanSwipe, this.touch.swiping)
+                // console.log(this.touch.isCanSwipe, this.touch.swiping)
                 var touch = this.touch ;
                 if(!touch.isCanSwipe) return
                 var touches = event.touches[0] ;
@@ -143,20 +149,16 @@
                 }
             },
             touchend(){
-                console.log(this.touch.isCanSwipe, this.touch.swiping)
+                // console.log(this.touch.isCanSwipe, this.touch.swiping)
                 var touch = this.touch ;
-                if(!touch.isCanSwipe || !touch.swiping ) {
-                    // touch.cha == 0 && this.resetTouch(touch)
-                    // console.log('wtf')
-                    return
-                }
+                if(!touch.isCanSwipe || !touch.swiping ) return
                 if( touch.cha!=0){
                     touch.isCanSwipe = 0 , touch.swiping = 0;
                 }
                 if( touch.cha>0 ){
                     this.moveList.splice(this.current,1,true);
                     this.moveList.splice(touch.prev,1,true);
-                    if( touch.cha>100 ){
+                    if( touch.cha/touch.width>0.2 ){
                         this.translateList.splice(this.current,1,`translate3d(100%,0,0)`)  ;
                         this.translateList.splice(touch.prev,1,`translate3d(0%,0,0)`)  ;
                         this.current = touch.prev ;
@@ -167,7 +169,7 @@
                 }else if( touch.cha<0 ){
                     this.moveList.splice(this.current,1,true);
                     this.moveList.splice(touch.next,1,true);
-                    if( touch.cha<-100 ){
+                    if( touch.cha/touch.width<-0.2 ){
                         this.translateList.splice(this.current,1,`translate3d(-100%,0,0)`)  ;
                         this.translateList.splice(touch.next,1,`translate3d(0%,0,0)`)  ;
                         this.current = touch.next ;

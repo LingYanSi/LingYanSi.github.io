@@ -9877,7 +9877,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n        <Banner height=\"6rem\"\n                :current=\"1\"\n                :list=\"bannerList\"></Banner>\n        <Sidebar :list-store=\"listStore\" :current.sync=\"listCurrent\"></Sidebar>\n        <Commit></Commit>\n    </div>";
+	module.exports = "<div>\n        <Banner height=\"6rem\"\n                :current=\"1\"\n                :list=\"bannerList\"></Banner>\n        <Sidebar :list-store=\"listStore\" :current.sync=\"listCurrent\"></Sidebar>\n        <Commit></Commit>\n        <Banner height=\"2rem\"\n                :current=\"1\"\n                :list=\"bannerList\"></Banner>\n    </div>";
 
 /***/ },
 /* 11 */,
@@ -10225,15 +10225,10 @@
 	        // console.log( '组件构建完成',  document.querySelectorAll('.slider-item'));
 	        [].slice.call(document.querySelectorAll('.slider-item')).forEach(function (ele) {
 	            ele.addEventListener('transitionend', function () {
-	                _this2.moveList = _this2.moveList.map(function () {
-	                    return false;
-	                });
-	                _this2.touch.transitionendNum++;
-
-	                console.log(_this2.touch.transitionendNum);
-	                if (_this2.touch.transitionendNum == 2) {
-	                    _this2.touch.isCanSwipe = 1;
-	                }
+	                _this2.transitionend();
+	            });
+	            ele.addEventListener('webkitTransitionend', function () {
+	                _this2.transitionend();
 	            });
 	        });
 	        window.addEventListener('resize', function () {
@@ -10245,8 +10240,19 @@
 	    },
 
 	    methods: {
+	        transitionend: function transitionend() {
+	            this.moveList = this.moveList.map(function () {
+	                return false;
+	            });
+	            this.touch.transitionendNum++;
+
+	            // console.log( this.touch.transitionendNum );
+	            if (this.touch.transitionendNum == 2) {
+	                this.touch.isCanSwipe = 1;
+	            }
+	        },
 	        touchstart: function touchstart(event) {
-	            console.log(this.touch.isCanSwipe, this.touch.swiping);
+	            // console.log(this.touch.isCanSwipe, this.touch.swiping)
 	            var touch = this.touch;
 	            if (!touch.isCanSwipe) return;
 	            var touches = event.touches[0];
@@ -10285,20 +10291,16 @@
 	            }
 	        },
 	        touchend: function touchend() {
-	            console.log(this.touch.isCanSwipe, this.touch.swiping);
+	            // console.log(this.touch.isCanSwipe, this.touch.swiping)
 	            var touch = this.touch;
-	            if (!touch.isCanSwipe || !touch.swiping) {
-	                // touch.cha == 0 && this.resetTouch(touch)
-	                // console.log('wtf')
-	                return;
-	            }
+	            if (!touch.isCanSwipe || !touch.swiping) return;
 	            if (touch.cha != 0) {
 	                touch.isCanSwipe = 0, touch.swiping = 0;
 	            }
 	            if (touch.cha > 0) {
 	                this.moveList.splice(this.current, 1, true);
 	                this.moveList.splice(touch.prev, 1, true);
-	                if (touch.cha > 100) {
+	                if (touch.cha / touch.width > 0.2) {
 	                    this.translateList.splice(this.current, 1, 'translate3d(100%,0,0)');
 	                    this.translateList.splice(touch.prev, 1, 'translate3d(0%,0,0)');
 	                    this.current = touch.prev;
@@ -10309,7 +10311,7 @@
 	            } else if (touch.cha < 0) {
 	                this.moveList.splice(this.current, 1, true);
 	                this.moveList.splice(touch.next, 1, true);
-	                if (touch.cha < -100) {
+	                if (touch.cha / touch.width < -0.2) {
 	                    this.translateList.splice(this.current, 1, 'translate3d(-100%,0,0)');
 	                    this.translateList.splice(touch.next, 1, 'translate3d(0%,0,0)');
 	                    this.current = touch.next;

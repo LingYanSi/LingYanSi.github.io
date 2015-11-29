@@ -11,6 +11,9 @@
                 :list="bannerList"></Banner>
         <Sidebar :list-store="listStore" :current.sync="listCurrent"></Sidebar>
         <Commit></Commit>
+        <Banner height="2rem"
+                :current="1"
+                :list="bannerList"></Banner>
     </div>
 </template>
 
