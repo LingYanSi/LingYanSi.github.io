@@ -9830,9 +9830,9 @@
 
 	var _side2 = _interopRequireDefault(_side);
 
-	var _banner = __webpack_require__(18);
+	var _sider = __webpack_require__(32);
 
-	var _banner2 = _interopRequireDefault(_banner);
+	var _sider2 = _interopRequireDefault(_sider);
 
 	var _commit = __webpack_require__(26);
 
@@ -9840,10 +9840,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// import Banner from './banner.vue'
 	exports.default = {
 	    data: function data() {
 	        return {
-	            listStore: [[{ name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }], [{ name: '念去去', tag: '嘿嘿' }, { name: '千里烟波', tag: '嘿嘿' }], [{ name: '都夜愿', tag: '嘿嘿' }, { name: '赛江南', tag: '嘿嘿' }]],
+	            listStore: [[{ name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }, { name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }, { name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }], [{ name: '念去去', tag: '嘿嘿' }, { name: '千里烟波', tag: '嘿嘿' }], [{ name: '都夜愿', tag: '嘿嘿' }, { name: '赛江南', tag: '嘿嘿' }]],
 	            listCurrent: 0
 	        };
 	    },
@@ -9866,7 +9867,7 @@
 	    },
 	    components: {
 	        Sidebar: _side2.default,
-	        Banner: _banner2.default,
+	        Banner: _sider2.default,
 	        Commit: _commit2.default
 	    }
 	};
@@ -9875,7 +9876,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n        <Banner></Banner>\n        <Sidebar :list-store=\"listStore\" :current.sync=\"listCurrent\"></Sidebar>\n        <Commit></Commit>\n    </div>";
+	module.exports = "<div>\n        <Banner height=\"6rem\"\n                current=\"1\"\n                :list=\"[{image:'./../../images/1.jpg',url:''},{image:'./../../images/2.jpg',url:''} ]\"></Banner>\n        <Sidebar :list-store=\"listStore\" :current.sync=\"listCurrent\"></Sidebar>\n        <Commit></Commit>\n    </div>";
 
 /***/ },
 /* 11 */,
@@ -9994,77 +9995,13 @@
 
 /***/ },
 /* 17 */,
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(23)
-	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(22)
-	if (false) {
-	(function () {
-	var hotAPI = require("vue-hot-reload-api")
-	hotAPI.install(require("vue"))
-	if (!hotAPI.compatible) return
-	var id = "-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./banner.vue"
-	hotAPI.createRecord(id, module.exports)
-	module.hot.accept(["-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./banner.vue"], function () {
-	var newOptions = null
-	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
-	var newTemplate = require("-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./banner.vue")
-	hotAPI.update(id, newOptions, newTemplate)
-	})
-	})()
-	}
-
-/***/ },
+/* 18 */,
 /* 19 */,
 /* 20 */,
 /* 21 */,
-/* 22 */
-/***/ function(module, exports) {
-
-	module.exports = "<div id=\"banner\"></div>";
-
-/***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(24);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(8)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5b481e04&file=banner.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./banner.vue", function() {
-				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5b481e04&file=banner.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./banner.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 24 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(7)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "#banner {\n  height: 6rem;\n  background: pink;\n  display: block;\n  background-image: -webkit-linear-gradient(45deg, #64c80a, #0064c8);\n  background-image: linear-gradient(45deg, #64c80a, #0064c8); }\n", ""]);
-
-	// exports
-
-
-/***/ },
+/* 22 */,
+/* 23 */,
+/* 24 */,
 /* 25 */,
 /* 26 */
 /***/ function(module, exports, __webpack_require__) {
@@ -10177,6 +10114,201 @@
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"commit\">\n        <!-- <div><input type=\"file\" accept=\"image/*\"></div> -->\n        <input type=\"text\" placeholder=\"用户名\" @change=\"change('username' ,$event)\" v-model=\"username\">\n        <textarea id=\"textarea\" placeholder=\"您的评论\"\n                 @change=\"change('commit' ,$event)\"\n                 v-model=\"commit\">\n        </textarea>\n        <div>\n            <button @click=\"handleCommit\">commit</button>\n            <button @click=\"handleCancel\">cancel</button>\n        </div>\n    </div>";
+
+/***/ },
+/* 31 */,
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(33)
+	module.exports = __webpack_require__(35)
+
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(36)
+	if (false) {
+	(function () {
+	var hotAPI = require("vue-hot-reload-api")
+	hotAPI.install(require("vue"))
+	if (!hotAPI.compatible) return
+	var id = "-!babel!./../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./sider.vue"
+	hotAPI.createRecord(id, module.exports)
+	module.hot.accept(["-!babel!./../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./sider.vue","-!vue-html-loader!./../../node_modules/vue-loader/lib/selector.js?type=template&index=0!./sider.vue"], function () {
+	var newOptions = require("-!babel!./../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./sider.vue")
+	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
+	var newTemplate = require("-!vue-html-loader!./../../node_modules/vue-loader/lib/selector.js?type=template&index=0!./sider.vue")
+	hotAPI.update(id, newOptions, newTemplate)
+	})
+	})()
+	}
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(34);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(8)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5eff1170&file=sider.vue!./../../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./sider.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5eff1170&file=sider.vue!./../../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./sider.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(7)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".slider-transition {\n  -webkit-transition: all 0.3s;\n  transition: all 0.3s; }\n\n.slider-item-wrap {\n  height: 100%; }\n  .slider-item-wrap > div {\n    position: absolute;\n    height: 100%;\n    width: 100%;\n    left: 0;\n    top: 0;\n    background-size: cover;\n    background-position: center; }\n  .slider-item-wrap > div.slider-item-current {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0); }\n\n.slider-dian {\n  position: absolute;\n  bottom: 0;\n  left: 50%;\n  line-height: 2;\n  -webkit-transform: translate3d(-50%, 0, 0);\n          transform: translate3d(-50%, 0, 0); }\n  .slider-dian span {\n    display: inline-block;\n    height: 12px;\n    width: 12px;\n    border-radius: 50%;\n    background: #fff; }\n  .slider-dian span.slider-dian-current {\n    background: red; }\n  .slider-dian span + span {\n    margin-left: 12px; }\n\n.slider {\n  text-align: center;\n  position: relative;\n  overflow: hidden; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 35 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = {
+	    props: ['height', 'current', 'list'],
+	    data: function data() {
+	        var _this = this;
+
+	        console.log(this.list);
+	        return {
+	            translateList: this.list.map(function (ele, index) {
+	                return index == _this.current ? 'translate3d(0%,0,0)' : 'translate3d(100%, 0, 0)';
+	            }),
+	            moveList: this.list.map(function (ele, index) {
+	                return false;
+	            }),
+	            touch: {
+	                leftS: 0,
+	                topS: 0,
+	                cha: 0,
+	                moveX: false,
+	                moveY: false,
+	                width: document.body.clientWidth,
+	                prev: 0,
+	                next: 0
+	            }
+	        };
+	    },
+	    ready: function ready() {
+	        var _this2 = this;
+
+	        // console.log( '组件构建完成',  document.querySelectorAll('.slider-item'));
+	        [].slice.call(document.querySelectorAll('.slider-item')).forEach(function (ele) {
+	            ele.addEventListener('transitionend', function () {
+	                _this2.moveList = _this2.moveList.map(function () {
+	                    return false;
+	                });
+	            });
+	        });
+	    },
+
+	    methods: {
+	        touchstart: function touchstart() {
+
+	            var touches = event.touches[0],
+	                touch = this.touch;
+	            touch.leftS = touches.pageX;
+	            touch.topS = touches.pageY;
+	            touch.prev = this.checkIndex(this.current - 1, 'prev');
+	            touch.next = this.checkIndex(this.current + 1, 'next');
+	        },
+	        touchmove: function touchmove(event) {
+	            var touch = this.touch;
+	            var touches = event.touches[0];
+	            var left = touches.pageX;
+	            var top = touches.pageY;
+	            touch.cha = left - touch.leftS;
+
+	            // console.log( touch.prev, this.current ,touch.cha ,touch.cha-touch.width )
+	            if (touch.moveX || !touch.moveY && Math.abs(top - touch.topS) - Math.abs(touch.cha) < 0) {
+	                event.preventDefault();
+	                touch.moveX = 1;
+	                this.translateList.splice(this.current, 1, 'translate3d(' + touch.cha + 'px,0,0)');
+	                if (touch.cha > 0) {
+	                    this.translateList.splice(touch.prev, 1, 'translate3d(' + (touch.cha - touch.width) + 'px,0,0)');
+	                }
+	                if (touch.cha < 0) {
+	                    this.translateList.splice(touch.next, 1, 'translate3d(' + (touch.cha + touch.width) + 'px,0,0)');
+	                }
+	            }
+	            if (touch.moveY || !touch.moveX && Math.abs(top - touch.topS) - Math.abs(touch.cha) > 0) {
+	                touch.moveY = 1;
+	            }
+	        },
+	        touchend: function touchend() {
+	            var _this3 = this;
+
+	            var touch = this.touch;
+	            this.moveList.splice(this.current, 1, true);
+
+	            if (touch.cha > 0) {
+	                this.moveList.splice(touch.prev, 1, true);
+	                if (touch.cha > 100) {
+
+	                    this.translateList.splice(this.current, 1, 'translate3d(100%,0,0)');
+	                    this.translateList.splice(touch.prev, 1, 'translate3d(0%,0,0)');
+	                    this.current = touch.prev;
+	                } else {
+	                    this.translateList.splice(this.current, 1, 'translate3d(0%,0,0)');
+	                    this.translateList.splice(touch.prev, 1, 'translate3d(-100%,0,0)');
+	                }
+	            } else if (touch.cha < 0) {
+	                this.moveList.splice(touch.next, 1, true);
+	                if (touch.cha < -100) {
+	                    this.translateList.splice(this.current, 1, 'translate3d(-100%,0,0)');
+	                    this.translateList.splice(touch.next, 1, 'translate3d(0%,0,0)');
+	                    this.current = touch.next;
+	                } else {
+	                    this.translateList.splice(this.current, 1, 'translate3d(0%,0,0)');
+	                    this.translateList.splice(touch.next, 1, 'translate3d(100%,0,0)');
+	                }
+	            }
+	            Object.keys(this.touch).forEach(function (ele) {
+	                if (ele != 'width') _this3.touch[ele] = 0;
+	            });
+	        },
+	        checkIndex: function checkIndex(index, dir) {
+	            if (dir == 'prev') {
+	                index = index < 0 ? this.translateList.length - 1 : index;
+	            } else {
+	                index = index > this.translateList.length - 1 ? 0 : index;
+	            }
+	            return index;
+	        }
+	    }
+	};
+
+/***/ },
+/* 36 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"slider\"\n         :style=\"{height:height}\"\n         @touchstart=\"touchstart\"\n         @touchmove=\"touchmove\"\n         @touchend=\"touchend\"\n         ref=\"bit\"\n         >\n        <div class=\"slider-item-wrap\">\n            <div class=\"slider-item slider-transition\"\n                 v-for=\"item in list\"\n                 :class=\"{'slider-item-current':$index==current?true:false, 'slider-transition':moveList[$index]}\"\n                 :style=\"{backgroundImage:'url('+item.image+')',transform:translateList[$index]}\"></div>\n        </div>\n        <div class=\"slider-dian\">\n            <span v-for=\"item in list\"\n                  :class=\"{'slider-dian-current':$index==current?true:false}\"></span>\n        </div>\n        div\n    </div>";
 
 /***/ }
 /******/ ]);

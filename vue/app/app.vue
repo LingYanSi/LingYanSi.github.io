@@ -6,7 +6,9 @@
 
 <template>
     <div>
-        <Banner></Banner>
+        <Banner height="6rem"
+                current="1"
+                :list="[{image:'./../../images/1.jpg',url:''},{image:'./../../images/2.jpg',url:''} ]"></Banner>
         <Sidebar :list-store="listStore" :current.sync="listCurrent"></Sidebar>
         <Commit></Commit>
     </div>
@@ -14,13 +16,20 @@
 
 <script lang="babel">
     import Sidebar from './side.vue'
-    import Banner from './banner.vue'
+    // import Banner from './banner.vue'
+    import Banner from './module/sider.vue'
     import Commit from './commit.vue'
     export default {
         data(){
             return {
                 listStore: [
                             [
+                                {name:'春江花月夜',tag:'嘿嘿'},
+                                {name:'出塞曲',tag:'嘿嘿'},
+                                {name:'兵车行',tag:'嘿嘿'},
+                                {name:'春江花月夜',tag:'嘿嘿'},
+                                {name:'出塞曲',tag:'嘿嘿'},
+                                {name:'兵车行',tag:'嘿嘿'},
                                 {name:'春江花月夜',tag:'嘿嘿'},
                                 {name:'出塞曲',tag:'嘿嘿'},
                                 {name:'兵车行',tag:'嘿嘿'},
