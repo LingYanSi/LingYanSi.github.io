@@ -6,10 +6,11 @@
             position: absolute ;
             height: 100% ; width: 100% ; left: 0 ; top: 0;
             background-size: cover ; background-position: center ;
-            background-color: red;
+            background-color: pink;
             // transform: translate3d(100%,0,0);
         }
         &>div.slider-item-current{ transform: translate3d(0, 0, 0); }
+        a{ display: block ; height: 100%; }
     }
     .slider-dian{
         position: absolute; bottom: 0 ; left: 50% ; line-height: 2 ;
@@ -42,7 +43,9 @@
             <div class="slider-item slider-transition"
                  v-for="item in list"
                  :class="{'slider-item-current':$index==current?true:false, 'slider-transition':moveList[$index]}"
-                 :style="{backgroundImage:'url('+item.image+')',transform:translateList[$index]}"></div>
+                 :style="{backgroundImage:'url('+item.image+')',transform:translateList[$index]}">
+                 <a href="{{item.url}}"></a>
+            </div>
         </div>
         <div class="slider-dian">
             <span v-for="item in list"
@@ -85,14 +88,20 @@
                 ele.addEventListener('transitionend',()=>{
                     this.moveList = this.moveList.map(()=> false);
                     this.touch.transitionendNum++ ;
+
+                    console.log( this.touch.transitionendNum );
                     if(this.touch.transitionendNum==2){
                         this.touch.isCanSwipe = 1
                     }
                 })
+            });
+            window.addEventListener('resize',()=>{
+                this.touch.width = document.body.clientWidth
             })
         },
         methods: {
-            touchstart(){
+            touchstart(event){
+                console.log(this.touch.isCanSwipe, this.touch.swiping)
                 var touch = this.touch ;
                 if(!touch.isCanSwipe) return
                 var touches = event.touches[0] ;
@@ -114,12 +123,16 @@
                 if( touch.moveX || (!touch.moveY && Math.abs(top - touch.topS) - Math.abs( touch.cha)<0)){
                     event.preventDefault();
                     touch.moveX = 1 ;
-                    this.translateList.splice(this.current,1,`translate3d(${touch.cha}px,0,0)`) ;
+                    this.translateList.splice(this.current,1,`translate3d(${touch.cha/touch.width*100}%,0,0)`) ;
                     if(touch.cha>0){
-                        this.translateList.splice(touch.prev,1,`translate3d(${touch.cha-touch.width}px,0,0)`);
+                        // 避免左右滑动过快，引发没有隐藏
+                        this.moveList.length>2 && this.translateList.splice(touch.next,1,`translate3d(100%,0,0)`) ;
+                        this.translateList.splice(touch.prev,1,`translate3d(${(touch.cha-touch.width)/touch.width*100}%,0,0)`);
                     }
                     if(touch.cha<0){
-                        this.translateList.splice(touch.next,1,`translate3d(${touch.cha+touch.width}px,0,0)`) ;
+                        // 避免左右滑动过快，引发没有隐藏
+                        this.moveList.length>2 && this.translateList.splice(touch.prev,1,`translate3d(-100%,0,0)`) ;
+                        this.translateList.splice(touch.next,1,`translate3d(${(touch.cha+touch.width)/touch.width*100}%,0,0)`) ;
                     }
                 }
                 if( touch.moveY || (!touch.moveX && Math.abs(top - touch.topS) - Math.abs( touch.cha)>0)){
@@ -131,12 +144,10 @@
                 if(!touch.isCanSwipe || !touch.swiping) return
                 touch.isCanSwipe = 0 , touch.swiping = 0;
 
-                this.moveList.splice(this.current,1,true);
-
                 if( touch.cha>0 ){
+                    this.moveList.splice(this.current,1,true);
                     this.moveList.splice(touch.prev,1,true);
                     if( touch.cha>100 ){
-
                         this.translateList.splice(this.current,1,`translate3d(100%,0,0)`)  ;
                         this.translateList.splice(touch.prev,1,`translate3d(0%,0,0)`)  ;
                         this.current = touch.prev ;
@@ -145,6 +156,7 @@
                         this.translateList.splice(touch.prev,1,`translate3d(-100%,0,0)`)  ;
                     }
                 }else if( touch.cha<0 ){
+                    this.moveList.splice(this.current,1,true);
                     this.moveList.splice(touch.next,1,true);
                     if( touch.cha<-100 ){
                         this.translateList.splice(this.current,1,`translate3d(-100%,0,0)`)  ;

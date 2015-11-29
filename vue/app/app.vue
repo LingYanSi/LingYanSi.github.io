@@ -22,9 +22,9 @@
     export default {
         data(){
             return {
-                bannerList:[{image:'./../../images/1.jpg',url:''},
-                            {image:'./../../images/2.jpg',url:''},
-                            {image:'',url:''} ],
+                bannerList:[{image:'./../../images/1.jpg',url:'http://www.baidu.com'},
+                            {image:'./../../images/2.jpg',url:'http://www.zhihu.com'},
+                            {image:'',url:'http://www.weibo.com'} ],
                 listStore: [
                             [
                                 {name:'春江花月夜',tag:'嘿嘿'},

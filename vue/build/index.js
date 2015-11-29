@@ -9844,7 +9844,7 @@
 	exports.default = {
 	    data: function data() {
 	        return {
-	            bannerList: [{ image: './../../images/1.jpg', url: '' }, { image: './../../images/2.jpg', url: '' }, { image: '', url: '' }],
+	            bannerList: [{ image: './../../images/1.jpg', url: 'http://www.baidu.com' }, { image: './../../images/2.jpg', url: 'http://www.zhihu.com' }, { image: '', url: 'http://www.weibo.com' }],
 	            listStore: [[{ name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }, { name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }, { name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }], [{ name: '念去去', tag: '嘿嘿' }, { name: '千里烟波', tag: '嘿嘿' }], [{ name: '都夜愿', tag: '嘿嘿' }, { name: '赛江南', tag: '嘿嘿' }]],
 	            listCurrent: 0
 	        };
@@ -10177,7 +10177,7 @@
 
 
 	// module
-	exports.push([module.id, ".slider-transition {\n  -webkit-transition: all 0.3s;\n  transition: all 0.3s; }\n\n.slider-item-wrap {\n  height: 100%; }\n  .slider-item-wrap > div {\n    position: absolute;\n    height: 100%;\n    width: 100%;\n    left: 0;\n    top: 0;\n    background-size: cover;\n    background-position: center;\n    background-color: red; }\n  .slider-item-wrap > div.slider-item-current {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0); }\n\n.slider-dian {\n  position: absolute;\n  bottom: 0;\n  left: 50%;\n  line-height: 2;\n  -webkit-transform: translate3d(-50%, 0, 0);\n          transform: translate3d(-50%, 0, 0); }\n  .slider-dian span {\n    display: inline-block;\n    height: 12px;\n    width: 12px;\n    border-radius: 50%;\n    background: #fff; }\n  .slider-dian span.slider-dian-current {\n    background: red; }\n  .slider-dian span + span {\n    margin-left: 12px; }\n\n.slider {\n  text-align: center;\n  position: relative;\n  overflow: hidden; }\n", ""]);
+	exports.push([module.id, ".slider-transition {\n  -webkit-transition: all 0.3s;\n  transition: all 0.3s; }\n\n.slider-item-wrap {\n  height: 100%; }\n  .slider-item-wrap > div {\n    position: absolute;\n    height: 100%;\n    width: 100%;\n    left: 0;\n    top: 0;\n    background-size: cover;\n    background-position: center;\n    background-color: pink; }\n  .slider-item-wrap > div.slider-item-current {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0); }\n  .slider-item-wrap a {\n    display: block;\n    height: 100%; }\n\n.slider-dian {\n  position: absolute;\n  bottom: 0;\n  left: 50%;\n  line-height: 2;\n  -webkit-transform: translate3d(-50%, 0, 0);\n          transform: translate3d(-50%, 0, 0); }\n  .slider-dian span {\n    display: inline-block;\n    height: 12px;\n    width: 12px;\n    border-radius: 50%;\n    background: #fff; }\n  .slider-dian span.slider-dian-current {\n    background: red; }\n  .slider-dian span + span {\n    margin-left: 12px; }\n\n.slider {\n  text-align: center;\n  position: relative;\n  overflow: hidden; }\n", ""]);
 
 	// exports
 
@@ -10229,15 +10229,21 @@
 	                    return false;
 	                });
 	                _this2.touch.transitionendNum++;
+
+	                console.log(_this2.touch.transitionendNum);
 	                if (_this2.touch.transitionendNum == 2) {
 	                    _this2.touch.isCanSwipe = 1;
 	                }
 	            });
 	        });
+	        window.addEventListener('resize', function () {
+	            _this2.touch.width = document.body.clientWidth;
+	        });
 	    },
 
 	    methods: {
-	        touchstart: function touchstart() {
+	        touchstart: function touchstart(event) {
+	            console.log(this.touch.isCanSwipe, this.touch.swiping);
 	            var touch = this.touch;
 	            if (!touch.isCanSwipe) return;
 	            var touches = event.touches[0];
@@ -10259,12 +10265,16 @@
 	            if (touch.moveX || !touch.moveY && Math.abs(top - touch.topS) - Math.abs(touch.cha) < 0) {
 	                event.preventDefault();
 	                touch.moveX = 1;
-	                this.translateList.splice(this.current, 1, 'translate3d(' + touch.cha + 'px,0,0)');
+	                this.translateList.splice(this.current, 1, 'translate3d(' + touch.cha / touch.width * 100 + '%,0,0)');
 	                if (touch.cha > 0) {
-	                    this.translateList.splice(touch.prev, 1, 'translate3d(' + (touch.cha - touch.width) + 'px,0,0)');
+	                    // 避免左右滑动过快，引发没有隐藏
+	                    this.moveList.length > 2 && this.translateList.splice(touch.next, 1, 'translate3d(100%,0,0)');
+	                    this.translateList.splice(touch.prev, 1, 'translate3d(' + (touch.cha - touch.width) / touch.width * 100 + '%,0,0)');
 	                }
 	                if (touch.cha < 0) {
-	                    this.translateList.splice(touch.next, 1, 'translate3d(' + (touch.cha + touch.width) + 'px,0,0)');
+	                    // 避免左右滑动过快，引发没有隐藏
+	                    this.moveList.length > 2 && this.translateList.splice(touch.prev, 1, 'translate3d(-100%,0,0)');
+	                    this.translateList.splice(touch.next, 1, 'translate3d(' + (touch.cha + touch.width) / touch.width * 100 + '%,0,0)');
 	                }
 	            }
 	            if (touch.moveY || !touch.moveX && Math.abs(top - touch.topS) - Math.abs(touch.cha) > 0) {
@@ -10276,12 +10286,10 @@
 	            if (!touch.isCanSwipe || !touch.swiping) return;
 	            touch.isCanSwipe = 0, touch.swiping = 0;
 
-	            this.moveList.splice(this.current, 1, true);
-
 	            if (touch.cha > 0) {
+	                this.moveList.splice(this.current, 1, true);
 	                this.moveList.splice(touch.prev, 1, true);
 	                if (touch.cha > 100) {
-
 	                    this.translateList.splice(this.current, 1, 'translate3d(100%,0,0)');
 	                    this.translateList.splice(touch.prev, 1, 'translate3d(0%,0,0)');
 	                    this.current = touch.prev;
@@ -10290,6 +10298,7 @@
 	                    this.translateList.splice(touch.prev, 1, 'translate3d(-100%,0,0)');
 	                }
 	            } else if (touch.cha < 0) {
+	                this.moveList.splice(this.current, 1, true);
 	                this.moveList.splice(touch.next, 1, true);
 	                if (touch.cha < -100) {
 	                    this.translateList.splice(this.current, 1, 'translate3d(-100%,0,0)');
@@ -10319,7 +10328,7 @@
 /* 36 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"slider\"\n         :style=\"{height:height}\"\n         @touchstart=\"touchstart\"\n         @touchmove=\"touchmove\"\n         @touchend=\"touchend\"\n         ref=\"bit\"\n         >\n        <div class=\"slider-item-wrap\">\n            <div class=\"slider-item slider-transition\"\n                 v-for=\"item in list\"\n                 :class=\"{'slider-item-current':$index==current?true:false, 'slider-transition':moveList[$index]}\"\n                 :style=\"{backgroundImage:'url('+item.image+')',transform:translateList[$index]}\"></div>\n        </div>\n        <div class=\"slider-dian\">\n            <span v-for=\"item in list\"\n                  :class=\"{'slider-dian-current':$index==current?true:false}\"></span>\n        </div>\n        div\n    </div>";
+	module.exports = "<div class=\"slider\"\n         :style=\"{height:height}\"\n         @touchstart=\"touchstart\"\n         @touchmove=\"touchmove\"\n         @touchend=\"touchend\"\n         ref=\"bit\"\n         >\n        <div class=\"slider-item-wrap\">\n            <div class=\"slider-item slider-transition\"\n                 v-for=\"item in list\"\n                 :class=\"{'slider-item-current':$index==current?true:false, 'slider-transition':moveList[$index]}\"\n                 :style=\"{backgroundImage:'url('+item.image+')',transform:translateList[$index]}\">\n                 <a href=\"{{item.url}}\"></a>\n            </div>\n        </div>\n        <div class=\"slider-dian\">\n            <span v-for=\"item in list\"\n                  :class=\"{'slider-dian-current':$index==current?true:false}\"></span>\n        </div>\n        div\n    </div>";
 
 /***/ }
 /******/ ]);
