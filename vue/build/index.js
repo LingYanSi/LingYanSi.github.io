@@ -10227,7 +10227,7 @@
 	            ele.addEventListener('transitionend', function () {
 	                _this2.transitionend();
 	            });
-	            ele.addEventListener('webkitTransitionend', function () {
+	            ele.addEventListener('webkitTransitionEnd', function () {
 	                _this2.transitionend();
 	            });
 	        });

@@ -88,7 +88,7 @@
                 ele.addEventListener('transitionend',()=>{
                     this.transitionend()
                 });
-                ele.addEventListener('webkitTransitionend',()=>{
+                ele.addEventListener('webkitTransitionEnd',()=>{
                     this.transitionend()
                 });
             });
