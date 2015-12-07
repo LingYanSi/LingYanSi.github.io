@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <link rel="shortcut icon" href="http:/lingyansi.github.io/images/icon/icon.jpg">
+
+<head>
+    <meta charset="utf-8">
+    <style >
+        *{margin:0 ; padding: 0;}
+            .banner{
+                position: relative ;
+                height: 300px;
+                overflow: hidden;
+            }
+            .banner-items{
+                position:relative; height:100%;
+            }
+            a{
+                position: absolute;
+                top:0; left:0; width:100%; height: 100%; display:block;
+            }
+            a.current{
+                transition: all 0.5s ease-out;
+            }
+            .banner-dotts{
+                position: absolute; bottom: 0.5em; left: 0; width: 100%;
+            }
+            .banner-dotts span{
+                display: inline-block;
+                height: 0.5em; width:0.5em; border-radius: 50%; background: green;
+            }
+            .banner-dotts span.current{
+                background: red;
+            }
+            .banner-dotts span+span{
+                /*margin-left: 0.5em;*/
+            }
+    </style>
+</head>
+
+<body>
+    <div id="bb" class="banner" data-arr="[{link:'http://www.baidu.com',img:'http://s11.mogucdn.com/b7/avatar/150625/8mux_ieytszbtgezgemrqgizdambqmeyde_400x400.jpg'}]"></div>
+    <h1>asdSA撒大声地</h1>
+    <div id="aa" class="banner" data-arr="[{link:'http://www.baidu.com',img:'http://s11.mogucdn.com/b7/avatar/150625/8mux_ieytszbtgezgemrqgizdambqmeyde_400x400.jpg'},{link:'http://www.baidu.com',img:'http://s7.mogucdn.com/b7/avatar/150629/aibnt_ie2gkmtcgmzdanjrgizdambqgiyde_400x400.jpg'},{link:'http://www.baidu.com',img:'http://s11.mogucdn.com/b7/avatar/150625/8mux_ieytszbtgezgemrqgizdambqmeyde_400x400.jpg'},{link:'http://www.baidu.com',img:'http://s7.mogucdn.com/b7/avatar/150629/aibnt_ie2gkmtcgmzdanjrgizdambqgiyde_400x400.jpg'}]"></div>
+<script src="./../min/slide.js"></script>
+<script>
+    LunBo({
+        id: '#bb' ,
+        current: 1
+    });
+    LunBo({
+        id: '#aa' ,
+        current: 1 ,
+        autoplay: 1,
+    });
+</script>
+</body>
+
+</html>

@@ -1,92 +1,103 @@
 module.exports = function(config) {
-  config.set({
+    config.set({
 
-    // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
-
-
-    // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+        // base path that will be used to resolve all patterns (eg. files, exclude)
+        basePath: 'webpack',
 
 
-    // list of files / patterns to load in the browser
-    files: [
-      {pattern: 'webpack/app/alert.js', included: false},
-      // {pattern: 'src/*.less', included: false},
-      {pattern: 'webpack/test/alertTest.js', included: false},
-      'webpack/test/test-main.js'
-    ],
+        // frameworks to use
+        // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+        frameworks: ['jasmine'],
 
 
-    // list of files to exclude
-    exclude: [
+        // list of files / patterns to load in the browser
+        files: [
+            // {pattern: 'src/*.less', included: false},
 
-    ],
-
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-      'webpack/test/test-main.js': ['webpack']
-    },
+            // 'test/alertTest.js',
+            'test/buttonTest.js',
+            // 'app/button.js',
+        ],
 
 
-    webpack: {
-      devtool: 'inline-source-map', //just do inline source maps instead of the default
-      module: {
-        loaders: [
-          { test: /\.js$/, loader: 'babel-loader' },
-          { test: /\.less$/, loader: "style!css!less" }
-        ]
-      }
-    },
+        // list of files to exclude
+        exclude: [
 
-    webpackMiddleware: {
-        // webpack-dev-middleware configuration
-        // i. e.
-        noInfo: true,
-        devtool: "#inline-source-map"
-    },
-
-    plugins: [
-        require("karma-webpack"),
-        require('karma-jasmine'),
-        require('karma-chrome-launcher')
-    ],
+        ],
 
 
-
-    // test results reporter to use
-    // possible values: 'dots', 'progress'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
-
-
-    // web server port
-    port: 9876,
+        // preprocess matching files before serving them to the browser
+        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+        preprocessors: {
+            'test/*.js': ['webpack','coverage']
+        },
 
 
-    // enable / disable colors in the output (reporters and logs)
-    colors: true,
+        webpack: {
+            devtool: 'inline-source-map', //just do inline source maps instead of the default
+            module: {
+                loaders: [
+                    {test: /\.js$/, loader: 'babel'},
+                    {test: /\.less$/, loader: "style!css!less"}
+                ]
+            },
+            babel: {
+                presets: ['es2015','react']
+            }
+        },
+
+        webpackMiddleware: {
+            // webpack-dev-middleware configuration
+            // i. e.
+            noInfo: true,
+            devtool: "#inline-source-map"
+        },
+
+        plugins: [
+            require("karma-webpack"),
+            require('karma-jasmine'),
+            require('karma-coverage'),
+            require('karma-chrome-launcher'),
+        ],
 
 
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+
+        // test results reporter to use
+        // possible values: 'dots', 'progress'
+        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+        reporters: ['progress', 'coverage'],
+        // web server port
+        port: 9876,
 
 
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+        // enable / disable colors in the output (reporters and logs)
+        colors: true,
 
 
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+        // level of logging
+        // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+        logLevel: config.LOG_INFO,
 
 
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
-  });
+        // enable / disable watching file and executing tests whenever any file changes
+        autoWatch: true,
+
+
+        // start these browsers
+        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+        browsers: ['Chrome'],
+
+
+        // Continuous Integration mode
+        // if true, Karma captures browsers, runs the tests and exits
+        singleRun: false,
+
+
+        // 单元测试
+        // optionally, configure the reporter
+        coverageReporter: {
+            type: 'html',
+            dir: 'coverage/'
+        }
+    });
 };

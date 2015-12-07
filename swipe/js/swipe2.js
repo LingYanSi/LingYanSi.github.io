@@ -360,14 +360,14 @@ var Lunbo = function(arg) { //以对象形式传递参数
     function buttEvent() {
         if (!!buttNext) {
             var click = isPhone ? 'touchend' : 'click';
-            document.querySelector(buttPrev).addEventListener(click, function(event) {
+            $id.querySelector(buttPrev).addEventListener(click, function(event) {
                 var index = currentPage-1;
                 toWhere(index, 'prev');
             });
         }
         if (!!buttPrev) {
             var click = isPhone ? 'touchend' : 'click';
-            document.querySelector(buttNext).addEventListener(click, function() {
+            $id.querySelector(buttNext).addEventListener(click, function() {
                 var index = currentPage+1;
                 toWhere(index, 'next');
             });

@@ -1,0 +1,6 @@
+var argv = require('argv') ,
+    sxf = require('../lib/sxf');
+
+console.log( sxf( process.argv.slice(2).join('-+-') ) );
+
+
