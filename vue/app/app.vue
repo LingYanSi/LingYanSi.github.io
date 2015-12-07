@@ -59,6 +59,7 @@
         },
         events: {
             appendCommit( item ){
+                console.log('接受评论信息')
                 this.listStore[this.listCurrent].push( item);
                 this.update()
             },

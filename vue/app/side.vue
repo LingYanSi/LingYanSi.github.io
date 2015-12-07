@@ -1,9 +1,9 @@
 <style lang="sass">
     #list{
-        margin: 0 10px ;
-        li+li{ border-top: 10px solid #fff ;}
-        li{  background: rgba(247,105,105,0.4); padding: 1em 0.5em; line-height:1.4em;}
-        p:first-child{ font-size: 1.4em; }
+        margin: 0 4px ;
+        li+li{ border-top: 4px solid #fff ;}
+        li{  background: rgba(247,105,105,0.4); padding:0.5em ; line-height:1.4; }
+        p:first-child{   }
     }
     .fenlei{
         display: flex;
@@ -57,6 +57,7 @@
         },
         events: {
             'parent-msg'( index){
+                console.log('接受父组件的消息')
                 this.fenleiChange( index);
             }
         }

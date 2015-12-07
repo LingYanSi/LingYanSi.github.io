@@ -16,13 +16,13 @@
         position: absolute; bottom: 0 ; left: 50% ; line-height: 2 ;
         transform: translate3d(-50%,0,0);
         span{
-            display: inline-block; height: 12px; width: 12px;
+            display: inline-block; height: 0.5em; width: 0.5em;
             border-radius: 50% ; background: #fff ;
         }
         span.slider-dian-current{
             background: red ;
         }
-        span+span{ margin-left: 12px; }
+        span+span{ margin-left: 0.5em; }
     }
     .slider{
         text-align: center ;

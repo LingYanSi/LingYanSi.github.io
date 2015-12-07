@@ -48,15 +48,16 @@
 	* @Author: zikong
 	* @Date:   2015-11-27 13:10:31
 	* @Last Modified by:   zikong
-	* @Last Modified time: 2015-11-29 23:19:37
+	* @Last Modified time: 2015-11-30 12:50:04
 	*/
 
 	'use strict';
 
-	var Vue = __webpack_require__(2)
-	var vueTouch = __webpack_require__(37)
-	var App = __webpack_require__(4)
+	var Vue = __webpack_require__(5)
+	var vueTouch = __webpack_require__(7)
+	var App = __webpack_require__(10)
 
+	// 引入hammer.js 快速点击
 	Vue.use(vueTouch)
 
 	new Vue({
@@ -69,7 +70,10 @@
 
 /***/ },
 /* 1 */,
-/* 2 */
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/*!
@@ -9374,10 +9378,10 @@
 	}
 
 	module.exports = Vue;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ },
-/* 3 */
+/* 6 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -9474,889 +9478,14 @@
 
 
 /***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(5)
-	module.exports = __webpack_require__(9)
-
-	if (module.exports.__esModule) module.exports = module.exports.default
-	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(10)
-	if (false) {
-	(function () {
-	var hotAPI = require("vue-hot-reload-api")
-	hotAPI.install(require("vue"))
-	if (!hotAPI.compatible) return
-	var id = "-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./app.vue"
-	hotAPI.createRecord(id, module.exports)
-	module.hot.accept(["-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./app.vue","-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./app.vue"], function () {
-	var newOptions = require("-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./app.vue")
-	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
-	var newTemplate = require("-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./app.vue")
-	hotAPI.update(id, newOptions, newTemplate)
-	})
-	})()
-	}
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(6);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(8)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-2e89f9f9&file=app.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./app.vue", function() {
-				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-2e89f9f9&file=app.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./app.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(7)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "h1 {\n  color: red; }\n", ""]);
-
-	// exports
-
-
-/***/ },
 /* 7 */
-/***/ function(module, exports) {
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	// css base code, injected by the css-loader
-	module.exports = function() {
-		var list = [];
-
-		// return the list of modules as css string
-		list.toString = function toString() {
-			var result = [];
-			for(var i = 0; i < this.length; i++) {
-				var item = this[i];
-				if(item[2]) {
-					result.push("@media " + item[2] + "{" + item[1] + "}");
-				} else {
-					result.push(item[1]);
-				}
-			}
-			return result.join("");
-		};
-
-		// import a list of modules into the list
-		list.i = function(modules, mediaQuery) {
-			if(typeof modules === "string")
-				modules = [[null, modules, ""]];
-			var alreadyImportedModules = {};
-			for(var i = 0; i < this.length; i++) {
-				var id = this[i][0];
-				if(typeof id === "number")
-					alreadyImportedModules[id] = true;
-			}
-			for(i = 0; i < modules.length; i++) {
-				var item = modules[i];
-				// skip already imported module
-				// this implementation is not 100% perfect for weird media query combinations
-				//  when a module is imported multiple times with different media queries.
-				//  I hope this will never occur (Hey this way we have smaller bundles)
-				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-					if(mediaQuery && !item[2]) {
-						item[2] = mediaQuery;
-					} else if(mediaQuery) {
-						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-					}
-					list.push(item);
-				}
-			}
-		};
-		return list;
-	};
-
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	var stylesInDom = {},
-		memoize = function(fn) {
-			var memo;
-			return function () {
-				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-				return memo;
-			};
-		},
-		isOldIE = memoize(function() {
-			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
-		}),
-		getHeadElement = memoize(function () {
-			return document.head || document.getElementsByTagName("head")[0];
-		}),
-		singletonElement = null,
-		singletonCounter = 0;
-
-	module.exports = function(list, options) {
-		if(false) {
-			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-		}
-
-		options = options || {};
-		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-		// tags it will allow on a page
-		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-		var styles = listToStyles(list);
-		addStylesToDom(styles, options);
-
-		return function update(newList) {
-			var mayRemove = [];
-			for(var i = 0; i < styles.length; i++) {
-				var item = styles[i];
-				var domStyle = stylesInDom[item.id];
-				domStyle.refs--;
-				mayRemove.push(domStyle);
-			}
-			if(newList) {
-				var newStyles = listToStyles(newList);
-				addStylesToDom(newStyles, options);
-			}
-			for(var i = 0; i < mayRemove.length; i++) {
-				var domStyle = mayRemove[i];
-				if(domStyle.refs === 0) {
-					for(var j = 0; j < domStyle.parts.length; j++)
-						domStyle.parts[j]();
-					delete stylesInDom[domStyle.id];
-				}
-			}
-		};
-	}
-
-	function addStylesToDom(styles, options) {
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			if(domStyle) {
-				domStyle.refs++;
-				for(var j = 0; j < domStyle.parts.length; j++) {
-					domStyle.parts[j](item.parts[j]);
-				}
-				for(; j < item.parts.length; j++) {
-					domStyle.parts.push(addStyle(item.parts[j], options));
-				}
-			} else {
-				var parts = [];
-				for(var j = 0; j < item.parts.length; j++) {
-					parts.push(addStyle(item.parts[j], options));
-				}
-				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-			}
-		}
-	}
-
-	function listToStyles(list) {
-		var styles = [];
-		var newStyles = {};
-		for(var i = 0; i < list.length; i++) {
-			var item = list[i];
-			var id = item[0];
-			var css = item[1];
-			var media = item[2];
-			var sourceMap = item[3];
-			var part = {css: css, media: media, sourceMap: sourceMap};
-			if(!newStyles[id])
-				styles.push(newStyles[id] = {id: id, parts: [part]});
-			else
-				newStyles[id].parts.push(part);
-		}
-		return styles;
-	}
-
-	function createStyleElement() {
-		var styleElement = document.createElement("style");
-		var head = getHeadElement();
-		styleElement.type = "text/css";
-		head.appendChild(styleElement);
-		return styleElement;
-	}
-
-	function createLinkElement() {
-		var linkElement = document.createElement("link");
-		var head = getHeadElement();
-		linkElement.rel = "stylesheet";
-		head.appendChild(linkElement);
-		return linkElement;
-	}
-
-	function addStyle(obj, options) {
-		var styleElement, update, remove;
-
-		if (options.singleton) {
-			var styleIndex = singletonCounter++;
-			styleElement = singletonElement || (singletonElement = createStyleElement());
-			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-		} else if(obj.sourceMap &&
-			typeof URL === "function" &&
-			typeof URL.createObjectURL === "function" &&
-			typeof URL.revokeObjectURL === "function" &&
-			typeof Blob === "function" &&
-			typeof btoa === "function") {
-			styleElement = createLinkElement();
-			update = updateLink.bind(null, styleElement);
-			remove = function() {
-				styleElement.parentNode.removeChild(styleElement);
-				if(styleElement.href)
-					URL.revokeObjectURL(styleElement.href);
-			};
-		} else {
-			styleElement = createStyleElement();
-			update = applyToTag.bind(null, styleElement);
-			remove = function() {
-				styleElement.parentNode.removeChild(styleElement);
-			};
-		}
-
-		update(obj);
-
-		return function updateStyle(newObj) {
-			if(newObj) {
-				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-					return;
-				update(obj = newObj);
-			} else {
-				remove();
-			}
-		};
-	}
-
-	var replaceText = (function () {
-		var textStore = [];
-
-		return function (index, replacement) {
-			textStore[index] = replacement;
-			return textStore.filter(Boolean).join('\n');
-		};
-	})();
-
-	function applyToSingletonTag(styleElement, index, remove, obj) {
-		var css = remove ? "" : obj.css;
-
-		if (styleElement.styleSheet) {
-			styleElement.styleSheet.cssText = replaceText(index, css);
-		} else {
-			var cssNode = document.createTextNode(css);
-			var childNodes = styleElement.childNodes;
-			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-			if (childNodes.length) {
-				styleElement.insertBefore(cssNode, childNodes[index]);
-			} else {
-				styleElement.appendChild(cssNode);
-			}
-		}
-	}
-
-	function applyToTag(styleElement, obj) {
-		var css = obj.css;
-		var media = obj.media;
-		var sourceMap = obj.sourceMap;
-
-		if(media) {
-			styleElement.setAttribute("media", media)
-		}
-
-		if(styleElement.styleSheet) {
-			styleElement.styleSheet.cssText = css;
-		} else {
-			while(styleElement.firstChild) {
-				styleElement.removeChild(styleElement.firstChild);
-			}
-			styleElement.appendChild(document.createTextNode(css));
-		}
-	}
-
-	function updateLink(linkElement, obj) {
-		var css = obj.css;
-		var media = obj.media;
-		var sourceMap = obj.sourceMap;
-
-		if(sourceMap) {
-			// http://stackoverflow.com/a/26603875
-			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-		}
-
-		var blob = new Blob([css], { type: "text/css" });
-
-		var oldSrc = linkElement.href;
-
-		linkElement.href = URL.createObjectURL(blob);
-
-		if(oldSrc)
-			URL.revokeObjectURL(oldSrc);
-	}
-
-
-/***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _side = __webpack_require__(12);
-
-	var _side2 = _interopRequireDefault(_side);
-
-	var _sider = __webpack_require__(32);
-
-	var _sider2 = _interopRequireDefault(_sider);
-
-	var _commit = __webpack_require__(26);
-
-	var _commit2 = _interopRequireDefault(_commit);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// import Banner from './banner.vue'
-	exports.default = {
-	    data: function data() {
-	        return {
-	            bannerList: [{ image: './../../images/1.jpg', url: 'http://www.baidu.com' }, { image: './../../images/2.jpg', url: 'http://www.zhihu.com' }, { image: '', url: 'http://www.weibo.com' }],
-	            listStore: [[{ name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }, { name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }, { name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }], [{ name: '念去去', tag: '嘿嘿' }, { name: '千里烟波', tag: '嘿嘿' }], [{ name: '都夜愿', tag: '嘿嘿' }, { name: '赛江南', tag: '嘿嘿' }]],
-	            listCurrent: 0
-	        };
-	    },
-
-	    methods: {
-	        update: function update() {
-	            this.$broadcast('parent-msg', this.listCurrent);
-	        }
-	    },
-	    events: {
-	        appendCommit: function appendCommit(item) {
-	            this.listStore[this.listCurrent].push(item);
-	            this.update();
-	        },
-	        deleteChange: function deleteChange(index1) {
-	            // console.log( this.listStore[index] )
-	            this.listStore[this.listCurrent].splice(index1, 1);
-	            this.update();
-	        }
-	    },
-	    components: {
-	        Sidebar: _side2.default,
-	        Banner: _sider2.default,
-	        Commit: _commit2.default
-	    }
-	};
-
-/***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	module.exports = "<div>\n        <Banner height=\"6rem\" id=\"banner\"\n                :current=\"1\"\n                :list=\"bannerList\"></Banner>\n        <Sidebar :list-store=\"listStore\" :current.sync=\"listCurrent\"></Sidebar>\n        <Commit></Commit>\n        <Banner height=\"2rem\" id=\"banner2\"\n                :current=\"1\"\n                :list=\"bannerList\"></Banner>\n    </div>";
-
-/***/ },
-/* 11 */,
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(13)
-	module.exports = __webpack_require__(15)
-
-	if (module.exports.__esModule) module.exports = module.exports.default
-	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(16)
-	if (false) {
-	(function () {
-	var hotAPI = require("vue-hot-reload-api")
-	hotAPI.install(require("vue"))
-	if (!hotAPI.compatible) return
-	var id = "-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./side.vue"
-	hotAPI.createRecord(id, module.exports)
-	module.hot.accept(["-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./side.vue","-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./side.vue"], function () {
-	var newOptions = require("-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./side.vue")
-	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
-	var newTemplate = require("-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./side.vue")
-	hotAPI.update(id, newOptions, newTemplate)
-	})
-	})()
-	}
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(14);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(8)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-6caafeaf&file=side.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./side.vue", function() {
-				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-6caafeaf&file=side.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./side.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(7)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "#list {\n  margin: 0 10px; }\n  #list li + li {\n    border-top: 10px solid #fff; }\n  #list li {\n    background: rgba(247, 105, 105, 0.4);\n    padding: 1em 0.5em;\n    line-height: 1.4em; }\n  #list p:first-child {\n    font-size: 1.4em; }\n\n.fenlei {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  text-align: center;\n  line-height: 3; }\n  .fenlei span {\n    -webkit-box-flex: 1;\n    -webkit-flex: 1;\n        -ms-flex: 1;\n            flex: 1; }\n    .fenlei span.current {\n      background: blue;\n      color: #fff; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 15 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	exports.default = {
-	    props: ['listStore', 'current'],
-	    data: function data() {
-	        console.log(this);
-	        return {
-	            list: [].slice.call(this.listStore[0]),
-	            fenleiList: ['唐诗', '宋词', '元曲']
-	        };
-	    },
-
-	    methods: {
-	        change: function change() {
-	            // list.splice(0,100,...newList)
-	        },
-	        deleteChange: function deleteChange(index) {
-	            this.$dispatch('deleteChange', index);
-	        },
-	        fenleiChange: function fenleiChange(index, event) {
-	            var _list;
-
-	            this.current = index;
-	            (_list = this.list).splice.apply(_list, [0, this.list.length].concat(_toConsumableArray(this.listStore[index])));
-	        }
-	    },
-	    events: {
-	        'parent-msg': function parentMsg(index) {
-	            this.fenleiChange(index);
-	        }
-	    }
-	};
-
-/***/ },
-/* 16 */
-/***/ function(module, exports) {
-
-	module.exports = "<div>\n        <div class=\"fenlei\">\n            <span v-for=\"item in fenleiList\"\n                  :class=\"{current:$index==current?true:false}\"\n                  v-touch:tap=\"fenleiChange($index, $event)\">\n                {{item}}\n            </span>\n        </div>\n        <ul id=\"list\">\n            <li v-for=\"item in list\" @click=\"change\">\n                <p>{{ item.name }}</p>\n                <p>{{ item.tag }}</p>\n                <span @click.stop=\"deleteChange($index)\">dele</span>\n            </li>\n        </ul>\n    </div>";
-
-/***/ },
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(27)
-	module.exports = __webpack_require__(29)
-
-	if (module.exports.__esModule) module.exports = module.exports.default
-	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(30)
-	if (false) {
-	(function () {
-	var hotAPI = require("vue-hot-reload-api")
-	hotAPI.install(require("vue"))
-	if (!hotAPI.compatible) return
-	var id = "-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./commit.vue"
-	hotAPI.createRecord(id, module.exports)
-	module.hot.accept(["-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./commit.vue","-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./commit.vue"], function () {
-	var newOptions = require("-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./commit.vue")
-	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
-	var newTemplate = require("-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./commit.vue")
-	hotAPI.update(id, newOptions, newTemplate)
-	})
-	})()
-	}
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(28);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(8)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-55106ae2&file=commit.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./commit.vue", function() {
-				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-55106ae2&file=commit.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./commit.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 28 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(7)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "#textarea {\n  display: block;\n  height: 5em;\n  width: 100%;\n  padding: 0.5em;\n  outline: 1px solid #888;\n  margin: 0.5em 0; }\n\n#commit {\n  margin: 10px; }\n  #commit button, #commit input, #commit textarea {\n    font-size: 1em;\n    border: none;\n    background: none; }\n  #commit input {\n    outline: 1px solid #888;\n    margin: 0.5em 0;\n    display: block;\n    padding: 0.5em; }\n  #commit button {\n    padding: 0.5em 1em;\n    color: #fff; }\n  #commit button:nth-child(1) {\n    background: green; }\n  #commit button:nth-child(2) {\n    margin-left: 2em;\n    background: #f76969; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 29 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = {
-	    data: function data() {
-	        return {
-	            commit: '',
-	            username: ''
-	        };
-	    },
-
-	    methods: {
-	        change: function change(key, event) {
-	            // console.log( event.target.value.trim())
-	            this[key] = event.target.value.trim();
-	        },
-	        handleCommit: function handleCommit() {
-	            if (!this.commit || !this.username) {
-	                alert('评论或姓名不能为空');
-	                return;
-	            }
-	            this.$dispatch('appendCommit', {
-	                name: this.username,
-	                tag: this.commit
-	            });
-	            this.handleCancel();
-	            // console.log( '用户名：',this.username, '评论：',this.commit )
-	        },
-	        handleCancel: function handleCancel() {
-	            this.username = '';
-	            this.commit = '';
-	        }
-	    },
-	    events: {}
-	};
-
-/***/ },
-/* 30 */
-/***/ function(module, exports) {
-
-	module.exports = "<div id=\"commit\">\n        <!-- <div><input type=\"file\" accept=\"image/*\"></div> -->\n        <input type=\"text\" placeholder=\"用户名\" @change=\"change('username' ,$event)\" v-model=\"username\">\n        <textarea id=\"textarea\" placeholder=\"您的评论\"\n                 @change=\"change('commit' ,$event)\"\n                 v-model=\"commit\">\n        </textarea>\n        <div>\n            <button v-touch:tap=\"handleCommit\">commit</button>\n            <button v-touch:tap=\"handleCancel\">cancel</button>\n        </div>\n    </div>";
-
-/***/ },
-/* 31 */,
-/* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(33)
-	module.exports = __webpack_require__(35)
-
-	if (module.exports.__esModule) module.exports = module.exports.default
-	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(36)
-	if (false) {
-	(function () {
-	var hotAPI = require("vue-hot-reload-api")
-	hotAPI.install(require("vue"))
-	if (!hotAPI.compatible) return
-	var id = "-!babel!./../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./sider.vue"
-	hotAPI.createRecord(id, module.exports)
-	module.hot.accept(["-!babel!./../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./sider.vue","-!vue-html-loader!./../../node_modules/vue-loader/lib/selector.js?type=template&index=0!./sider.vue"], function () {
-	var newOptions = require("-!babel!./../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./sider.vue")
-	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
-	var newTemplate = require("-!vue-html-loader!./../../node_modules/vue-loader/lib/selector.js?type=template&index=0!./sider.vue")
-	hotAPI.update(id, newOptions, newTemplate)
-	})
-	})()
-	}
-
-/***/ },
-/* 33 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(34);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(8)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5eff1170&file=sider.vue!./../../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./sider.vue", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5eff1170&file=sider.vue!./../../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./sider.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 34 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(7)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".slider-transition {\n  -webkit-transition: all 0.3s;\n  transition: all 0.3s; }\n\n.slider-item-wrap {\n  height: 100%; }\n  .slider-item-wrap > div {\n    position: absolute;\n    height: 100%;\n    width: 100%;\n    left: 0;\n    top: 0;\n    background-size: cover;\n    background-position: center;\n    background-color: pink; }\n  .slider-item-wrap > div.slider-item-current {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0); }\n  .slider-item-wrap a {\n    display: block;\n    height: 100%; }\n\n.slider-dian {\n  position: absolute;\n  bottom: 0;\n  left: 50%;\n  line-height: 2;\n  -webkit-transform: translate3d(-50%, 0, 0);\n          transform: translate3d(-50%, 0, 0); }\n  .slider-dian span {\n    display: inline-block;\n    height: 12px;\n    width: 12px;\n    border-radius: 50%;\n    background: #fff; }\n  .slider-dian span.slider-dian-current {\n    background: red; }\n  .slider-dian span + span {\n    margin-left: 12px; }\n\n.slider {\n  text-align: center;\n  position: relative;\n  overflow: hidden; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 35 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = {
-	    props: ['height', 'current', 'list', 'id'],
-	    data: function data() {
-	        var _this = this;
-
-	        console.log(this.list.length);
-	        return {
-	            translateList: this.list.map(function (ele, index) {
-	                return index == _this.current ? 'translate3d(0%,0,0)' : 'translate3d(100%, 0, 0)';
-	            }),
-	            moveList: this.list.map(function (ele, index) {
-	                return false;
-	            }),
-	            touch: {
-	                leftS: 0,
-	                topS: 0,
-	                cha: 0,
-	                moveX: false,
-	                moveY: false,
-	                width: document.body.clientWidth,
-	                prev: 0,
-	                next: 0,
-	                isCanSwipe: 1,
-	                swiping: 0,
-	                transitionendNum: 0
-	            }
-	        };
-	    },
-	    ready: function ready() {
-	        var _this2 = this;
-
-	        // console.log( '组件构建完成',  document.querySelectorAll('.slider-item'));
-	        [].slice.call(document.querySelectorAll('#' + this.id + ' .slider-item')).forEach(function (ele) {
-	            // ele.addEventListener('transitionend',()=>{
-	            //     this.transitionend()
-	            // });
-	            ele.addEventListener('webkitTransitionEnd', function () {
-	                _this2.transitionend();
-	            });
-	        });
-	        window.addEventListener('resize', function () {
-	            _this2.touch.width = document.body.clientWidth;
-	        });
-	        document.addEventListener('visibilitychange', function () {
-	            !document.hidden && (_this2.touch.isCanSwipe = 1);
-	        });
-	    },
-
-	    methods: {
-	        transitionend: function transitionend() {
-	            this.touch.transitionendNum++;
-	            // console.log( this.touch.transitionendNum );
-	            if (this.touch.transitionendNum == 2) {
-	                this.moveList = this.moveList.map(function () {
-	                    return false;
-	                });
-	                this.touch.isCanSwipe = 1;
-	                // alert(1111)
-	            }
-	        },
-	        touchstart: function touchstart(event) {
-	            // console.log(this.touch.isCanSwipe, this.touch.swiping)
-	            // alert(this.touch.isCanSwipe)
-	            var touch = this.touch;
-	            if (!touch.isCanSwipe) return;
-	            var touches = event.touches[0];
-	            touch.leftS = touches.pageX;
-	            touch.topS = touches.pageY;
-	            touch.prev = this.checkIndex(this.current - 1, 'prev');
-	            touch.next = this.checkIndex(this.current + 1, 'next');
-	            touch.swiping = 1;
-	        },
-	        touchmove: function touchmove(event) {
-	            var touch = this.touch;
-	            if (!touch.isCanSwipe || !touch.swiping) return;
-
-	            var touches = event.touches[0];
-	            var left = touches.pageX;
-	            var top = touches.pageY;
-
-	            if (touch.moveX || !touch.moveY && Math.abs(top - touch.topS) - Math.abs(left - touch.leftS) < 0) {
-	                touch.cha = left - touch.leftS;
-	                event.preventDefault();
-	                touch.moveX = 1;
-	                this.translateList.splice(this.current, 1, 'translate3d(' + touch.cha / touch.width * 100 + '%,0,0)');
-	                if (touch.cha > 0) {
-	                    // 避免左右滑动过快，引发没有隐藏
-	                    this.moveList.length > 2 && this.translateList.splice(touch.next, 1, 'translate3d(100%,0,0)');
-	                    this.translateList.splice(touch.prev, 1, 'translate3d(' + (touch.cha - touch.width) / touch.width * 100 + '%,0,0)');
-	                }
-	                if (touch.cha < 0) {
-	                    // 避免左右滑动过快，引发没有隐藏
-	                    this.moveList.length > 2 && this.translateList.splice(touch.prev, 1, 'translate3d(-100%,0,0)');
-	                    this.translateList.splice(touch.next, 1, 'translate3d(' + (touch.cha + touch.width) / touch.width * 100 + '%,0,0)');
-	                }
-	            }
-	            if (touch.moveY || !touch.moveX && Math.abs(top - touch.topS) - Math.abs(left - touch.leftS) > 0) {
-	                touch.moveY = 1;
-	            }
-	        },
-	        touchend: function touchend() {
-	            // console.log(this.touch.isCanSwipe, this.touch.swiping)
-	            var touch = this.touch;
-	            if (!touch.isCanSwipe || !touch.swiping) return;
-	            if (touch.cha != 0) {
-	                touch.isCanSwipe = 0, touch.swiping = 0;
-	            }
-	            if (touch.cha > 0) {
-	                this.moveList.splice(this.current, 1, true);
-	                this.moveList.splice(touch.prev, 1, true);
-	                if (touch.cha / touch.width > 0.2) {
-	                    this.translateList.splice(this.current, 1, 'translate3d(100%,0,0)');
-	                    this.translateList.splice(touch.prev, 1, 'translate3d(0%,0,0)');
-	                    this.current = touch.prev;
-	                } else {
-	                    this.translateList.splice(this.current, 1, 'translate3d(0%,0,0)');
-	                    this.translateList.splice(touch.prev, 1, 'translate3d(-100%,0,0)');
-	                }
-	            } else if (touch.cha < 0) {
-	                this.moveList.splice(this.current, 1, true);
-	                this.moveList.splice(touch.next, 1, true);
-	                if (touch.cha / touch.width < -0.2) {
-	                    this.translateList.splice(this.current, 1, 'translate3d(-100%,0,0)');
-	                    this.translateList.splice(touch.next, 1, 'translate3d(0%,0,0)');
-	                    this.current = touch.next;
-	                } else {
-	                    this.translateList.splice(this.current, 1, 'translate3d(0%,0,0)');
-	                    this.translateList.splice(touch.next, 1, 'translate3d(100%,0,0)');
-	                }
-	            }
-	            this.resetTouch(touch);
-	        },
-	        resetTouch: function resetTouch(touch) {
-	            Object.keys(touch).forEach(function (ele) {
-	                if (ele != 'width' && ele != 'isCanSwipe') touch[ele] = 0;
-	            });
-	        },
-	        checkIndex: function checkIndex(index, dir) {
-	            if (dir == 'prev') {
-	                index = index < 0 ? this.translateList.length - 1 : index;
-	            } else {
-	                index = index > this.translateList.length - 1 ? 0 : index;
-	            }
-	            return index;
-	        }
-	    }
-	};
-
-/***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"slider\" :id=\"id\"\n         :style=\"{height:height}\"\n         @touchstart=\"touchstart\"\n         @touchmove=\"touchmove\"\n         @touchend=\"touchend\"\n         >\n        <div class=\"slider-item-wrap\">\n            <div class=\"slider-item slider-transition\"\n                 v-for=\"item in list\"\n                 :class=\"{'slider-item-current':$index==current?true:false, 'slider-transition':moveList[$index]}\"\n                 :style=\"{backgroundImage:'url('+item.image+')',transform:translateList[$index]}\">\n                 <a href=\"{{item.url}}\"></a>\n            </div>\n        </div>\n        <div class=\"slider-dian\">\n            <span v-for=\"item in list\"\n                  :class=\"{'slider-dian-current':$index==current?true:false}\"></span>\n        </div>\n        div\n    </div>";
-
-/***/ },
-/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	;(function () {
 
 	  var vueTouch = {}
 	  var Hammer =  true
-	    ? __webpack_require__(38)
+	    ? __webpack_require__(8)
 	    : window.Hammer
 	  var gestures = ['tap', 'pan', 'pinch', 'press', 'rotate', 'swipe']
 	  var customeEvents = {}
@@ -10466,7 +9595,7 @@
 	})()
 
 /***/ },
-/* 38 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*! Hammer.JS - v2.0.4 - 2014-09-28
@@ -12921,7 +12050,7 @@
 	    prefixed: prefixed
 	});
 
-	if ("function" == TYPE_FUNCTION && __webpack_require__(39)) {
+	if ("function" == TYPE_FUNCTION && __webpack_require__(9)) {
 	    !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
 	        return Hammer;
 	    }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -12935,12 +12064,882 @@
 
 
 /***/ },
-/* 39 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {module.exports = __webpack_amd_options__;
 
 	/* WEBPACK VAR INJECTION */}.call(exports, {}))
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(11)
+	module.exports = __webpack_require__(15)
+
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(31)
+	if (false) {
+	(function () {
+	var hotAPI = require("vue-hot-reload-api")
+	hotAPI.install(require("vue"))
+	if (!hotAPI.compatible) return
+	var id = "-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./app.vue"
+	hotAPI.createRecord(id, module.exports)
+	module.hot.accept(["-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./app.vue","-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./app.vue"], function () {
+	var newOptions = require("-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./app.vue")
+	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
+	var newTemplate = require("-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./app.vue")
+	hotAPI.update(id, newOptions, newTemplate)
+	})
+	})()
+	}
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(12);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-2e89f9f9&file=app.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./app.vue", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-2e89f9f9&file=app.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./app.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "h1 {\n  color: red; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0;
+
+	module.exports = function(list, options) {
+		if(false) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+
+	function createStyleElement() {
+		var styleElement = document.createElement("style");
+		var head = getHeadElement();
+		styleElement.type = "text/css";
+		head.appendChild(styleElement);
+		return styleElement;
+	}
+
+	function createLinkElement() {
+		var linkElement = document.createElement("link");
+		var head = getHeadElement();
+		linkElement.rel = "stylesheet";
+		head.appendChild(linkElement);
+		return linkElement;
+	}
+
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement());
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement();
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				styleElement.parentNode.removeChild(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement();
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				styleElement.parentNode.removeChild(styleElement);
+			};
+		}
+
+		update(obj);
+
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+
+	var replaceText = (function () {
+		var textStore = [];
+
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+		var sourceMap = obj.sourceMap;
+
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+		var sourceMap = obj.sourceMap;
+
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+
+		var blob = new Blob([css], { type: "text/css" });
+
+		var oldSrc = linkElement.href;
+
+		linkElement.href = URL.createObjectURL(blob);
+
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
+	}
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _side = __webpack_require__(16);
+
+	var _side2 = _interopRequireDefault(_side);
+
+	var _sider = __webpack_require__(21);
+
+	var _sider2 = _interopRequireDefault(_sider);
+
+	var _commit = __webpack_require__(26);
+
+	var _commit2 = _interopRequireDefault(_commit);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// import Banner from './banner.vue'
+	exports.default = {
+	    data: function data() {
+	        return {
+	            bannerList: [{ image: './../../images/1.jpg', url: 'http://www.baidu.com' }, { image: './../../images/2.jpg', url: 'http://www.zhihu.com' }, { image: '', url: 'http://www.weibo.com' }],
+	            listStore: [[{ name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }, { name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }, { name: '春江花月夜', tag: '嘿嘿' }, { name: '出塞曲', tag: '嘿嘿' }, { name: '兵车行', tag: '嘿嘿' }], [{ name: '念去去', tag: '嘿嘿' }, { name: '千里烟波', tag: '嘿嘿' }], [{ name: '都夜愿', tag: '嘿嘿' }, { name: '赛江南', tag: '嘿嘿' }]],
+	            listCurrent: 0
+	        };
+	    },
+
+	    methods: {
+	        update: function update() {
+	            this.$broadcast('parent-msg', this.listCurrent);
+	        }
+	    },
+	    events: {
+	        appendCommit: function appendCommit(item) {
+	            console.log('接受评论信息');
+	            this.listStore[this.listCurrent].push(item);
+	            this.update();
+	        },
+	        deleteChange: function deleteChange(index1) {
+	            // console.log( this.listStore[index] )
+	            this.listStore[this.listCurrent].splice(index1, 1);
+	            this.update();
+	        }
+	    },
+	    components: {
+	        Sidebar: _side2.default,
+	        Banner: _sider2.default,
+	        Commit: _commit2.default
+	    }
+	};
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(17)
+	module.exports = __webpack_require__(19)
+
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(20)
+	if (false) {
+	(function () {
+	var hotAPI = require("vue-hot-reload-api")
+	hotAPI.install(require("vue"))
+	if (!hotAPI.compatible) return
+	var id = "-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./side.vue"
+	hotAPI.createRecord(id, module.exports)
+	module.hot.accept(["-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./side.vue","-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./side.vue"], function () {
+	var newOptions = require("-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./side.vue")
+	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
+	var newTemplate = require("-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./side.vue")
+	hotAPI.update(id, newOptions, newTemplate)
+	})
+	})()
+	}
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(18);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-6caafeaf&file=side.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./side.vue", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-6caafeaf&file=side.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./side.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "#list {\n  margin: 0 4px; }\n  #list li + li {\n    border-top: 4px solid #fff; }\n  #list li {\n    background: rgba(247, 105, 105, 0.4);\n    padding: 0.5em;\n    line-height: 1.4; }\n\n.fenlei {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  text-align: center;\n  line-height: 3; }\n  .fenlei span {\n    -webkit-box-flex: 1;\n    -webkit-flex: 1;\n        -ms-flex: 1;\n            flex: 1; }\n    .fenlei span.current {\n      background: blue;\n      color: #fff; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	exports.default = {
+	    props: ['listStore', 'current'],
+	    data: function data() {
+	        console.log(this);
+	        return {
+	            list: [].slice.call(this.listStore[0]),
+	            fenleiList: ['唐诗', '宋词', '元曲']
+	        };
+	    },
+
+	    methods: {
+	        change: function change() {
+	            // list.splice(0,100,...newList)
+	        },
+	        deleteChange: function deleteChange(index) {
+	            this.$dispatch('deleteChange', index);
+	        },
+	        fenleiChange: function fenleiChange(index, event) {
+	            var _list;
+
+	            this.current = index;
+	            (_list = this.list).splice.apply(_list, [0, this.list.length].concat(_toConsumableArray(this.listStore[index])));
+	        }
+	    },
+	    events: {
+	        'parent-msg': function parentMsg(index) {
+	            console.log('接受父组件的消息');
+	            this.fenleiChange(index);
+	        }
+	    }
+	};
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	module.exports = "<div>\n        <div class=\"fenlei\">\n            <span v-for=\"item in fenleiList\"\n                  :class=\"{current:$index==current?true:false}\"\n                  v-touch:tap=\"fenleiChange($index, $event)\">\n                {{item}}\n            </span>\n        </div>\n        <ul id=\"list\">\n            <li v-for=\"item in list\" @click=\"change\">\n                <p>{{ item.name }}</p>\n                <p>{{ item.tag }}</p>\n                <span @click.stop=\"deleteChange($index)\">dele</span>\n            </li>\n        </ul>\n    </div>";
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(22)
+	module.exports = __webpack_require__(24)
+
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(25)
+	if (false) {
+	(function () {
+	var hotAPI = require("vue-hot-reload-api")
+	hotAPI.install(require("vue"))
+	if (!hotAPI.compatible) return
+	var id = "-!babel!./../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./sider.vue"
+	hotAPI.createRecord(id, module.exports)
+	module.hot.accept(["-!babel!./../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./sider.vue","-!vue-html-loader!./../../node_modules/vue-loader/lib/selector.js?type=template&index=0!./sider.vue"], function () {
+	var newOptions = require("-!babel!./../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./sider.vue")
+	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
+	var newTemplate = require("-!vue-html-loader!./../../node_modules/vue-loader/lib/selector.js?type=template&index=0!./sider.vue")
+	hotAPI.update(id, newOptions, newTemplate)
+	})
+	})()
+	}
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(23);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5eff1170&file=sider.vue!./../../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./sider.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5eff1170&file=sider.vue!./../../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./sider.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".slider-transition {\n  -webkit-transition: all 0.3s;\n  transition: all 0.3s; }\n\n.slider-item-wrap {\n  height: 100%; }\n  .slider-item-wrap > div {\n    position: absolute;\n    height: 100%;\n    width: 100%;\n    left: 0;\n    top: 0;\n    background-size: cover;\n    background-position: center;\n    background-color: pink; }\n  .slider-item-wrap > div.slider-item-current {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0); }\n  .slider-item-wrap a {\n    display: block;\n    height: 100%; }\n\n.slider-dian {\n  position: absolute;\n  bottom: 0;\n  left: 50%;\n  line-height: 2;\n  -webkit-transform: translate3d(-50%, 0, 0);\n          transform: translate3d(-50%, 0, 0); }\n  .slider-dian span {\n    display: inline-block;\n    height: 0.5em;\n    width: 0.5em;\n    border-radius: 50%;\n    background: #fff; }\n  .slider-dian span.slider-dian-current {\n    background: red; }\n  .slider-dian span + span {\n    margin-left: 0.5em; }\n\n.slider {\n  text-align: center;\n  position: relative;\n  overflow: hidden; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 24 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = {
+	    props: ['height', 'current', 'list', 'id'],
+	    data: function data() {
+	        var _this = this;
+
+	        console.log(this.list.length);
+	        return {
+	            translateList: this.list.map(function (ele, index) {
+	                return index == _this.current ? 'translate3d(0%,0,0)' : 'translate3d(100%, 0, 0)';
+	            }),
+	            moveList: this.list.map(function (ele, index) {
+	                return false;
+	            }),
+	            touch: {
+	                leftS: 0,
+	                topS: 0,
+	                cha: 0,
+	                moveX: false,
+	                moveY: false,
+	                width: document.body.clientWidth,
+	                prev: 0,
+	                next: 0,
+	                isCanSwipe: 1,
+	                swiping: 0,
+	                transitionendNum: 0
+	            }
+	        };
+	    },
+	    ready: function ready() {
+	        var _this2 = this;
+
+	        // console.log( '组件构建完成',  document.querySelectorAll('.slider-item'));
+	        [].slice.call(document.querySelectorAll('#' + this.id + ' .slider-item')).forEach(function (ele) {
+	            // ele.addEventListener('transitionend',()=>{
+	            //     this.transitionend()
+	            // });
+	            ele.addEventListener('webkitTransitionEnd', function () {
+	                _this2.transitionend();
+	            });
+	        });
+	        window.addEventListener('resize', function () {
+	            _this2.touch.width = document.body.clientWidth;
+	        });
+	        document.addEventListener('visibilitychange', function () {
+	            !document.hidden && (_this2.touch.isCanSwipe = 1);
+	        });
+	    },
+
+	    methods: {
+	        transitionend: function transitionend() {
+	            this.touch.transitionendNum++;
+	            // console.log( this.touch.transitionendNum );
+	            if (this.touch.transitionendNum == 2) {
+	                this.moveList = this.moveList.map(function () {
+	                    return false;
+	                });
+	                this.touch.isCanSwipe = 1;
+	                // alert(1111)
+	            }
+	        },
+	        touchstart: function touchstart(event) {
+	            // console.log(this.touch.isCanSwipe, this.touch.swiping)
+	            // alert(this.touch.isCanSwipe)
+	            var touch = this.touch;
+	            if (!touch.isCanSwipe) return;
+	            var touches = event.touches[0];
+	            touch.leftS = touches.pageX;
+	            touch.topS = touches.pageY;
+	            touch.prev = this.checkIndex(this.current - 1, 'prev');
+	            touch.next = this.checkIndex(this.current + 1, 'next');
+	            touch.swiping = 1;
+	        },
+	        touchmove: function touchmove(event) {
+	            var touch = this.touch;
+	            if (!touch.isCanSwipe || !touch.swiping) return;
+
+	            var touches = event.touches[0];
+	            var left = touches.pageX;
+	            var top = touches.pageY;
+
+	            if (touch.moveX || !touch.moveY && Math.abs(top - touch.topS) - Math.abs(left - touch.leftS) < 0) {
+	                touch.cha = left - touch.leftS;
+	                event.preventDefault();
+	                touch.moveX = 1;
+	                this.translateList.splice(this.current, 1, 'translate3d(' + touch.cha / touch.width * 100 + '%,0,0)');
+	                if (touch.cha > 0) {
+	                    // 避免左右滑动过快，引发没有隐藏
+	                    this.moveList.length > 2 && this.translateList.splice(touch.next, 1, 'translate3d(100%,0,0)');
+	                    this.translateList.splice(touch.prev, 1, 'translate3d(' + (touch.cha - touch.width) / touch.width * 100 + '%,0,0)');
+	                }
+	                if (touch.cha < 0) {
+	                    // 避免左右滑动过快，引发没有隐藏
+	                    this.moveList.length > 2 && this.translateList.splice(touch.prev, 1, 'translate3d(-100%,0,0)');
+	                    this.translateList.splice(touch.next, 1, 'translate3d(' + (touch.cha + touch.width) / touch.width * 100 + '%,0,0)');
+	                }
+	            }
+	            if (touch.moveY || !touch.moveX && Math.abs(top - touch.topS) - Math.abs(left - touch.leftS) > 0) {
+	                touch.moveY = 1;
+	            }
+	        },
+	        touchend: function touchend() {
+	            // console.log(this.touch.isCanSwipe, this.touch.swiping)
+	            var touch = this.touch;
+	            if (!touch.isCanSwipe || !touch.swiping) return;
+	            if (touch.cha != 0) {
+	                touch.isCanSwipe = 0, touch.swiping = 0;
+	            }
+	            if (touch.cha > 0) {
+	                this.moveList.splice(this.current, 1, true);
+	                this.moveList.splice(touch.prev, 1, true);
+	                if (touch.cha / touch.width > 0.2) {
+	                    this.translateList.splice(this.current, 1, 'translate3d(100%,0,0)');
+	                    this.translateList.splice(touch.prev, 1, 'translate3d(0%,0,0)');
+	                    this.current = touch.prev;
+	                } else {
+	                    this.translateList.splice(this.current, 1, 'translate3d(0%,0,0)');
+	                    this.translateList.splice(touch.prev, 1, 'translate3d(-100%,0,0)');
+	                }
+	            } else if (touch.cha < 0) {
+	                this.moveList.splice(this.current, 1, true);
+	                this.moveList.splice(touch.next, 1, true);
+	                if (touch.cha / touch.width < -0.2) {
+	                    this.translateList.splice(this.current, 1, 'translate3d(-100%,0,0)');
+	                    this.translateList.splice(touch.next, 1, 'translate3d(0%,0,0)');
+	                    this.current = touch.next;
+	                } else {
+	                    this.translateList.splice(this.current, 1, 'translate3d(0%,0,0)');
+	                    this.translateList.splice(touch.next, 1, 'translate3d(100%,0,0)');
+	                }
+	            }
+	            this.resetTouch(touch);
+	        },
+	        resetTouch: function resetTouch(touch) {
+	            Object.keys(touch).forEach(function (ele) {
+	                if (ele != 'width' && ele != 'isCanSwipe') touch[ele] = 0;
+	            });
+	        },
+	        checkIndex: function checkIndex(index, dir) {
+	            if (dir == 'prev') {
+	                index = index < 0 ? this.translateList.length - 1 : index;
+	            } else {
+	                index = index > this.translateList.length - 1 ? 0 : index;
+	            }
+	            return index;
+	        }
+	    }
+	};
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"slider\" :id=\"id\"\n         :style=\"{height:height}\"\n         @touchstart=\"touchstart\"\n         @touchmove=\"touchmove\"\n         @touchend=\"touchend\"\n         >\n        <div class=\"slider-item-wrap\">\n            <div class=\"slider-item slider-transition\"\n                 v-for=\"item in list\"\n                 :class=\"{'slider-item-current':$index==current?true:false, 'slider-transition':moveList[$index]}\"\n                 :style=\"{backgroundImage:'url('+item.image+')',transform:translateList[$index]}\">\n                 <a href=\"{{item.url}}\"></a>\n            </div>\n        </div>\n        <div class=\"slider-dian\">\n            <span v-for=\"item in list\"\n                  :class=\"{'slider-dian-current':$index==current?true:false}\"></span>\n        </div>\n        div\n    </div>";
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(27)
+	module.exports = __webpack_require__(29)
+
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(30)
+	if (false) {
+	(function () {
+	var hotAPI = require("vue-hot-reload-api")
+	hotAPI.install(require("vue"))
+	if (!hotAPI.compatible) return
+	var id = "-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./commit.vue"
+	hotAPI.createRecord(id, module.exports)
+	module.hot.accept(["-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./commit.vue","-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./commit.vue"], function () {
+	var newOptions = require("-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./commit.vue")
+	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
+	var newTemplate = require("-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./commit.vue")
+	hotAPI.update(id, newOptions, newTemplate)
+	})
+	})()
+	}
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(28);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-55106ae2&file=commit.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./commit.vue", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-55106ae2&file=commit.vue!./../../node_modules/sass-loader/index.js!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./commit.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "input, textarea, button {\n  outline: none;\n  border: none;\n  padding: 0; }\n\ninput, textarea {\n  border: 1px solid #eee;\n  padding: 0.5em; }\n\n#textarea {\n  width: 100%;\n  height: 5em;\n  box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  -o-box-sizing: border-box;\n  font-size: 100%;\n  -webkit-appearance: none; }\n\n#commit {\n  font-size: 1em;\n  margin: 4px;\n  /* button,input,textarea{  font: inherit; border:none; background: none ; } */ }\n  #commit textarea::-webkit-input-placeholder {\n    /* color: red; */ }\n  #commit textarea::-moz-placeholder {\n    /* color: red; */ }\n  #commit textarea:-ms-input-placeholder {\n    /* color: red; */ }\n  #commit textarea::placeholder {\n    /* color: red; */ }\n  #commit input {\n    margin: 0.5em 0;\n    display: block; }\n  #commit button {\n    padding: 0.5em 1em;\n    color: #fff; }\n  #commit button:nth-child(1) {\n    background: green; }\n  #commit button:nth-child(2) {\n    margin-left: 2em;\n    background: #f76969; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = {
+	    data: function data() {
+	        return {
+	            commit: '',
+	            username: ''
+	        };
+	    },
+
+	    methods: {
+	        change: function change(key, event) {
+	            // console.log( event.target.value.trim())
+	            this[key] = event.target.value.trim();
+	        },
+	        handleCommit: function handleCommit() {
+	            console.log('commit:被touch了', {
+	                name: this.username,
+	                tag: this.commit
+	            });
+	            if (!this.commit || !this.username) {
+	                alert('评论或姓名不能为空');
+	                return;
+	            }
+	            this.$dispatch('appendCommit', {
+	                name: this.username,
+	                tag: this.commit
+	            });
+	            this.handleCancel();
+	            // console.log( '用户名：',this.username, '评论：',this.commit )
+	        },
+	        handleCancel: function handleCancel() {
+	            this.username = '';
+	            this.commit = '';
+	        }
+	    },
+	    events: {}
+	};
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	module.exports = "<div id=\"commit\">\n        <!-- <div><input type=\"file\" accept=\"image/*\"></div> -->\n        <input type=\"text\" placeholder=\"用户名\" @change=\"change('username' ,$event)\" v-model=\"username\">\n        <textarea id=\"textarea\" placeholder=\"用户名\"\n                 @change=\"change('commit' ,$event)\"\n                 v-model=\"commit\">\n        </textarea>\n        <div>\n            <button v-touch:tap=\"handleCommit\">commit</button>\n            <button v-touch:tap=\"handleCancel\">cancel</button>\n        </div>\n    </div>";
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	module.exports = "<div>\n        <Banner height=\"6rem\" id=\"banner\"\n                :current=\"1\"\n                :list=\"bannerList\"></Banner>\n        <Sidebar :list-store=\"listStore\" :current.sync=\"listCurrent\"></Sidebar>\n        <Commit></Commit>\n        <Banner height=\"2rem\" id=\"banner2\"\n                :current=\"1\"\n                :list=\"bannerList\"></Banner>\n    </div>";
 
 /***/ }
 /******/ ]);

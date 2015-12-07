@@ -1,16 +1,24 @@
 <style lang="sass">
+    input,textarea,button{ outline:none; border:none; padding:0;  }
+    input, textarea { border: 1px solid #eee ; padding: 0.5em; }
     #textarea{
-        display: block;
-        height: 5em ;
-        width: 100% ;
-        padding: 0.5em;
-        outline: 1px solid #888 ;
-        margin: 0.5em 0 ;
+        width:100%;
+        height:5em;
+        box-sizing:border-box;
+        -webkit-box-sizing:border-box;
+        -moz-box-sizing:border-box;
+        -o-box-sizing:border-box;
+        font-size:100%;
+        -webkit-appearance: none;
     }
     #commit{
-        margin: 10px ;
-        button,input,textarea{ font-size:1em; border:none; background: none ; }
-        input{ outline: 1px solid #888 ; margin: 0.5em 0 ; display: block; padding: 0.5em;}
+        font-size: 1em;
+        margin: 4px ;
+        /* button,input,textarea{  font: inherit; border:none; background: none ; } */
+        textarea::placeholder{
+            /* color: red; */ //font: inherit ;
+        }
+        input{  margin: 0.5em 0 ; display: block;}
         button{ padding: 0.5em 1em; color: #fff ;}
         button:nth-child(1){
             background: green ;
@@ -26,7 +34,7 @@
     <div id="commit">
         <!-- <div><input type="file" accept="image/*"></div> -->
         <input type="text" placeholder="用户名" @change="change('username' ,$event)" v-model="username">
-        <textarea id="textarea" placeholder="您的评论"
+        <textarea id="textarea" placeholder="用户名"
                  @change="change('commit' ,$event)"
                  v-model="commit">
         </textarea>
@@ -51,6 +59,10 @@
                 this[key] = event.target.value.trim() ;
             },
             handleCommit(){
+                console.log('commit:被touch了',{
+                        name: this.username ,
+                        tag: this.commit
+                    })
                 if( !this.commit || !this.username){
                     alert('评论或姓名不能为空')
                     return ;

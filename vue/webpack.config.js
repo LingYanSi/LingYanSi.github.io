@@ -3,20 +3,20 @@
 var path = require('path');
 
 var ROOT_PATH = path.resolve(__dirname);
-console.log( ROOT_PATH );
+console.log(ROOT_PATH);
 
 var APP_PATH = path.resolve(ROOT_PATH, 'app')
 var BUILD_PATH = path.resolve(ROOT_PATH, 'build')
 
 module.exports = {
-    cache: true ,
-    watch: true ,
+    cache: true,
+    watch: true,
     // 文件入口
-    entry:{
+    entry: {
         'index': './app/main.js'
     },
     // 文件输出
-    output:{
+    output: {
         path: './build',
         filename: '[name].js'
     },
@@ -27,11 +27,11 @@ module.exports = {
             loaders: ['vue'],
         }]
     },
-     babel: {
+    babel: {
         presets: ['es2015']
-      },
+    },
     //
-     // 插件
+    // 插件
     plugins: [],
     // 开发服务器配置
     devServe: {
