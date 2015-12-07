@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-11-17 11:51:55
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-11-18 14:59:52
+* @Last Modified time: 2015-12-04 20:09:46
 */
 
 'use strict';
@@ -27,6 +27,9 @@ var Button = React.createClass({
         this.setState({
             disabled: false
         })
+    },
+    doIt(x){
+        return 100
     },
     render(){
         return <button disabled={ this.state.disabled}>{ this.props.name}</button>

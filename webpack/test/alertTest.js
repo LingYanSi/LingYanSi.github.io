@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-11-17 10:30:01
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-11-18 09:33:17
+* @Last Modified time: 2015-11-30 20:48:28
 */
 
 'use strict';
@@ -10,6 +10,8 @@
 import React from 'react';
 import ReactTestUtils from 'react/lib/ReactTestUtils';
 import Alert from '../app/alert';
+
+// const ReactTestUtils = React.addons.TestUtils
 
 describe('Alert', () => {
     it('获取组件State.msg', () => {
