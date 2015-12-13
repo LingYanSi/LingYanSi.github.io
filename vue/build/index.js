@@ -12080,21 +12080,17 @@
 
 	if (module.exports.__esModule) module.exports = module.exports.default
 	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(31)
-	if (false) {
-	(function () {
-	var hotAPI = require("vue-hot-reload-api")
-	hotAPI.install(require("vue"))
-	if (!hotAPI.compatible) return
-	var id = "-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./app.vue"
-	hotAPI.createRecord(id, module.exports)
-	module.hot.accept(["-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./app.vue","-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./app.vue"], function () {
-	var newOptions = require("-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./app.vue")
-	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
-	var newTemplate = require("-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./app.vue")
-	hotAPI.update(id, newOptions, newTemplate)
-	})
-	})()
-	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/zikong/LingYanSi.github.io/vue/app/app.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+	  }
+	})()}
 
 /***/ },
 /* 11 */
@@ -12474,6 +12470,27 @@
 	        Commit: _commit2.default
 	    }
 	};
+	// </script>
+	// <style lang="sass">
+	//     h1{
+	//         color: red ;
+	//     }
+	// </style>
+
+	// <template>
+	//     <div>
+	//         <Banner height="6rem" id="banner"
+	//                 :current="1"
+	//                 :list="bannerList"></Banner>
+	//         <Sidebar :list-store="listStore" :current.sync="listCurrent"></Sidebar>
+	//         <Commit></Commit>
+	//         <Banner height="2rem" id="banner2"
+	//                 :current="1"
+	//                 :list="bannerList"></Banner>
+	//     </div>
+	// </template>
+
+	// <script lang="babel">
 
 /***/ },
 /* 16 */
@@ -12484,21 +12501,17 @@
 
 	if (module.exports.__esModule) module.exports = module.exports.default
 	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(20)
-	if (false) {
-	(function () {
-	var hotAPI = require("vue-hot-reload-api")
-	hotAPI.install(require("vue"))
-	if (!hotAPI.compatible) return
-	var id = "-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./side.vue"
-	hotAPI.createRecord(id, module.exports)
-	module.hot.accept(["-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./side.vue","-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./side.vue"], function () {
-	var newOptions = require("-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./side.vue")
-	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
-	var newTemplate = require("-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./side.vue")
-	hotAPI.update(id, newOptions, newTemplate)
-	})
-	})()
-	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/zikong/LingYanSi.github.io/vue/app/side.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+	  }
+	})()}
 
 /***/ },
 /* 17 */
@@ -12552,6 +12565,42 @@
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+	// <style lang="sass">
+	//     #list{
+	//         margin: 0 4px ;
+	//         li+li{ border-top: 4px solid #fff ;}
+	//         li{  background: rgba(247,105,105,0.4); padding:0.5em ; line-height:1.4; }
+	//         p:first-child{   }
+	//     }
+	//     .fenlei{
+	//         display: flex;
+	//         text-align: center ;
+	//         line-height: 3 ;
+	//         span{
+	//             &.current{ background: blue ; color:#fff; }
+	//             flex: 1 ;
+	//         }
+	//     }
+	// </style>
+	// <template>
+	//     <div>
+	//         <div class="fenlei">
+	//             <span v-for="item in fenleiList"
+	//                   :class="{current:$index==current?true:false}"
+	//                   v-touch:tap="fenleiChange($index, $event)">
+	//                 {{item}}
+	//             </span>
+	//         </div>
+	//         <ul id="list">
+	//             <li v-for="item in list" @click="change">
+	//                 <p>{{ item.name }}</p>
+	//                 <p>{{ item.tag }}</p>
+	//                 <span @click.stop="deleteChange($index)">dele</span>
+	//             </li>
+	//         </ul>
+	//     </div>
+	// </template>
+	// <script lang="babel">
 	exports.default = {
 	    props: ['listStore', 'current'],
 	    data: function data() {
@@ -12583,6 +12632,7 @@
 	        }
 	    }
 	};
+	// </script>
 
 /***/ },
 /* 20 */
@@ -12599,21 +12649,17 @@
 
 	if (module.exports.__esModule) module.exports = module.exports.default
 	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(25)
-	if (false) {
-	(function () {
-	var hotAPI = require("vue-hot-reload-api")
-	hotAPI.install(require("vue"))
-	if (!hotAPI.compatible) return
-	var id = "-!babel!./../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./sider.vue"
-	hotAPI.createRecord(id, module.exports)
-	module.hot.accept(["-!babel!./../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./sider.vue","-!vue-html-loader!./../../node_modules/vue-loader/lib/selector.js?type=template&index=0!./sider.vue"], function () {
-	var newOptions = require("-!babel!./../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./sider.vue")
-	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
-	var newTemplate = require("-!vue-html-loader!./../../node_modules/vue-loader/lib/selector.js?type=template&index=0!./sider.vue")
-	hotAPI.update(id, newOptions, newTemplate)
-	})
-	})()
-	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/zikong/LingYanSi.github.io/vue/app/module/sider.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+	  }
+	})()}
 
 /***/ },
 /* 22 */
@@ -12664,6 +12710,63 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	// <style lang="sass">
+	//     .slider-transition{ transition: all 0.3s; }
+	//     .slider-item-wrap{
+	//         height: 100% ;
+	//         &>div{
+	//             position: absolute ;
+	//             height: 100% ; width: 100% ; left: 0 ; top: 0;
+	//             background-size: cover ; background-position: center ;
+	//             background-color: pink;
+	//             // transform: translate3d(100%,0,0);
+	//         }
+	//         &>div.slider-item-current{ transform: translate3d(0, 0, 0); }
+	//         a{ display: block ; height: 100%; }
+	//     }
+	//     .slider-dian{
+	//         position: absolute; bottom: 0 ; left: 50% ; line-height: 2 ;
+	//         transform: translate3d(-50%,0,0);
+	//         span{
+	//             display: inline-block; height: 0.5em; width: 0.5em;
+	//             border-radius: 50% ; background: #fff ;
+	//         }
+	//         span.slider-dian-current{
+	//             background: red ;
+	//         }
+	//         span+span{ margin-left: 0.5em; }
+	//     }
+	//     .slider{
+	//         text-align: center ;
+	//         position: relative ;
+	//         overflow: hidden ;
+	//     }
+	// </style>
+
+	// <template>
+	//     <div class="slider" :id="id"
+	//          :style="{height:height}"
+	//          @touchstart="touchstart"
+	//          @touchmove="touchmove"
+	//          @touchend="touchend"
+	//          >
+	//         <div class="slider-item-wrap">
+	//             <div class="slider-item slider-transition"
+	//                  v-for="item in list"
+	//                  :class="{'slider-item-current':$index==current?true:false, 'slider-transition':moveList[$index]}"
+	//                  :style="{backgroundImage:'url('+item.image+')',transform:translateList[$index]}">
+	//                  <a href="{{item.url}}"></a>
+	//             </div>
+	//         </div>
+	//         <div class="slider-dian">
+	//             <span v-for="item in list"
+	//                   :class="{'slider-dian-current':$index==current?true:false}"></span>
+	//         </div>
+	//         div
+	//     </div>
+	// </template>
+
+	// <script lang="babel">
 	exports.default = {
 	    props: ['height', 'current', 'list', 'id'],
 	    data: function data() {
@@ -12811,6 +12914,7 @@
 	        }
 	    }
 	};
+	// </script>
 
 /***/ },
 /* 25 */
@@ -12827,21 +12931,17 @@
 
 	if (module.exports.__esModule) module.exports = module.exports.default
 	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(30)
-	if (false) {
-	(function () {
-	var hotAPI = require("vue-hot-reload-api")
-	hotAPI.install(require("vue"))
-	if (!hotAPI.compatible) return
-	var id = "-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./commit.vue"
-	hotAPI.createRecord(id, module.exports)
-	module.hot.accept(["-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./commit.vue","-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./commit.vue"], function () {
-	var newOptions = require("-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./commit.vue")
-	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
-	var newTemplate = require("-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./commit.vue")
-	hotAPI.update(id, newOptions, newTemplate)
-	})
-	})()
-	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/zikong/LingYanSi.github.io/vue/app/commit.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+	  }
+	})()}
 
 /***/ },
 /* 27 */
@@ -12892,6 +12992,54 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	// <style lang="sass">
+	//     input,textarea,button{ outline:none; border:none; padding:0;  }
+	//     input, textarea { border: 1px solid #eee ; padding: 0.5em; }
+	//     #textarea{
+	//         width:100%;
+	//         height:5em;
+	//         box-sizing:border-box;
+	//         -webkit-box-sizing:border-box;
+	//         -moz-box-sizing:border-box;
+	//         -o-box-sizing:border-box;
+	//         font-size:100%;
+	//         -webkit-appearance: none;
+	//     }
+	//     #commit{
+	//         font-size: 1em;
+	//         margin: 4px ;
+	//         /* button,input,textarea{  font: inherit; border:none; background: none ; } */
+	//         textarea::placeholder{
+	//             /* color: red; */ //font: inherit ;
+	//         }
+	//         input{  margin: 0.5em 0 ; display: block;}
+	//         button{ padding: 0.5em 1em; color: #fff ;}
+	//         button:nth-child(1){
+	//             background: green ;
+	//         }
+	//         button:nth-child(2){
+	//             margin-left: 2em ;
+	//             background: rgb(247,105,105) ;
+	//         }
+	//     }
+	// </style>
+
+	// <template>
+	//     <div id="commit">
+	//         <!-- <div><input type="file" accept="image/*"></div> -->
+	//         <input type="text" placeholder="用户名" @change="change('username' ,$event)" v-model="username">
+	//         <textarea id="textarea" placeholder="用户名"
+	//                  @change="change('commit' ,$event)"
+	//                  v-model="commit">
+	//         </textarea>
+	//         <div>
+	//             <button v-touch:tap="handleCommit">commit</button>
+	//             <button v-touch:tap="handleCancel">cancel</button>
+	//         </div>
+	//     </div>
+	// </template>
+
+	// <script lang="babel">
 	exports.default = {
 	    data: function data() {
 	        return {
@@ -12928,6 +13076,7 @@
 	    },
 	    events: {}
 	};
+	// </script>
 
 /***/ },
 /* 30 */
