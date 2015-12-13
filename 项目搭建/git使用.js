@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-10-10 09:58:41
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-11-25 18:34:24
+* @Last Modified time: 2015-12-10 09:55:37
 */
 
 'use strict';
@@ -75,6 +75,13 @@ you have an invalid IP address for github.com (manual entry in /etc/hosts or you
 
 you have a firewall along the way to github.com which blocks the ssh traffic (eg. local firewall or corporate firewall)
 
+7. 对比代码
+    -> 历史上的两个版本
+        git diff -r 历史两个版本号 filename
+    -> 历史版本与本地
+        git diff -r 历史版本号 filename
+
+    git log -10 filename 打印最近提交的
 
 
 

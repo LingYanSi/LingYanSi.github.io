@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-09-28 15:52:40
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-12-04 09:46:25
+* @Last Modified time: 2015-12-13 21:30:18
 */
 
 'use strict';
@@ -14,24 +14,26 @@
         var doc = window.document ;
         var width = window.innerWidth ;
         // console.log('设备像素比:',window.devicePixelRatio,window);
-        var DPR = window.devicePixelRatio >=2 ? 1 : 1 ;
+        // var DPR = window.devicePixelRatio >=2 ? 1 : 1 ;
         // 动态添加viewPort
-        var meta = doc.createElement('meta');
+
+        /*var meta = doc.createElement('meta');
         meta.name = "viewport" ;
         meta.content = 'width=device-width, initial-scale='+(1/DPR)+', maximum-scale='+(1/DPR)+', user-scalable=no' ;
-        doc.head.appendChild(meta);
+        doc.head.appendChild(meta);*/
 
+        // width = width>=375?width:375 ;
         doc.querySelector('html').style.fontSize = width/10 + 'px' ;
 
-        if( doc.readyState=='complete' ){
+        /*if( doc.readyState=='complete' ){
             doc.body.style.fontSize = 12*DPR+ 'px' ;
         }else{
             doc.addEventListener('DOMContentLoaded',function(){
                 doc.body.style.fontSize = 12*DPR+ 'px' ;
             });
-        }
+        }*/
 
-        console.log('页面reset了')
+        // console.log('页面reset了')
     }
     flexable();
     window.addEventListener('resize',flexable);

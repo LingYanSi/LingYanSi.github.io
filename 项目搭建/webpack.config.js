@@ -67,6 +67,9 @@ function pushNotification(title, message, sound) {
 
 travelDir(PAGE_ROOT_PATH, function(){});
 
+// entries = { 'aaa/bbb': './src/sss.js'}
+// 入口文件的路径需要以./ 开头
+// aaa/bbb 会在ouput生成 aaa/bbb.js
 var entries = {}, routes = '';
 
 fileDirList.forEach(function(dirName) {
@@ -140,6 +143,7 @@ module.exports = {
         ],
     },
 
+    // 在终端打印日志
     plugins: [
         new WebpackPathOrderPlugin(),
 

@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-12-05 22:13:15
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-12-06 23:33:58
+* @Last Modified time: 2015-12-07 19:50:04
 */
 
 'use strict';
@@ -19,6 +19,7 @@ module.exports = function(host, path , resStore , index  ,callback ){
         path: path,
         method: 'GET',
         Connection: 'keep-alive',
+        timeout: 4000,
         headers: {
             'Content-Type': 'text/html' ,
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36',
@@ -26,10 +27,25 @@ module.exports = function(host, path , resStore , index  ,callback ){
         }
     }
 
+    var handle = function( store){
+        resStore[index].imgs = store ;
+
+        resStore.currentIndex++ ;
+
+        process.stdout.clearLine();
+        process.stdout.cursorTo(0);
+        var msg = '已完成'+Math.round(resStore.currentIndex/resStore.length*100)+'%' ;
+        if(resStore.currentIndex == resStore.length){
+            msg +='\n'
+        }
+        process.stdout.write( msg );
+
+        callback();
+    }
+
     var request = http.request(option , function( response){
 
         var arr = [] ;
-
         response.on( 'data' , function( chunck){
             arr.push( chunck);
         });
@@ -45,28 +61,22 @@ module.exports = function(host, path , resStore , index  ,callback ){
                 store.push( $(this).attr('src') );
             });
 
-            resStore[index].imgs = store ;
-
-            resStore.currentIndex++ ;
-
-            process.stdout.clearLine();
-            process.stdout.cursorTo(0);
-            var msg = '已完成'+Math.round(resStore.currentIndex/resStore.length*100)+'%' ;
-            if(resStore.currentIndex == resStore.length){
-                msg +='\n'
-            }
-            process.stdout.write( msg );
-
-            callback();
+            handle( store)
 
             // console.log( index, store);
         });
 
-        response.on('error' , function(){
-            resStore[index].imgs = [] ;
-            console.log('出错了+——+')
-        })
+    });
 
+    // 设置 timeout
+    request.setTimeout(3000, function(e) {
+            console.warn('请求超时'.red);
+            request.abort();
+    });
+    // 错误处理
+    request.on('error', function(e) {
+            console.log('出错了+——+')
+            handle( [] );
     });
 
     request.write('hello world');
