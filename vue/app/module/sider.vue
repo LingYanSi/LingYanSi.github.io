@@ -96,6 +96,7 @@
             });
             document.addEventListener('visibilitychange',()=>{
                 !document.hidden && (this.touch.isCanSwipe = 1) ;
+                alert('爱要啊啊')
             })
         },
         methods: {

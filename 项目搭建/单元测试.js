@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-12-01 10:35:25
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-12-11 16:10:49
+* @Last Modified time: 2015-12-15 15:00:54
 */
 
 'use strict';
@@ -43,4 +43,17 @@ karma start 运行
     var options = ReactTestUtils.scryRenderedDOMComponentsWithTag(insatnce, 'option');
     console.log( options[0], options[1], options[2] );
     打印出来的结果都是 啦啦，啦啦，啦啦 ； 很奇怪。
+
+4. react测试组件
+    一般的jsx文件内部只定义一个组件，输出一个组件
+    但有的文件内部定义了多个组件，只输出一个组件，如何测试那些没有被输出地组件？
+
+    比如说
+    const Component1 = React.createClass({}) ;
+    const Component2 = React.createClass({}) ;
+    module.exports = Component2 ;
+
+    如何测试 Component1 ?
+
+5.
 

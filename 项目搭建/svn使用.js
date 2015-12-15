@@ -3,7 +3,7 @@
 * @Author: zikong
 * @Date:   2015-10-10 09:58:52
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-11-24 15:47:41
+* @Last Modified time: 2015-12-15 15:30:27
 */
 
 'use strict';
@@ -49,6 +49,19 @@ svn常用命令符号
     用法: resolved PATH...
     注意: 本子命令不会依语法来解决冲突或是移除冲突标记；它只是移除冲突的
     相关文件，然后让 PATH 可以再次提交。
+
+    http://svnbook.red-bean.com/en/1.7/svn.ref.svn.c.resolve.html
+
+    svn resolve --accept mine-full foo.c
+
+    C    foo.c // 表示冲突
+    M    foo.c // 表示修改
+    D    foo.c // 表示删除
+    A    foo.c // 表示新增
+
+    Select: (p) postpone, (df) diff-full, (e) edit,
+        (mc) mine-conflict, (tc) theirs-conflict,
+        (s) show all options: p
 
 18、权限不够
     sudo chmod -R 755 file/path 修改文件权限

@@ -47,6 +47,38 @@
 			</div>
 		</div>
 	</div>
- <script src="js/richEdit.js"></script>
+
+ <script>
+ 		document.body.addEventListener('', function(event){
+ 			// return
+ 			console.log( event );
+ 			// event.preventDefault();
+ 			event.clipboardData.setData('text','哎哟不错啊啊');
+ 		});
+
+
+ 		function copy( str){
+ 			var dc = document ;
+ 			var textarea = dc.createElement('textarea');
+ 			textarea.style.cssText = 'position: fixed; height:1em; width:1em; opacity:0 ; top:-100em; left:0; ';
+ 			dc.body.appendChild(textarea);
+ 			textarea.value = str ;
+ 			textarea.select();
+ 			dc.execCommand('copy');
+ 			this.focus();
+ 			dc.body.removeChild( textarea );
+ 		}
+ 		document.body.addEventListener('click',function(event){
+			/*var event = document.createEvent('ClipboardEvent');
+			event.initEvent('copy',true, true);
+ 			this.dispatchEvent(event);*/
+ 			copy.call(event.target,'哎呀呀呀呀呀');
+ 		});
+
+ 		// var $textarea = document.querySelector('textarea');
+
+
+
+ </script>
  </body>
 </html>

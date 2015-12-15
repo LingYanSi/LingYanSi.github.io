@@ -47,36 +47,36 @@
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var GoodsTags = __webpack_require__(186);
-	var GoodsClassify = __webpack_require__(183);
-	var StockMode = __webpack_require__(207);
-	var Title = __webpack_require__(209);
-	var Desc = __webpack_require__(181);
-	var Code = __webpack_require__(177);
-	var Price = __webpack_require__(199);
-	var CounterPrice = __webpack_require__(178);
-	var Stock = __webpack_require__(206);
-	var Brand = __webpack_require__(176);
-	var Postage = __webpack_require__(196);
-	var PostageInfo = __webpack_require__(197);
-	var Volume = __webpack_require__(210);
-	var Weight = __webpack_require__(211);
-	var CoverImages = __webpack_require__(179);
-	var SkuSetting = __webpack_require__(205);
-	var GoodsProp = __webpack_require__(185);
-	var GoodsDetail = __webpack_require__(184);
-	var SizeDesc = __webpack_require__(200);
-	var CustomModule = __webpack_require__(180);
-	var MoreBar = __webpack_require__(195);
-	var EditCategoryModal = __webpack_require__(192);
-	var Modal = __webpack_require__(21);
-	var SaveError = __webpack_require__(194);
-	var Link = __webpack_require__(172);
-	var Validator = __webpack_require__(174);
-	var BondZones = __webpack_require__(175);
-	__webpack_require__(208);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var GoodsTags = __webpack_require__(188);
+	var GoodsClassify = __webpack_require__(185);
+	var StockMode = __webpack_require__(209);
+	var Title = __webpack_require__(211);
+	var Desc = __webpack_require__(183);
+	var Code = __webpack_require__(179);
+	var Price = __webpack_require__(201);
+	var CounterPrice = __webpack_require__(180);
+	var Stock = __webpack_require__(208);
+	var Brand = __webpack_require__(178);
+	var Postage = __webpack_require__(198);
+	var PostageInfo = __webpack_require__(199);
+	var Volume = __webpack_require__(212);
+	var Weight = __webpack_require__(213);
+	var CoverImages = __webpack_require__(181);
+	var SkuSetting = __webpack_require__(207);
+	var GoodsProp = __webpack_require__(187);
+	var GoodsDetail = __webpack_require__(186);
+	var SizeDesc = __webpack_require__(202);
+	var CustomModule = __webpack_require__(182);
+	var MoreBar = __webpack_require__(197);
+	var EditCategoryModal = __webpack_require__(194);
+	var Modal = __webpack_require__(20);
+	var SaveError = __webpack_require__(196);
+	var Link = __webpack_require__(174);
+	var Validator = __webpack_require__(176);
+	var BondZones = __webpack_require__(177);
+	__webpack_require__(210);
 
 	// 是否正在请求数据
 	var isAjax = false;
@@ -229,16 +229,6 @@
 	        // ------------------本地测试START-------------
 	        // -----------------本地测试END----------------
 
-	        // 保税区
-	        if (data.bondzones.visible) {
-	            submitData['bondedZoneId'] = BondZones.getData();
-	            // console.log('保税区',submitData['bondedZoneId'])
-	            if (!submitData['bondedZoneId']) {
-	                Modal.alert('请选择保税区');
-	                return;
-	            }
-	        }
-
 	        // 标题
 	        submitData['title'] = Title.getData();
 	        if (!Validator.checkTitle(submitData.title)) {
@@ -294,15 +284,14 @@
 	        if (!Validator.checkSku(submitData.sku, skuType)) {
 	            return false;
 	        }
-	        submitData.sku = submitData.sku.join(',');
-	        // submitData.sku = '['+submitData.sku.join(',')+']';
+	        submitData.sku = submitData.sku.join('###');
 
 	        // sku图片数据【删除】
 	        submitData['skuImgInfo'] = SkuSetting.getData().skuImgInfo;
 	        if (!Validator.checkSkuImgInfo(submitData.skuImgInfo, skuType)) {
 	            return false;
 	        }
-	        submitData.skuImgInfo = submitData.skuImgInfo.join(',');
+	        submitData.skuImgInfo = submitData.skuImgInfo.join('###');
 
 	        // 编码
 	        submitData['code'] = Code.getData();
@@ -328,6 +317,16 @@
 	            return false;
 	        }
 	        submitData.stock = ~ ~submitData.stock;
+
+	        // 保税区
+	        if (data.bondzones.visible) {
+	            submitData['bondedZoneId'] = BondZones.getData();
+	            // console.log('保税区',submitData['bondedZoneId'])
+	            if (!submitData['bondedZoneId']) {
+	                Modal.alert('请选择保税区');
+	                return;
+	            }
+	        }
 
 	        // 品牌
 	        if (data.brand && data.brand.isBrandShow) {
@@ -406,8 +405,6 @@
 
 	        // sku类型
 	        var skuType = data.skuSetting && data.skuSetting.skuType;
-
-	        console.log('主页面BondZones', data, data.bondzones, data);
 
 	        return React.createElement(
 	            'div',
@@ -790,30 +787,26 @@
 	});
 
 	React.render(React.createElement(ContentView, null), document.getElementById('J_Page'));
-	/*保税区*/ /*<div className="field clearfix">
-	           <label className="fl">自定义模块</label>
-	           <div className="field-content fl">
-	               <CustomModule />
-	           </div>
-	        </div>*/ /*<div className="field clearfix">
-	                    <label className="fl">&nbsp;</label>
-	                    <div className="field-content fl">
-	                        <MoreBar needFillDetail={data.needFillDetail} />
-	                    </div>
-	                 </div>*/
 
 /***/ },
 
-/***/ 1:
+/***/ 2:
+/***/ function(module, exports) {
+
+	module.exports = window.React;
+
+/***/ },
+
+/***/ 3:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(659);
+	var content = __webpack_require__(661);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(934)(content, {});
+	var update = __webpack_require__(937)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -828,14 +821,7 @@
 
 /***/ },
 
-/***/ 3:
-/***/ function(module, exports) {
-
-	module.exports = window.React;
-
-/***/ },
-
-/***/ 5:
+/***/ 4:
 /***/ function(module, exports) {
 
 	module.exports = window._;
@@ -847,14 +833,14 @@
 
 	'use strict';
 
-	__webpack_require__(1);
+	__webpack_require__(3);
 
-	var Calendar = __webpack_require__(909);
+	var Calendar = __webpack_require__(912);
 	var DatePicker = Calendar.Picker;
-	var zhCn = __webpack_require__(896);
-	var DateTimeFormat = __webpack_require__(889);
-	var GregorianCalendar = __webpack_require__(894);
-	var CalendarLocale = __webpack_require__(913);
+	var zhCn = __webpack_require__(899);
+	var DateTimeFormat = __webpack_require__(892);
+	var GregorianCalendar = __webpack_require__(897);
+	var CalendarLocale = __webpack_require__(916);
 
 	module.exports = {
 	    Calendar: Calendar,
@@ -867,25 +853,20 @@
 
 /***/ },
 
-/***/ 13:
-/***/ function(module, exports) {
-
-	module.exports = window.PubSub;
-
-/***/ },
-
-/***/ 16:
+/***/ 15:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var React = __webpack_require__(3);
+	var React = __webpack_require__(2);
 
-	var FieldMixins = __webpack_require__(17);
+	var FieldMixins = __webpack_require__(16);
 
 	var DEFAULT_FORM = 'default';
+
+	var _ = __webpack_require__(4);
 
 	/**
 	 * @author nanzhu
@@ -1292,14 +1273,16 @@
 
 /***/ },
 
-/***/ 17:
-/***/ function(module, exports) {
+/***/ 16:
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	"use strict"
 
 	/**
 	 * Created by neo on 13/4/15.
 	 */
+	;
+	var _ = __webpack_require__(4);
 
 	var REGEX_EMAIL = /^[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}$/;
 	var REGEX_MOBILE = /^0?[1][34578][0-9]{9}$/;
@@ -1532,15 +1515,15 @@
 
 /***/ },
 
-/***/ 21:
+/***/ 20:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var React = __webpack_require__(3);
-	var _ = __webpack_require__(5);
+	var React = __webpack_require__(2);
+	var _ = __webpack_require__(4);
 
-	var styles = __webpack_require__(22);
+	var styles = __webpack_require__(21);
 
 	var ModalController = React.createClass({
 	    displayName: 'ModalController',
@@ -2051,14 +2034,15 @@
 
 /***/ },
 
-/***/ 22:
+/***/ 21:
 /***/ function(module, exports) {
 
-	'use strict';
+	'use strict'
 	/**
 	 * Created by neo on 27/7/15.
 	 */
 
+	;
 	module.exports = {
 	    modalWrap: {
 	        position: 'fixed',
@@ -2149,13 +2133,20 @@
 
 /***/ },
 
+/***/ 22:
+/***/ function(module, exports) {
+
+	module.exports = window.PubSub;
+
+/***/ },
+
 /***/ 45:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var Modal = __webpack_require__(20);
 
 	// 多传接口地址
 	var MULTIPLE_UPLOAD_URL = "/pc/shopadmin/tool/uploadimage";
@@ -2369,14 +2360,14 @@
 
 /***/ },
 
-/***/ 171:
+/***/ 173:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	/**
 	 * 商品列表页面接口配置
 	 */
-	'use strict';
-
 	module.exports = {
 	    //获得uni图库order列表***luoyang
 	    getUniOrderList: function getUniOrderList(params, successFn, failFn) {
@@ -2451,14 +2442,14 @@
 
 /***/ },
 
-/***/ 172:
+/***/ 174:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	/**
 	 * 商品编辑页面中链接配置
 	 */
-	'use strict';
-
 	module.exports = {
 	    // 商品详情页
 	    GOODS_DETAIL_URL: 'http://shop.mogujie.com/detail/',
@@ -2482,7 +2473,7 @@
 
 /***/ },
 
-/***/ 173:
+/***/ 175:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2721,13 +2712,13 @@
 
 /***/ },
 
-/***/ 174:
+/***/ 176:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Modal = __webpack_require__(21);
-	var ImageError = __webpack_require__(193);
+	var Modal = __webpack_require__(20);
+	var ImageError = __webpack_require__(195);
 
 	module.exports = {
 
@@ -3022,14 +3013,14 @@
 
 /***/ },
 
-/***/ 175:
+/***/ 177:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var Field = __webpack_require__(16);
-	var FieldMixins = __webpack_require__(17);
+	var React = __webpack_require__(2);
+	var Field = __webpack_require__(15);
+	var FieldMixins = __webpack_require__(16);
 
 	var BondZones = React.createClass({
 	    displayName: 'BondZones',
@@ -3092,13 +3083,14 @@
 
 /***/ },
 
-/***/ 176:
+/***/ 178:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var _ = __webpack_require__(4);
 
 	var Brand = React.createClass({
 	    displayName: 'Brand',
@@ -3170,13 +3162,13 @@
 
 /***/ },
 
-/***/ 177:
+/***/ 179:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
 
 	var Code = React.createClass({
 	    displayName: 'Code',
@@ -3217,14 +3209,14 @@
 
 /***/ },
 
-/***/ 178:
+/***/ 180:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var Modal = __webpack_require__(20);
 
 	var CounterPrice = React.createClass({
 	    displayName: 'CounterPrice',
@@ -3285,19 +3277,19 @@
 
 /***/ },
 
-/***/ 179:
+/***/ 181:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
 	var UploadImage = __webpack_require__(45);
-	var ImageCut = __webpack_require__(188);
-	var Validator = __webpack_require__(174);
-	var Modal = __webpack_require__(21);
-	var Action = __webpack_require__(171);
-	__webpack_require__(190);
+	var ImageCut = __webpack_require__(190);
+	var Validator = __webpack_require__(176);
+	var Modal = __webpack_require__(20);
+	var Action = __webpack_require__(173);
+	__webpack_require__(192);
 
 	var CoverImages = React.createClass({
 	    displayName: 'CoverImages',
@@ -4126,68 +4118,17 @@
 	    }
 	});
 	module.exports = CoverImages;
-	/* return (
-	   <div className="cover-images-wrap">
-	       <div className="cover-images">
-	           <ul className="clearfix">
-	               {coverImages.length ? coverImages.map(function(src, i) {
-	                   var code = Validator.checkUploadImage(src);
-	                   var uploadImageClass = cx({
-	                       'upload-image-error': code != 10001
-	                   });
-	                   return (
-	                       <li className={uploadImageClass}>
-	                           <div className="upload-image">
-	                               {src != '' ? <img className="img" src={src+ '_100x100.jpg'} width="100" /> : null}
-	                               <div className="action">
-	                                   <a href="javascript:;" className="edit-btn" onClick={this.editImage.bind(this, i)}>编辑</a>
-	                                   <a href="javascript:;" className="change-btn">
-	                                       更换
-	                                       <UploadImage isMultiple={false} onFinish={this.changeImageFinish.bind(this, i)} onFailed={this.changeImageFailed} />
-	                                   </a>
-	                               </div>
-	                           </div>
-	                           <a href="javascript:;" className="close-btn" onClick={this.delImage.bind(this, i)}>x</a>
-	                           {code != 10001 ?
-	                               <div className="image-tip">
-	                                   <p><i className="error-info"></i></p>
-	                                   <div className="image-tip-wrap">
-	                                       <ul className="image-tip-list">
-	                                           <ol>
-	                                               <p>图片尺寸不符合，请编辑图片或更换图片</p>
-	                                               <p>图片宽高比例在9:16-16:9之间且宽度大于等640px</p>
-	                                           </ol>
-	                                       </ul>
-	                                   </div>
-	                               </div> : null}
-	                       </li>
-	                   );
-	               }.bind(this)) : null}
-	               {coverImages.length < 15 ?
-	                   <li>
-	                       <div className="upload-image">
-	                           {uploading ?
-	                               <div className="loading-wrap">
-	                                   <img src="//s17.mogujie.com/img/fpay/ubzlo_ieyden3fha3teobtmiytambqgqyde_24x24.gif" width="24" height="24" />
-	                               </div>
-	                               : <span>＋上传图片</span>}
-	                           <UploadImage onStart={this.uploadImageStart} onFinish={this.uploadImageFinish} onFailed={this.uploadImageFailed} />
-	                       </div>
-	                   </li>
-	                   : null}
-	           </ul>
-	       </div>*/
 
 /***/ },
 
-/***/ 180:
+/***/ 182:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var Modal = __webpack_require__(20);
 
 	var CustomModule = React.createClass({
 	    displayName: 'CustomModule',
@@ -4249,13 +4190,13 @@
 
 /***/ },
 
-/***/ 181:
+/***/ 183:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
 
 	var Desc = React.createClass({
 	    displayName: 'Desc',
@@ -4311,19 +4252,19 @@
 
 /***/ },
 
-/***/ 182:
+/***/ 184:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
 	var UploadImage = __webpack_require__(45);
-	var Modal = __webpack_require__(21);
-	var SizeDesc = __webpack_require__(200);
-	var Link = __webpack_require__(172);
-	var Validator = __webpack_require__(174);
-	var Action = __webpack_require__(171);
+	var Modal = __webpack_require__(20);
+	var SizeDesc = __webpack_require__(202);
+	var Link = __webpack_require__(174);
+	var Validator = __webpack_require__(176);
+	var Action = __webpack_require__(173);
 
 	var OperateMask = React.createClass({
 	    displayName: 'OperateMask',
@@ -5315,13 +5256,13 @@
 
 /***/ },
 
-/***/ 183:
+/***/ 185:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
 
 	var GoodsClassify = React.createClass({
 	    displayName: 'GoodsClassify',
@@ -5444,17 +5385,17 @@
 
 /***/ },
 
-/***/ 184:
+/***/ 186:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var DetailImage = __webpack_require__(182);
-	var CustomModule = __webpack_require__(180);
-	var MoreBar = __webpack_require__(195);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var DetailImage = __webpack_require__(184);
+	var CustomModule = __webpack_require__(182);
+	var MoreBar = __webpack_require__(197);
+	var Modal = __webpack_require__(20);
 
 	var GoodsDetail = React.createClass({
 	    displayName: 'GoodsDetail',
@@ -5600,20 +5541,17 @@
 	});
 
 	module.exports = GoodsDetail;
-	/*<div className="xd-panel-header">
-	   <h2 className="xd-title">{item.title || ''}</h2>
-	</div>*/
 
 /***/ },
 
-/***/ 185:
+/***/ 187:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var Modal = __webpack_require__(20);
 
 	// 属性下拉框
 	var PropSelect = React.createClass({
@@ -6034,14 +5972,14 @@
 
 /***/ },
 
-/***/ 186:
+/***/ 188:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var Modal = __webpack_require__(20);
 
 	var UsedTags = React.createClass({
 	    displayName: 'UsedTags',
@@ -6237,13 +6175,13 @@
 
 /***/ },
 
-/***/ 187:
+/***/ 189:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var Modal = __webpack_require__(20);
 
 	var CutRatio = React.createClass({
 	    displayName: 'CutRatio',
@@ -6387,7 +6325,7 @@
 
 /***/ },
 
-/***/ 188:
+/***/ 190:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6396,12 +6334,12 @@
 	 * 罪过，如果你看到了jquery，请不要惊讶，那是我没忍住犯下的错。
 	 */
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var Modal = __webpack_require__(21);
-	var CutRatio = __webpack_require__(187);
-	var RotateMode = __webpack_require__(189);
-	var Validator = __webpack_require__(174);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var Modal = __webpack_require__(20);
+	var CutRatio = __webpack_require__(189);
+	var RotateMode = __webpack_require__(191);
+	var Validator = __webpack_require__(176);
 
 	var crop = null;
 
@@ -6695,13 +6633,13 @@
 
 /***/ },
 
-/***/ 189:
+/***/ 191:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var Modal = __webpack_require__(20);
 
 	var RotateMode = React.createClass({
 	    displayName: 'RotateMode',
@@ -6935,27 +6873,19 @@
 	});
 
 	module.exports = RotateMode;
-	/*<a href="javascript:;" className="rotate-change fl" onClick={this.changeRotateMode.bind(this, 3)}>
-	   <i className="r3"></i> 
-	   <span>左右</span>
-	</a>
-	<a href="javascript:;" className="rotate-change fl" onClick={this.changeRotateMode.bind(this, 4)}>
-	   <i className="r4"></i> 
-	   <span>上下</span>
-	</a>*/
 
 /***/ },
 
-/***/ 190:
+/***/ 192:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(736);
+	var content = __webpack_require__(739);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(934)(content, {});
+	var update = __webpack_require__(937)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -6970,14 +6900,14 @@
 
 /***/ },
 
-/***/ 191:
+/***/ 193:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var Modal = __webpack_require__(20);
 
 	// 裁剪比例
 	var CROP_RATIO = 9 / 16;
@@ -7084,15 +7014,15 @@
 
 /***/ },
 
-/***/ 192:
+/***/ 194:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var Modal = __webpack_require__(21);
-	__webpack_require__(208);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var Modal = __webpack_require__(20);
+	__webpack_require__(210);
 
 	var EditCategoryModal = React.createClass({
 	    displayName: 'EditCategoryModal',
@@ -7142,14 +7072,14 @@
 
 /***/ },
 
-/***/ 193:
+/***/ 195:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var Modal = __webpack_require__(21);
-	var CropImageModal = __webpack_require__(191);
+	var React = __webpack_require__(2);
+	var Modal = __webpack_require__(20);
+	var CropImageModal = __webpack_require__(193);
 
 	var IMAGE_ERROR = {
 	    10002: '图片地址不存在',
@@ -7215,12 +7145,12 @@
 
 /***/ },
 
-/***/ 194:
+/***/ 196:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var React = __webpack_require__(3);
+	var React = __webpack_require__(2);
 
 	var SaveError = React.createClass({
 	    displayName: "SaveError",
@@ -7239,12 +7169,12 @@
 
 /***/ },
 
-/***/ 195:
+/***/ 197:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
+	var React = __webpack_require__(2);
 
 	var MoreBar = React.createClass({
 	    displayName: 'MoreBar',
@@ -7295,15 +7225,15 @@
 
 /***/ },
 
-/***/ 196:
+/***/ 198:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var Volume = __webpack_require__(210);
-	var Weight = __webpack_require__(211);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var Volume = __webpack_require__(212);
+	var Weight = __webpack_require__(213);
 
 	var Postage = React.createClass({
 	    displayName: 'Postage',
@@ -7477,13 +7407,13 @@
 
 /***/ },
 
-/***/ 197:
+/***/ 199:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
 
 	var PostageInfo = React.createClass({
 	    displayName: 'PostageInfo',
@@ -7545,20 +7475,16 @@
 	});
 
 	module.exports = PostageInfo;
-	/*<div className="clearfix">
-	   <span className="fl">发货地：浙江省 杭州市 西湖区</span>
-	   <a href="/pc/trade/logistics/express" target="_blank" className="fr">查看详情</a>
-	</div>*/
 
 /***/ },
 
-/***/ 198:
+/***/ 200:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var Modal = __webpack_require__(20);
 
 	var CalendarMod = __webpack_require__(10);
 	var DateTimeFormat = CalendarMod.DateTimeFormat;
@@ -7568,7 +7494,7 @@
 	var zhCn = CalendarMod.zhCn;
 	var Calendar = CalendarMod.Calendar;
 
-	var FieldMixins = __webpack_require__(17);
+	var FieldMixins = __webpack_require__(16);
 
 	var PreSalePrice = React.createClass({
 	    displayName: 'PreSalePrice',
@@ -7935,21 +7861,20 @@
 	});
 
 	module.exports = PreSalePrice;
-	/* 预售价格 */ /* 定金价格 */ /* 预售时间 */ /* 尾金时间 */
 
 /***/ },
 
-/***/ 199:
+/***/ 201:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var SkuTable = __webpack_require__(203);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var SkuTable = __webpack_require__(205);
+	var Modal = __webpack_require__(20);
 
-	var PreSalePrice = __webpack_require__(198);
+	var PreSalePrice = __webpack_require__(200);
 
 	var Price = React.createClass({
 	    displayName: 'Price',
@@ -8103,13 +8028,13 @@
 
 /***/ },
 
-/***/ 200:
+/***/ 202:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
 
 	var SizeTD = React.createClass({
 	    displayName: 'SizeTD',
@@ -8335,19 +8260,19 @@
 
 /***/ },
 
-/***/ 201:
+/***/ 203:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
 	var UploadImage = __webpack_require__(45);
-	var Modal = __webpack_require__(21);
-	var SKU = __webpack_require__(173);
-	var Validator = __webpack_require__(174);
-	var Link = __webpack_require__(172);
-	var Action = __webpack_require__(171);
+	var Modal = __webpack_require__(20);
+	var SKU = __webpack_require__(175);
+	var Validator = __webpack_require__(176);
+	var Link = __webpack_require__(174);
+	var Action = __webpack_require__(173);
 
 	// sku图片
 	var SkuImage = React.createClass({
@@ -8898,15 +8823,15 @@
 
 /***/ },
 
-/***/ 202:
+/***/ 204:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var Modal = __webpack_require__(21);
-	var SKU = __webpack_require__(173);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var Modal = __webpack_require__(20);
+	var SKU = __webpack_require__(175);
 
 	// sku选项
 	var SkuOption = React.createClass({
@@ -9255,16 +9180,16 @@
 
 /***/ },
 
-/***/ 203:
+/***/ 205:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var SKU = __webpack_require__(173);
-	var Modal = __webpack_require__(21);
-	var Validator = __webpack_require__(174);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var SKU = __webpack_require__(175);
+	var Modal = __webpack_require__(20);
+	var Validator = __webpack_require__(176);
 
 	// sku表格
 	var SkuTable = React.createClass({
@@ -9933,13 +9858,13 @@
 
 /***/ },
 
-/***/ 204:
+/***/ 206:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
 
 	// sku类型
 	var SkuType = React.createClass({
@@ -10023,18 +9948,18 @@
 
 /***/ },
 
-/***/ 205:
+/***/ 207:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var SkuType = __webpack_require__(204);
-	var SkuOption = __webpack_require__(202);
-	var SkuImage = __webpack_require__(201);
-	var SkuTable = __webpack_require__(203);
-	var SKU = __webpack_require__(173);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var SkuType = __webpack_require__(206);
+	var SkuOption = __webpack_require__(204);
+	var SkuImage = __webpack_require__(203);
+	var SkuTable = __webpack_require__(205);
+	var SKU = __webpack_require__(175);
 
 	var SkuSetting = React.createClass({
 	    displayName: 'SkuSetting',
@@ -10124,15 +10049,15 @@
 
 /***/ },
 
-/***/ 206:
+/***/ 208:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var SkuTable = __webpack_require__(203);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var SkuTable = __webpack_require__(205);
+	var Modal = __webpack_require__(20);
 
 	var Stock = React.createClass({
 	    displayName: 'Stock',
@@ -10283,13 +10208,13 @@
 
 /***/ },
 
-/***/ 207:
+/***/ 209:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
 
 	var StockMode = React.createClass({
 	    displayName: 'StockMode',
@@ -10364,16 +10289,16 @@
 
 /***/ },
 
-/***/ 208:
+/***/ 210:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(737);
+	var content = __webpack_require__(740);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(934)(content, {});
+	var update = __webpack_require__(937)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -10388,13 +10313,13 @@
 
 /***/ },
 
-/***/ 209:
+/***/ 211:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
 
 	var Title = React.createClass({
 	    displayName: 'Title',
@@ -10449,14 +10374,14 @@
 
 /***/ },
 
-/***/ 210:
+/***/ 212:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var Modal = __webpack_require__(20);
 
 	var Volume = React.createClass({
 	    displayName: 'Volume',
@@ -10548,14 +10473,14 @@
 
 /***/ },
 
-/***/ 211:
+/***/ 213:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
-	var PubSub = __webpack_require__(13);
-	var Modal = __webpack_require__(21);
+	var React = __webpack_require__(2);
+	var PubSub = __webpack_require__(22);
+	var Modal = __webpack_require__(20);
 
 	var Weight = React.createClass({
 	    displayName: 'Weight',
@@ -10647,7 +10572,7 @@
 
 /***/ },
 
-/***/ 658:
+/***/ 660:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -10671,41 +10596,43 @@
 
 /***/ },
 
-/***/ 659:
+/***/ 661:
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(658)();
+	exports = module.exports = __webpack_require__(660)();
 	exports.push([module.id, "/* 日期组件 */\n.rc-calendar-picker {\n  position: relative;\n}\n.rc-calendar-picker .xd-calendar {\n  position: absolute;\n  display: none;\n  left: -9999px;\n  top: -9999px;\n  z-index: 9;\n}\n.rc-calendar-picker-open .xd-calendar {\n  display: block;\n}\n.xd-calendar {\n  background: #ffffff;\n  border: 1px solid #c4c4c4;\n  width: 260px;\n  outline: none;\n  position: relative;\n}\n.xd-calendar * {\n  box-sizing: border-box;\n}\n.xd-calendar .xd-calendar-calendar-body,\n.xd-calendar .xd-calendar-month-panel-body,\n.xd-calendar .xd-calendar-year-panel-body {\n  padding: 10px 20px;\n}\n.xd-calendar .xd-calendar-header,\n.xd-calendar .xd-calendar-month-panel-header,\n.xd-calendar .xd-calendar-year-panel-header,\n.xd-calendar .xd-calendar-decade-panel-header {\n  border-bottom: 1px solid #ccc;\n  height: 50px;\n  line-height: 50px;\n  position: relative;\n  text-align: center;\n}\n.xd-calendar .xd-calendar-hidden,\n.xd-calendar .xd-calendar-month-panel-hidden,\n.xd-calendar .xd-calendar-year-panel-hidden,\n.xd-calendar .xd-calendar-decade-panel-hidden,\n.xd-calendar .xd-calendar-month-panel-year-select-arrow,\n.xd-calendar .xd-calendar-year-panel-decade-select-arrow,\n.xd-calendar .xd-calendar-month-select-arrow {\n  display: none;\n}\n.xd-calendar .xd-calendar-prev-month-btn,\n.xd-calendar .xd-calendar-next-month-btn,\n.xd-calendar .xd-calendar-prev-year-btn,\n.xd-calendar .xd-calendar-next-year-btn,\n.xd-calendar .xd-calendar-month-panel-prev-year-btn,\n.xd-calendar .xd-calendar-month-panel-next-year-btn,\n.xd-calendar .xd-calendar-year-panel-prev-decade-btn,\n.xd-calendar .xd-calendar-year-panel-next-decade-btn,\n.xd-calendar .xd-calendar-decade-panel-prev-century-btn,\n.xd-calendar .xd-calendar-decade-panel-next-century-btn {\n  color: #888;\n  font-size: 26px;\n  width: 26px;\n  height: 26px;\n  line-height: 26px;\n  top: 10px;\n  position: absolute;\n}\n.xd-calendar .xd-calendar-prev-month-btn,\n.xd-calendar .xd-calendar-month-panel-prev-year-btn,\n.xd-calendar .xd-calendar-year-panel-prev-decade-btn,\n.xd-calendar .xd-calendar-decade-panel-prev-century-btn {\n  left: 24px;\n}\n.xd-calendar .xd-calendar-prev-year-btn {\n  display: none;\n  left: 0;\n}\n.xd-calendar .xd-calendar-next-month-btn,\n.xd-calendar .xd-calendar-month-panel-next-year-btn,\n.xd-calendar .xd-calendar-year-panel-next-decade-btn,\n.xd-calendar .xd-calendar-decade-panel-next-century-btn {\n  right: 24px;\n}\n.xd-calendar .xd-calendar-next-year-btn {\n  display: none;\n  right: 0;\n}\n.xd-calendar .xd-calendar-month-select,\n.xd-calendar .xd-calendar-month-panel-year-select-content,\n.xd-calendar .xd-calendar-year-panel-decade-select-content {\n  color: #333;\n}\n.xd-calendar .xd-calendar-column-header {\n  width: 25px;\n  color: black;\n  font-weight: bold;\n  text-align: center;\n  padding: 4px 0;\n}\n.xd-calendar .xd-calendar-table {\n  width: 100%;\n}\n.xd-calendar .xd-calendar-column-header-inner {\n  display: block;\n  color: #ff5555;\n}\n.xd-calendar .xd-calendar-cell,\n.xd-calendar .xd-calendar-month-panel-cell,\n.xd-calendar .xd-calendar-year-panel-cell,\n.xd-calendar .xd-calendar-decade-panel-cell {\n  text-align: center;\n}\n.xd-calendar .xd-calendar-date {\n  color: #333;\n  line-height: 22px;\n  display: inline-block;\n  border-radius: 50%;\n  outline: none;\n  height: 26px;\n  width: 26px;\n  line-height: 26px;\n  cursor: pointer;\n  margin-bottom: 5px;\n}\n.xd-calendar .xd-calendar-last-month-cell .xd-calendar-date,\n.xd-calendar .xd-calendar-disabled-cell .xd-calendar-date,\n.xd-calendar .xd-calendar-next-month-btn-day .xd-calendar-date {\n  color: #bfbfbf;\n}\n.xd-calendar .xd-calendar-date:hover,\n.xd-calendar .xd-calendar-month-panel-month:hover,\n.xd-calendar .xd-calendar-year-panel-year:hover,\n.xd-calendar .xd-calendar-decade-panel-decade:hover,\n.xd-calendar .xd-calendar-selected-day .xd-calendar-date,\n.xd-calendar .xd-calendar-month-panel-selected-cell .xd-calendar-month-panel-month,\n.xd-calendar .xd-calendar-year-panel-selected-cell .xd-calendar-year-panel-year,\n.xd-calendar .xd-calendar-decade-panel-selected-cell .xd-calendar-decade-panel-decade {\n  background-color: #ff5555;\n  color: #fff;\n}\n.xd-calendar .xd-calendar-disabled-cell .xd-calendar-date:hover {\n  background-color: #ffffff;\n  border-color: transparent;\n}\n.xd-calendar .xd-calendar-selected-day .xd-calendar-date,\n.xd-calendar .xd-calendar-month-panel-selected-cell .xd-calendar-month-panel-month,\n.xd-calendar .xd-calendar-year-panel-selected-cell .xd-calendar-year-panel-year {\n  color: #fff;\n  background-color: #ff5555;\n}\n.xd-calendar .xd-calendar-month-panel,\n.xd-calendar .xd-calendar-year-panel,\n.xd-calendar .xd-calendar-decade-panel {\n  width: 100%;\n  height: 100%;\n  left: 0;\n  top: 0;\n  z-index: 10;\n  background: #ffffff;\n  position: absolute;\n  outline: none;\n}\n.xd-calendar .xd-calendar .xd-calendar-month-panel-year-select,\n.xd-calendar .xd-calendar-year-panel-decade-select,\n.xd-calendar .xd-calendar-decade-panel-century {\n  color: #333;\n}\n.xd-calendar .xd-calendar-month-panel-table,\n.xd-calendar .xd-calendar-year-panel-table,\n.xd-calendar .xd-calendar-decade-panel-table {\n  margin-top: 5px;\n  table-layout: fixed;\n  width: 100%;\n  border-collapse: separate;\n}\n.xd-calendar .xd-calendar-month-panel-month {\n  color: #333;\n  width: 45px;\n  line-height: 45px;\n  height: 45px;\n  display: inline-block;\n  border-radius: 50%;\n  margin-bottom: 5px;\n}\n.xd-calendar .xd-calendar-year-panel {\n  z-index: 20;\n}\n.xd-calendar .xd-calendar-year-panel-year,\n.xd-calendar .xd-calendar-decade-panel-decade {\n  color: #333;\n  line-height: 30px;\n  display: block;\n  border-radius: 2px;\n  margin-bottom: 20px;\n  margin-right: 10px;\n}\n.xd-calendar .xd-calendar-year-panel-last-decade-cell .xd-calendar-year-panel-year,\n.xd-calendar .xd-calendar-year-panel-next-decade-cell .xd-calendar-year-panel-year,\n.xd-calendar .xd-calendar-decade-panel-last-century-cell .xd-calendar-decade-panel-decade,\n.xd-calendar .xd-calendar-decade-panel-next-century-cell .xd-calendar-decade-panel-decade {\n  color: #bfbfbf;\n}\n.xd-calendar .xd-calendar-decade-panel {\n  z-index: 30;\n}\n.xd-calendar .xd-calendar-decade-panel-decade {\n  line-height: 20px;\n}\n.xd-calendar .xd-calendar-footer {\n  text-align: center;\n  padding-bottom: 10px;\n}\n.xd-calendar .xd-calendar-footer .xd-calendar-time-input {\n  width: 30px;\n  text-align: center;\n  border: 1px solid #d7d7d7;\n  border-radius: 3px;\n  padding: 7px 0;\n}\n.xd-calendar .xd-calendar-footer .xd-calendar-time-panel .xd-calendar-time-panel-body {\n  padding: 0 10px;\n}\n.xd-calendar .xd-calendar-footer .xd-calendar-time-panel .xd-calendar-time-panel-table {\n  width: 100%;\n}\n.xd-calendar .xd-calendar-footer .xd-calendar-time-panel .xd-calendar-time-panel-table .xd-calendar-time-panel-time {\n  color: #333;\n}\n.xd-calendar .xd-calendar-footer .xd-calendar-today-btn {\n  color: #333;\n}\n", ""]);
 
 /***/ },
 
-/***/ 736:
+/***/ 739:
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(658)();
+	exports = module.exports = __webpack_require__(660)();
 	exports.push([module.id, ".image-cut {\n  border-top: 1px solid #e2e2e2;\n  padding: 15px 20px;\n  background: url(http://s7.mogujie.cn/pic/130912/2r6z_kqyuwuckkfbdozcugfjeg5sckzsew_20x20.png);\n}\n.image-cut .image-cut-box {\n  height: 400px;\n  overflow: hidden;\n}\n.image-cut .vh {\n  visibility: hidden;\n}\n.image-cut .border-top-none {\n  border-top: none !important;\n}\n.image-cut .func-area {\n  width: 208px;\n  height: 400px;\n  border: 1px solid #e2e2e2;\n  border-right: none;\n  background-color: #fff;\n}\n.image-cut .func-area .cut-panel {\n  margin-bottom: 0;\n  border: none;\n}\n.image-cut .func-area .cut-panel .xd-panel-header {\n  cursor: pointer;\n  line-height: 20px;\n}\n.image-cut .func-area .cut-panel .xd-title i {\n  display: inline-block;\n  background: url('http://s17.mogucdn.com/p1/150724/upload_iezggnjthbrdknjzgizdambqmmyde_168x100.png') 0 -46px no-repeat;\n  width: 19px;\n  height: 18px;\n  margin-right: 10px;\n  vertical-align: middle;\n}\n.image-cut .func-area .cut-panel .xd-title span {\n  vertical-align: middle;\n}\n.image-cut .func-area .cut-panel .xd-panel-body {\n  height: 110px;\n  padding: 20px;\n}\n.image-cut .func-area .cut-panel .ratio-change {\n  text-align: center;\n  margin-right: 20px;\n  height: 50px;\n}\n.image-cut .func-area .cut-panel .ratio-change.c i {\n  border-color: #ff5555;\n}\n.image-cut .func-area .cut-panel .ratio-change.c span {\n  color: #ff5555;\n}\n.image-cut .func-area .cut-panel .ratio-change i {\n  display: block;\n  border: 1px solid #c4c4c4;\n}\n.image-cut .func-area .cut-panel .ratio-change span {\n  color: #666;\n  font-size: 14px;\n  line-height: 14px;\n  margin-top: 8px;\n  display: block;\n}\n.image-cut .func-area .cut-panel .ratio-change .r1 {\n  width: 30px;\n  height: 30px;\n}\n.image-cut .func-area .cut-panel .ratio-change .r2 {\n  width: 20px;\n  height: 30px;\n}\n.image-cut .func-area .cut-panel .ratio-change .r3 {\n  width: 30px;\n  height: 24px;\n  margin-top: 3px;\n}\n.image-cut .func-area .cut-panel .ratio-change .s3 {\n  margin-top: 11px;\n}\n.image-cut .func-area .rotate-panel {\n  margin-bottom: 0;\n  border: none;\n  border-top: 1px solid #e2e2e2;\n}\n.image-cut .func-area .rotate-panel .xd-panel-header {\n  cursor: pointer;\n  line-height: 20px;\n}\n.image-cut .func-area .rotate-panel .xd-title i {\n  display: inline-block;\n  background: url('http://s17.mogucdn.com/p1/150724/upload_iezggnjthbrdknjzgizdambqmmyde_168x100.png') -30px -46px no-repeat;\n  width: 19px;\n  height: 18px;\n  margin-right: 10px;\n  vertical-align: middle;\n}\n.image-cut .func-area .rotate-panel .xd-title span {\n  vertical-align: middle;\n}\n.image-cut .func-area .rotate-panel .xd-panel-body {\n  height: 197px;\n  padding: 20px;\n  margin-right: -15px;\n}\n.image-cut .func-area .rotate-panel .rotate-change {\n  text-align: center;\n  margin-right: 10px;\n}\n.image-cut .func-area .rotate-panel .rotate-change i {\n  display: block;\n  background: url('http://s17.mogucdn.com/p1/150724/upload_iezggnjthbrdknjzgizdambqmmyde_168x100.png') no-repeat;\n  width: 35px;\n  height: 35px;\n}\n.image-cut .func-area .rotate-panel .rotate-change span {\n  color: #666;\n  font-size: 14px;\n  line-height: 14px;\n  margin-top: 10px;\n  display: block;\n}\n.image-cut .func-area .rotate-panel .rotate-change .r1 {\n  background-position: 0 0;\n}\n.image-cut .func-area .rotate-panel .rotate-change .r2 {\n  background-position: -44px 0;\n}\n.image-cut .func-area .rotate-panel .rotate-change .r3 {\n  background-position: -89px 0;\n}\n.image-cut .func-area .rotate-panel .rotate-change .r4 {\n  background-position: -133px 0;\n}\n.image-cut .func-area a.xd-btn {\n  min-width: 30px;\n  margin-right: 10px;\n  margin-bottom: 10px;\n}\n.image-cut .cut-area,\n.image-cut .rotate-area {\n  width: 590px;\n  height: 400px;\n  text-align: center;\n  border: 1px solid #e2e2e2;\n  background: #f4f4f4 url(http://s18.mogucdn.com/p1/150725/upload_iezdemrrgmytmyjzgizdambqmmyde_24x24.gif) center no-repeat;\n}\n.image-cut .cut-area button.middle,\n.image-cut .rotate-area button.middle {\n  width: 100%;\n  height: 100%;\n  border: none;\n  background: none;\n  outline: none;\n  padding: 0;\n}\n.image-cut .rotate-animate {\n  -webkit-transition: all 0.5s ease-out;\n  -moz-transition: all 0.5s ease-out;\n  -ms-transition: all 0.5s ease-out;\n  -o-transition: all 0.5s ease-out;\n  transition: all 0.5s ease-out;\n}\n", ""]);
 
 /***/ },
 
-/***/ 737:
+/***/ 740:
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(658)();
+	exports = module.exports = __webpack_require__(660)();
 	exports.push([module.id, ".xd-manage-slide {\n  display: none;\n}\n.xd-goods-edit {\n  margin-left: 0 !important;\n  border-left: 0 !important;\n}\n.xd-goods-edit .high {\n  color: #ff5555;\n}\n.xd-goods-edit .xd-form-group {\n  margin-bottom: 0 ;\n}\n.xd-goods-edit .xd-input {\n  height: 30px;\n  line-height: 30px;\n}\n.xd-goods-edit .xd-textarea {\n  resize: none;\n}\n.xd-goods-edit .add-btn {\n  padding: 0 10px;\n  color: #333;\n  border: 1px solid #c4c4c4;\n  font-size: 14px;\n  line-height: 28px;\n  display: inline-block;\n  background: #fff url(\"//s7.mogucdn.com/pic/150420/sp1ku_ie2gknlbmvrdazlbgazdambqgiyde_50x200.png\") no-repeat;\n  background-position: 10px -25px;\n  padding-left: 25px;\n}\n.xd-goods-edit .loading-wrap {\n  line-height: 98px;\n  text-align: center;\n}\n.xd-goods-edit .loading-wrap img {\n  vertical-align: middle;\n}\n.xd-goods-edit .image-tip {\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n.xd-goods-edit .image-tip:hover .image-tip-wrap {\n  display: block;\n}\n.xd-goods-edit .image-tip > p {\n  color: #888;\n}\n.xd-goods-edit .image-tip .icon {\n  display: inline-block;\n  width: 16px;\n  height: 16px;\n  margin-right: 3px;\n  background-color: #ccc;\n  border-radius: 50%;\n  color: #fff;\n  font-size: 12px;\n  font-weight: bold;\n  line-height: 16px;\n  text-align: center;\n}\n.xd-goods-edit .image-tip-wrap {\n  display: none;\n  position: absolute;\n  top: -5px;\n  left: -20px;\n  padding: 30px 20px;\n  z-index: 10;\n  width: 300px;\n}\n.xd-goods-edit .image-tip-list {\n  padding: 10px 0 0;\n  background: #fff;\n  border: 1px solid #c4c4c4;\n  font-size: 13px;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);\n}\n.xd-goods-edit .image-tip-list ol {\n  margin: 0 0 10px -1px;\n  padding: 0 10px;\n  border-left: 2px solid transparent;\n}\n.xd-goods-edit .image-tip-list ol p {\n  line-height: 18px;\n}\n.xd-goods-edit .refresh-data-tip {\n  position: absolute;\n  top: 30px;\n  left: -60px;\n  padding: 5px 20px;\n  border: 1px solid #e2e2e2;\n  white-space: nowrap;\n  color: #666;\n  background-color: #fff;\n}\n.xd-goods-edit .arrow {\n  /*background: url(//s8.mogucdn.com/pic/150421/13t2zv_iezgezlfmyztemtcgazdambqmmyde_19x11.png) no-repeat 0 0;\n        display: block;\n        width: 20px;\n        height: 20px;\n        position: absolute;\n        top: -11px;\n        left: 50%;\n        z-index: 2;\n        margin-left: -10px;*/\n}\n.xd-goods-edit .desc-content p {\n  line-height: 14px;\n  margin-bottom: 10px;\n}\n.xd-goods-edit .desc-content textarea {\n  width: 100%;\n}\n.xd-goods-edit .header-notice {\n  background-color: #f4f5fa;\n  color: #888;\n  padding: 15px 20px;\n  margin-top: -30px;\n}\n.xd-goods-edit .footer-notice {\n  padding: 30px 15px;\n  border: 1px solid #e2e2e2;\n  margin-left: 110px;\n  margin-right: 48px;\n}\n.xd-goods-edit .footer-notice li {\n  color: #888;\n}\n.xd-goods-edit .publish-content .xd-tag {\n  padding: 0 10px;\n  color: #333;\n  border: 1px solid #c4c4c4;\n  display: inline-block;\n  background-color: #fff;\n}\n.xd-goods-edit .publish-content .xd-tag.c {\n  border-color: #ff5555;\n  color: #333;\n  background: #fff url(//s21.mogucdn.com/pic/150408/AAA2222_iezdkmdfgbswgzjwgazdambqmmyde_13x13.png) no-repeat right bottom;\n}\n.xd-goods-edit .publish-content .form .field {\n  margin-bottom: 20px;\n}\n.xd-goods-edit .publish-content .form .field label {\n  width: 90px;\n  text-align: right;\n  margin-right: 20px;\n  line-height: 30px;\n}\n.xd-goods-edit .publish-content .form .field .field-content {\n  line-height: 28px;\n  width: 980px;\n}\n.xd-goods-edit .publish-content .form .field .arrow {\n  color: #e3e3e3;\n}\n.xd-goods-edit .publish-content .form .field input {\n  margin-bottom: 0;\n}\n.xd-goods-edit .publish-content .form .field:last-child {\n  margin-bottom: 0;\n}\n.xd-goods-edit .publish-content .form .edit-category {\n  background: url(\"http://s16.mogucdn.com/p1/150629/upload_ie2tizdegjtdsnjrgizdambqhayde_20x320.png\") no-repeat;\n  width: 16px;\n  height: 16px;\n  background-position: 0 -124px;\n}\n.xd-goods-edit .publish-content .form .title-input,\n.xd-goods-edit .publish-content .form .desc-input {\n  width: 800px;\n}\n.xd-goods-edit .publish-content .form .desc-input {\n  padding: 5px 10px;\n  height: 75px;\n}\n.xd-goods-edit .publish-content .form .postage .add-postage {\n  position: relative;\n}\n.xd-goods-edit .publish-content .form .postage .add-postage .refresh-data-tip {\n  left: -30px;\n}\n.xd-goods-edit .publish-content .form .postage-select {\n  vertical-align: middle;\n}\n.xd-goods-edit .publish-content .form .postage-info {\n  background-color: #efefef;\n  font-size: 14px;\n  width: 500px;\n  padding: 10px 20px;\n  margin-top: 10px;\n}\n.xd-goods-edit .publish-content .form .goods-weight,\n.xd-goods-edit .publish-content .form .goods-volume {\n  display: inline-block;\n  vertical-align: middle;\n}\n.xd-goods-edit .publish-content .form .goods-weight input,\n.xd-goods-edit .publish-content .form .goods-volume input {\n  width: 100px;\n}\n.xd-goods-edit .publish-content .form .goods-weight sup,\n.xd-goods-edit .publish-content .form .goods-volume sup {\n  position: relative;\n  top: -5px;\n}\n.xd-goods-edit .publish-content .form .goods-tags .add-tag li {\n  border: 1px solid #c4c4c4;\n  color: #333;\n  padding: 0 10px;\n  display: inline-block;\n  margin-right: 10px;\n  cursor: pointer;\n  line-height: 28px;\n  position: relative;\n  margin-bottom: 10px;\n}\n.xd-goods-edit .publish-content .form .goods-tags .add-tag li .close-btn {\n  position: absolute;\n  width: 14px;\n  height: 14px;\n  background: url(\"//s7.mogucdn.com/pic/150420/sp1ku_ie2gknlbmvrdazlbgazdambqgiyde_50x200.png\") no-repeat;\n  background-position: 0 0;\n  top: -7px;\n  right: -5px;\n  font: 0/0 a;\n}\n.xd-goods-edit .publish-content .form .goods-tags .add-tag li.action {\n  border: 0;\n  padding-left: 0;\n}\n.xd-goods-edit .publish-content .form .goods-tags .add-tag li.action .goods-tag-name {\n  width: 120px;\n}\n.xd-goods-edit .publish-content .form .goods-tags .add-tag li.action .add-btn {\n  margin-right: 0;\n  margin-left: 10px;\n}\n.xd-goods-edit .publish-content .form .goods-tags .hot-tags {\n  margin-top: 20px;\n}\n.xd-goods-edit .publish-content .form .goods-tags .hot-tags li {\n  color: #333;\n  background-color: #f4f5fa;\n  padding: 0 10px;\n  display: inline-block;\n  cursor: pointer;\n  margin-left: 10px;\n  margin-bottom: 10px;\n}\n.xd-goods-edit .publish-content .form .goods-tags .hot-tags .title {\n  color: #888;\n}\n.xd-goods-edit .publish-content .form .goods-tags .hot-tags .list {\n  width: 900px;\n}\n.xd-goods-edit .publish-content .form .goods-tags .desc {\n  color: #888;\n  line-height: 14px;\n}\n.xd-goods-edit .publish-content .form .goods-classify .add-classify {\n  position: relative;\n}\n.xd-goods-edit .publish-content .form .stock-mode p {\n  color: #888;\n}\n.xd-goods-edit .publish-content .form .cover-images-wrap {\n  width: 840px;\n  border: 1px solid #e2e2e2;\n  color: #666;\n}\n.xd-goods-edit .publish-content .form .cover-images-wrap .cover-images {\n  padding: 20px 20px 10px 20px;\n}\n.xd-goods-edit .publish-content .form .cover-images-wrap .cover-upload-choose0 {\n  text-align: center;\n  position: relative;\n  overflow: hidden;\n  width: 800px;\n  height: 115px;\n  margin: 0 auto;\n  padding-top: 40px;\n}\n.xd-goods-edit .publish-content .form .cover-images-wrap .cover-upload-choose0 .xd-btn-uni {\n  background: #00cc99;\n  border-color: #00cc99;\n  position: relative;\n}\n.xd-goods-edit .publish-content .form .cover-images-wrap .cover-upload-choose0 .xd-btn-uni i {\n  position: absolute;\n  background: url(http://s18.mogucdn.com/p1/150806/upload_ie2dkmbtgazwkolegizdambqgiyde_33x33.png);\n  display: block;\n  width: 33px;\n  height: 33px;\n  right: -1px;\n  top: -1px;\n}\n.xd-goods-edit .publish-content .form .cover-images-wrap .cover-upload-choose0 .file {\n  position: absolute;\n  font-size: 30px;\n  opacity: 0;\n  border: 0 none;\n  top: 35px;\n  filter: alpha(opacity=0);\n  left: 263px;\n  width: 120px;\n  cursor: pointer;\n}\n.xd-goods-edit .publish-content .form .cover-images-wrap .cover-upload-choose {\n  text-align: center;\n  position: relative;\n  overflow: hidden;\n  border-top: 2px solid #eee;\n  width: 800px;\n  height: 115px;\n  margin: 0 auto;\n  padding-top: 40px;\n}\n.xd-goods-edit .publish-content .form .cover-images-wrap .cover-upload-choose .xd-btn-uni {\n  background: #00cc99;\n  border-color: #00cc99;\n  position: relative;\n}\n.xd-goods-edit .publish-content .form .cover-images-wrap .cover-upload-choose .xd-btn-uni i {\n  position: absolute;\n  background: url(http://s18.mogucdn.com/p1/150806/upload_ie2dkmbtgazwkolegizdambqgiyde_33x33.png);\n  display: block;\n  width: 33px;\n  height: 33px;\n  right: -1px;\n  top: -1px;\n}\n.xd-goods-edit .publish-content .form .cover-images-wrap .cover-upload-choose .file {\n  position: absolute;\n  font-size: 30px;\n  opacity: 0;\n  border: 0 none;\n  top: 35px;\n  filter: alpha(opacity=0);\n  left: 263px;\n  width: 120px;\n  cursor: pointer;\n}\n.xd-goods-edit .publish-content .form .cover-images .upload-image,\n.xd-goods-edit .publish-content .form .sku-image .upload-image {\n  position: relative;\n  border: 1px solid #c4c4c4;\n  width: 100px;\n  height: 100px;\n  background-color: #fff;\n  text-align: center;\n  line-height: 100px;\n  overflow: hidden;\n}\n.xd-goods-edit .publish-content .form .cover-images .upload-image .img,\n.xd-goods-edit .publish-content .form .sku-image .upload-image .img {\n  position: absolute;\n  left: 0;\n  top: 0;\n  z-index: 1;\n}\n.xd-goods-edit .publish-content .form .cover-images .upload-image .change-btn .file,\n.xd-goods-edit .publish-content .form .sku-image .upload-image .change-btn .file {\n  top: 0;\n  font-size: 14px;\n  left: 45px;\n  width: 52px;\n}\n.xd-goods-edit .publish-content .form .cover-images .upload-image .action,\n.xd-goods-edit .publish-content .form .sku-image .upload-image .action {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  width: 100%;\n  z-index: 3;\n  height: 20px;\n  line-height: 20px;\n}\n.xd-goods-edit .publish-content .form .cover-images .upload-image .edit-btn,\n.xd-goods-edit .publish-content .form .sku-image .upload-image .edit-btn,\n.xd-goods-edit .publish-content .form .cover-images .upload-image .change-btn,\n.xd-goods-edit .publish-content .form .sku-image .upload-image .change-btn {\n  display: inline-block;\n  width: 50%;\n  background-color: rgba(0, 0, 0, 0.5);\n  color: #fff;\n}\n.xd-goods-edit .publish-content .form .cover-images .upload-image .unishow .change-btn,\n.xd-goods-edit .publish-content .form .sku-image .upload-image .unishow .change-btn {\n  display: inline-block;\n  width: 100%;\n  background-color: rgba(0, 0, 0, 0.5);\n  color: #fff;\n}\n.xd-goods-edit .publish-content .form .cover-images .upload-image-error .upload-image,\n.xd-goods-edit .publish-content .form .sku-image .upload-image-error .upload-image {\n  border-color: #FF5555;\n}\n.xd-goods-edit .publish-content .form .cover-images .upload-image-error .error-info,\n.xd-goods-edit .publish-content .form .sku-image .upload-image-error .error-info {\n  position: absolute;\n  top: 5px;\n  left: 5px;\n  background: url(//s18.mogucdn.com/p1/150725/upload_ieztkmtdmiyteyjzgizdambqgyyde_50x200.png) 0 -63px no-repeat;\n  z-index: 2;\n  width: 16px;\n  height: 16px;\n}\n.xd-goods-edit .publish-content .form .cover-images .file,\n.xd-goods-edit .publish-content .form .sku-image .file {\n  position: absolute;\n  font-size: 30px;\n  opacity: 0;\n  border: 0 none;\n  top: 32px;\n  filter: alpha(opacity=0);\n  left: 0;\n  width: 100%;\n}\n.xd-goods-edit .publish-content .form .cover-images li,\n.xd-goods-edit .publish-content .form .sku-image li {\n  float: left;\n  margin-right: 10px;\n  margin-bottom: 10px;\n  position: relative;\n}\n.xd-goods-edit .publish-content .form .cover-images li p,\n.xd-goods-edit .publish-content .form .sku-image li p {\n  color: #888;\n  margin-bottom: 10px;\n}\n.xd-goods-edit .publish-content .form .cover-images li .close-btn,\n.xd-goods-edit .publish-content .form .sku-image li .close-btn {\n  position: absolute;\n  width: 14px;\n  height: 14px;\n  background: url(//s18.mogucdn.com/p1/150725/upload_ieztkmtdmiyteyjzgizdambqgyyde_50x200.png) no-repeat;\n  background-position: 0 0;\n  top: -7px;\n  right: -5px;\n  font: 0/0 a;\n  z-index: 2;\n}\n.xd-goods-edit .publish-content .form .cover-images .unload-img-uni,\n.xd-goods-edit .publish-content .form .sku-image .unload-img-uni {\n  background-color: #fff;\n  border-color: #c4c4c4;\n  color: #333;\n  width: 100px;\n  padding: 6px 0;\n  text-align: center;\n  margin-top: 5px;\n}\n.xd-goods-edit .publish-content .form .operate {\n  text-align: center;\n  padding: 25px 25px 10px 25px;\n}\n.xd-goods-edit .publish-content .form .sku-setting .tabs {\n  margin-bottom: 20px;\n}\n.xd-goods-edit .publish-content .form .sku-setting .tabs a {\n  float: left;\n  margin-right: 10px;\n}\n.xd-goods-edit .publish-content .form .sku-setting .tabs p {\n  color: #888;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content {\n  background-color: #f4f5fa;\n  border: 1px solid #e2e2e2;\n  padding: 20px;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-data .list {\n  margin-bottom: 20px;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-data .list label {\n  width: auto;\n  margin-right: 10px;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-data .list ul {\n  width: 900px;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-data .list li {\n  float: left;\n  cursor: pointer;\n  margin-right: 10px;\n  margin-bottom: 10px;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-data .add-text {\n  width: 100px;\n  margin-right: 10px;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-other {\n  margin-left: 35px;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-other p {\n  line-height: 14px;\n  color: #888;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-image .change-btn {\n  width: 100%;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-image .change-btn .file {\n  left: 22px;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-meta .xd-input {\n  height: 24px;\n  line-height: 24px;\n  width: 80px;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-meta table {\n  border-top: 1px solid #ddd;\n  margin-top: 20px;\n  padding-top: 20px;\n  background-color: #fff;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-meta table thead {\n  background-color: #fff;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-meta table td {\n  text-align: center;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-meta .auto-fill {\n  line-height: 50px;\n  padding: 0 20px;\n  background-color: #f9fafc;\n  border: 1px solid #ddd;\n  border-top: none;\n}\n.xd-goods-edit .publish-content .form .sku-setting .setting-content .sku-meta .auto-fill .ok-btn {\n  margin-left: 20px;\n}\n.xd-goods-edit .publish-content .form .goods-prop .props {\n  padding: 20px 0;\n  background-color: #f4f5fa;\n  border: 1px solid #e2e2e2;\n}\n.xd-goods-edit .publish-content .form .goods-prop .props .prop {\n  margin-bottom: 20px;\n}\n.xd-goods-edit .publish-content .form .goods-prop .props .prop-content {\n  width: 860px;\n}\n.xd-goods-edit .publish-content .form .goods-prop .props .prop-select * {\n  vertical-align: middle;\n}\n.xd-goods-edit .publish-content .form .goods-prop .props label {\n  width: 80px;\n  margin-right: 10px;\n}\n.xd-goods-edit .publish-content .form .goods-prop .props .xd-tag {\n  margin-right: 10px;\n  margin-bottom: 10px;\n}\n.xd-goods-edit .publish-content .form .goods-prop .props .add-text {\n  width: 100px;\n  margin-right: 10px;\n}\n.xd-goods-edit .publish-content .form .goods-prop .props .add-prop {\n  margin-left: 50px;\n  border-top: 1px dashed #cbcbcb;\n  padding-top: 20px;\n  margin-right: 50px;\n}\n.xd-goods-edit .publish-content .form .goods-detail .xd-panel:last-child {\n  margin-bottom: 0;\n}\n.xd-goods-edit .publish-content .form .goods-detail .xd-panel-body {\n  background: url(//s7.mogujie.cn/pic/130912/2r6z_kqyuwuckkfbdozcugfjeg5sckzsew_20x20.png);\n}\n.xd-goods-edit .publish-content .form .goods-detail .detail-body {\n  background: #f4f5fa;\n}\n.xd-goods-edit .publish-content .form .goods-detail .detail-image li {\n  text-align: center;\n  margin-bottom: 20px;\n}\n.xd-goods-edit .publish-content .form .goods-detail .detail-image li img {\n  vertical-align: middle;\n  max-width: 896px;\n  height: auto;\n}\n.xd-goods-edit .publish-content .form .goods-detail .detail-image li .item {\n  position: relative;\n  overflow: hidden;\n}\n.xd-goods-edit .publish-content .form .goods-detail .detail-image .operate-mask {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n}\n.xd-goods-edit .publish-content .form .goods-detail .detail-image .operate-mask .action {\n  position: absolute;\n  right: 0;\n  top: 10px;\n  z-index: 1;\n}\n.xd-goods-edit .publish-content .form .goods-detail .detail-image .operate-mask .action a {\n  display: inline-block;\n  padding: 0 10px;\n  background-color: #fff;\n  color: #333;\n  margin-right: 10px;\n  border-radius: 2px;\n  position: relative;\n}\n.xd-goods-edit .publish-content .form .goods-detail .detail-image .operate-mask .action a .file {\n  position: absolute;\n  font-size: 30px;\n  opacity: 0;\n  border: 0 none;\n  top: -4px;\n  filter: alpha(opacity=0);\n  left: 0;\n  width: 76px;\n}\n.xd-goods-edit .publish-content .form .goods-detail .detail-image .operate-mask .mask {\n  width: 100%;\n  height: 100%;\n  background-color: #000;\n  opacity: 0.7;\n}\n.xd-goods-edit .publish-content .form .goods-detail .detail-image .desc-content {\n  margin-bottom: 20px;\n}\n.xd-goods-edit .publish-content .form .goods-detail .upload-image-wrap {\n  padding: 20px 0;\n}\n.xd-goods-edit .publish-content .form .goods-detail .upload-image-wrap .upload-image {\n  text-align: center;\n  position: relative;\n  margin-bottom: 20px;\n  overflow: hidden;\n}\n.xd-goods-edit .publish-content .form .goods-detail .upload-image-wrap .upload-image .xd-btn-uni {\n  background: #00cc99;\n  border-color: #00cc99;\n  position: relative;\n}\n.xd-goods-edit .publish-content .form .goods-detail .upload-image-wrap .upload-image .xd-btn-uni i {\n  position: absolute;\n  background: url(http://s18.mogucdn.com/p1/150806/upload_ie2dkmbtgazwkolegizdambqgiyde_33x33.png);\n  display: block;\n  width: 33px;\n  height: 33px;\n  right: -1px;\n  top: -1px;\n}\n.xd-goods-edit .publish-content .form .goods-detail .upload-image-wrap .upload-image .file {\n  position: absolute;\n  font-size: 30px;\n  opacity: 0;\n  border: 0 none;\n  top: -2px;\n  filter: alpha(opacity=0);\n  left: 327px;\n  width: 120px;\n  cursor: pointer;\n}\n.xd-goods-edit .publish-content .form .goods-detail .upload-image-wrap p {\n  text-align: center;\n  line-height: 14px;\n  margin-bottom: 10px;\n  color: #888;\n}\n.xd-goods-edit .publish-content .form .size-desc {\n  overflow-x: auto;\n}\n.xd-goods-edit .publish-content .form .size-desc .size-table {\n  padding-bottom: 10px;\n  margin-bottom: 20px;\n  border-bottom: 1px solid #dddddd;\n}\n.xd-goods-edit .publish-content .form .size-desc .size-table td {\n  width: 60px;\n  background-color: #fff;\n  text-align: center;\n}\n.xd-goods-edit .publish-content .form .size-desc .size-table td .xd-input {\n  width: 60px;\n}\n.xd-goods-edit .publish-content .form .size-desc .size-table thead td {\n  line-height: 20px;\n}\n.xd-goods-edit .publish-content .form .size-desc .size-table tbody td {\n  height: 30px;\n}\n.xd-goods-edit .publish-content .form .more-bar {\n  display: block;\n  text-align: center;\n  border-top: 1px dashed #cdcdcd;\n  margin-top: 20px;\n}\n.xd-goods-edit .publish-content .form .more-bar a {\n  color: #333;\n}\n.xd-goods-edit .publish-content .form .more-bar a i,\n.xd-goods-edit .publish-content .form .more-bar a span {\n  vertical-align: middle;\n  font-size: 18px;\n}\n.xd-goods-edit .publish-content .form .more-bar .arrow-show,\n.xd-goods-edit .publish-content .form .more-bar .arrow-hide {\n  background: url(http://s17.mogucdn.com/p1/150802/upload_ieytsmjvgezwmm3dgizdambqmeyde_50x100.png) no-repeat;\n  width: 17px;\n  height: 17px;\n  display: inline-block;\n  margin-right: 5px;\n}\n.xd-goods-edit .publish-content .form .more-bar .arrow-show {\n  background-position: 0 -40px;\n}\n.xd-goods-edit .publish-content .form .more-bar .arrow-hide {\n  background-position: 0 -62px;\n}\n.xd-goods-edit .publish-action {\n  margin-top: 40px;\n  text-align: center;\n  margin-bottom: 100px;\n}\n.xd-goods-edit .publish-action .save-btn {\n  margin-left: 20px;\n}\n#J_EditCategoryModal .high {\n  color: #ff5555;\n}\n#J_EditCategoryModal p {\n  text-align: center;\n}\n#J_CropImage {\n  text-align: center;\n}\n#J_CropImage .xd-modal-body {\n  padding: 20px 0!important;\n}\n.uni_modalTitle {\n  display: inline-block;\n  color: #333;\n  font-size: 18px;\n}\n.uni_modalTip {\n  display: inline-block;\n  width: 394px;\n  height: 20px;\n  color: #333;\n  font-size: 12px;\n  line-height: 20px;\n  padding-left: 15px;\n  margin-left: 10px;\n  background: url(http://s16.mogucdn.com/p1/150811/upload_ieytezjrgq2tqmtggizdambqmeyde_394x20.png);\n}\n.unvisible {\n  visibility: hidden;\n}\n.edit-alertIcon {\n  text-align: center;\n}\n.edit-alertText {\n  text-align: center;\n  font-size: 16px;\n  color: #333;\n  padding: 20px;\n}\n.edit-alertText span {\n  display: block;\n  width: 300px;\n  margin-left: 30px;\n}\n.edit-alertText .alert_1 {\n  font-size: 20px;\n  color: #ff6666;\n}\n.edit-alertText .alert_2 {\n  font-size: 14px;\n  color: #666;\n}\n.edit-alertText a {\n  color: #666;\n  font-size: 14px;\n  display: inline-block;\n  border: 1px solid #ccc;\n  width: 100px;\n  height: 30px;\n  line-height: 30px;\n  margin-top: 30px;\n}\n.uni-gallery {\n  width: 960px;\n  height: 600px;\n  border-top: 1px solid #ccc;\n  margin-top: -40px;\n  margin-bottom: -40px;\n}\n.uni-gallery .uni-gallery-nav {\n  width: 224px;\n  border-right: 1px solid #ccc;\n  height: 100%;\n  float: left;\n}\n.uni-gallery .uni-gallery-nav .nav-title {\n  padding-left: 20px;\n  border-bottom: 1px solid #ccc;\n  line-height: 55px;\n  height: 55px;\n  font-size: 14px;\n  color: #999;\n}\n.uni-gallery .uni-gallery-nav .nav-items {\n  height: 545px;\n  overflow: scroll;\n}\n.uni-gallery .uni-gallery-nav .nav-items li {\n  cursor: pointer;\n  width: 100%;\n  height: 70px;\n  line-height: 25px;\n  padding: 10px;\n  padding-left: 20px;\n  border-bottom: 1px solid #ccc;\n  font-size: 14px;\n  color: #333;\n}\n.uni-gallery .uni-gallery-nav .nav-items li span {\n  display: block;\n}\n.uni-gallery .uni-gallery-cont {\n  width: 735px;\n  height: 100%;\n  margin-left: 225px;\n}\n.uni-gallery .uni-gallery-cont .cont-imgInfo {\n  height: 490px;\n  overflow: scroll;\n}\n.uni-gallery .uni-gallery-cont .cont-capacity {\n  height: 55px;\n  line-height: 55px;\n  padding-left: 30px;\n  font-size: 14px;\n  color: #333;\n}\n.uni-gallery .uni-gallery-cont .cont-imgWall {\n  overflow: auto;\n  padding-left: 30px;\n}\n.uni-gallery .uni-gallery-cont .cont-imgWall li {\n  width: 114px;\n  float: left;\n  height: 180px;\n  padding-right: 14px;\n  margin-bottom: 10px;\n  position: relative;\n  cursor: pointer;\n}\n.uni-gallery .uni-gallery-cont .cont-imgWall li .imgArea {\n  width: 100px;\n  height: 150px;\n  cursor: pointer;\n  background: #f6f6f6;\n  overflow: hidden;\n}\n.uni-gallery .uni-gallery-cont .cont-imgWall li .imgArea img {\n  width: 100%;\n  height: 100%;\n}\n.uni-gallery .uni-gallery-cont .cont-imgWall li .title {\n  height: 30px;\n  line-height: 30px;\n  font-size: 12px;\n  color: #666;\n  overflow: hidden;\n}\n.uni-gallery .uni-gallery-cont .cont-imgWall li .uniImg-mask {\n  width: 100px;\n  height: 150px;\n  left: 0;\n  top: 0;\n  background: #000;\n  opacity: 0.5;\n  filter: alpha(opacity=50);\n  position: absolute;\n  z-index: 5;\n}\n.uni-gallery .uni-gallery-cont .cont-imgWall li .checked {\n  z-index: 10;\n  cursor: pointer;\n  width: 31px;\n  height: 31px;\n  display: block;\n  position: absolute;\n  top: 9px;\n  right: 23px;\n  background: url(http://s18.mogucdn.com/p1/150805/upload_iezgmnlemuztsnlegizdambqmmyde_31x31.png);\n}\n.uni-gallery .uni-gallery-cont .cont-imgWall li .unchecked {\n  z-index: 10;\n  cursor: pointer;\n  width: 28px;\n  height: 28px;\n  display: block;\n  position: absolute;\n  top: 10px;\n  right: 24px;\n  background: url(http://s18.mogucdn.com/p1/150805/upload_ie2tkytggq2dsnlegizdambqhayde_28x28.png);\n}\n.uni-gallery .uni-gallery-cont .cont-bottom {\n  height: 110px;\n  width: 100%;\n  background: #eee;\n}\n.uni-gallery .uni-gallery-cont .cont-bottom .bottom-imgList .arrow-left {\n  cursor: pointer;\n  width: 12px;\n  height: 20px;\n  margin: 45px 10px 45px 20px;\n  float: left;\n  background: url(http://s18.mogucdn.com/p1/150805/upload_ie2tizdegy2dqnlegizdambqhayde_12x20.png);\n}\n.uni-gallery .uni-gallery-cont .cont-bottom .bottom-imgList .imgArea {\n  margin-top: 25px;\n  width: 528px;\n  height: 60px;\n  overflow: hidden;\n  float: left;\n  position: relative;\n}\n.uni-gallery .uni-gallery-cont .cont-bottom .bottom-imgList .checked-imgList {\n  margin-left: 0px;\n  position: absolute;\n  width: auto;\n  height: 60px;\n}\n.uni-gallery .uni-gallery-cont .cont-bottom .bottom-imgList .checked-imgList li {\n  float: left;\n  width: 66px;\n  height: 66px;\n  background: #ccc;\n  overflow: hidden;\n  text-align: center;\n}\n.uni-gallery .uni-gallery-cont .cont-bottom .bottom-imgList .checked-imgList li img {\n  width: 66px;\n  height: 66px;\n}\n.uni-gallery .uni-gallery-cont .cont-bottom .bottom-imgList .arrow-right {\n  cursor: pointer;\n  width: 12px;\n  height: 20px;\n  margin: 45px 10px 45px 4px;\n  float: left;\n  background: url(http://s16.mogucdn.com/p1/150805/upload_iezwmmjwg42dqnlegizdambqgyyde_12x20.png);\n}\n.uni-gallery .uni-gallery-cont .cont-bottom .bottom-btn {\n  float: left;\n  margin-top: 20px;\n  width: 130px;\n  height: 80px;\n  text-align: center;\n}\n.uni-gallery .uni-gallery-cont .cont-bottom .bottom-btn .checked-count {\n  font-size: 12px;\n  color: #333;\n  line-height: 32px;\n}\n.uni-gallery .uni-gallery-cont .cont-bottom .bottom-btn .checked-btn {\n  line-height: 30px;\n  background: #ccc;\n  color: #fff;\n  font-size: 14px;\n  width: 90px;\n  height: 30px;\n  margin-left: 20px;\n  display: block;\n}\n.uni-gallery .uni-gallery-cont .cont-bottom .bottom-btn .disabled {\n  background: #00cc99;\n}\n.dialog-mask {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: #000;\n  opacity: 0.5;\n  filter: alpha(opacity=50);\n  z-index: 5;\n}\n.uploadEntry {\n  display: none;\n  background: url(http://s17.mogucdn.com/p1/150811/upload_ieztgnjsmiydmm3ggizdambqgyyde_508x388.png);\n  width: 508px;\n  height: 388px;\n  position: fixed;\n  left: 50%;\n  top: 50%;\n  margin-left: -254px;\n  margin-top: -199px;\n  z-index: 10;\n}\n.uploadEntry .uploadEntry_close {\n  width: 50px;\n  height: 50px;\n  float: right;\n  cursor: pointer;\n}\n.uploadEntry .file {\n  opacity: 0;\n  width: 290px;\n  height: 55px;\n  margin-top: 9px;\n  margin-left: 110px;\n  cursor: pointer;\n}\n.uploadEntry .uploadEntry_uni {\n  width: 290px;\n  height: 55px;\n  margin-left: 110px;\n  margin-top: 209px;\n  cursor: pointer;\n}\n.orderChecked {\n  background: #eee;\n}\n.dialog_close {\n  width: 50px;\n  height: 50px;\n  float: right;\n  cursor: pointer;\n}\n.dialog_notUser {\n  width: 440px;\n  height: 352px;\n  position: fixed;\n  left: 50%;\n  top: 50%;\n  margin-left: -220px;\n  margin-top: -176px;\n  z-index: 10;\n  background: url(http://s16.mogucdn.com/p1/150813/upload_ieztizdbmqytky3ggizdambqgyyde_440x352.png) no-repeat;\n}\n.dialog_notUser .dialog_link {\n  display: block;\n  top: 280px;\n  left: 160px;\n  width: 120px;\n  height: 35px;\n  cursor: pointer;\n  position: absolute;\n}\n.dialog_user {\n  width: 440px;\n  height: 352px;\n  position: fixed;\n  left: 50%;\n  top: 50%;\n  margin-left: -220px;\n  margin-top: -176px;\n  z-index: 10;\n  background: url(http://s18.mogucdn.com/p1/150812/upload_ieywkolggyzdaodggizdambqmeyde_440x352.png) no-repeat;\n}\n.dialog_user .dialog_sure {\n  width: 120px;\n  height: 38px;\n  cursor: pointer;\n  margin-top: 276px;\n  margin-left: 160px;\n}\n.dialog_download {\n  width: 440px;\n  height: 619px;\n  position: fixed;\n  left: 50%;\n  top: 50%;\n  margin-left: -220px;\n  margin-top: -309px;\n  z-index: 10;\n  background: url(http://s16.mogucdn.com/p1/150813/upload_ie2winzzmuytky3ggizdambqhayde_440x619.png) no-repeat;\n}\n.dialog_download .dialog_link {\n  display: block;\n  top: 548px;\n  left: 160px;\n  width: 120px;\n  height: 35px;\n  cursor: pointer;\n  position: absolute;\n}\n.xd-psp-layer {\n  position: fixed ;\n  top: 0;\n  left: 0;\n  z-index: 100;\n  height: 100%;\n  width: 100%;\n}\n.xd-psp-layer .xd-psp-layer-mask {\n  position: absolute;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  background: #000;\n  opacity: 0.5;\n}\n.xd-psp-layer .xd-psp-title {\n  margin: 30px 0 20px ;\n}\n.xd-psp-layer .xd-psp-layer-main {\n  padding: 0 30px 0px;\n  position: absolute;\n  z-index: 101;\n  background-color: #ffffff ;\n  top: 50% ;\n  left: 50% ;\n  width: 700px;\n  transform: translate(-50%, -50%);\n  margin: -191px 0 0 -350px \\9;\n}\n.xd-psp-layer .xd-psp-calendar-tip {\n  background: #e1e1e1 ;\n  display: inline-block;\n  padding: 0 6px ;\n  margin-left: 10px;\n}\n.xd-psp-layer .psp-save {\n  margin: 40px 0 20px;\n  text-align: center;\n}\n.xd-psp-layer .psp-close {\n  cursor: pointer;\n  position: absolute;\n  top: 0;\n  right: 0;\n  height: 40px;\n  width: 40px;\n  line-height: 40px;\n}\n", ""]);
 
 /***/ },
 
-/***/ 889:
+/***/ 892:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	module.exports = __webpack_require__(890);
+	module.exports = __webpack_require__(893);
 
 /***/ },
 
-/***/ 890:
+/***/ 893:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	/**
 	 * @ignore
@@ -10714,10 +10641,8 @@
 	 * @author yiminghe@gmail.com
 	 */
 
-	'use strict';
-
-	var GregorianCalendar = __webpack_require__(894);
-	var enUsLocale = __webpack_require__(891);
+	var GregorianCalendar = __webpack_require__(897);
+	var enUsLocale = __webpack_require__(894);
 	var MAX_VALUE = Number.MAX_VALUE;
 	/**
 	 * date or time style enum
@@ -10909,47 +10834,32 @@
 	var zeroDigit = '0';
 
 	// TODO zeroDigit localization??
-	function zeroPaddingNumber(_x, _x2, _x3, _x4) {
-	  var _again = true;
-
-	  _function: while (_again) {
-	    var value = _x,
-	        minDigits = _x2,
-	        maxDigits = _x3,
-	        buffer = _x4;
-	    _again = false;
-
-	    // Optimization for 1, 2 and 4 digit numbers. This should
-	    // cover most cases of formatting date/time related items.
-	    // Note: This optimization code assumes that maxDigits is
-	    // either 2 or Integer.MAX_VALUE (maxIntCount in format()).
-	    buffer = buffer || [];
-	    maxDigits = maxDigits || MAX_VALUE;
-	    if (value >= 0) {
-	      if (value < 100 && minDigits >= 1 && minDigits <= 2) {
-	        if (value < 10 && minDigits === 2) {
-	          buffer.push(zeroDigit);
-	        }
+	function zeroPaddingNumber(value, minDigits, maxDigits, buffer) {
+	  // Optimization for 1, 2 and 4 digit numbers. This should
+	  // cover most cases of formatting date/time related items.
+	  // Note: This optimization code assumes that maxDigits is
+	  // either 2 or Integer.MAX_VALUE (maxIntCount in format()).
+	  buffer = buffer || [];
+	  maxDigits = maxDigits || MAX_VALUE;
+	  if (value >= 0) {
+	    if (value < 100 && minDigits >= 1 && minDigits <= 2) {
+	      if (value < 10 && minDigits === 2) {
+	        buffer.push(zeroDigit);
+	      }
+	      buffer.push(value);
+	      return buffer.join('');
+	    } else if (value >= 1000 && value < 10000) {
+	      if (minDigits === 4) {
 	        buffer.push(value);
 	        return buffer.join('');
-	      } else if (value >= 1000 && value < 10000) {
-	        if (minDigits === 4) {
-	          buffer.push(value);
-	          return buffer.join('');
-	        }
-	        if (minDigits === 2 && maxDigits === 2) {
-	          _x = value % 100;
-	          _x2 = 2;
-	          _x3 = 2;
-	          _x4 = buffer;
-	          _again = true;
-	          continue _function;
-	        }
+	      }
+	      if (minDigits === 2 && maxDigits === 2) {
+	        return zeroPaddingNumber(value % 100, 2, 2, buffer);
 	      }
 	    }
-	    buffer.push(value + '');
-	    return buffer.join('');
 	  }
+	  buffer.push(value + '');
+	  return buffer.join('');
 	}
 
 	/**
@@ -11508,16 +11418,16 @@
 
 /***/ },
 
-/***/ 891:
+/***/ 894:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	/**
 	 * en-us locale
 	 * @ignore
 	 * @author yiminghe@gmail.com
 	 */
-	'use strict';
-
 	module.exports = {
 	  eras: ['BC', 'AD'],
 	  months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -11533,16 +11443,16 @@
 
 /***/ },
 
-/***/ 892:
+/***/ 895:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	/**
 	 * zh-cn locale
 	 * @ignore
 	 * @author yiminghe@gmail.com
 	 */
-	'use strict';
-
 	module.exports = {
 	  eras: ['公元前', '公元'],
 	  months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
@@ -11559,7 +11469,7 @@
 
 /***/ },
 
-/***/ 893:
+/***/ 896:
 /***/ function(module, exports) {
 
 	/*
@@ -11689,7 +11599,7 @@
 
 /***/ },
 
-/***/ 894:
+/***/ 897:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -11700,9 +11610,9 @@
 	'use strict';
 
 	var toInt = parseInt;
-	var Utils = __webpack_require__(897);
-	var defaultLocale = __webpack_require__(895);
-	var Const = __webpack_require__(893);
+	var Utils = __webpack_require__(900);
+	var defaultLocale = __webpack_require__(898);
+	var Const = __webpack_require__(896);
 
 	/*
 	 * GregorianCalendar class.
@@ -13029,7 +12939,7 @@
 
 /***/ },
 
-/***/ 895:
+/***/ 898:
 /***/ function(module, exports) {
 
 	/*
@@ -13048,7 +12958,7 @@
 
 /***/ },
 
-/***/ 896:
+/***/ 899:
 /***/ function(module, exports) {
 
 	/*
@@ -13067,7 +12977,7 @@
 
 /***/ },
 
-/***/ 897:
+/***/ 900:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -13078,7 +12988,7 @@
 
 	'use strict';
 
-	var Const = __webpack_require__(893);
+	var Const = __webpack_require__(896);
 	var floor = Math.floor;
 	var ACCUMULATED_DAYS_IN_MONTH
 	//   1/1 2/1 3/1 4/1 5/1 6/1 7/1 8/1 9/1 10/1 11/1 12/1
@@ -13204,42 +13114,41 @@
 
 /***/ },
 
-/***/ 909:
+/***/ 912:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	module.exports = __webpack_require__(910);
-	module.exports.Picker = __webpack_require__(915);
+	module.exports = __webpack_require__(913);
+	module.exports.Picker = __webpack_require__(918);
 
 /***/ },
 
-/***/ 910:
+/***/ 913:
 /***/ function(module, exports, __webpack_require__) {
 
-	
+	'use strict';
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 	/**
 	 * Calendar ui component for React
 	 */
-	'use strict';
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(3);
+	var React = __webpack_require__(2);
 	var DATE_ROW_COUNT = 6;
 	var DATE_COL_COUNT = 7;
-	var DateTimeFormat = __webpack_require__(889);
-	var GregorianCalendar = __webpack_require__(894);
-	var rcUtil = __webpack_require__(922);
+	var DateTimeFormat = __webpack_require__(892);
+	var GregorianCalendar = __webpack_require__(897);
+	var rcUtil = __webpack_require__(925);
 	var KeyCode = rcUtil.KeyCode;
-	var MonthPanel = __webpack_require__(914);
-	var Time = __webpack_require__(917);
+	var MonthPanel = __webpack_require__(917);
+	var Time = __webpack_require__(920);
 
 	function noop() {}
 
@@ -13417,32 +13326,34 @@
 	  function Calendar(props) {
 	    _classCallCheck(this, Calendar);
 
-	    _get(Object.getPrototypeOf(Calendar.prototype), 'constructor', this).call(this, props);
+	    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Calendar).call(this, props));
+
 	    var value = props.value || props.defaultValue;
 	    if (!value) {
 	      value = new GregorianCalendar();
 	      value.setTime(Date.now());
 	    }
-	    this.dateFormatter = new DateTimeFormat(props.locale.dateFormat);
-	    this.state = {
+	    _this2.dateFormatter = new DateTimeFormat(props.locale.dateFormat);
+	    _this2.state = {
 	      orient: props.orient,
 	      prefixCls: props.prefixCls || 'rc-calendar',
 	      value: value
 	    };
 	    // bind methods
-	    this.onBlur = onBlur.bind(this);
-	    this.onFocus = onFocus.bind(this);
-	    this.prefixClsFn = __webpack_require__(916).bind(this);
-	    this.nextMonth = goMonth.bind(this, 1);
-	    this.previousMonth = goMonth.bind(this, -1);
-	    this.nextYear = goYear.bind(this, 1);
-	    this.previousYear = goYear.bind(this, -1);
-	    this.chooseToday = chooseToday.bind(this);
-	    this.clear = clear.bind(this);
-	    this.handleSelect = handleSelect.bind(this);
-	    this.onMonthPanelSelect = onMonthPanelSelect.bind(this);
-	    this.handleKeyDown = handleKeyDown.bind(this);
-	    this.showMonthPanel = showMonthPanel.bind(this);
+	    _this2.onBlur = onBlur.bind(_this2);
+	    _this2.onFocus = onFocus.bind(_this2);
+	    _this2.prefixClsFn = __webpack_require__(919).bind(_this2);
+	    _this2.nextMonth = goMonth.bind(_this2, 1);
+	    _this2.previousMonth = goMonth.bind(_this2, -1);
+	    _this2.nextYear = goYear.bind(_this2, 1);
+	    _this2.previousYear = goYear.bind(_this2, -1);
+	    _this2.chooseToday = chooseToday.bind(_this2);
+	    _this2.clear = clear.bind(_this2);
+	    _this2.handleSelect = handleSelect.bind(_this2);
+	    _this2.onMonthPanelSelect = onMonthPanelSelect.bind(_this2);
+	    _this2.handleKeyDown = handleKeyDown.bind(_this2);
+	    _this2.showMonthPanel = showMonthPanel.bind(_this2);
+	    return _this2;
 	  }
 
 	  _createClass(Calendar, [{
@@ -13804,7 +13715,7 @@
 	};
 
 	Calendar.defaultProps = {
-	  locale: __webpack_require__(912),
+	  locale: __webpack_require__(915),
 	  onKeyDown: noop,
 	  className: '',
 	  showToday: true,
@@ -13818,23 +13729,23 @@
 
 /***/ },
 
-/***/ 911:
+/***/ 914:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var React = __webpack_require__(3);
+	var React = __webpack_require__(2);
 	var ROW = 3;
 	var COL = 4;
-	var cx = __webpack_require__(922).classSet;
+	var cx = __webpack_require__(925).classSet;
 
 	function goYear(direction) {
 	  var next = this.state.value.clone();
@@ -13857,22 +13768,24 @@
 	  function DecadePanel(props) {
 	    _classCallCheck(this, DecadePanel);
 
-	    _get(Object.getPrototypeOf(DecadePanel.prototype), 'constructor', this).call(this, props);
-	    this.state = {
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DecadePanel).call(this, props));
+
+	    _this.state = {
 	      value: props.value,
 	      prefixCls: props.rootPrefixCls + '-decade-panel'
 	    };
 
 	    // bind methods
-	    this.prefixClsFn = __webpack_require__(916).bind(this);
-	    this.nextCentury = goYear.bind(this, 100);
-	    this.previousCentury = goYear.bind(this, -100);
+	    _this.prefixClsFn = __webpack_require__(919).bind(_this);
+	    _this.nextCentury = goYear.bind(_this, 100);
+	    _this.previousCentury = goYear.bind(_this, -100);
+	    return _this;
 	  }
 
 	  _createClass(DecadePanel, [{
 	    key: 'render',
 	    value: function render() {
-	      var _this = this;
+	      var _this2 = this;
 
 	      var value = this.state.value;
 	      var locale = this.props.locale;
@@ -13908,7 +13821,7 @@
 	            'td',
 	            {
 	              key: startDecade,
-	              onClick: chooseDecade.bind(_this, startDecade),
+	              onClick: chooseDecade.bind(_this2, startDecade),
 	              role: 'gridcell',
 	              className: cx(classNameMap)
 	            },
@@ -13989,16 +13902,16 @@
 
 /***/ },
 
-/***/ 912:
+/***/ 915:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	/**
 	 * i18n resources for date-picker
 	 * @ignore
 	 * @author yiminghe@gmail.com
 	 */
-	'use strict';
-
 	module.exports = {
 	  today: 'Today',
 	  clear: 'Clear',
@@ -14022,21 +13935,21 @@
 	  nextDecade: 'Next decade',
 	  previousCentury: 'Last century',
 	  nextCentury: 'Next century',
-	  format: __webpack_require__(891)
+	  format: __webpack_require__(894)
 	};
 
 /***/ },
 
-/***/ 913:
+/***/ 916:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	/**
 	 * i18n resources for date-picker
 	 * @ignore
 	 * @author yiminghe@gmail.com
 	 */
-
-	'use strict';
 
 	module.exports = {
 	  today: '今天',
@@ -14062,30 +13975,30 @@
 	  nextDecade: '下一年代',
 	  previousCentury: '上一世纪',
 	  nextCentury: '下一世纪',
-	  format: __webpack_require__(892)
+	  format: __webpack_require__(895)
 	};
 
 /***/ },
 
-/***/ 914:
+/***/ 917:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var React = __webpack_require__(3);
-	var DateTimeFormat = __webpack_require__(889);
+	var React = __webpack_require__(2);
+	var DateTimeFormat = __webpack_require__(892);
 	var ROW = 3;
 	var COL = 4;
-	var cx = __webpack_require__(922).classSet;
-	var YearPanel = __webpack_require__(919);
+	var cx = __webpack_require__(925).classSet;
+	var YearPanel = __webpack_require__(922);
 
 	function goYear(direction) {
 	  var next = this.state.value.clone();
@@ -14120,18 +14033,20 @@
 	  function MonthPanel(props) {
 	    _classCallCheck(this, MonthPanel);
 
-	    _get(Object.getPrototypeOf(MonthPanel.prototype), 'constructor', this).call(this, props);
-	    this.state = {
-	      value: this.props.value,
-	      prefixCls: this.props.rootPrefixCls + '-month-panel'
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MonthPanel).call(this, props));
+
+	    _this.state = {
+	      value: _this.props.value,
+	      prefixCls: _this.props.rootPrefixCls + '-month-panel'
 
 	    };
 	    // bind methods
-	    this.nextYear = goYear.bind(this, 1);
-	    this.previousYear = goYear.bind(this, -1);
-	    this.showYearPanel = showYearPanel.bind(this);
-	    this.onYearPanelSelect = onYearPanelSelect.bind(this);
-	    this.prefixClsFn = __webpack_require__(916).bind(this);
+	    _this.nextYear = goYear.bind(_this, 1);
+	    _this.previousYear = goYear.bind(_this, -1);
+	    _this.showYearPanel = showYearPanel.bind(_this);
+	    _this.onYearPanelSelect = onYearPanelSelect.bind(_this);
+	    _this.prefixClsFn = __webpack_require__(919).bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(MonthPanel, [{
@@ -14164,7 +14079,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this = this;
+	      var _this2 = this;
 
 	      var props = this.props;
 	      var value = this.state.value;
@@ -14182,7 +14097,7 @@
 	            'td',
 	            { role: 'gridcell',
 	              key: m.value,
-	              onClick: chooseMonth.bind(_this, m.value),
+	              onClick: chooseMonth.bind(_this2, m.value),
 	              title: m.title,
 	              className: cx(classNameMap) },
 	            React.createElement(
@@ -14278,24 +14193,24 @@
 
 /***/ },
 
-/***/ 915:
+/***/ 918:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var React = __webpack_require__(3);
-	var DateTimeFormat = __webpack_require__(889);
-	var rcUtil = __webpack_require__(922);
-	var KeyCode = __webpack_require__(922).KeyCode;
-	var domAlign = __webpack_require__(920);
+	var React = __webpack_require__(2);
+	var DateTimeFormat = __webpack_require__(892);
+	var rcUtil = __webpack_require__(925);
+	var KeyCode = __webpack_require__(925).KeyCode;
+	var domAlign = __webpack_require__(923);
 	var orientMap = {
 	  tl: ['top', 'left'],
 	  tr: ['top', 'right'],
@@ -14326,12 +14241,11 @@
 	  _inherits(Picker, _React$Component);
 
 	  function Picker(props) {
-	    var _this = this;
-
 	    _classCallCheck(this, Picker);
 
-	    _get(Object.getPrototypeOf(Picker.prototype), 'constructor', this).call(this, props);
-	    this.state = {
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Picker).call(this, props));
+
+	    _this.state = {
 	      open: props.open,
 	      value: props.value || props.defaultValue
 	    };
@@ -14340,8 +14254,9 @@
 	    ['handleInputClick', 'handleCalendarBlur', 'handleCalendarClear', 'handleCalendarKeyDown', 'handleKeyDown', 'handleCalendarSelect'].forEach(function (m) {
 	      _this[m] = _this[m].bind(_this);
 	    });
-	    this.saveCalendarRef = refFn.bind(this, 'calendarInstance');
-	    this.saveInputRef = refFn.bind(this, 'inputInstance');
+	    _this.saveCalendarRef = refFn.bind(_this, 'calendarInstance');
+	    _this.saveInputRef = refFn.bind(_this, 'inputInstance');
+	    return _this;
 	  }
 
 	  _createClass(Picker, [{
@@ -14552,6 +14467,7 @@
 	Picker.defaultProps = {
 	  prefixCls: 'rc-calendar-picker',
 	  onChange: function onChange() {},
+
 	  formatter: new DateTimeFormat('yyyy-MM-dd')
 	};
 
@@ -14559,7 +14475,7 @@
 
 /***/ },
 
-/***/ 916:
+/***/ 919:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14574,31 +14490,29 @@
 
 /***/ },
 
-/***/ 917:
+/***/ 920:
 /***/ function(module, exports, __webpack_require__) {
-
-	
-
-	/**
-	 * time component for Calendar
-	 */
 
 	'use strict';
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var React = __webpack_require__(3);
-	var rcUtil = __webpack_require__(922);
-	var KeyCode = __webpack_require__(922).KeyCode;
-	var TimePanel = __webpack_require__(918);
+	/**
+	 * time component for Calendar
+	 */
+
+	var React = __webpack_require__(2);
+	var rcUtil = __webpack_require__(925);
+	var KeyCode = __webpack_require__(925).KeyCode;
+	var TimePanel = __webpack_require__(921);
 
 	function padding(number) {
 	  if (number < 10) {
@@ -14646,12 +14560,11 @@
 	  _inherits(Time, _React$Component);
 
 	  function Time(props) {
-	    var _this = this;
-
 	    _classCallCheck(this, Time);
 
-	    _get(Object.getPrototypeOf(Time.prototype), 'constructor', this).call(this, props);
-	    this.state = {
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Time).call(this, props));
+
+	    _this.state = {
 	      showHourPanel: 0,
 	      showMinutePanel: 0,
 	      showSecondPanel: 0
@@ -14659,6 +14572,7 @@
 	    ['onHourKeyDown', 'onMinuteKeyDown', 'onSecondKeyDown', 'onHourClick', 'onMinuteClick', 'onSecondClick', 'onSelectPanel'].forEach(function (m) {
 	      _this[m] = _this[m].bind(_this);
 	    });
+	    return _this;
 	  }
 
 	  _createClass(Time, [{
@@ -14771,21 +14685,21 @@
 
 /***/ },
 
-/***/ 918:
+/***/ 921:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var React = __webpack_require__(3);
-	var cx = __webpack_require__(922).classSet;
+	var React = __webpack_require__(2);
+	var cx = __webpack_require__(925).classSet;
 
 	function choose(hour, e) {
 	  var next = this.state.value.clone();
@@ -14801,18 +14715,20 @@
 	  function TimePanel(props) {
 	    _classCallCheck(this, TimePanel);
 
-	    _get(Object.getPrototypeOf(TimePanel.prototype), 'constructor', this).call(this, props);
-	    this.state = {
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TimePanel).call(this, props));
+
+	    _this.state = {
 	      value: props.value,
 	      prefixCls: props.rootPrefixCls + '-time-panel'
 	    };
-	    this.prefixClsFn = __webpack_require__(916).bind(this);
+	    _this.prefixClsFn = __webpack_require__(919).bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(TimePanel, [{
 	    key: 'render',
 	    value: function render() {
-	      var _this = this;
+	      var _this2 = this;
 
 	      var value = this.state.value;
 	      var props = this.props;
@@ -14839,7 +14755,7 @@
 	            'td',
 	            {
 	              key: d,
-	              onClick: choose.bind(_this, d),
+	              onClick: choose.bind(_this2, d),
 	              role: 'gridcell',
 	              className: cx(classNameMap) },
 	            React.createElement(
@@ -14897,25 +14813,25 @@
 
 /***/ },
 
-/***/ 919:
+/***/ 922:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var React = __webpack_require__(3);
-	var DateTimeFormat = __webpack_require__(889);
+	var React = __webpack_require__(2);
+	var DateTimeFormat = __webpack_require__(892);
 	var ROW = 3;
 	var COL = 4;
-	var cx = __webpack_require__(922).classSet;
-	var DecadePanel = __webpack_require__(911);
+	var cx = __webpack_require__(925).classSet;
+	var DecadePanel = __webpack_require__(914);
 
 	function goYear(direction) {
 	  var next = this.state.value.clone();
@@ -14933,21 +14849,21 @@
 	  _inherits(YearPanel, _React$Component);
 
 	  function YearPanel(props) {
-	    var _this = this;
-
 	    _classCallCheck(this, YearPanel);
 
-	    _get(Object.getPrototypeOf(YearPanel.prototype), 'constructor', this).call(this, props);
-	    this.prefixClsFn = __webpack_require__(916).bind(this);
-	    this.state = {
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(YearPanel).call(this, props));
+
+	    _this.prefixClsFn = __webpack_require__(919).bind(_this);
+	    _this.state = {
 	      value: props.value,
 	      prefixCls: props.rootPrefixCls + '-year-panel'
 	    };
-	    this.nextDecade = goYear.bind(this, 10);
-	    this.previousDecade = goYear.bind(this, -10);
+	    _this.nextDecade = goYear.bind(_this, 10);
+	    _this.previousDecade = goYear.bind(_this, -10);
 	    ['showDecadePanel', 'onDecadePanelSelect'].forEach(function (m) {
 	      _this[m] = _this[m].bind(_this);
 	    });
+	    return _this;
 	  }
 
 	  _createClass(YearPanel, [{
@@ -15115,7 +15031,7 @@
 
 /***/ },
 
-/***/ 920:
+/***/ 923:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -15133,7 +15049,7 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	var _utils = __webpack_require__(921);
+	var _utils = __webpack_require__(924);
 
 	var _utils2 = _interopRequireDefault(_utils);
 
@@ -15235,11 +15151,11 @@
 	  // all scrollable containers.
 	  while (el) {
 	    // clientWidth is zero for inline block elements in ie.
-	    if ((navigator.userAgent.indexOf('MSIE') === -1 || el.clientWidth !== 0) && (
+	    if ((navigator.userAgent.indexOf('MSIE') === -1 || el.clientWidth !== 0) &&
 	    // body may have overflow set on it, yet we still get the entire
 	    // viewport. In some browsers, el.offsetParent may be
 	    // document.documentElement, so check for that too.
-	    el !== body && el !== documentElement && _utils2['default'].css(el, 'overflow') !== 'visible')) {
+	    el !== body && el !== documentElement && _utils2['default'].css(el, 'overflow') !== 'visible') {
 	      var pos = _utils2['default'].offset(el);
 	      // add border
 	      pos.left += el.clientLeft;
@@ -15498,10 +15414,12 @@
 
 /***/ },
 
-/***/ 921:
+/***/ 924:
 /***/ function(module, exports) {
 
 	'use strict';
+
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
@@ -15512,7 +15430,7 @@
 
 	function css(el, name, v) {
 	  var value = v;
-	  if (typeof name === 'object') {
+	  if ((typeof name === 'undefined' ? 'undefined' : _typeof(name)) === 'object') {
 	    for (var i in name) {
 	      if (name.hasOwnProperty(i)) {
 	        css(el, i, name[i]);
@@ -15955,37 +15873,37 @@
 
 /***/ },
 
-/***/ 922:
+/***/ 925:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	module.exports = {
-	  guid: __webpack_require__(929),
-	  classSet: __webpack_require__(925),
-	  joinClasses: __webpack_require__(930),
-	  KeyCode: __webpack_require__(931),
-	  PureRenderMixin: __webpack_require__(932),
-	  shallowEqual: __webpack_require__(933),
-	  createChainedFunction: __webpack_require__(926),
+	  guid: __webpack_require__(932),
+	  classSet: __webpack_require__(928),
+	  joinClasses: __webpack_require__(933),
+	  KeyCode: __webpack_require__(934),
+	  PureRenderMixin: __webpack_require__(935),
+	  shallowEqual: __webpack_require__(936),
+	  createChainedFunction: __webpack_require__(929),
 	  Dom: {
-	    addEventListener: __webpack_require__(927),
-	    contains: __webpack_require__(928)
+	    addEventListener: __webpack_require__(930),
+	    contains: __webpack_require__(931)
 	  },
 	  Children: {
-	    toArray: __webpack_require__(924),
-	    mapSelf: __webpack_require__(923)
+	    toArray: __webpack_require__(927),
+	    mapSelf: __webpack_require__(926)
 	  }
 	};
 
 /***/ },
 
-/***/ 923:
+/***/ 926:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
+	var React = __webpack_require__(2);
 
 	function mirror(o) {
 	  return o;
@@ -15998,12 +15916,12 @@
 
 /***/ },
 
-/***/ 924:
+/***/ 927:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(3);
+	var React = __webpack_require__(2);
 
 	module.exports = function (children) {
 	  var ret = [];
@@ -16015,8 +15933,12 @@
 
 /***/ },
 
-/***/ 925:
+/***/ 928:
 /***/ function(module, exports) {
+
+	'use strict';
+
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 
 	/**
 	 * Copyright 2013-2014, Facebook, Inc.
@@ -16046,10 +15968,8 @@
 	 * @param [string ...]  Variable list of classNames in the string case.
 	 * @return string       Renderable space-separated CSS className.
 	 */
-	'use strict';
-
 	function cx(classNames) {
-	  if (typeof classNames === 'object') {
+	  if ((typeof classNames === 'undefined' ? 'undefined' : _typeof(classNames)) === 'object') {
 	    return Object.keys(classNames).filter(function (className) {
 	      return classNames[className];
 	    }).join(' ');
@@ -16062,8 +15982,10 @@
 
 /***/ },
 
-/***/ 926:
+/***/ 929:
 /***/ function(module, exports) {
+
+	"use strict";
 
 	/**
 	 * Safe chained function
@@ -16073,8 +15995,6 @@
 	 *
 	 * @returns {function|null}
 	 */
-	"use strict";
-
 	function createChainedFunction() {
 	  var args = arguments;
 
@@ -16091,7 +16011,7 @@
 
 /***/ },
 
-/***/ 927:
+/***/ 930:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16116,7 +16036,7 @@
 
 /***/ },
 
-/***/ 928:
+/***/ 931:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -16134,7 +16054,7 @@
 
 /***/ },
 
-/***/ 929:
+/***/ 932:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16146,7 +16066,7 @@
 
 /***/ },
 
-/***/ 930:
+/***/ 933:
 /***/ function(module, exports) {
 
 	/**
@@ -16162,7 +16082,7 @@
 	 * https://github.com/facebook/react/blob/v0.12.0/PATENTS
 	 */
 
-	"use strict";
+	"use strict"
 
 	/**
 	 * Combines multiple className strings into one.
@@ -16172,6 +16092,7 @@
 	 * @return {string}
 	 */
 
+	;
 	function joinClasses(className /*, ... */) {
 	  if (!className) {
 	    className = '';
@@ -16193,16 +16114,16 @@
 
 /***/ },
 
-/***/ 931:
+/***/ 934:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	/**
 	 * @ignore
 	 * some key-codes definition and utils from closure-library
 	 * @author yiminghe@gmail.com
 	 */
-
-	'use strict';
 
 	var KeyCode = {
 	  /**
@@ -16719,7 +16640,7 @@
 
 /***/ },
 
-/***/ 932:
+/***/ 935:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -16735,7 +16656,7 @@
 
 	"use strict";
 
-	var shallowEqual = __webpack_require__(933);
+	var shallowEqual = __webpack_require__(936);
 
 	/**
 	 * If your React component's render function is "pure", e.g. it will render the
@@ -16771,7 +16692,7 @@
 
 /***/ },
 
-/***/ 933:
+/***/ 936:
 /***/ function(module, exports) {
 
 	/**
@@ -16785,7 +16706,7 @@
 	 * @providesModule shallowEqual
 	 */
 
-	"use strict";
+	"use strict"
 
 	/**
 	 * Performs equality by iterating through keys on an object and returning
@@ -16794,6 +16715,7 @@
 	 *
 	 * @return {boolean}
 	 */
+	;
 	function shallowEqual(objA, objB) {
 	  if (objA === objB) {
 	    return true;
@@ -16818,7 +16740,7 @@
 
 /***/ },
 
-/***/ 934:
+/***/ 937:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

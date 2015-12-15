@@ -12812,6 +12812,7 @@
 	        });
 	        document.addEventListener('visibilitychange', function () {
 	            !document.hidden && (_this2.touch.isCanSwipe = 1);
+	            alert('爱要啊啊');
 	        });
 	    },
 
