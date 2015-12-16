@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-12-04 17:53:03
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-12-16 10:35:07
+* @Last Modified time: 2015-12-16 11:27:12
 */
 
 'use strict';
@@ -122,6 +122,11 @@ var LunBo = (function(){
                     });
                 }
             },
+            removeTransition: function(){
+                transitionStore.forEach((ele, index)=>{
+                    $items[index].classList.remove('current');
+                })
+            },
             // 开始触摸
             touchStart: function(){
 
@@ -130,6 +135,11 @@ var LunBo = (function(){
                 var touches = event.touches[0] ;
                 touch.leftS = touches.pageX ;
                 touch.topS = touches.pageY ;
+
+                // 避免系统级返回触发滑动事件
+                if(touch.leftS/touch.width<0.05 || touch.leftS/touch.width>0.95){
+                    return
+                }
                 touch.prev = this.checkIndex( current-1,'prev')
                 touch.next = this.checkIndex( current+1,'next')
                 touch.swiping = 1
@@ -300,9 +310,13 @@ var LunBo = (function(){
                         this.clearInterval() ;
                     }else{
                         this.transitionend() ;
-                        alert(1)
                     }
-                })
+                });
+
+               /* window.onbeforeunload = function(){
+                    // this.removeTransition();
+                    return 222 ;
+                }.bind(this)*/
             }
 
         }

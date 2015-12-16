@@ -96,7 +96,6 @@
             });
             document.addEventListener('visibilitychange',()=>{
                 !document.hidden && (this.touch.isCanSwipe = 1) ;
-                alert('爱要啊啊')
             })
         },
         methods: {
@@ -117,6 +116,10 @@
                 var touches = event.touches[0] ;
                 touch.leftS = touches.pageX ;
                 touch.topS = touches.pageY ;
+                // 避免系统级返回触发滑动事件
+                if(touch.leftS/touch.width<0.08 || touch.leftS/touch.width>0.92){
+                    return
+                }
                 touch.prev = this.checkIndex(this.current-1,'prev')
                 touch.next = this.checkIndex(this.current+1,'next')
                 touch.swiping = 1

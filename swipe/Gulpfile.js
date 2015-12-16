@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-12-04 20:04:03
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-12-07 10:39:30
+* @Last Modified time: 2015-12-16 11:29:25
 */
 
 'use strict';
@@ -20,4 +20,10 @@ gulp.task('fuck',function(){
         .pipe( gulp.dest('./min/') );
 });
 
+gulp.task('watch',function(){
+    gulp.watch('./js/slide.js',['fuck']);
+});
 
+gulp.task('default',['watch'],function(){
+    gulp.start('fuck');
+});
