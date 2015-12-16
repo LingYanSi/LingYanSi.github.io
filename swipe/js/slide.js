@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-12-04 17:53:03
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-12-13 22:29:47
+* @Last Modified time: 2015-12-16 10:35:07
 */
 
 'use strict';
@@ -299,7 +299,8 @@ var LunBo = (function(){
                     if( document.hidden ){
                         this.clearInterval() ;
                     }else{
-                        this.setInterval() ;
+                        this.transitionend() ;
+                        alert(1)
                     }
                 })
             }
