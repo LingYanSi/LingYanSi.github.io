@@ -1,0 +1,142 @@
+#login {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#main {
+  display: none ;
+  height: 600px;
+}
+#main #chat {
+  width: 600px;
+  position: relative ;
+  height: 100%;
+  background-image: url('/static/imgs/1.jpg');
+  background-size: cover ;
+  background-repeat: no-repeat;
+  background-position: center ;
+}
+#main #friends {
+  width: 200px;
+  color: #fff ;
+  background: linear-gradient(45deg, #f76969, #6432c8);
+}
+#main #friends li {
+  padding-left: 1em;
+  list-style: none;
+  line-height: 2;
+  background: rgba(0, 0, 0, 0.1);
+  margin-bottom: 6px;
+}
+.chat-item {
+  padding: 10px;
+  margin: 10px 0;
+  display: flex;
+  font-size: 12px;
+}
+.chat-item > span {
+  width: 5em;
+  padding: 0.5em 0;
+  line-height: 1.6 ;
+  height: 1.6em ;
+  text-align: center;
+  border-radius: 4px;
+  background: gray ;
+}
+.chat-item > div {
+  flex: 1;
+  margin-left: 10px;
+  word-wrap: break-word;
+  position: relative;
+}
+.chat-item > div .content {
+  background: gray ;
+  display: inline-block;
+  border-radius: 4px;
+  max-width: 200px;
+  padding: 0.5em 1em ;
+  line-height: 1.6 ;
+  position: relative;
+}
+.chat-item > div:before {
+  content: "";
+  position: absolute ;
+  display: block;
+}
+.chat-item.mine {
+  color: #fff;
+}
+.chat-item.mine > span {
+  order: 1;
+  background: #24b455;
+}
+.chat-item.mine > div {
+  margin-right: 10px;
+  margin-left: 0px ;
+  text-align: right ;
+}
+.chat-item.mine > div .content {
+  text-align: left ;
+  background: #f76964;
+}
+.chat-item.mine > div:before {
+  right: -8px;
+  top: -6px;
+  height: 10px;
+  width: 20px;
+  border: 8px solid rgba(0, 0, 0, 0);
+  border-radius: 50%;
+  border-right-width: 0px;
+  border-bottom-color: #f76964;
+}
+.chat-item.friend {
+  color: #fff;
+}
+.chat-item.friend > span {
+  background: #7dd1ca;
+}
+.chat-item.friend > div {
+  text-align: left ;
+}
+.chat-item.friend > div .content {
+  background: #0b456b;
+}
+.chat-item.friend > div:before {
+  left: -8px;
+  top: -6px;
+  height: 10px;
+  width: 20px;
+  border: 8px solid rgba(0, 0, 0, 0);
+  border-radius: 50%;
+  border-left-width: 0px;
+  border-bottom-color: #0b456b;
+}
+#chats {
+  height: 560px;
+  background: rgba(0, 0, 0, 0.1);
+  overflow-y: auto ;
+}
+#send-box {
+  display: flex;
+  height: 40px;
+  position: absolute;
+  bottom: 0;
+  left: 0 ;
+  width: 100%;
+}
+#send-box input {
+  flex: 1;
+  height: 100%;
+  outline: none;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+#send-box #send {
+  width: 6em;
+  height: 100%;
+  border: none;
+  background: #0b456b;
+  color: #fff;
+  outline: none;
+}

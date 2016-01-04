@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// 顶部这句话，表示使用node 执行本文件
 
 'use strict';
 
@@ -9,7 +10,10 @@ var http = require('http') ,
     colors = require('colors') , // 更改node console 出的字符串颜色
     iconv = require('iconv-lite') , // 解码 转码
     async = require('async') , // 按队列执行异步任务
-    getimage = require('../lib/request') ; // 获取达盖尔的旗帜单个页面的图片
+    getimage = require('../lib/request') , // 获取达盖尔的旗帜单个页面的图片
+     server = require('../lib/myServer') , // 获取达盖尔的旗帜单个页面的图片
+     os = require('os') ,
+     path = require('path') ;
 
 var option = {
     hostname: 'cl.wocl.me',
@@ -61,12 +65,18 @@ var request = http.request(option , function( response){
             getimage( option.hostname, '/'+ele.content ,store ,ele.index , callback );
 
         }, function (error) {
-            fs.writeFileSync( '../cl/data.js', 'var newData='+ JSON.stringify( store)  );
+            /*
+            * __filename 当前执行js文件的路径
+            * __dirname 当前路径
+            */
+            fs.writeFileSync(path.resolve(__filename,'../../../static/js/sex.js'), 'var newData='+ JSON.stringify( store)  );
 
             console.log( '用时'.green+(new Date().getTime()-STARTTIME)/1000+'s'.green )
             console.log('已获取***达盖尔的旗帜***最新图片:'.red,'尽情欣赏'.bgBlue.cyan );
             // 执行命令行程序
-            childprocess.exec('open ../cl/index.html')
+            // 获取本机在局域网的ip地址
+            var ENO_ADDRESS = os.networkInterfaces().en0[1].address
+            childprocess.exec(`open http://${ENO_ADDRESS}:9002/sex`)
             // body...
         });
 
@@ -82,4 +92,10 @@ request.on('error', function( e){
 request.write('hello');
 
 request.end();
+
+/*
+* 需求：
+* 开启一个web服务，访问地址可打开一个页面
+* 通过websocket 来进行通信，数据接受中进度。。。刷新页面
+*/
 

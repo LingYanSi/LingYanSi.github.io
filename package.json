@@ -20,6 +20,7 @@
     "gulp-connect": "latest",
     "gulp-htmlmin": "^1.1.1",
     "gulp-jshint": "^1.11.2",
+    "gulp-less": "^3.0.5",
     "gulp-load-plugins": "^0.10.0",
     "gulp-minify": "0.0.5",
     "gulp-minify-css": "^1.1.5",
@@ -54,6 +55,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "pack": "webpack --progress --colors --watch",
-    "pack-server": " webpack-dev-server --progress --colors --watch"
+    "pack-server": " webpack-dev-server --progress --colors --watch",
+    "huangcheng": "echo \"黄诚是傻逼\" "
   }
 }

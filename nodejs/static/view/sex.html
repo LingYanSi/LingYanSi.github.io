@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="fuck you">
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <style>
+        img{max-width: 100%; height: auto;}
+    </style>
+</head>
+
+<body>
+    <h1>草榴社区最新图片</h1>
+    <div id="lists">
+
+    </div>
+
+<script src="./static/js/sex.js"></script>
+<script>
+    function tpl(data){
+        return `<div>
+            <h2><a href="${data.content}">${data.title}</a></h2>
+            <div>${ data.imgs.map((ele)=>{
+                    return `<img src="${ele}" alt=""/>`
+                }).join(' ') }</div>
+        </div>`
+    }
+
+    document.querySelector('#lists').innerHTML = window.newData.map((ele)=>{
+        return tpl(ele)
+    }).join(' ');
+</script>
+</body>
+
+</html>

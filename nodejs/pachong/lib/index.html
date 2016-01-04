@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+    <head>websocket开题</head>
+    <div onclick="getJson()">
+        测试fetch
+    </div>
+    <button onclick="testSocket()">链接websocket</button>
+    <div id="chats"></div>
+    <div id="info">
+        <input type="text">
+        <button id="send">发送</button>
+    </div>
+    <script>
+
+    function getJson(){
+        fetch('/json').then(function(data){
+            return data.json()
+        }).then(function(data){
+            console.log( data)
+        })
+    }
+
+    var sk ;
+    var chatsStore = [];
+    var $chats = document.querySelector('#chats');
+    var KEY ;
+    var chats = {
+        render: function(){
+            $chats.innerHTML = `
+                ${chatsStore.map((ele)=>{return '<p>'+ele.key+':'+ele.msg+'</p>'}).join(' ')}
+            `
+        }
+    }
+    function testSocket(){
+        var socket = new WebSocket('ws://192.168.1.4:9002/socket');
+        sk = socket ;
+        socket.onmessage = function(event) {
+            // 收到的数据如果是json格式的花，需要自己解析
+            console.log( event.data );
+            var data = JSON.parse(event.data) ;
+            if( !KEY ){
+                KEY = data.key ;
+                return
+            }
+            chatsStore.push( data );
+            chats.render();
+        }
+        socket.onopen = function(event) {
+            // socket.send(JSON.stringify({
+            //     msg: '草泥马'
+            // }))
+        }
+        socket.onclose = function(){
+            console.log(new Date().getTime())
+        }
+        socket.onerror = function(){
+            // console.log(new Date.g)
+        }
+    }
+    document.querySelector('#send').addEventListener('click',function(){
+        // console.log( this.previousElementSibling.value )
+        sk.send( JSON.stringify({
+                msg:  this.previousElementSibling.value  ,
+                key: KEY+''
+            }) )
+    })
+    </script>
+</body>
+
+</html>

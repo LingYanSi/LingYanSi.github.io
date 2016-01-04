@@ -236,6 +236,7 @@ Preferences -> bowser packages -> fileheader -> templete -> body -> html.tpl
     13.IMESupport 解决在win8系统下。sublime输入法不跟随的现象
     14.fileheader 自动更新保存时间，文件模板
     15.Emmet LiveStyle 实时刷新双向修改
+    16.Modific 显示文件被改动的地方
 
 
 // -----------------------------------

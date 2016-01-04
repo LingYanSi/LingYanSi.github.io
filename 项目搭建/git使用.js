@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-10-10 09:58:41
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-12-10 09:55:37
+* @Last Modified time: 2016-01-04 11:23:25
 */
 
 'use strict';
@@ -81,7 +81,23 @@ you have a firewall along the way to github.com which blocks the ssh traffic (eg
     -> 历史版本与本地
         git diff -r 历史版本号 filename
 
-    git log -10 filename 打印最近提交的
+    git log -10 --pretty=oneline filename 打印最近提交的
 
+    git diff // 对比整个项目本地与线上
+    git diff pathname // 对比文件夹
+
+8. git status
+
+9. 清除本地修改[指定文件、文件夹]
+    git checkout -- filename/pathname
+
+10. 问题： 大意是让你确定是否有权限access git项目 或者 git项目是否存在
+    解决： 过十分钟，自己就好了
+
+11. 获取git项目的线上地址
+    git remote -v
+
+12. 撤销add
+    git reset .
 
 
