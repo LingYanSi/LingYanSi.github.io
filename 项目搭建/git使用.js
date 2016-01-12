@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-10-10 09:58:41
 * @Last Modified by:   zikong
-* @Last Modified time: 2016-01-04 11:23:25
+* @Last Modified time: 2016-01-07 13:09:07
 */
 
 'use strict';
@@ -99,5 +99,13 @@ you have a firewall along the way to github.com which blocks the ssh traffic (eg
 
 12. 撤销add
     git reset .
+
+
+.gitignore // 配置文件
+*.a       # 忽略所有 .a 结尾的文件
+!lib.a    # 但 lib.a 除外
+/TODO     # 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO
+build/    # 忽略 build/ 目录下的所有文件
+doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
 
 
