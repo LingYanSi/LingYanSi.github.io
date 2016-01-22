@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Ent测试</h1>
+
+    <div id="tpl"></div>
+    
+    <script src="build/tool.js" charset="utf-8"></script>
+    <script src="build/parse.js" charset="utf-8"></script>
+    <script src="build/listen.js" charset="utf-8"></script>
+    <script src="build/index.js" charset="utf-8"></script>
+    <script type="text/javascript">
+    //   var a = {b:1};
+    //   Ent.listen(a,function(name, oldValue, newValue){
+    //     console.log(name, oldValue, newValue)
+    //   })
+
+      var data = {
+          title: '标题',
+          body: '我是内容'
+      }
+      Ent.create({
+          data: data,
+          ele: '#tpl',
+          template:'<div isShow={}>{title}<p>{body}</p></div>',
+          events:{
+              click: function(){
+                  console.log('点击事件')
+              }
+          },
+          methods:{
+              what: function(){
+                  return 'sth else';
+              }
+          }
+      })
+
+    </script>
+  </body>
+</html>
