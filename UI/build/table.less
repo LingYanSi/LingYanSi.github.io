@@ -1,0 +1,27 @@
+
+table.table{
+    @tableBorderColor: rgb(200, 200 , 150);
+    width: 100%;
+    border-spacing: 0 ;
+    border-collapse: collapse;
+    border: 1px solid @tableBorderColor;
+    td,th{
+        padding: 10px 10px;
+        &:not(:first-child){
+            border-left: 1px solid @tableBorderColor ;
+        } 
+    }
+    thead{
+        text-align: left;
+        tr{
+            // display: block;
+            border-bottom: 1px solid @tableBorderColor ;
+        }
+    }
+    tbody{
+        tr+tr{
+            // display: block;
+            border-top: 1px solid @tableBorderColor ;
+        }
+    }
+}

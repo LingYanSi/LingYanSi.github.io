@@ -1,0 +1,67 @@
+
+@import "./include/_var";
+
+@height: 50px;
+.topbar{
+    height: @height;
+    width: 100%;
+    position: fixed;
+    z-index: 1000 ;
+    left: 0; top: 0 ;
+    background: @themeColor ;
+    display: flex;
+    .title{
+        width: @sidebarWidth ;
+        height: 100%;
+        background: @themeColor;
+        text-align: center;
+        line-height: @height ;
+        font-size: 1.4rem;
+        color: #fff ;
+    }
+    .content{
+        flex: 1;
+    }
+    .user{
+        @bgd: rgba(0,0,0, .1);
+        width: 150px ;
+        margin-right: 10px;
+        height: 100% ;
+        background: @bgd ;
+        cursor: pointer;
+        color: #fff ;
+
+        @padding: 10px ;
+        .head{
+            height: 100% ;
+            padding: 5px @padding ;
+            box-sizing: border-box;
+            .img{
+                width: @height - 10px ;
+                height: @height - 10px ;
+                border-radius: 100%;
+                overflow: hidden;
+                background-color: black ;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-image: url(http://ww1.sinaimg.cn/mw690/69b8b46egw1eymst7g4g8g20au085npd.gif);
+            }
+        }
+        @listHeight: 40px;
+        .list{
+            background: @themeColor ;
+            list-style: none;
+            li{
+                height: @listHeight ;
+                overflow: hidden;
+                line-height: @listHeight ;
+                padding: 0 @padding;
+                border-top: 1px solid rgba(0,0,0, .2) ;
+                span{
+                    margin-left: .5em;
+                }
+            }
+        }
+    }
+}

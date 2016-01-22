@@ -1,0 +1,116 @@
+@import "include/_var";
+
+.sidebar {
+    background: #fff;
+    width: @sidebarWidth ;
+    // border: 1px solid @color-border;
+    .logo {
+        line-height: 50px;
+        font-size: 20px;
+        padding-left: 30px;
+        background: #2980b9;
+        color: #fff;
+    }
+    .user{
+        border-bottom: 1px solid #ccc;
+        padding: 20px 15px;
+        display: flex;
+        .head{
+            height: 55px; width: 55px;
+            border-radius: 100%;
+            img{
+                display: block;
+                width: 100%; height: auto;
+            }
+        }
+        .info{
+            flex: 1 ;
+            padding-left: 15px;
+            p{
+                margin: 0;
+            }
+            .name{
+                line-height: 35px;
+                font-size: 22px;
+            }
+            .status{
+                line-height: 20px;
+                font-size: 12px;
+                padding-left: .3em;
+                .fa-circle{
+                    color: #2ecc71;
+                }
+            }
+        }
+    }
+    .box {
+        border-bottom: 1px solid #ccc;
+        height: 41px; overflow: hidden ;
+        transition: height .3s ;
+        a{
+            text-decoration: none;
+        }
+        a,
+        a:hover,
+        a:active,
+        a:link {
+            color: inherit;
+            display: block ;
+        }
+        h1 {
+            padding-left: 2em ;
+            font-size: 14px;
+            cursor: pointer;
+            position: relative;
+            margin: 0 ;
+            &:after {
+                content: "";
+                display: block;
+                position: absolute;
+                top: 50%;
+                right: 1em;
+                transform: translate(0, -75%);
+                width: 0;
+                height: 0;
+                border: 4px solid rgba(0, 0, 0, 0);
+                border-bottom-color: #f55;
+                transform-origin: center 75%;
+                transition: all .3s;
+            }
+        }
+        &.open {
+            // background: rgba(52, 152, 219,0.6);
+            // color: #fff;
+            h1:after {
+                transform: translate(0, -75%) rotateZ(180deg);
+            }
+            ul {
+                display: block;
+            }
+        }
+        h1,
+        li {
+            line-height: 40px;
+            &:hover{
+                background: #3498db;
+                color: #fff;
+            }
+        }
+        li{
+            border-top: 1px solid rgba(200,200,200,.3);
+            padding-left: 3em;
+        }
+    }
+    .box:nth-child(4n+1){
+        border-left: 4px solid #e74c3c ;
+    }
+    .box:nth-child(4n+2){
+        border-left: 4px solid #f1c40f ;
+    }
+    .box:nth-child(4n+3){
+        border-left: 4px solid #2ecc71 ;
+    }
+    .box:nth-child(4n+4){
+        border-left: 4px solid #01b9fe ;
+    }
+}

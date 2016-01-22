@@ -1,0 +1,66 @@
+
+@import "reset" ;
+
+@import "icon";
+
+@import "topbar";
+
+@import "switch";
+
+@import "main" ;
+
+@import "button";
+
+@import "table";
+
+@import "form";
+
+@import "modal";
+
+// 标题
+h1,h2,h3,h4{
+    line-height: 2 ;
+}
+h1{
+    font-size: 2.4em ;
+}
+h2{
+    font-size: 2em ;
+}
+h3{
+    font-size: 1.6em ;
+}
+h4{
+    font-size: 1.2em ;
+}
+
+// 文本排版
+.text-center{
+    text-align: center !important ;
+}
+.text-left{
+    text-align: left !important ;
+}
+.text-right{
+    text-align: right !important ;
+}
+
+// 浮动
+.fl{
+    float: left ;
+}
+.fr{
+    float: right ;
+}
+.clearfix{
+    &:before,&:after{
+        content: '';
+        clear: both ;
+    }
+}
+
+// 引用
+.quote{
+    border-left: 6px solid gray ;
+    padding: .6em ;
+}
