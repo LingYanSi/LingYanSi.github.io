@@ -110,6 +110,12 @@ module.exports = {
         chunkFilename: "[name].js",
         //publicPath: "/activity2-0/dist/src/"
     },
+
+      // 是否在每次打包之前将之前的打包文件
+      // 删除
+      clearBeforeBuild: true,
+      // 对于jquery，react,underscore之类的公共框架，我们并不需要每次都把他们打包进业务文件
+      // externals就是告诉webpack，这些依赖不需要打包，并把对应的全局变量穿进去
     externals: {
       'react': 'window.React',
       'react/addons': 'window.React',
@@ -121,6 +127,7 @@ module.exports = {
     },
 
     resolve: {
+        // 别名，webpack打包的时候，会优先从别名配置的路径去寻找
         alias: {
             'base_path': path.resolve(__dirname + '/app/base'),
             'page_path': path.resolve(__dirname + '/app/pages'),
@@ -131,6 +138,7 @@ module.exports = {
         extensions: ['', '.js', '.jsx']
     },
     module: {
+        // loader 类似于gulp的pipe？对test指定的文件进行编译解析
         loaders: [
             { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
             { test: /\.css$/, loader: "style!css" },
@@ -143,10 +151,11 @@ module.exports = {
         ],
     },
 
-    // 在终端打印日志
+    // 插件
     plugins: [
         new WebpackPathOrderPlugin(),
 
+        // 打印日志
         new WebpackOnBuildPlugin(function(stats) {
             var compilation = stats.compilation;
             var errors = compilation.errors;

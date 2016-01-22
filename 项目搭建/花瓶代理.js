@@ -2,7 +2,7 @@
 * @Author: zikong
 * @Date:   2015-11-03 11:39:26
 * @Last Modified by:   zikong
-* @Last Modified time: 2015-11-18 13:46:07
+* @Last Modified time: 2016-01-13 15:32:38
 */
 
 'use strict';
@@ -21,3 +21,25 @@ chrome
 在proxy setting中设置端口【port】
 
 如果没有证书，正版花瓶会每30分钟重启一次。
+
+
+破解版
+v: 3.10.1
+
+需要java环境
+安装jdk
+
+安装结束后
+java -version // 检测是否安装成功
+
+step:
+替换Licence
+cd /Applications/Charles.app/Contents/Java
+wget https://raw.githubusercontent.com/100apps/charles-hacking/master/Licence.java
+javac -source 1.6 -target 1.6 -d . Licence.java
+jar -uvf charles.jar com/xk72/charles/gui/Licence*
+rm -rf com
+rm Licence.java
+open /Applications/Charles.app
+#此时启动的是已经注册过的版本了。
+

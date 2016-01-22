@@ -27,8 +27,8 @@
         // 第三个参数：连接失败
 
         navigator.getUserMedia({
-            audio:true,
-            video:true,
+            audio:true, // 获取音频
+            video:true, // 获取图像
         },function(stream){
             console.log('连接成功')
             video.src = URL.createObjectURL(stream);

@@ -55,3 +55,12 @@ java    61342 a  313u  IPv6 0x1111111111111     0t0  TCP *:cslistener (LISTEN)
 
 然后根据PID杀进程：
 sudo kill -9 61342
+
+
+------------------ 修改host -------------------
+gas mask的原理：
+    在切换host的时候，去复写 /etc/hosts 文件
+
+一个奇怪的事情，今天帮别人修改host的时候，提示readonly 文法保存，
+使用了 sudo chmod 755 /etc/hosts 还是不行
+最后使用 sudo vim /etc/hosts 才成功

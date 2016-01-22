@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <style>
-        #imageUploadIframe{
+        #imageUploadIframe {
             display: none;
         }
     </style>
@@ -14,31 +14,33 @@
     <form action="upload.php" target="imageUploadIframe" method="post">
         <input type="file" accept="image/*" name="image">
     </form>
-    <iframe name="imageUploadIframe" id="imageUploadIframe"></iframe>
+    <iframe name="imageUploadIframe" id="imageUploadIframe" style="display:none;"></iframe>
 
     <script>
-    /*
-    * 1. 传统的方式
-    */
+        /*
+         * 1. 传统的方式
+         */
         // 提交表单，因为form 的 target="imageUploadIframe" 所以本页面不会刷新
-        document.querySelector('form').submit();
+        document.querySelector('[type="file"]').addEventListener('change', (event) => {
+            event.value && document.querySelector('form').submit();
+        })
 
-        document.querySelector('#imageUploadIframe').addEventListener('load',function(){
+        document.querySelector('#imageUploadIframe').addEventListener('load', function() {
             // iframe会在页面第一次加载时候，load一次，在form提交，后端返回输出后也会load
             // 后端输出地数据放在body里面
-            var text = window.iframes[imageUploadIframe].document.body.contentText ;
+            var text = window.iframes[imageUploadIframe].document.body.contentText;
             // 解析数据
-            var data = JSON.parse( text );
+            var data = JSON.parse(text);
         });
-    /*
-    * 2. FormData
-    */
-        document.querySelect('input[type="file"]').addEventListener('change',function(){
-            var form = document.querySelector('form') ;
-            var xhr = new XMLHttpRequest() ;
-            var formData = new FormData( form ) ;
+        /*
+         * 2. FormData
+         */
+        document.querySelect('input[type="file"]').addEventListener('change', function() {
+            var form = document.querySelector('form');
+            var xhr = new XMLHttpRequest();
+            var formData = new FormData(form);
             xhr.open('POST', 'upload.php', true);
-            xhr.send( formData );
+            xhr.send(formData);
         })
     </script>
 </body>
