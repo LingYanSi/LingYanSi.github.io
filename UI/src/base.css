@@ -1067,6 +1067,9 @@ select {
   border-top: 1px solid rgba(200, 200, 200, 0.3);
   padding-left: 3em;
 }
+.sidebar .box li.cao {
+  background: red ;
+}
 .sidebar .box:nth-child(4n+1) {
   border-left: 4px solid #e74c3c ;
 }
@@ -1228,6 +1231,64 @@ label.require:after {
 }
 #modal .modal-item .modal-item-main .modal-btn-box button + button {
   margin-left: 10px;
+}
+.slider {
+  width: 100% ;
+  height: 100% ;
+  position: relative ;
+  overflow: hidden ;
+}
+.slider .items {
+  position: relative ;
+  height: 100%;
+}
+.slider .items .item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center ;
+  background-size: cover ;
+  transform: translate(0, 0);
+  opacity: 1 ;
+}
+.slider .items .item.hide {
+  display: none;
+}
+.slider .items .item.transition {
+  transition: all .3s ;
+  transition-property: transform, opacity ;
+}
+.slider .items .item.prev-leftright {
+  transform: translate(-100%, 0);
+}
+.slider .items .item.next-leftright {
+  transform: translate(100%, 0);
+}
+.slider .items .item.prev-updown {
+  transform: translate(0, -100%);
+}
+.slider .items .item.next-updown {
+  transform: translate(0, 100%);
+}
+.slider .items .item.prev-opacity {
+  opacity: 0 ;
+}
+.slider .items .item.next-opacity {
+  opacity: 0 ;
+}
+.slider .btns button {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.slider .btns button.slider-prev {
+  left: 10px;
+}
+.slider .btns button.slider-next {
+  right: 10px;
 }
 h1,
 h2,

@@ -1,5 +1,5 @@
 
-    'use strict';
+'use strict';
 
 // 事件代理
 var eventProxy = function(ele, event, selector, fun){
@@ -19,8 +19,8 @@ var eventProxy = function(ele, event, selector, fun){
     if( selectType != 'tag' ){
         selector = selector.slice(1)
     }
-
-    document.querySelector(ele).addEventListener('click',function(event){
+    var $ele = Object.prototype.toString.call(ele).toLocaleLowerCase().indexOf('string')>0 ? document.querySelector(ele) : ele ;
+    $ele.addEventListener('click',function(event){
         var target = event.target ;
         var proxy = false ;
         while ( !proxy && target!= this) {
@@ -35,6 +35,7 @@ var eventProxy = function(ele, event, selector, fun){
             target = target.parentElement ;
         }
 
+        // 更改this指向到target上
         proxy && fun && fun.call(target) ;
     })
 }
@@ -50,7 +51,18 @@ var eventProxy = function(ele, event, selector, fun){
         toggle( index){
             let thisState = this.data[index] || {} ;
             thisState.open = !thisState.open ;
-            this.data[index] = thisState
+            this.data[index] = thisState ;
+
+            this.store();
+        },
+        toggleLi(index, ind){
+            this.data[index].childIndex = ind
+            this.data.forEach((item, index1)=>{
+                if( index1!= index ){
+                    item.childIndex = undefined
+                }
+            })
+
             this.store();
         },
         store(){
@@ -60,13 +72,21 @@ var eventProxy = function(ele, event, selector, fun){
         render(){
             this.data.forEach((item, index)=>{
                 let parent = $box[index]
-                let classList = parent.classList
+                let classList = parent.classList ;
+
+                [].slice.call(parent.querySelectorAll('li') ).forEach((i, index)=>{
+                    index === item.childIndex && i.classList.add('cao') ;
+                    index != item.childIndex && i.classList.remove('cao')
+                })
+
                 if( !classList.contains('open') && item.open ){
                     classList.add('open')
-                    parent.style.height=parent.clientHeight+parent.children[1].clientHeight+'px'
+                    parent.style.height=parent.clientHeight+parent.children[1].clientHeight+'px' ;
+
                 }
                 if( classList.contains('open') && !item.open ){
-                    classList.remove('open'), parent.style.height="40px"
+
+                    classList.remove('open'), parent.style.height="40px" ;
                 }
             })
         },
@@ -80,7 +100,20 @@ var eventProxy = function(ele, event, selector, fun){
         item.addEventListener('click',(event)=>{
             event.target.nodeName.toLowerCase() == 'h1' && state.toggle(index)
         })
+        eventProxy( item , 'click', 'li',function(){
+            // 获取位置信息
+            var ind = 0 ;
+            var prev = this.previousElementSibling ;
+            while (prev) {
+                ind++
+                prev = prev.previousElementSibling ;
+            }
+
+            state.toggleLi(index, ind)
+        })
     } )
+
+
 })();
 
 // 开关切换
@@ -198,14 +231,14 @@ eventProxy('body', 'click', '.switch', function(event){
 
 var num = 0 ;
 
-eventProxy('body','click','.delete',()=>{
+eventProxy('body','click','.openmodal',()=>{
     let NUM = num%3 ;
     switch (NUM) {
         case 2:
             num++
             Modal.open({
                 body: `<div>
-                    <button class="delete">新增</button>
+                    <button class="openmodal">再打开一个</button>
                     这都是什么几把玩意儿~
                     <button class="cancel modal-close">就这样吧</button>
                 </div>`,
