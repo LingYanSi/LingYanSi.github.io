@@ -94,7 +94,7 @@ var eventProxy = function(ele, event, selector, fun){
             document.querySelector('.sidebar>.lists').innerHTML =  data.map((item)=>{
                 return `<div class="box">
                     <h1 class='${item.list && item.list.length ?'havechildren':''}'>
-                        <a href=${item.link?item.link:"javascript:;"}>${item.title}</a>
+                        <a href=${item.link?itemitem.link:"javascript:;"}>${item.title}</a>
                     </h1>
                     ${item.list?`<ul>${item.list.map((i)=>{
                         return `<li><a href=${i.link?i.link:"javascript:;"}>${i.title}</a></li>`
@@ -102,11 +102,13 @@ var eventProxy = function(ele, event, selector, fun){
                 </div>`
             }).join(' ');
 
+
             this.$boxs = [].slice.call( document.querySelectorAll('.box') );
 
             this.$boxs.forEach( (item,index)=>{
                 eventProxy(item, 'click', 'h1', function(){
-                    !this.parentElement.querySelector('li') ? state.current(index): state.toggle(index)
+                    state.toggle(index)
+                    !this.parentElement.querySelector('li') && state.current(index)
                 })
                 eventProxy( item , 'click', 'li',function(){
                     // 获取位置信息
@@ -127,18 +129,18 @@ var eventProxy = function(ele, event, selector, fun){
     state.init([{
         title: '西湖',
         link:'',
-        list:[{title:'三月天',link:'https://github.com'},
-            {title:'三月天',link:'https://github.com'}]
+        list:[{title:'三月天',link:''},
+            {title:'三月天',link:''}]
     },{
         title: '西湖',
         link:'',
-        list:[{title:'三月天',link:'https://github.com'},
-            {title:'三月天',link:'https://github.com'}]
+        list:[{title:'三月天',link:''},
+            {title:'三月天',link:''}]
     },{
         title: '西湖',
         link:'',
-        list:[{title:'三月天',link:'https://github.com'},
-            {title:'三月天',link:'https://github.com'}]
+        list:[{title:'三月天',link:''},
+            {title:'三月天',link:''}]
     },{
         title: '灵隐',
         link:'',
