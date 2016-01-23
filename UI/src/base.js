@@ -40,79 +40,110 @@ var eventProxy = function(ele, event, selector, fun){
     })
 }
 
+
+
 // 侧边栏管理
 ;(()=>{
     // 把状态存储到 localStorage
-    var $box = [].slice.call( document.querySelectorAll('.box') );
-    var $sidebar = document.querySelector('.sidebar');
 
     var state = {
-        data: JSON.parse( localStorage.getItem('sidebarState') || '[]') ,
-        toggle( index){
-            let thisState = this.data[index] || {} ;
+        data: JSON.parse( localStorage.getItem('sidebar') || '{"state":[],"current":[]}' ) ,
+        $boxs: [],
+        toggle( index, liIndex){
+            let thisState = this.data.state[index] || {} ;
             thisState.open = !thisState.open ;
-            this.data[index] = thisState ;
-
+            this.data.state[index] = thisState ;
             this.store();
         },
-        toggleLi(index, ind){
-            this.data[index].childIndex = ind
-            this.data.forEach((item, index1)=>{
-                if( index1!= index ){
-                    item.childIndex = undefined
-                }
-            })
-
+        current(index, liIndex){
+            this.data.current = [index, liIndex]
             this.store();
         },
         store(){
-            localStorage.setItem('sidebarState',JSON.stringify(this.data) );
+            localStorage.setItem('sidebar',JSON.stringify(this.data) );
             this.render();
         },
         render(){
-            this.data.forEach((item, index)=>{
-                let parent = $box[index]
+            this.data.state.forEach((item, index)=>{
+                if(!item) return
+                let parent = this.$boxs[index]
                 let classList = parent.classList ;
 
-                [].slice.call(parent.querySelectorAll('li') ).forEach((i, index)=>{
-                    index === item.childIndex && i.classList.add('cao') ;
-                    index != item.childIndex && i.classList.remove('cao')
-                })
+                if( index=== this.data.current[0] ){
+                    this.data.current[1]!=undefined ? [].slice.call(parent.querySelectorAll('li') ).forEach((i, index)=>{
+                        index === this.data.current[1] ? i.classList.add('current') : i.classList.remove('current') ;
+                    }) : parent.querySelector('h1').classList.add('current')
+                }else{
+                    parent.querySelector('h1').classList.remove('current');
+                    [].slice.call(parent.querySelectorAll('li') ).forEach((i, index)=>{
+                        i.classList.remove('current')
+                    })
+                }
 
                 if( !classList.contains('open') && item.open ){
                     classList.add('open')
                     parent.style.height=parent.clientHeight+parent.children[1].clientHeight+'px' ;
-
                 }
                 if( classList.contains('open') && !item.open ){
-
                     classList.remove('open'), parent.style.height="40px" ;
                 }
             })
         },
-        init(){
+        init( data ){
+            data = data || [] ;
+            document.querySelector('.sidebar>.lists').innerHTML =  data.map((item)=>{
+                return `<div class="box">
+                    <h1 class='${item.list && item.list.length ?'havechildren':''}'>
+                        <a href=${item.link?item.link:"javascript:;"}>${item.title}</a>
+                    </h1>
+                    ${item.list?`<ul>${item.list.map((i)=>{
+                        return `<li><a href=${i.link?i.link:"javascript:;"}>${i.title}</a></li>`
+                    }).join(' ')}</ul>`:''}
+                </div>`
+            }).join(' ');
+
+            this.$boxs = [].slice.call( document.querySelectorAll('.box') );
+
+            this.$boxs.forEach( (item,index)=>{
+                eventProxy(item, 'click', 'h1', function(){
+                    !this.parentElement.querySelector('li') ? state.current(index): state.toggle(index)
+                })
+                eventProxy( item , 'click', 'li',function(){
+                    // 获取位置信息
+                    var ind = 0 ;
+                    var prev = this.previousElementSibling ;
+                    while (prev) {
+                        ind++
+                        prev = prev.previousElementSibling ;
+                    }
+
+                    state.current(index, ind)
+                })
+            } )
+
             this.render();
         }
     }
-    state.init();
-
-    $box.forEach( (item,index)=>{
-        item.addEventListener('click',(event)=>{
-            event.target.nodeName.toLowerCase() == 'h1' && state.toggle(index)
-        })
-        eventProxy( item , 'click', 'li',function(){
-            // 获取位置信息
-            var ind = 0 ;
-            var prev = this.previousElementSibling ;
-            while (prev) {
-                ind++
-                prev = prev.previousElementSibling ;
-            }
-
-            state.toggleLi(index, ind)
-        })
-    } )
-
+    state.init([{
+        title: '西湖',
+        link:'',
+        list:[{title:'三月天',link:'https://github.com'},
+            {title:'三月天',link:'https://github.com'}]
+    },{
+        title: '西湖',
+        link:'',
+        list:[{title:'三月天',link:'https://github.com'},
+            {title:'三月天',link:'https://github.com'}]
+    },{
+        title: '西湖',
+        link:'',
+        list:[{title:'三月天',link:'https://github.com'},
+            {title:'三月天',link:'https://github.com'}]
+    },{
+        title: '灵隐',
+        link:'',
+        list:[]
+    }]);
 
 })();
 

@@ -1026,15 +1026,15 @@ select {
 .sidebar .box a:link {
   color: inherit;
   display: block ;
+  height: 100%;
 }
 .sidebar .box h1 {
-  padding-left: 2em ;
   font-size: 14px;
   cursor: pointer;
   position: relative;
   margin: 0 ;
 }
-.sidebar .box h1:after {
+.sidebar .box h1.havechildren:after {
   content: "";
   display: block;
   position: absolute;
@@ -1048,7 +1048,16 @@ select {
   transform-origin: center 75%;
   transition: all .3s;
 }
-.sidebar .box.open h1:after {
+.sidebar .box h1 a {
+  padding-left: 2em ;
+}
+.sidebar .box li {
+  border-top: 1px solid rgba(200, 200, 200, 0.3);
+}
+.sidebar .box li a {
+  padding-left: 3em;
+}
+.sidebar .box.open h1.havechildren:after {
   transform: translate(0, -75%) rotateZ(180deg);
 }
 .sidebar .box.open ul {
@@ -1063,12 +1072,19 @@ select {
   background: #3498db;
   color: #fff;
 }
-.sidebar .box li {
-  border-top: 1px solid rgba(200, 200, 200, 0.3);
-  padding-left: 3em;
+.sidebar .box h1.current,
+.sidebar .box li.current {
+  position: relative;
 }
-.sidebar .box li.cao {
-  background: red ;
+.sidebar .box h1.current:after,
+.sidebar .box li.current:after {
+  content: "";
+  position: absolute ;
+  right: 0;
+  top: 50% ;
+  transform: translate(0, -50%);
+  border: 10px solid rgba(0, 0, 0, 0);
+  border-right-color: #dcdcdc;
 }
 .sidebar .box:nth-child(4n+1) {
   border-left: 4px solid #e74c3c ;
