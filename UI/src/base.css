@@ -1194,7 +1194,11 @@ label.require:after {
   height: 100%;
   top: 0 ;
   left: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: backgroundColor .3s ;
+}
+#modal .modal-item.hide {
+  background-color: rgba(0, 0, 0, 0);
 }
 #modal .modal-item .modal-item-title {
   background: #64c832;

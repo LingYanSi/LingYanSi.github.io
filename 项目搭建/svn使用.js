@@ -63,6 +63,8 @@ svn常用命令符号
         (mc) mine-conflict, (tc) theirs-conflict,
         (s) show all options: p
 
+    第三种，使用svn revert取消变更 类似于git checkout
+
 18、权限不够
     sudo chmod -R 755 file/path 修改文件权限
 

@@ -237,12 +237,15 @@ eventProxy('body', 'click', '.switch', function(event){
             var item = this.state[this.current].ele ;
             var main = item.querySelector('.modal-item-main')
             main.classList.remove('modal-item-main-show') ;
+            item.classList.add('hide');
 
-            let ONCE = false ;
-            main.addEventListener('transitionend',()=>{
+            let ONCE = false ; 
+
+            item.addEventListener('transitionend',()=>{
                 // 有坑，每个css属性发生变化后都会触发transitionend
                 if(ONCE) return
                 ONCE = true ;
+
                 item.remove(); // node移除，与jquery的api相似 $(item).remove()
                 this.state.splice(this.current,1);
 
