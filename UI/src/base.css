@@ -1179,23 +1179,24 @@ label {
 label.require:after {
   content: ":";
 }
+body {
+  position: relative;
+}
 #modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 500;
   display: none ;
 }
 #modal .modal-item {
-  position: absolute;
+  z-index: 500;
+  position: fixed;
   width: 100%;
   height: 100%;
   top: 0 ;
   left: 0;
   background-color: rgba(0, 0, 0, 0.4);
   transition: backgroundColor .3s ;
+}
+#modal .modal-item.absolute {
+  position: absolute;
 }
 #modal .modal-item.hide {
   background-color: rgba(0, 0, 0, 0);

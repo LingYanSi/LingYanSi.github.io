@@ -101,11 +101,44 @@ you have a firewall along the way to github.com which blocks the ssh traffic (eg
     git reset .
 
 
-.gitignore // 配置文件
+13 .gitignore 配置文件
+```
 *.a       # 忽略所有 .a 结尾的文件
 !lib.a    # 但 lib.a 除外
 /TODO     # 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO
 build/    # 忽略 build/ 目录下的所有文件
 doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
+```
 
+13. 显示文件内每行的最近提交人
+    git blame filename
 
+14. git config
+```
+filter.lfs.clean=git-lfs clean %f
+filter.lfs.smudge=git-lfs smudge %f
+filter.lfs.required=true
+user.name=zikong
+user.email=zikong@mogujie.com
+core.filemode=false
+url.https://.insteadof=git://
+core.repositoryformatversion=0
+core.filemode=false
+core.bare=false
+core.logallrefupdates=true
+core.ignorecase=true
+core.precomposeunicode=true
+remote.origin.url=git@gitlab.mogujie.org:f2e/f-day.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.develop.remote=origin
+branch.develop.merge=refs/heads/develop
+mergetool.tower.cmd="/Applications/Tower.app/Contents/Resources/filemerge.sh" "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
+mergetool.tower.trustexitcode=true
+```
+    显示 => git config --list
+    配置 => git config user.name zikong
+            git config core.filemode false
+
+    为了避免每次都输入username,email的麻烦
+        git config user.name zikong
+        git config user.email zikong@mogujie.com

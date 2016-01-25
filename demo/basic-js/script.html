@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <script type="text/javascript" id="heihei">
+            console.log('heihie');
+            // console.log('hahah') 不会执行
+            setTimeout(()=>{
+                document.querySelector('#heihei').innerHTML = 'console.log("haha")'
+            },2000)
+
+            // 添加一个script标签
+            ;(function(){
+                var sc = document.createElement('script');
+                sc.innerHTML = `console.log('新增的script')`;
+                document.body.appendChild(sc);
+            })();
+
+            // defer async 异步加载数据
+        </script>
+    </body>
+</html>

@@ -1,14 +1,22 @@
 
 @import "./include/_var" ;
 
+body{
+    // 应用于modal-item position:absolute;
+    position: relative;
+}
 #modal{
-    position:fixed; top:0; left:0; width:100%; height:100%;
-    z-index:500; display: none ;
+    // position:fixed; top:0; left:0; width:100%; height:100%;
+     display: none ;
 
     .modal-item{
-        position: absolute; width: 100%; height: 100%; top: 0 ; left: 0;
+        z-index:500;
+        position: fixed; width: 100%; height: 100%; top: 0 ; left: 0;
         background-color: rgba(0,0,0,.4);
         transition: backgroundColor .3s ;
+        &.absolute{
+            position: absolute;
+        }
         &.hide{
             background-color: rgba(0,0,0,0);
         }

@@ -206,6 +206,10 @@ eventProxy('body', 'click', '.switch', function(event){
 
             var item = document.createElement('div');
             item.classList.add('modal-item');
+            if(obj.type){
+                console.log('应该有提')
+                item.classList.add('absolute');
+            }
             modal.appendChild(item);
             item.innerHTML = `<div class="modal-item-main">
                 ${obj.title===undefined ? '' :
@@ -239,7 +243,7 @@ eventProxy('body', 'click', '.switch', function(event){
             main.classList.remove('modal-item-main-show') ;
             item.classList.add('hide');
 
-            let ONCE = false ; 
+            let ONCE = false ;
 
             item.addEventListener('transitionend',()=>{
                 // 有坑，每个css属性发生变化后都会触发transitionend
@@ -278,7 +282,8 @@ eventProxy('body','click','.openmodal',()=>{
                     这都是什么几把玩意儿~
                     <button class="cancel modal-close">就这样吧</button>
                 </div>`,
-                title: '我是你爹'
+                title: '我是标题title',
+                type: 1
             })
             break ;
         case 0:

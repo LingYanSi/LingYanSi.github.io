@@ -11,6 +11,7 @@
     "babel-preset-react": "^6.1.18",
     "bootstrap": "^3.3.6",
     "css-loader": "^0.19.0",
+    "eslint": "^1.10.3",
     "gulp": "^3.9.0",
     "gulp-add-src": "^0.2.0",
     "gulp-autoprefixer": "^3.0.1",
