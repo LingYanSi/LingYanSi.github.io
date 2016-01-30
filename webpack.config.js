@@ -1,70 +1,89 @@
-/*
- * @Author: zikong
- * @Date:   2015-10-17 23:48:15
- * @Last Modified by:   zikong
- * @Last Modified time: 2015-11-09 16:30:00
- */
 
-'use strict';
 
-var fs = require('fs') ;
-var path = require('path') ;
+var webpack = require('webpack')
+var WebpackOnBuildPlugin = require('on-build-webpack');
 
-// 读取文件夹内定的文件名，将特定文件名称的文件路径，添加到数组中，然后转换文件名称
-// 比如说对于所有以 View.jsx 结尾的文件 appView.jsx 转为 app: app.js
+var WebpackPathOrderPlugin = require('path-order-webpack-plugin');
+var notifier = require('node-notifier');
 
-var entry = {};
-function pipe(dir){
-    var dirList = fs.readdirSync(dir);
-    dirList.forEach(function(pathName){
-        if(fs.statSync(dir+pathName).isDirectory()){
-            // 假如是文件夹就递归
-            pipe(dir+pathName+'/');
-        }else{
-            // 不是是文件，就判断是不是以.jsx结尾的文件，如果是就替换文件路径str的 ./webpack/app .jsx .js
-            var path = dir+pathName ;
-            if(path.indexOf('View.jsx')>0){
+var path = require('path')
 
-                var path1 = pathName.replace(/View\.jsx/g,'');
-                // 把AaaaBbbbCcc 转换成 aaa/bbb/ccc
-                var entry_path =  path1.match(/[A-Z][^A-Z]+/g).map(function(ele){
-                    return ele.toLowerCase()
-                }).join('/') ;
+require('./a.js')
 
-                entry[entry_path] = path ;
-            }
-        }
-    })
+function webpackDone(title, message, sound){
+    notifier.notify({
+        title: title,
+        message: message,
+        sound: sound,
+        icon: path.resolve(__dirname, '/Users/zikong/LingYanSi.github.io/images/wangsitu.jpg')
+    }, function (err, respond) {
+        if (err) console.error(err);
+    });
 }
-pipe('./webpack/app/');
-console.log( entry );
-
-var DEV_PATH = './app/'
-var autoprefixer = require('autoprefixer');
-
-// entry = { index: 'index.jsx' , 'index/abb': 'index/abb.jsx'}
-// 输出的时候会 path/ ==> index.js  path/index/ ==> abb.js
 
 module.exports = {
-    cache: true,
+    // 是否缓存
+    cache: true ,
+    // 是否监听文件变化
     watch: true ,
-    entry: entry,
-    output: {
-        path: './webpack/dist/', // 目标路径
-        filename: '[name].js' // Template based on keys in entry above
+    // 是否在每次打包之前将之前的打包文件
+    // 删除
+    clearBeforeBuild: true,
+    // 入口配置
+    entry: {
+        'index': './react/app/index/indexView.jsx',
+        'about': './react/app/about/aboutView.jsx'
     },
-    module: {
+    // 输出配置
+    output: {
+        // 输出路径
+        path: './react/dist/src/',
+        filename: "[name].js",
+        // 块文件名称？
+        chunkFilename: "[name].js",
+    },
+    module:{
+        // 用来处理文件
         loaders: [
-            { test: /\.(js|jsx)$/ , loader:'babel-loader'},
-            { test: /\.less$/ , loader:'style-loader!css-loader!less-loader!postcss-loader'}
+            // 对js/jsx文件的处理
+            { test: /\.(js|jsx)$/ , loader: 'babel-loader' },
+            // 对less的处理
+            { test: /\.less$/, loader: 'style-loader!css-loader!less-loader!autoprefixer-loader' },
+            { test: /\.css$/, loader: 'style-loader!css-loader!autoprefixer-loader' }
         ]
     },
-    postcss: function () {
-        return {
-            defaults: [autoprefixer],
-            cleaner:  [autoprefixer({ browsers: [] })]
-        };
-    }
+    // babel需要的 presets / plugins 预设或者插件
+    babel: {
+        presets: ['react','es2015','stage-0'] // 把es2015转译成es5，这么做的弊端在于有些浏览器已经支持了新特性，却不能使用
+    },
+    // postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
+    // 不需要webpack打包的文件，key: require('key') , value: 全局对象名
+    externals: {
+        'react': 'window.React',
+        'react-dom': 'window.ReactDOM',
+        'react/addons': 'window.React',
+    },
+    // 插件
+    plugins: [
+        new WebpackPathOrderPlugin(),
+        // 打印日志
+        new WebpackOnBuildPlugin(function(stats) {
+            var compilation = stats.compilation;
+            var errors = compilation.errors;
+            if (errors.length > 0) {
+                var error = errors[0];
+                webpackDone(error.name, error.message, 'Glass');
+            }
+            else {
+                var message = 'takes ' + (stats.endTime - stats.startTime) + 'ms';
+
+                var warningNumber = compilation.warnings.length;
+                if (warningNumber > 0) {
+                    message += ', with ' + warningNumber + ' warning(s)';
+                }
+
+                webpackDone('webpack building done', message);
+            }
+        })
+    ]
 }
-
-
