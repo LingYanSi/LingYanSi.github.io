@@ -1,0 +1,15 @@
+
+// scss 变量 $aa = red ;
+// scss 也支持局部变量
+// 继承，函数
+
+$color : #fff ;
+body{
+    color: $color ;
+    display: flex;
+}
+
+footer{
+    $color: #000 ;
+    color: $color ;
+}
