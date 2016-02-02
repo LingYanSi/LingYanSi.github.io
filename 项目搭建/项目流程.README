@@ -57,7 +57,7 @@
     eslint // 语法检测
     mocha/karma // 单元测试
 
-前端项目需要哪些内容，如果不考虑seo可全站但html文件
+前端项目需要哪些内容，如果不考虑seo可全站单html文件
     css : 使用less/sass
     reset.css // 格式化
     base.css // 基础样式
@@ -78,7 +78,7 @@
 
 
     fastclick.js // 移动端用
-    fetch.js // 换种说法，可以说是ajax
+    fetch.js // http请求
 
     富文本.js // 富文本编辑，当然有可能还需要一个代码编辑器
     highlight.js // 代码高亮

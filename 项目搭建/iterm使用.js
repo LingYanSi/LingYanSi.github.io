@@ -48,6 +48,10 @@ export lys=~/lingyansi.github.io/
 1、~/.bash_profile中有个点
 2、如果是新增环境变量或者是修改环境变量的值，都需要source一下才能立即生效。如果是删除一个环境变量，必须输入exit以logout当前shell，然后再重新打开一个新的shell并login才能生效。
 
+-- 使用zsh ---
+brew install zsh
+http://zhuanlan.zhihu.com/mactalk/19556676
+
 查看端口被占用
 sudo lsof -i :9000
 COMMAND   PID    USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME

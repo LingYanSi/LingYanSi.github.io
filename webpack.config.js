@@ -8,8 +8,6 @@ var notifier = require('node-notifier');
 
 var path = require('path')
 
-require('./a.js')
-
 function webpackDone(title, message, sound){
     notifier.notify({
         title: title,
@@ -31,8 +29,8 @@ module.exports = {
     clearBeforeBuild: true,
     // 入口配置
     entry: {
-        'index': './react/app/index/indexView.jsx',
-        'about': './react/app/about/aboutView.jsx'
+        'index': './react/app/pages/index/indexView.jsx',
+        'about': './react/app/pages/about/aboutView.jsx'
     },
     // 输出配置
     output: {
@@ -62,6 +60,11 @@ module.exports = {
         'react': 'window.React',
         'react-dom': 'window.ReactDOM',
         'react/addons': 'window.React',
+    },
+    resolve:{
+        alias:{},
+        unsafeCache: true,
+        // extensions: ['','js','jsx']
     },
     // 插件
     plugins: [

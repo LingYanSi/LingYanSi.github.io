@@ -186,3 +186,19 @@ server {
             proxy_pass    http://www.xiaodian.com/pc/shopadmin/tool/uploadimage;
     }
  }
+
+-> 请求代理
+把指域名的请求代理到本地
+
+server{
+    listen 80;
+    server_name dev.xiaodian.com;
+    location / {
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://localhost:3000 ;
+    }
+    # access_log logs/songxiaofan.log;
+}

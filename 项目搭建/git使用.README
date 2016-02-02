@@ -1,49 +1,40 @@
-/*
-* @Author: zikong
-* @Date:   2015-10-10 09:58:41
-* @Last Modified by:   zikong
-* @Last Modified time: 2016-01-07 13:09:07
-*/
 
-'use strict';
----------------------------------------------------------------
-
-git常用命令
+## git常用命令
 [一篇文章](http://www.cnblogs.com/cspku/articles/Git_cmds.html)
 
-// 忽略文件配置
-1. 新建一个 .gitignore 文件
-```
+### 1. 新建一个 .gitignore 文件
+
     # 这里是注释，node_modules表示文件夹
     node_modules
     # readme.md 表示文件
     readme.md
-```
->但有个问题，这个配置文件只有在还没有push本地文件的时候才有效，一旦readme.md文件被track了，他就不会忽略文件
+
+但有个问题，这个配置文件只有在还没有push本地文件的时候才有效，一旦readme.md文件被track了，他就不会忽略文件
 解决方案是先把cached清除掉。这么做会删除掉线上相对应的文件。
 
-```
-    git rm --cached file/path/to/be/ignored。
+    git rm --cached file/path/to/be/ignored
     git add .
     git commit -m "fixed untracked files"
-```
+
 [附录:一篇文章](http://www.jianshu.com/p/4a1f4b324823)
 
-2. clone一个项目
+
+### 2. clone一个项目
 ```
     git clone http://项目地址
 ```
 
-3. 线上新建了一个项目，需要把本地的项目与线上合并
+### 3. 线上新建了一个项目，需要把本地的项目与线上合并
 ```
-    git remote add origin git@github.com:michaelliao/learngit.git  // 远程添加原生的
-    git push -u origin master // 将本地的master分支与线上分支合并关联
-    git push origin master // 以后就可以用这个命令提交本地的修改
+git remote add origin git@github.com:michaelliao/learngit.git  // 远程添加原生的
+git push -u origin master // 将本地的master分支与线上分支合并关联
+git push origin master // 以后就可以用这个命令提交本地的修改
 ```
-4. 使用客户端/可视化工具
-    目前时使用的是Tower，可视化工具的好处就不说了，但也有一些弊端
+### 4. 使用客户端/可视化工具
 
-5. 其他命令
+目前时使用的是Tower，可视化工具的好处就不说了，但也有一些弊端
+
+### 5. 其他命令
     git reset //回滚
     git merge // 合并
     git checkout // 切换分支
@@ -56,26 +47,29 @@ git常用命令
     git stash // 保存修改
     git stash apply --index // 恢复保存的修改
 
-6. 遇到的问题
+### 6. 遇到的问题
 
-pull的时候Tower提示: could not read Username for 'https://github.com': Device not configured
+pull的时候Tower提示:
+
+    could not read Username for 'https://github.com': Device not configured
+
 解决方案
 ```
     git remote set-url git@github.com:michaelliao/learngit.git
 ```
 [issues](https://github.com/kemayo/sublime-text-git/issues/176)
 
-ssh: connect to host github.com port 22: Connection refused
+    ssh: connect to host github.com port 22: Connection refused
 
-If you get a connection refused, it means you actually got a packet back which states that your destination does not accept your connection. This could mean a few things:
+    If you get a connection refused, it means you actually got a packet back which states that your destination does not accept your connection. This could mean a few things:
 
-github.com is down (not too likely, but you could always check their status on https://status.github.com/)
+    github.com is down (not too likely, but you could always check their status on https://status.github.com/)
 
-you have an invalid IP address for github.com (manual entry in /etc/hosts or your resolver) which blocks ssh from at least your IP address
+    you have an invalid IP address for github.com (manual entry in /etc/hosts or your resolver) which blocks ssh from at least your IP address
 
-you have a firewall along the way to github.com which blocks the ssh traffic (eg. local firewall or corporate firewall)
+    you have a firewall along the way to github.com which blocks the ssh traffic (eg. local firewall or corporate firewall)
 
-7. 对比代码
+### 7. 对比代码
     -> 历史上的两个版本
         git diff -r 历史两个版本号 filename
     -> 历史版本与本地
@@ -86,22 +80,22 @@ you have a firewall along the way to github.com which blocks the ssh traffic (eg
     git diff // 对比整个项目本地与线上
     git diff pathname // 对比文件夹
 
-8. git status
+### 8. git status
 
-9. 清除本地修改[指定文件、文件夹]
+### 9. 清除本地修改[指定文件、文件夹]
     git checkout -- filename/pathname
 
-10. 问题： 大意是让你确定是否有权限access git项目 或者 git项目是否存在
+### 10. 问题： 大意是让你确定是否有权限access git项目 或者 git项目是否存在
     解决： 过十分钟，自己就好了
 
-11. 获取git项目的线上地址
+### 11. 获取git项目的线上地址
     git remote -v
 
-12. 撤销add
+### 12. 撤销add
     git reset .
 
 
-13 .gitignore 配置文件
+### 13 .gitignore 配置文件
 ```
 *.a       # 忽略所有 .a 结尾的文件
 !lib.a    # 但 lib.a 除外
@@ -110,10 +104,10 @@ build/    # 忽略 build/ 目录下的所有文件
 doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
 ```
 
-13. 显示文件内每行的最近提交人
+### 13. 显示文件内每行的最近提交人
     git blame filename
 
-14. git config
+### 14. git config
 ```
 filter.lfs.clean=git-lfs clean %f
 filter.lfs.smudge=git-lfs smudge %f
@@ -134,11 +128,69 @@ branch.develop.remote=origin
 branch.develop.merge=refs/heads/develop
 mergetool.tower.cmd="/Applications/Tower.app/Contents/Resources/filemerge.sh" "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
 mergetool.tower.trustexitcode=true
-```
-    显示 => git config --list
-    配置 => git config user.name zikong
-            git config core.filemode false
 
-    为了避免每次都输入username,email的麻烦
-        git config user.name zikong
-        git config user.email zikong@mogujie.com
+```
+显示 => git config --list
+配置 => git config user.name zikong
+        git config core.filemode false
+
+为了避免每次都输入username,email的麻烦
+    git config user.name zikong
+    git config user.email zikong@mogujie.com
+
+
+### 15.git hook 钩子
+Git可以定制一些钩子，这些钩子可以在特定的情况下被执行，分为Client端的钩子和Server端的钩子。
+Client端钩子被operation触发，比如commit，merge等，Server端钩子被网络动作触发，比如pushed commits。
+
+那么钩子是放在哪的呢？
+
+在.git/hooks/文件夹下。当你init一个仓库的时候，下边会有一些钩子的例子，以.sample结尾。
+
+
+
+那么钩子什么时候被执行，Git预定义了触发时机：
+
+#### ClientSide hooks：
+
+1. pre-commit
+当执行commit动作时先执行此hook，可以用此hook做一些检查，比如代码风格检查，或者先跑测试。
+
+2. prepare-commit-msg
+当commit时需要输入message前会触发此hook，可以用此hook来定制自己的default message信息。
+
+3. commit-msg
+当用户输入commit的message后被触发，可以用此hook校验message的信息，比如是否符合规定，有没有cr等。
+
+4. post-commit
+当commit完成后被触发，可以用此hook发送notification等。
+
+5. pre-rebase
+rebase之前会被触发，可以用此hook来拒绝所有的已经push的commits进行rebase操作。
+
+6. post-merge
+当merge成功后，会触发此hook。
+
+7. pre-push
+当push时，remote refs被更新，但是在所有的objects传输前被触发。
+
+8. pre-auto-gc
+当git gc --auto执行前被触发。在垃圾回收之前做一些验证或备份是挺不错的。
+
+
+#### ServerSide hooks:
+
+1. pre-receive
+当收到push动作之前会被执行。
+
+2. update
+也是收到push动作之前被执行，但是有可能被执行多次，每个branch一次。
+
+3. post-receive
+当push动作已经完成的时候会被触发，可以用此hook来push notification等，比如发邮件，通知持续构建服务器等。
+
+记住所有的hook都应该是可被执行的。
+
+chmod u+x your_hook
+
+所以你可以用shell脚本，perl，python等写钩子。
