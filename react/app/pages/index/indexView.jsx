@@ -5,7 +5,7 @@ import  { createHistory, useBasename } from 'history'
 
 // import Calendar from 'rc-calendar' // 日历组件
 
-import {Router , Link, Route, IndexRoute, browserHistory, HistoryLocation} from 'react-router'
+import {Router , Link, Route, } from 'react-router'
 
 import Sidebar from './Sidebar.jsx'
 import Home from './home.jsx'

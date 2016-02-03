@@ -23,7 +23,7 @@ var eventProxy = function(ele, event, selector, fun){
     $ele.addEventListener('click',function(event){
         var target = event.target ;
         var proxy = false ;
-        while ( !proxy && target!= this) {
+        while ( target && !proxy && target!= this) {
             if(selectType == 'class'){
                 target.classList && target.classList.contains(selector) && (proxy = !proxy) ;
             }else if(selectType == 'class'){

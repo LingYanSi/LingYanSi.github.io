@@ -87,6 +87,9 @@
 
             <div>
                 <h2>日历</h2>
+                <div>
+                    <input type="text" id="date">
+                </div>
             </div>
 
             <div>
@@ -142,7 +145,10 @@
     <script src="../src/base.js" charset="utf-8"></script>
     <script src="./icon.js" charset="utf-8"></script>
     <script sync src="../src/slider.js" charset="utf-8"></script>
-
+    <script sync src="../src/date.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        new Sdate('#date',new Date(),(obj)=>{console.log(obj)})
+    </script>
     <script sync src="./highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 </body>

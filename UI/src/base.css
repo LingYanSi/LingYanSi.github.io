@@ -1099,7 +1099,7 @@ select {
   border-left: 4px solid #01b9fe ;
 }
 .main {
-  margin-top: 50px;
+  padding-top: 50px;
   display: flex;
 }
 .main > .content {
@@ -1310,6 +1310,28 @@ body {
 }
 .slider .btns button.slider-next {
   right: 10px;
+}
+.Sdate {
+  display: none;
+  width: 300px;
+  text-align: center ;
+  background: #233 ;
+  color: #fff;
+  position: absolute;
+}
+.Sdate.show {
+  display: block ;
+}
+.Sdate .Sdate-list .prev-item,
+.Sdate .Sdate-list .next-item {
+  color: #888;
+}
+.Sdate .table th,
+.Sdate .table td {
+  padding: 4px 0;
+}
+.Sdate .current {
+  background: red ;
 }
 h1,
 h2,
