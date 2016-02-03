@@ -1,29 +1,41 @@
 
-var Sdate = function( id, date, onchange){
-    var $id = document.querySelector( id);
+var Sdate = function(arg){
+    var id = arg.id
+    if(!id){
+        console.warn('元素id不能为空')
+    }
+    var date = arg.date || new Date(),
+        onchange = arg.onchange ,
+        isHMSHide = arg.isHMSHide ,
+        inputAble = arg.inputAble
 
+
+    var $id = document.querySelector( id);
+    // 不允许用户输入
+
+    !inputAble && $id.addEventListener('keydown',(event)=>{
+        event.preventDefault();
+    })
+
+    // 创建一个时间元素
     $ele = document.createElement('div')
     $ele.className = 'Sdate'
     document.body.appendChild($ele)
 
-    var date = date
 
-    if( !date ){
-        date = new Date()
-        date.setHours(0), date.setMinutes(0), date.setSeconds(0)
-    }
+
     var hms_current = ''
     var obj = {
         // 渲染主结构
         render: function(){
             $ele.innerHTML = `
                 <p class="switch">
-                    <span data-type="prev-month">上月</span>
-                    <span data-type="next-month">下月</span>
-                    <span data-type="prev-year">上年</span>
-                    <span data-type="next-year">下年</span>
+                    <button data-type="prev-month">上月</button>
+                    <button data-type="next-month">下月</button>
+                    <button data-type="prev-year">上年</button>
+                    <button data-type="next-year">下年</button>
                 </p>
-                <p>
+                <p class="ymd">
                     <span class="year"></span> -
                     <span class="month"></span> -
                     <span class="date"></span>
@@ -38,19 +50,22 @@ var Sdate = function( id, date, onchange){
                     </tbody>
                 </table>
                 <div>
-                    <p class="hours-min-sec">
-                        <span data-type="hours" class="hours">时</span>
-                        <span data-type="min" class="min">分</span>
-                        <span data-type="sec" class="sec">秒</span>
-                    </p>
-                    <span class="zero">归零</span>
-                    <span class="now">当前</span>
-                    <span class="submit">确定</span>
-                    <span class="cancel">取消</span>
-                    <table class="table">
-                        <thead></thead>
-                        <tbody class="hms-tbody"></tbody>
-                    </table>
+                    ${ !isHMSHide ? `<button class="zero">归零</button>` : ''}
+                    <button class="now">当前</button>
+                    <button class="primary">确定</button>
+                    <button class="cancel">取消</button>
+                    ${
+                        !isHMSHide ? `<p class="hours-min-sec">
+                            <button data-type="hours" class="hours">H</button>
+                            <button data-type="min" class="min">M</button>
+                            <button data-type="sec" class="sec">S</button>
+                        </p>
+                        <table class="table">
+                            <thead></thead>
+                            <tbody class="hms-tbody"></tbody>
+                        </table>` : ''
+                    }
+
                 </div>
             `
         },
@@ -131,7 +146,7 @@ var Sdate = function( id, date, onchange){
             return str
         },
         hmsRender(type){
-            if(!hms_current && !type) return
+            if((!hms_current && !type) || isHMSHide) return
             if(!type){
                 $ele.querySelector('.hms-tbody').innerHTML = this.getHMS()
                 return
@@ -145,6 +160,7 @@ var Sdate = function( id, date, onchange){
         },
         toNow: function(){
             date = new Date()
+            if(isHMSHide) this.toZero()
         },
         // 渲染年月日
         ymdRender: function ymdRender(){
@@ -168,7 +184,7 @@ var Sdate = function( id, date, onchange){
             // 年月切换
             $ele.querySelector('.switch').addEventListener('click',(event)=>{
                 var target = event.target
-                if(target.tagName.toLowerCase() == 'span'){
+                if(target.tagName.toLowerCase() == 'button'){
                     var type = target.getAttribute('data-type')
                     var dates = date.getDate()
 
@@ -205,7 +221,7 @@ var Sdate = function( id, date, onchange){
             })
 
             // 选择时分秒
-            $ele.querySelector('.hms-tbody').addEventListener('click', (event)=>{
+            !isHMSHide && $ele.querySelector('.hms-tbody').addEventListener('click', (event)=>{
                 var target = event.target
                 if( target.tagName.toLowerCase()=='td'){
                     var val = target.textContent
@@ -226,7 +242,7 @@ var Sdate = function( id, date, onchange){
             })
 
             // 时分秒归零
-            $ele.querySelector('.zero').addEventListener('click',()=>{
+            !isHMSHide && $ele.querySelector('.zero').addEventListener('click',()=>{
                 this.toZero()
                 this.hmsRender()
             })
@@ -239,10 +255,10 @@ var Sdate = function( id, date, onchange){
                 this.hmsRender()
             })
 
-            $ele.querySelector('.submit').addEventListener('click',()=>{
+            $ele.querySelector('.primary').addEventListener('click',()=>{
                 this.hide()
                 var returnDate = this.getReturnDate()
-                $id.value = returnDate.strfull
+                $id.value = isHMSHide ?returnDate.str :returnDate.strfull
                 onchange && onchange( returnDate )
             })
 
@@ -279,6 +295,7 @@ var Sdate = function( id, date, onchange){
             }
         },
         init: function(){
+            if( isHMSHide ) this.toZero()
             // 渲染主结构
             this.render()
             // 日期渲染

@@ -6,7 +6,9 @@
     padding-top: @topbarHeight ;
     display: flex;
     &>.content{
-        flex: 1 ;
+        // flex: 1 ;
+        width: calc(~"100% - @{sidebarWidth}") ;
+        box-sizing: border-box;
         padding: 10px;
         min-height: 1000px;
         border:10px solid @borderColor;

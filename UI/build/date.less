@@ -1,11 +1,16 @@
 
 .Sdate{
     display: none; width: 300px;
+    padding: 4px;
     text-align: center ;
     background: #233 ; color: #fff;
     position: absolute;
+    font-size: 12px;
     &.show{
         display: block ;
+    }
+    .ymd{
+        padding: 4px 0 ;
     }
     .Sdate-list{
         .prev-item,.next-item{
@@ -13,8 +18,15 @@
         }
     }
     .table{
+        border-color: #fff !important;
+        tr,td,th,tr+tr{
+            border-color: #fff !important;
+        }
         th,td{
             padding: 4px 0;
+        }
+        td{
+            cursor: pointer;
         }
     }
     .current{
