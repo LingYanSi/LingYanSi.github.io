@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <div id="main">
+
+        </div>
+        <script src="./family.js" charset="utf-8"></script>
+        <script type="text/javascript">
+            function tpl(data){
+                return `
+                <li>
+                    <h1>${data.name}</h1>
+                    <div>
+                        <div>${data.sex?"性别:男 妻子:"+data.wife:"性别:女 丈夫:"+data.husband}</div>
+                        <ul>${
+                            data.children ? data.children.map((item)=>{
+                                return tpl(item)
+                            }).join(' ') : ""
+                        }</ul>
+                    </div>
+                </li>
+                `
+            }
+
+            var $main = document.querySelector('#main')
+            $main.innerHTML = tpl(p)+ tpl(m)
+
+
+        </script>
+    </body>
+</html>

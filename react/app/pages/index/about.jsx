@@ -15,21 +15,21 @@ const About = React.createClass({
     search(){
         this.setState({
             list: [{name:'ss',title:'222' }],
-            option: [{key:'22',value:'ddd'}]
-        }, ()=>{
-            this.forceUpdate()
+            option: [{key:'22',value:'ddd'}],
+            value: ''
         })
     },
-    selectChange(index, event){
-        return
+    selectChange(){
+        this.setState({
+            value: this.refs.heihei.value
+        })
     },
-    keyNum: 0 ,
     render(){
         let P = this.state.list.map((item, index)=>{
             return <div key={this.keyNum++}>
                     <span>{item.name}</span>
                     <span>{item.title}</span>
-                    <select name="" id=""  onChange={this.selectChange.bind(this,index)}>
+                    <select name="" id="" value={this.state.value} ref='heihei'  onChange={this.selectChange }>
                         <option value="">选择</option>
                         {
                             this.state.option.map((ele)=>{
@@ -37,7 +37,10 @@ const About = React.createClass({
                             })
                         }
                     </select>
+                    <div>
+                        不知其所以
                     </div>
+                </div>
         })
 
         return <div>
@@ -47,4 +50,4 @@ const About = React.createClass({
     }
 })
 
-export default About 
+export default About

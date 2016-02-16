@@ -6,12 +6,20 @@
     background: #233 ; color: #fff;
     position: absolute;
     font-size: 12px;
+    // 显示
     &.show{
         display: block ;
+        animation: show .3s ;
+        @keyframes show{
+            0%{ opacity: 0; transform: translate(0, 30%) }
+            100%{ opacity: 1; transform: translate(0, 0%) }
+        }
     }
+    // 年月日
     .ymd{
         padding: 4px 0 ;
     }
+    // 日期
     .Sdate-list{
         .prev-item,.next-item{
             color: #888
@@ -29,6 +37,7 @@
             cursor: pointer;
         }
     }
+    // 被选中状态
     .current{
         background: red ;
     }

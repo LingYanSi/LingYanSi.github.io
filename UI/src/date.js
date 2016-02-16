@@ -1,8 +1,18 @@
 
+/*
+new Sdate({
+    id: '#date', // 元素id
+    date: new Date(), // 时间对象
+    isHMSHide: true , // 是否隐藏 时分秒
+    onchange:  (obj)=>{console.log(obj)} , // 时间变化监听
+    inputAble: false , // 输入框是否可填
+})
+*/
 var Sdate = function(arg){
     var id = arg.id
     if(!id){
         console.warn('元素id不能为空')
+        return
     }
     var date = arg.date || new Date(),
         onchange = arg.onchange ,
@@ -36,9 +46,8 @@ var Sdate = function(arg){
                     <button data-type="next-year">下年</button>
                 </p>
                 <p class="ymd">
-                    <span class="year"></span> -
-                    <span class="month"></span> -
-                    <span class="date"></span>
+                    <span class="year"></span>-<span class="month"></span>-<span class="date"></span>
+                    <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span>
                 </p>
                 <table class="table">
                     <thead>
@@ -145,36 +154,46 @@ var Sdate = function(arg){
             }
             return str
         },
+        // 时分秒渲染
         hmsRender(type){
+            // 时分秒被修改，年月日也会被修改
+            this.ymdRender()
+            // 如果不显示时分秒，时分秒不会被渲染
             if((!hms_current && !type) || isHMSHide) return
             if(!type){
                 $ele.querySelector('.hms-tbody').innerHTML = this.getHMS()
-                return
+            }else{
+                $ele.querySelector('.hms-tbody').innerHTML = hms_current==type ?'':this.getHMS(type)
+                hms_current = hms_current==type?'':type ;
             }
-
-            $ele.querySelector('.hms-tbody').innerHTML = hms_current==type ?'':this.getHMS(type)
-            hms_current = hms_current==type?'':type ;
         },
+        // 时分秒归零
         toZero: function(){
             date.setHours(0) , date.setMinutes(0), date.setSeconds(0)
         },
+        // 切换到当前时间
         toNow: function(){
             date = new Date()
             if(isHMSHide) this.toZero()
         },
         // 渲染年月日
         ymdRender: function ymdRender(){
-            $ele.querySelector('.year').innerHTML = date.getFullYear()
-            $ele.querySelector('.month').innerHTML = this.getFullNum( date.getMonth()+1 )
-            $ele.querySelector('.date').innerHTML = this.getFullNum( date.getDate() )
+            $ele.querySelector('.ymd>.year').innerHTML = date.getFullYear()
+            $ele.querySelector('.ymd>.month').innerHTML = this.getFullNum( date.getMonth()+1 )
+            $ele.querySelector('.ymd>.date').innerHTML = this.getFullNum( date.getDate() )
+            $ele.querySelector('.ymd>.hours').innerHTML = this.getFullNum( date.getHours() )
+            $ele.querySelector('.ymd>.minutes').innerHTML = this.getFullNum( date.getMinutes() )
+            $ele.querySelector('.ymd>.seconds').innerHTML = this.getFullNum( date.getSeconds() )
         },
         // 隐藏
         hide: function(){
             $ele.classList.remove('show')
         },
+        // 显示
         show: function(){
             $ele.classList.add('show')
         },
+        // 事件管理
         events: function(){
             $id.addEventListener('click',(event)=>{
                 var BCR = $id.getBoundingClientRect()
@@ -252,16 +271,17 @@ var Sdate = function(arg){
                 this.toNow()
                 this.dateRender()
                 this.ymdRender()
-                this.hmsRender()
             })
 
+            // 确认
             $ele.querySelector('.primary').addEventListener('click',()=>{
                 this.hide()
-                var returnDate = this.getReturnDate()
+                var returnDate = this.getReturnDate(date)
                 $id.value = isHMSHide ?returnDate.str :returnDate.strfull
                 onchange && onchange( returnDate )
             })
 
+            // 隐藏
             $ele.querySelector('.cancel').addEventListener('click',()=>{
                 this.hide()
             })
@@ -283,14 +303,22 @@ var Sdate = function(arg){
                 }
             })
         },
+        // 把0-9 -> 00-09
         getFullNum: function(num){
             return num<10 ? '0'+num : num
         },
-        getReturnDate: function(){
+        // 毁掉函数onchange的参数
+        getReturnDate: function(date){
+            var year = date.getFullYear() ,
+                month = this.getFullNum( date.getMonth()+1 ) ,
+                dates = this.getFullNum( date.getDate() ),
+                hours = this.getFullNum( date.getHours() ),
+                min = this.getFullNum( date.getMinutes() ),
+                sec = this.getFullNum( date.getSeconds() )
             return {
                 time: date.getTime(),
-                str: `${date.getFullYear()}-${this.getFullNum(date.getMonth()+1)}-${this.getFullNum( date.getDate() )}`,
-                strfull: `${date.getFullYear()}-${this.getFullNum( date.getMonth()+1 )}-${this.getFullNum( date.getDate() )} ${this.getFullNum( date.getHours())}:${this.getFullNum(date.getMinutes() )}:${this.getFullNum( date.getSeconds() )}`,
+                str: `${year}-${month}-${dates}`,
+                strfull: `${year}-$month}-${dates} ${hours}:${min}:${sec}`,
                 date: date
             }
         },

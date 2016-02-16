@@ -4,8 +4,7 @@ import {Router , Link, Route, browserHistory} from 'react-router'
 
 const Nav = React.createClass({
     render(){
-        return <div className="sidebar">
-            <h1>SPA</h1>
+        return <div className="sidebar"> 
             <li>
                 <Link to='/home'>主页</Link>
             </li>

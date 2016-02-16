@@ -48,11 +48,11 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(2);
+	var _reactDom = __webpack_require__(12);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -60,11 +60,11 @@
 
 	var _reactRouter = __webpack_require__(37);
 
-	var _Sidebar = __webpack_require__(66);
+	var _Sidebar = __webpack_require__(68);
 
 	var _Sidebar2 = _interopRequireDefault(_Sidebar);
 
-	var _home = __webpack_require__(62);
+	var _home = __webpack_require__(63);
 
 	var _home2 = _interopRequireDefault(_home);
 
@@ -76,7 +76,7 @@
 
 	var _articleInfo2 = _interopRequireDefault(_articleInfo);
 
-	var _message = __webpack_require__(64);
+	var _message = __webpack_require__(65);
 
 	var _message2 = _interopRequireDefault(_message);
 
@@ -84,15 +84,15 @@
 
 	var _about2 = _interopRequireDefault(_about);
 
-	var _Nav = __webpack_require__(68);
+	var _Nav = __webpack_require__(66);
 
 	var _Nav2 = _interopRequireDefault(_Nav);
 
-	var _Footer = __webpack_require__(67);
+	var _Footer = __webpack_require__(62);
 
 	var _Footer2 = _interopRequireDefault(_Footer);
 
-	var _NotFound = __webpack_require__(69);
+	var _NotFound = __webpack_require__(67);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
@@ -106,7 +106,7 @@
 
 	// import Calendar from 'rc-calendar' // 日历组件
 
-	__webpack_require__(63);
+	__webpack_require__(64);
 
 	// history 用来和React-router配合，使用html5的history API，默认使用的是hash
 	var history = (0, _history.useBasename)(_history.createHistory)({
@@ -164,9 +164,98 @@
 
 /***/ },
 /* 1 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports = module.exports = typeof Object.keys === 'function' ? Object.keys : shim;
+
+	exports.shim = shim;
+	function shim(obj) {
+	  var keys = [];
+	  for (var key in obj) {
+	    keys.push(key);
+	  }return keys;
+	}
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	/**
+	 * Indicates that navigation was caused by a call to history.push.
+	 */
+	'use strict';
+
+	exports.__esModule = true;
+	var PUSH = 'PUSH';
+
+	exports.PUSH = PUSH;
+	/**
+	 * Indicates that navigation was caused by a call to history.replace.
+	 */
+	var REPLACE = 'REPLACE';
+
+	exports.REPLACE = REPLACE;
+	/**
+	 * Indicates that navigation was caused by some other action such
+	 * as using a browser's back/forward buttons and/or manually manipulating
+	 * the URL in a browser's location bar. This is the default.
+	 *
+	 * See https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
+	 * for more information.
+	 */
+	var POP = 'POP';
+
+	exports.POP = POP;
+	exports['default'] = {
+	  PUSH: PUSH,
+	  REPLACE: REPLACE,
+	  POP: POP
+	};
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports.loopAsync = loopAsync;
+
+	function loopAsync(turns, work, callback) {
+	  var currentTurn = 0;
+	  var isDone = false;
+
+	  function done() {
+	    isDone = true;
+	    callback.apply(this, arguments);
+	  }
+
+	  function next() {
+	    if (isDone) return;
+
+	    if (currentTurn < turns) {
+	      work.call(this, currentTurn++, next, done);
+	    } else {
+	      done.apply(this, arguments);
+	    }
+	  }
+
+	  next();
+	}
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	module.exports = window.React;
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(3)();
+	exports = module.exports = __webpack_require__(6)();
 	// imports
 
 
@@ -177,13 +266,7 @@
 
 
 /***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	module.exports = window.ReactDOM;
-
-/***/ },
-/* 3 */
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -238,7 +321,7 @@
 	};
 
 /***/ },
-/* 4 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -246,8 +329,8 @@
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var pSlice = Array.prototype.slice;
-	var objectKeys = __webpack_require__(7);
-	var isArguments = __webpack_require__(5);
+	var objectKeys = __webpack_require__(1);
+	var isArguments = __webpack_require__(8);
 
 	var deepEqual = module.exports = function (actual, expected, opts) {
 	  if (!opts) opts = {};
@@ -338,7 +421,7 @@
 	}
 
 /***/ },
-/* 5 */
+/* 8 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -362,96 +445,7 @@
 	};
 
 /***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-	module.exports = window.React;
-
-/***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports = module.exports = typeof Object.keys === 'function' ? Object.keys : shim;
-
-	exports.shim = shim;
-	function shim(obj) {
-	  var keys = [];
-	  for (var key in obj) {
-	    keys.push(key);
-	  }return keys;
-	}
-
-/***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-	/**
-	 * Indicates that navigation was caused by a call to history.push.
-	 */
-	'use strict';
-
-	exports.__esModule = true;
-	var PUSH = 'PUSH';
-
-	exports.PUSH = PUSH;
-	/**
-	 * Indicates that navigation was caused by a call to history.replace.
-	 */
-	var REPLACE = 'REPLACE';
-
-	exports.REPLACE = REPLACE;
-	/**
-	 * Indicates that navigation was caused by some other action such
-	 * as using a browser's back/forward buttons and/or manually manipulating
-	 * the URL in a browser's location bar. This is the default.
-	 *
-	 * See https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
-	 * for more information.
-	 */
-	var POP = 'POP';
-
-	exports.POP = POP;
-	exports['default'] = {
-	  PUSH: PUSH,
-	  REPLACE: REPLACE,
-	  POP: POP
-	};
-
-/***/ },
 /* 9 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	exports.__esModule = true;
-	exports.loopAsync = loopAsync;
-
-	function loopAsync(turns, work, callback) {
-	  var currentTurn = 0;
-	  var isDone = false;
-
-	  function done() {
-	    isDone = true;
-	    callback.apply(this, arguments);
-	  }
-
-	  function next() {
-	    if (isDone) return;
-
-	    if (currentTurn < turns) {
-	      work.call(this, currentTurn++, next, done);
-	    } else {
-	      done.apply(this, arguments);
-	    }
-	  }
-
-	  next();
-	}
-
-/***/ },
-/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -476,7 +470,7 @@
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _Actions = __webpack_require__(8);
+	var _Actions = __webpack_require__(2);
 
 	var _ExecutionEnvironment = __webpack_require__(21);
 
@@ -484,7 +478,7 @@
 
 	var _DOMStateStorage = __webpack_require__(17);
 
-	var _createDOMHistory = __webpack_require__(11);
+	var _createDOMHistory = __webpack_require__(10);
 
 	var _createDOMHistory2 = _interopRequireDefault(_createDOMHistory);
 
@@ -645,7 +639,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -701,7 +695,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -730,7 +724,7 @@
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _Actions = __webpack_require__(8);
+	var _Actions = __webpack_require__(2);
 
 	var _ExecutionEnvironment = __webpack_require__(21);
 
@@ -738,7 +732,7 @@
 
 	var _DOMStateStorage = __webpack_require__(17);
 
-	var _createDOMHistory = __webpack_require__(11);
+	var _createDOMHistory = __webpack_require__(10);
 
 	var _createDOMHistory2 = _interopRequireDefault(_createDOMHistory);
 
@@ -965,6 +959,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
 
 /***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	module.exports = window.ReactDOM;
+
+/***/ },
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -989,13 +989,13 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	var _deepEqual = __webpack_require__(4);
+	var _deepEqual = __webpack_require__(7);
 
 	var _deepEqual2 = _interopRequireDefault(_deepEqual);
 
-	var _AsyncUtils = __webpack_require__(9);
+	var _AsyncUtils = __webpack_require__(3);
 
-	var _Actions = __webpack_require__(8);
+	var _Actions = __webpack_require__(2);
 
 	var _createLocation2 = __webpack_require__(14);
 
@@ -1297,7 +1297,7 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	var _Actions = __webpack_require__(8);
+	var _Actions = __webpack_require__(2);
 
 	var _parsePath = __webpack_require__(24);
 
@@ -1375,7 +1375,7 @@
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _Actions = __webpack_require__(8);
+	var _Actions = __webpack_require__(2);
 
 	var _createHistory = __webpack_require__(13);
 
@@ -1791,13 +1791,13 @@
 
 	var _createLocation3 = _interopRequireDefault(_createLocation2);
 
-	var _createBrowserHistory = __webpack_require__(10);
+	var _createBrowserHistory = __webpack_require__(9);
 
 	var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
 
 	exports.createHistory = _createBrowserHistory2['default'];
 
-	var _createHashHistory2 = __webpack_require__(12);
+	var _createHashHistory2 = __webpack_require__(11);
 
 	var _createHashHistory3 = _interopRequireDefault(_createHashHistory2);
 
@@ -1827,7 +1827,7 @@
 
 	exports.useQueries = _useQueries3['default'];
 
-	var _Actions2 = __webpack_require__(8);
+	var _Actions2 = __webpack_require__(2);
 
 	var _Actions3 = _interopRequireDefault(_Actions2);
 
@@ -3007,7 +3007,7 @@
 	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -3072,7 +3072,7 @@
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -3163,7 +3163,7 @@
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -3359,7 +3359,7 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -3461,7 +3461,7 @@
 	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -4132,7 +4132,7 @@
 	exports.__esModule = true;
 	exports.falsy = falsy;
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var func = _react.PropTypes.func;
 	var object = _react.PropTypes.object;
@@ -4211,7 +4211,7 @@
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -4336,7 +4336,7 @@
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -4403,7 +4403,7 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -4482,11 +4482,11 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _historyLibCreateHashHistory = __webpack_require__(12);
+	var _historyLibCreateHashHistory = __webpack_require__(11);
 
 	var _historyLibCreateHashHistory2 = _interopRequireDefault(_historyLibCreateHashHistory);
 
@@ -4658,7 +4658,7 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -4801,7 +4801,7 @@
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -5036,7 +5036,7 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _historyLibActions = __webpack_require__(8);
+	var _historyLibActions = __webpack_require__(2);
 
 	var _historyLibUseQueries = __webpack_require__(28);
 
@@ -5650,11 +5650,11 @@
 	    value: true
 	});
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(2);
+	var _reactDom = __webpack_require__(12);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -5671,27 +5671,24 @@
 	        };
 	    },
 	    search: function search() {
-	        var _this = this;
-
 	        this.setState({
 	            list: [{ name: 'ss', title: '222' }],
-	            option: [{ key: '22', value: 'ddd' }]
-	        }, function () {
-	            _this.forceUpdate();
+	            option: [{ key: '22', value: 'ddd' }],
+	            value: ''
 	        });
 	    },
-	    selectChange: function selectChange(index, event) {
-	        return;
+	    selectChange: function selectChange() {
+	        this.setState({
+	            value: this.refs.heihei.value
+	        });
 	    },
-
-	    keyNum: 0,
 	    render: function render() {
-	        var _this2 = this;
+	        var _this = this;
 
 	        var P = this.state.list.map(function (item, index) {
 	            return _react2.default.createElement(
 	                'div',
-	                { key: _this2.keyNum++ },
+	                { key: _this.keyNum++ },
 	                _react2.default.createElement(
 	                    'span',
 	                    null,
@@ -5704,19 +5701,24 @@
 	                ),
 	                _react2.default.createElement(
 	                    'select',
-	                    { name: '', id: '', onChange: _this2.selectChange.bind(_this2, index) },
+	                    { name: '', id: '', value: _this.state.value, ref: 'heihei', onChange: _this.selectChange },
 	                    _react2.default.createElement(
 	                        'option',
 	                        { value: '' },
 	                        '选择'
 	                    ),
-	                    _this2.state.option.map(function (ele) {
+	                    _this.state.option.map(function (ele) {
 	                        return _react2.default.createElement(
 	                            'option',
 	                            { value: ele.value },
 	                            ele.key
 	                        );
 	                    })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    '不知其所以'
 	                )
 	            );
 	        });
@@ -5752,7 +5754,7 @@
 	    value: true
 	});
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -5806,11 +5808,11 @@
 	    value: true
 	});
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(2);
+	var _reactDom = __webpack_require__(12);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -5820,12 +5822,75 @@
 
 	var ArticleInfo = _react2.default.createClass({
 	    displayName: 'ArticleInfo',
+	    getInitialState: function getInitialState() {
+	        return {};
+	    },
+	    search: function search() {
+	        var _this = this;
+
+	        var form = document.querySelector('#form');
+	        var fd = new FormData(form);
+
+	        Ajax({
+	            type: 'put',
+	            // url: '/test/'+this.props.params.id ,
+	            // url: '/upload',
+	            url: "/static/data/" + this.props.params.id + ".json",
+	            dataType: 'string'
+	        }). // data: fd,
+	        // timeout: 1000 ,
+	        // upload: function( precent ){
+	        //     console.log('不得了',precent)
+	        // }
+	        then(function (data) {
+	            console.log('数据请求成功了呢', data);
+	            _this.setState(JSON.parse(data));
+	        }, function (msg) {
+	            console.log(msg);
+	        });
+	    },
+	    componentDidMount: function componentDidMount() {
+	        var _this2 = this;
+
+	        Ajax({
+	            type: 'get',
+	            url: "/static/data/" + this.props.params.id + ".json",
+	            dataType: 'string'
+	        }).then(function (data) {
+	            console.log('数据请求成功了呢', data);
+	            _this2.setState(JSON.parse(data));
+	        }, function (msg) {
+	            console.log(msg);
+	        });
+	    },
 	    render: function render() {
+	        var state = this.state;
+
 	        return _react2.default.createElement(
 	            'div',
 	            null,
 	            '文章ID:',
-	            this.props.params.id
+	            this.props.params.id,
+	            _react2.default.createElement(
+	                'button',
+	                { onClick: this.search },
+	                '搜搜'
+	            ),
+	            _react2.default.createElement(
+	                'form',
+	                { action: '', id: 'form' },
+	                _react2.default.createElement('input', { type: 'file', name: 'heihei' })
+	            ),
+	            _react2.default.createElement(
+	                'h2',
+	                null,
+	                state.title
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                null,
+	                state.content
+	            )
 	        );
 	    }
 	});
@@ -5842,11 +5907,43 @@
 	    value: true
 	});
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(2);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Footer = (0, _react.createClass)({
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	                'i',
+	                null,
+	                'react · react-router @ copyright Facebook'
+	            )
+	        );
+	    }
+	});
+
+	exports.default = Footer;
+
+/***/ },
+/* 63 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(12);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -5870,13 +5967,13 @@
 	exports.default = Home;
 
 /***/ },
-/* 63 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(1);
+	var content = __webpack_require__(5);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(57)(content, {});
@@ -5896,7 +5993,7 @@
 	}
 
 /***/ },
-/* 64 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5905,11 +6002,11 @@
 	    value: true
 	});
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(2);
+	var _reactDom = __webpack_require__(12);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -5918,13 +6015,45 @@
 	var Message = _react2.default.createClass({
 	    displayName: 'Message',
 	    render: function render() {
+	        var LIST = [{ time: '2007-9-1', username: '枫叶', content: '很高兴认识你' }, { time: '2007-11-1', username: '枫叶', content: '血雾迷尘，念去去，千里烟波，暮霭沉沉楚天阔' }];
 	        return _react2.default.createElement(
 	            'div',
 	            null,
 	            _react2.default.createElement(
-	                'h1',
+	                'h2',
 	                null,
 	                '留言板'
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                null,
+	                LIST.map(function (item, index) {
+	                    return _react2.default.createElement(
+	                        'div',
+	                        null,
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            index + 1,
+	                            '楼'
+	                        ),
+	                        _react2.default.createElement(
+	                            'p',
+	                            null,
+	                            item.username
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            null,
+	                            item.content
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            item.time
+	                        )
+	                    );
+	                })
 	            )
 	        );
 	    }
@@ -5933,7 +6062,6 @@
 	exports.default = Message;
 
 /***/ },
-/* 65 */,
 /* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -5943,7 +6071,70 @@
 	    value: true
 	});
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Nav = (0, _react.createClass)({
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	                'h1',
+	                null,
+	                'React 单页面应用'
+	            )
+	        );
+	    }
+	});
+
+	exports.default = Nav;
+
+/***/ },
+/* 67 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(37);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var NotFound = _react2.default.createClass({
+	    displayName: 'NotFound',
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'sidebar' },
+	            'e 这倒不到这个页面 你来到了荒漠'
+	        );
+	    }
+	});
+
+	exports.default = NotFound;
+
+/***/ },
+/* 68 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -5957,11 +6148,6 @@
 	        return _react2.default.createElement(
 	            'div',
 	            { className: 'sidebar' },
-	            _react2.default.createElement(
-	                'h1',
-	                null,
-	                'SPA'
-	            ),
 	            _react2.default.createElement(
 	                'li',
 	                null,
@@ -6003,101 +6189,6 @@
 	});
 
 	exports.default = Nav;
-
-/***/ },
-/* 67 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(6);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Footer = (0, _react.createClass)({
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(
-	                'i',
-	                null,
-	                'react · react-router @ copyright fuck u'
-	            )
-	        );
-	    }
-	});
-
-	exports.default = Footer;
-
-/***/ },
-/* 68 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(6);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Nav = (0, _react.createClass)({
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(
-	                'h1',
-	                null,
-	                '顶部导航'
-	            )
-	        );
-	    }
-	});
-
-	exports.default = Nav;
-
-/***/ },
-/* 69 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(6);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(37);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var NotFound = _react2.default.createClass({
-	    displayName: 'NotFound',
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'sidebar' },
-	            'e 这倒不到这个页面 你来到了荒漠'
-	        );
-	    }
-	});
-
-	exports.default = NotFound;
 
 /***/ }
 /******/ ]);

@@ -29,6 +29,8 @@
 git remote add origin git@github.com:michaelliao/learngit.git  // 远程添加原生的
 git push -u origin master // 将本地的master分支与线上分支合并关联
 git push origin master // 以后就可以用这个命令提交本地的修改
+
+git pull --rebase origin master
 ```
 ### 4. 使用客户端/可视化工具
 
@@ -194,3 +196,20 @@ rebase之前会被触发，可以用此hook来拒绝所有的已经push的commit
 chmod u+x your_hook
 
 所以你可以用shell脚本，perl，python等写钩子。
+
+
+## 其实git help的文档说明已经很完善了
+git log 显示commit
+git log -n 1 显示最近1次提交
+git log -n 1 --stat 显示最近一次提交详情【增删改了哪些文件】
+
+git branch 显示本地所有分支
+git branch -r 显示远程所有分支
+git branch -a 显示本地和远程所有分支
+git push origin --delete develop 删除远程分支
+git branch develop 新建develop分支
+git branch -d develop 删除develop分支
+git branch -m develop haha 重命名分支
+git checkout develop 切换到对应分支
+
+git merge develop //合并develop分支 到当前分支

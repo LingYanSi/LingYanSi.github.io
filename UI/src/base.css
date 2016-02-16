@@ -1359,6 +1359,32 @@ body {
 }
 .Sdate.show {
   display: block ;
+  -webkit-animation: show .3s ;
+          animation: show .3s ;
+}
+@-webkit-keyframes show {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate(0, 30%);
+            transform: translate(0, 30%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate(0, 0%);
+            transform: translate(0, 0%);
+  }
+}
+@keyframes show {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate(0, 30%);
+            transform: translate(0, 30%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate(0, 0%);
+            transform: translate(0, 0%);
+  }
 }
 .Sdate .ymd {
   padding: 4px 0 ;
