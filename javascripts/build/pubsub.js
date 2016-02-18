@@ -71,3 +71,5 @@ var obj = {
 
 PubSub.sub('你大爷', obj.heihei.bind(obj) )
 PubSub.pub('你大爷', '无语~')
+
+// hei怎么回事儿
