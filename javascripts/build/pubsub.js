@@ -71,3 +71,6 @@ var obj = {
 
 PubSub.sub('你大爷', obj.heihei.bind(obj) )
 PubSub.pub('你大爷', '无语~')
+
+// 从分支上过来的
+// master
