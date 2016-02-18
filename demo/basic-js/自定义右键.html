@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style media="screen">
+            *{
+                margin: 0 ;
+                padding: 0;
+            }
+            #menu{
+                display: none ;
+                position: fixed;
+                width: 180px;
+                border: 1px solid rgba(0,50,100,.7) ;
+                background: rgba(0,0,0,.5) ;
+                outline: none ;
+                cursor: pointer ;
+            }
+            #menu li{
+                list-style: none ;
+                padding: 6px;
+            }
+            #menu li+li{
+                border-top: 1px solid #fff ;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="height:600px; background:pink; "></div>
+        <div id="menu" tabindex="1">
+            <ul>
+                <li>设置</li>
+                <li>关于</li>
+                <li>跳转</li>
+                <li>刷新</li>
+            </ul>
+        </div>
+        <script type="text/javascript">
+
+            var $ = function(s){
+                return document.querySelector(s)
+            }
+            window.oncontextmenu = function (event) {
+                // 右键弹出
+                event.preventDefault();
+
+                // console.log(event)
+                // 做一些其他事情
+                $('#menu').style.cssText += `;display:block;top:${event.pageY}px;left:${event.pageX}px`;
+                $('#menu').focus()
+            }
+            $('#menu').addEventListener('blur', function(){
+                this.style.display = 'none'
+            })
+        </script>
+    </body>
+</html>

@@ -10,21 +10,16 @@
         </style>
     </head>
     <body>
+        <!-- 添加draggable属性，使元素可拖拽 -->
         <h1 draggable="true">是大纲是大法官</h1>
         <div id="father">
-            <form action="" type="post">
-                <input type="file" multiple>
+            <form action="">
+                <input type="file" name="image" multiple accept="image/*">
             </form>
         </div>
         <div id="scan"></div>
 
-        <script src="./build/pubsub.js" charset="utf-8"></script>
         <script type="text/javascript">
-        window.oncontextmenu = function (event) {
-            // 右键弹出
-            event.preventDefault();
-            // 做一些其他事情
-        }
 
         $ = function(selector){
             return document.querySelector(selector)
@@ -61,17 +56,38 @@
         $father.addEventListener('drop', function(e){
             e.preventDefault()
             console.log('drop放在里面了', e)
-            var files = e.dataTransfer.files ; // files是一个wei数组
+            // ie9及其以下
+            // no support for the dataTransfer.files or .types objects and limited supported formats for dataTransfer.setData/getData
+            var files = e.dataTransfer.files ; // files是一个伪数组
+
+            // 拖拽结束后把数据放到input中，然后使用formdata上传数据
+            $('input').files = e.dataTransfer.files
+
+            scanImage( files)
+
+        })
+
+        $('input').addEventListener('change', function(e){
+            scanImage(e.target.files)
+        })
+
+        // 图片预览
+        function scanImage(files){
             $('#scan').innerHTML = [].slice.call(files).map( function(item){
                 return `<img src="${URL.createObjectURL(item)}" alt="" />`
             }).join(' ')
 
-            $('input').files = e.dataTransfer.files
-        })
+            upload()
+        }
 
-        $('input').addEventListener('change', function(e){
-            console.log(e.value,e.target.files)
-        })
+        // 上传图片
+        function upload(){
+            var fd = new FormData( $('form') )
+
+            var xhr = new XMLHttpRequest()
+            xhr.open('post','/post',true)
+            xhr.send(fd)
+        }
 
         </script>
     </body>
