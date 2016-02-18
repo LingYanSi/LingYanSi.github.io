@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style media="screen">
+
+            .transition{ transition: all 1s ; transform-origin: left top ;}
+
+            .wrap{
+                position: relative; height: 70px; width: 70px;
+            }
+            .inner{
+                position: absolute; left: 50%; top: 50%; transform: translate3d(-50%,-50%,0);
+                height: 50px ; width: 50px ; border-radius: 100%; border: 2px solid red ;
+                border-left-color: rgba(0,0,0,0) ;
+                border-right-color: rgba(0,0,0,0) ;
+                animation: huang 1s linear 3s infinite;
+            }
+
+            @keyframes huang
+            {
+                0% {  transform:translate3d(-50%,-50%,0) rotateZ(360deg) ; }
+                100% { transform:translate3d(-50%,-50%,0)  rotateZ(0deg) ;}
+            }
+
+            .outer{
+                box-sizing: border-box;
+                height: 100%; border-radius: 100%; border: 2px solid blue ;
+                border-left-color: rgba(0,0,0,0) ;
+                border-right-color: rgba(0,0,0,0) ;
+                animation: cheng 1s linear 5s infinite ;
+            }
+
+            @keyframes cheng
+            {
+                0% {  transform: rotateZ(0deg); }
+                100% { transform:  rotateZ(360deg);}
+            }
+        </style>
+    </head>
+    <body>
+        <div id="d3"></div>
+        <div class="wrap">
+            <div class="outer"></div>
+            <div class="inner"></div>
+        </div>
+        <h1></h1>
+        <input type="text" id="hah">
+
+        <script src="../../node_modules/d3/d3.min.js" charset="utf-8"></script>
+        <script type="text/javascript">
+            // d3.select('#d3')
+            //     .style({'height':'500px','background-color':'red'})
+            //     .transition()
+            //     .duration(500)
+            //     .style({'height':'200px','background-color':'blue'})
+            //     .transition()
+            //     .duration(1000)
+            //     .style({'height':'300px'})
+            //     // 不能直接处理transform
+            //     .transition()
+            //     .attr('class','transition')
+            //     .style({'transform':'rotateZ(90deg) scale3d(.1,.1,1)'})
+
+            document.querySelector('.wrap').onclick = function(){
+                [].slice.call(this.children).forEach(function(item){
+                    item.style.animationPlayState = item.style.animationPlayState == 'paused' ? 'running' : 'paused'
+                })
+            }
+
+            var $h1 = document.querySelector('h1')
+            // ie9以及已上支持
+            document.querySelector('#hah').addEventListener('input',function(){
+                $h1.textContent = this.value
+            })
+        </script>
+    </body>
+</html>

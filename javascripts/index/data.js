@@ -40,12 +40,6 @@ var data = [{
         link: 'https://github.com/LingYanSi/LingYanSi.github.io/blob/master/build-zepto/ku.js',
         title: 'zepto'
     }, {
-        link: '/react-mine/',
-        title: 'Reactjs-demo'
-    }, {
-        link: '/backbone/',
-        title: 'backbone-demo'
-    }, {
         link: '/angular/',
         title: 'angular-demo'
     }, {
@@ -60,7 +54,10 @@ var data = [{
     }, {
         link: '/swipe/sudu.html',
         title: '模拟滑动'
-    }, ]
+    },{
+        link: 'https://github.com/LingYanSi/LingYanSi.github.io/tree/master/javascripts/build',
+        title: '一些轮子cookie/ajax/modal/pubsub等'
+    } ]
 }, {
     title: 'sublime title3',
     list: [{

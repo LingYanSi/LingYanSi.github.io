@@ -15,6 +15,7 @@
     "babel-preset-stage-0": "^6.3.13",
     "bootstrap": "^3.3.6",
     "css-loader": "^0.23.1",
+    "d3": "^3.5.15",
     "eslint": "^1.10.3",
     "gulp": "^3.9.0",
     "gulp-add-src": "^0.2.0",

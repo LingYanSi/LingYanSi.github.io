@@ -33,6 +33,8 @@ chmod -R 755 pathname // 修改文件夹下所有文件的读写权限
 
 chown -R zikong pathname // 修改文件夹下所有文件的归属人
 
+mv filename/dirname filename/dirname // 文件/文件夹重命名
+
 ------------------配置环境变量---------------
 open ~/.bash_profile
 
@@ -68,3 +70,6 @@ gas mask的原理：
 一个奇怪的事情，今天帮别人修改host的时候，提示readonly 文法保存，
 使用了 sudo chmod 755 /etc/hosts 还是不行
 最后使用 sudo vim /etc/hosts 才成功
+
+查看文件大小
+du -ks filename/dirname
