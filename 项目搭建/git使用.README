@@ -116,7 +116,6 @@ filter.lfs.smudge=git-lfs smudge %f
 filter.lfs.required=true
 user.name=zikong
 user.email=zikong@mogujie.com
-core.filemode=false
 url.https://.insteadof=git://
 core.repositoryformatversion=0
 core.filemode=false
@@ -134,7 +133,7 @@ mergetool.tower.trustexitcode=true
 ```
 显示 => git config --list
 配置 => git config user.name zikong
-        git config core.filemode false
+        git config core.filemode false // 忽略文件权限修改 chmod 777/755 之类
 
 为了避免每次都输入username,email的麻烦
     git config user.name zikong
