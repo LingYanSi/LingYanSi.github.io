@@ -1,5 +1,8 @@
 
 'use strict';
+function $(s){
+    return document.querySelector(s)
+}
 
 // 事件代理
 var eventProxy = function(ele, event, selector, fun){
@@ -197,6 +200,13 @@ eventProxy('body', 'click', '.switch', function(event){
             </div>`
             this.open( {body: html}, submitFun, cancelFun);
         },
+        tips( msg , time){
+            var html = `<div class="modal-item-msg">${msg}</div>`
+            var item = this.open({body: html})
+            setTimeout(function(){
+                Modal.close(item)
+            }, time||2000)
+        },
         open( obj, submitFun, cancelFun ){
             // body: html字符串
             // title: 标题
@@ -207,7 +217,7 @@ eventProxy('body', 'click', '.switch', function(event){
             var item = document.createElement('div');
             item.classList.add('modal-item');
             if(obj.type){
-                console.log('应该有提')
+                // console.log('应该有提')
                 item.classList.add('absolute');
             }
             modal.appendChild(item);
@@ -233,12 +243,14 @@ eventProxy('body', 'click', '.switch', function(event){
             });
 
             this.setCurrent()
+
+            return item ;
         },
         setCurrent(){
             this.current = this.state.length ? this.state.length -1 : 0 ;
         },
-        close(){
-            var item = this.state[this.current].ele ;
+        close( ele){
+            var item = ele || this.state[this.current].ele  ;
             var main = item.querySelector('.modal-item-main')
             main.classList.remove('modal-item-main-show') ;
             item.classList.add('hide');
@@ -267,9 +279,35 @@ eventProxy('body', 'click', '.switch', function(event){
         },
 
     }
-})()
+})();
 
-var num = 0 ;
+
+$('.modal-tips').onclick = function(){
+    Modal.tips('日你先人版本',500)
+}
+$('.modal-alert').onclick = function(){
+    Modal.alert('日你先人版本', ()=>{
+        console.log('alert确认按钮' )
+    })
+}
+$('.modal-confirm').onclick = function(){
+    Modal.confirm('日你先人版本', ()=>{
+        console.log('alert确认按钮' )
+    }, ()=>{
+        console.log('alert确认按钮' )
+    } )
+}
+$('.modal-open').onclick = function(){
+    Modal.open({
+        body: `<div> 
+            这都是什么几把玩意儿~
+            <button class="cancel modal-close">就这样吧</button>
+        </div>`,
+        title: '我是标题title',
+        type: 1
+    })
+}
+/*var num = 0 ;
 
 eventProxy('body','click','.openmodal',()=>{
     let NUM = num%3 ;
@@ -287,12 +325,12 @@ eventProxy('body','click','.openmodal',()=>{
             })
             break ;
         case 0:
-            Modal.alert('你是傻逼吗'+ (num++), ()=>{
+            Modal.tips('alert阿斯顿发生'+ (num++), ()=>{
                 console.log('alert确认按钮'+num)
             })
             break;
         case 1 :
-            Modal.confirm('你是傻逼吗'+ (num++),()=>{
+            Modal.confirm('confirm撒旦法师打发'+ (num++),()=>{
                 console.log('confirm确认'+num)
             }, ()=>{
                 console.log('confirm 取消'+num )
@@ -301,6 +339,6 @@ eventProxy('body','click','.openmodal',()=>{
         default:
 
     }
-})
+})*/
 
 // 轮播图
