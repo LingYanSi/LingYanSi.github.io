@@ -1,5 +1,8 @@
 window.Ent = window.Ent || {};
+// 版本号
+Ent.version = '0.01';
 
+// 工具,判断类型，数据clone
 Ent.tools = {
     // 类型检测
   testType: function(obj) {
