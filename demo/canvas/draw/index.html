@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>画板</title>
+    </head>
+    <body>
+        <h1>画板</h1>
+        <div>
+            选择文件<input id="file" type="file">
+            颜色<input id="color" type="color">
+            粗细<input id="linewidth" type="range" max="10" min="1" value="1">
+            透明<input id="opacity" type="range" max="10" min="1" value="10">
+            <button id="add-border">添加边框</button>
+        </div>
+        <canvas id="canvas" width="300" height="300"></canvas>
+        <p>
+            <a href="" download >保存图片</a>
+        </p>
+
+        <script src="./init.js" charset="utf-8"></script>
+        <script src="./line.js" charset="utf-8"></script>
+        <script src="./border.js" charset="utf-8"></script>
+    </body>
+</html>
