@@ -1,17 +1,17 @@
 var str = `
-        <div onClick={this.click} props={我是props} id="shm" className="heihei">
+        <div onClick={click} props={我是props} id="shm" className="heihei">
              <我是文>我是文本>元>素<sdfsdfasdf<sadfasdf>
-             <img src="" alt="" />
+             <img src="http://ww2.sinaimg.cn/bmiddle/795bf814gw1f17aec5kytj20go05aaap.jpg" alt="" />
              <input type="text" />
              wodayeshihsui<!-- ent 1.0 -->你大爷是谁
              <span></span>
              <!-- ent 1.1 -->
-             <div onClick={this.click} className="bitch">
+             <div onMouseUp="up" className="bitch">
                  <!-- ent 1.1.0 -->
                  呵呵呵呵>sdfsdf< sdfsdsdf
                  <!-- ent 1.1.1 -->我是你爹啊
                  <div><div></div></div>
-                 <p>
+                 <p onClick={pClick}>
                      <!-- ent 1.1.1.0 -->
                      什么鬼啊
                  </p>
@@ -57,9 +57,16 @@ function getVDom(str,PRE,INDEX){
         value = value.startsWith('"')||value.startsWith('{') ? value.slice(1,-1) : value
 
         // 事件
-        if(key.startsWith('on')) events[key] = value
+        if(key.startsWith('on')) {
+            key = key.slice(2).toLowerCase()
+            events[key] = value
+            return
+        }
         // props
-        if(key==='props') props = value
+        if(key==='props'){
+            props = value
+            return
+        }
 
         return {
             key: key ,

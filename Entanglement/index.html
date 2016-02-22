@@ -9,13 +9,20 @@
 
     <div id="tpl"></div>
 
+    <div id="song"></div> 
     <script src="build/tool.js" charset="utf-8"></script>
     <script src="build/parse.js" charset="utf-8"></script>
     <script src="build/listen.js" charset="utf-8"></script>
     <script src="build/index.js" charset="utf-8"></script>
 
     <script src="build/parseTest.js" charset="utf-8"></script>
+    <script src="build/render.js" charset="utf-8"></script>
     <script type="text/javascript">
+
+    function $(s){
+        return document.querySelector(s)
+    }
+
     //   var a = {b:1};
     //   Ent.listen(a,function(name, oldValue, newValue){
     //     console.log(name, oldValue, newValue)
