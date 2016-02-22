@@ -12,7 +12,7 @@ var server = http.Server((req, res) => {
     let url = req.url;
 
     if( url=='/favicon.ico' ){
-        res.writeHead(status, {
+        res.writeHead('200', {
             'Content-Type': 'image/jpg;charset=utf-8;'
         })
         res.end('icons')
@@ -76,7 +76,10 @@ var server = http.Server((req, res) => {
         // console.log( path.resolve(__dirname,'.'+req.url) )
         let fileUrl = path.resolve(__dirname, '.' + req.url) ;
         fs.exists( fileUrl, ( exists)=>{
-            if( !exists ) res.end('找不到资源')
+            if( !exists ){
+                res.end('{"title":"404","content":"找不到资源"}')
+                return
+            }
             var str = fs.readFileSync( fileUrl ).toString() ;
             res.end(str)
 

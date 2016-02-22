@@ -37,15 +37,14 @@ const About = React.createClass({
                             })
                         }
                     </select>
-                    <div>
-                        不知其所以
-                    </div>
                 </div>
         })
 
         return <div>
-            <h1>关于</h1> <button onClick={this.search}>Search</button>
+            <h1>关于</h1>
+            <button onClick={this.search}>Search</button>
             {P}
+            念桥边红药，年年知为谁生？
         </div>
     }
 })

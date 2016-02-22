@@ -40,18 +40,17 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(12);
+	var _reactDom = __webpack_require__(5);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -71,19 +70,20 @@
 	(0, _reactDom.render)(_react2.default.createElement(SS, null), document.getElementById('app'));
 
 /***/ },
-
-/***/ 4:
-/***/ function(module, exports) {
-
-	module.exports = window.React;
-
-/***/ },
-
-/***/ 12:
+/* 1 */,
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */
 /***/ function(module, exports) {
 
 	module.exports = window.ReactDOM;
 
-/***/ }
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
 
-/******/ });
+	module.exports = window.React;
+
+/***/ }
+/******/ ]);

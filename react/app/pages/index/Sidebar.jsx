@@ -2,9 +2,11 @@
 import React,{Component} from 'react'
 import {Router , Link, Route, browserHistory} from 'react-router'
 
+require('./style/sidebar.less')
+
 const Nav = React.createClass({
     render(){
-        return <div className="sidebar"> 
+        return <div className="sidebar">
             <li>
                 <Link to='/home'>主页</Link>
             </li>
