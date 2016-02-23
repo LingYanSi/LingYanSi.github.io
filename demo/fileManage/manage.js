@@ -116,7 +116,7 @@ JSM.addCache({
     },
     '/home': {
         src: './a.js', // 需要加载的js文件
-        state: 0 , // 是否已经加载过
+        state: 0 , // 文件是否已经加载过
         redirect: '' // 重定向地址
     },
     '/about/:id/:sth': {

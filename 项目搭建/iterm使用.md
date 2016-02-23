@@ -67,6 +67,13 @@ export lys=~/lingyansi.github.io/
 brew install zsh
 [教程](http://zhuanlan.zhihu.com/mactalk/19556676)
 
+## iterm2 新版本改动
+[博客](http://wdxtub.com/2016/02/21/iterm-v3-preview/)
+[官网](https://iterm2.com/version3.html?src=4)
+
+## 使用
+[基本](http://www.boiajs.com/2014/11/02/iterm2-guide)
+
 ## 查看端口被占用
 sudo lsof -i :9000
 ```
