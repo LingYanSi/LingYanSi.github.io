@@ -218,3 +218,11 @@ git branch -m develop haha 重命名分支
 git checkout develop 切换到对应分支
 
 git merge develop //合并develop分支 到当前分支
+git reset .
+取消add的内容
+git reset –soft：
+回退到某个版本，只回退了commit的信息，不会恢复到index file一级。如果还要提交，直接commit即可
+其意义在于只撤销commit，不撤销已修改的内容
+git reset –hard：
+彻底回退到某个版本，本地的源码也会变为上一个版本的内容
+撤销commit，回滚到上个指定版本，已提交commit的信息会被清除
