@@ -26,23 +26,27 @@ LY.cookie = (function(){
             add : function(name,value,timeEnd){
                 name = name && encodeURIComponent(name);
                 value = value && encodeURIComponent(value);
-                timeEnd = timeEnd*1000 ;
-                timeEnd = timeEnd ? new Date( new Date().getTime()+timeEnd ).toUTCString(): new Date().toUTCString();
+                if(timeEnd instanceof Date ){
+                    timeEnd = timeEnd.toUTCString();
+                }else{
+                    timeEnd = timeEnd*1000 ;
+                    timeEnd = timeEnd ? new Date( new Date().getTime()+timeEnd ).toUTCString(): new Date().toUTCString();
+                }
                 document.cookie = name+'='+value+';expires='+timeEnd  ;
             },
             // 移除cookie，可接受多个参数
             remove: function(){
                 var arr = [].slice.call(arguments) ;
-                for(var i=0,len=arr.length; i<len ;i++){
-                    this.add(arr[i],'',0);
-                }
+                arr.forEach(function(item ){
+                    this.add(item,'',0);
+                })
             },
             // 删除所有cookie
             removeAll: function(){
                 var cookieArr = document.cookie.split(';');
-                for(var i=0,len=cookieArr.length; i<len ; i++){
-                    this.remove( cookieArr[i].split('=')[0] );
-                }
+                cookieArr.forEach(function(item ){
+                    this.remove( item.split('=')[0] );
+                })
             },
             // cookie是否存在
             contains: function(name){
@@ -58,10 +62,10 @@ LY.cookie = (function(){
             getAll: function(){
                 this.cookieObj = {}
                 var cookieArr = document.cookie.split(';');
-                for(var i=0,len=cookieArr.length; i<len ; i++){
-                    this.cookieObj[ decodeURIComponent(cookieArr[i].split('=')[0]) ] =
-                    decodeURIComponent(cookieArr[i].split('=')[1]) ;
-                }
+                cookieArr.forEach(function(item){
+                    this.cookieObj[ decodeURIComponent(item.split('=')[0]) ] =
+                    decodeURIComponent(item.split('=')[1]) ;
+                })
                 return this.cookieObj ;
             }
         }
