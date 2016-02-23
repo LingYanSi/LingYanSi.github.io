@@ -30,3 +30,7 @@ build/Release
 # https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 # 匹配所有文件夹下的node_modules
 node_modules/
+
+# 忽略gulp下的图片文件
+gulp/img/
+gulp/img-dist/
