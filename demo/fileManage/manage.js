@@ -68,13 +68,25 @@
             script.src = item.src
             document.head.appendChild(script)
 
+            // js加载成功
             script.onload = function() {
                 // 修改状态为已加载
                 item.state = 1
                 item.init(parma)
                 fun && fun()
             }
+
+            // js加载失败
+            script.onerror = function(){
+                item.error ? item.error() : JSM.handleError && JSM.handleError()
+            }
+
+            // 文件停止加载
+            script.onabort = function(){
+
+            }
         },
+        // 重定向
         redirect(targetUrl){
             location.href = '#'+targetUrl
         },
@@ -117,7 +129,10 @@ JSM.addCache({
     '/home': {
         src: './a.js', // 需要加载的js文件
         state: 0 , // 文件是否已经加载过
-        redirect: '' // 重定向地址
+        redirect: '', // 重定向地址
+        error: function(){  // 处理文件加载失败
+            $('#content').textContent = '首页加载失败'
+        }
     },
     '/about/:id/:sth': {
         src: './b.js'
@@ -127,3 +142,8 @@ JSM.addCache({
         src: './c.js'
     }
 })
+
+JSM.handleError = function(){
+    // 处理请求文件请失败情况
+    $('#content').textContent = '请求不到数据'
+}
