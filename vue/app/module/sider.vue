@@ -1,4 +1,4 @@
-<style lang="sass">
+<style lang="less">
     .slider-transition{ transition: all 0.3s; }
     .slider-item-wrap{
         height: 100% ;
@@ -6,7 +6,7 @@
             position: absolute ;
             height: 100% ; width: 100% ; left: 0 ; top: 0;
             background-size: cover ; background-position: center ;
-            background-color: pink;
+            background-color: pink ;
             // transform: translate3d(100%,0,0);
         }
         &>div.slider-item-current{ transform: translate3d(0, 0, 0); }
@@ -14,9 +14,9 @@
     }
     .slider-dian{
         position: absolute; bottom: 0 ; left: 50% ; line-height: 2 ;
-        transform: translate3d(-50%,0,0);
+        transform: translate3d(-50%,0,0) ;
         span{
-            display: inline-block; height: 0.5em; width: 0.5em;
+            display: inline-block; height: 0.5em; width: 0.5em ;
             border-radius: 50% ; background: #fff ;
         }
         span.slider-dian-current{

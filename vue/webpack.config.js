@@ -30,6 +30,9 @@ module.exports = {
     babel: {
         presets: ['es2015']
     },
+    externals: {
+        'vue': 'window.Vue' 
+    },
     //
     // 插件
     plugins: [],

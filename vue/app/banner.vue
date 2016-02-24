@@ -1,4 +1,4 @@
-<style lang="sass">
+<style lang="less">
     #banner{
         height: 6rem;
         background: pink;

@@ -1,4 +1,4 @@
-<style lang="sass">
+<style lang="less">
     input,textarea,button{ outline:none; border:none; padding:0;  }
     input, textarea { border: 1px solid #eee ; padding: 0.5em; }
     #textarea{

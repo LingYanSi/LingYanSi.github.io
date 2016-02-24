@@ -1,11 +1,17 @@
-<style lang="sass">
+<style lang="less">
     h1{
         color: red ;
+    }
+    .layer{
+        position: fixed ; z-index: 100;
+        height: 200px; width: 100%;
+        top:0; left: 0 ; background: rgba(200,0,0,.2);
     }
 </style>
 
 <template>
     <div>
+        <div class="layer" v-touch:tap="touch"></div>
         <Banner height="6rem" id="banner"
                 :current="1"
                 :list="bannerList"></Banner>
@@ -49,12 +55,18 @@
                                 {name:'赛江南',tag:'嘿嘿'}
                             ]
                         ],
-                listCurrent: 0 ,
+                listCurrent: 0
             }
         },
         methods: {
             update(){
                 this.$broadcast('parent-msg', this.listCurrent);
+            },
+            touch: function(event){
+                // 可用来解决【击穿现象】
+                event.preventDefault() 
+                // event.currentTarget.style.display = 'none
+                event.target.style.display = 'none'
             }
         },
         events: {

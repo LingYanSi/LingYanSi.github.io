@@ -1,4 +1,4 @@
-<style lang="sass">
+<style lang="less">
     #list{
         margin: 0 4px ;
         li+li{ border-top: 4px solid #fff ;}

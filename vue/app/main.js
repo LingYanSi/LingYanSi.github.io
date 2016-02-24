@@ -14,6 +14,7 @@ var App = require('./app.vue')
 // 引入hammer.js 快速点击
 Vue.use(vueTouch)
 
+// 组件渲染
 new Vue({
   el: 'body',
   components: {
