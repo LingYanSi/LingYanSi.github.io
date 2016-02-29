@@ -25,6 +25,12 @@ const history = useBasename(createHistory)({
   basename: ''
 });
 
+var store = {
+    footer: {
+        optinalArray: 'shmhuoa'
+    }
+}
+
 class App extends Component{
     constructor(){
         super(...arguments)
@@ -38,10 +44,10 @@ class App extends Component{
                     {this.props.children}
                 </div>
             </div>
-            <Footer />
+            <Footer {...store.footer} />
         </div>
     }
-} 
+}
 
 render((
     <Router history={history}>
