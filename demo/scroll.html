@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width; init-scale=1.0; max-scale=1.0; min-scale=1.0; user-scale=no">
+        <title></title>
+        <style media="screen">
+            #content{
+                position: fixed ;
+                right: 0 ;
+                top: 0 ;
+                width: 300px;
+                height: 100% ;
+                overflow: scroll ;
+            }
+            #top{
+                position: fixed ;
+                height: 40px; width: 40px;
+                right: 40px; bottom: 40px;
+                background: green;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="content">
+            <div id="nainai" style="height:2000px; width:100%; background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(255, 0, 255, 0.5));">11111</div>
+        </div>
+        <div class="sth" style="height:2000px;"></div>sssss
+        <div id="top"></div>
+        <script type="text/javascript">
+            document.querySelector('#top').addEventListener('click',function(){
+                toTop(document.body, 1000)
+            })
+
+            // 阻止window的滚动，但保持自身的滚动
+            stopScrollPropagation(document.querySelector('#content'))
+            function stopScrollPropagation(dom){
+                var isMozilla = navigator.userAgent.toLowerCase().indexOf('firefox') > 0
+                dom.addEventListener(!isMozilla ? 'mousewheel' :'DOMMouseScroll' ,function(event){
+                    // 阻止滚动条冒泡
+                    var PER = 10
+                    if(!isMozilla){
+                        if(event.wheelDelta!=0){
+                            this.scrollTop += event.wheelDelta<0 ? PER : -PER
+                        }
+                    }else{
+                        if(event.detail!=0){
+                            this.scrollTop += event.detail>0 ? PER : -PER
+                        }
+                    }
+                    event.preventDefault()
+                })
+            }
+
+            // 滚动条滚动，可以再添加线性变动
+            function toTop(dom, time){
+                var height = dom.scrollTop
+                if(!height) return
+
+                time = time || 300
+                var HZ = 16.7
+                var per = height/time*HZ
+
+                var inter = setInterval(function(){
+
+                    height = height- per ;
+                    height = height<0 ? 0 : height
+                    dom.scrollTop = height
+                    if(!height) clearInterval( inter )
+
+                },HZ)
+            }
+        </script>
+    </body>
+</html>

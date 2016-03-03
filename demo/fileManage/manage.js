@@ -59,7 +59,6 @@
             if (item.state) {
                 // 执行模块
                 item.init(parma)
-                fun && fun()
                 return
             }
 
@@ -68,12 +67,14 @@
             script.src = item.src
             document.head.appendChild(script)
 
+            // 保存当前url,以备后用
+            JSM.current = url
+
             // js加载成功
             script.onload = function() {
                 // 修改状态为已加载
                 item.state = 1
                 item.init(parma)
-                fun && fun()
             }
 
             // js加载失败
@@ -83,7 +84,7 @@
 
             // 文件停止加载
             script.onabort = function(){
-
+                item.abort ? item.abort() : JSM.handleAbort && JSM.handleAbort()
             }
         },
         // 重定向
@@ -108,7 +109,11 @@
              */
             // 定义一个加载器，接受两个参数 @url: 路由 @fun: 函数
             window.define = function(url, fun) {
-                JSM.cache[url] && (JSM.cache[url].init = fun)
+                if( !JSM.cache[url] ){
+                    JSM.cache[url] = {}
+                }
+                JSM.cache[url].init = fun
+                // lifeCycle && ( JSM.cache[url].lifeCycle = lifeCycle )
             }
 
             this.routeChange()
@@ -119,6 +124,9 @@
 })();
 
 // 被加载文件，还依赖其他文件的做法也很简单，就是等被依赖文件加载完成后再执行这个文件即可
+// 添加生命周期，before,loading,after,beforeRemove,remove
+// 加载前，加载中，加载结束，被移除前,移除后
+
 JSM.addCache({
     '': {
         redirect: '/home'
@@ -146,4 +154,7 @@ JSM.addCache({
 JSM.handleError = function(){
     // 处理请求文件请失败情况
     $('#content').textContent = '请求不到数据'
+}
+JSM.handleAbort = function(){
+    $('#content').textContent = ('加载终止了')
 }
