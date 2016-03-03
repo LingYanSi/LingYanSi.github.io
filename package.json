@@ -16,6 +16,7 @@
     "bootstrap": "^3.3.6",
     "css-loader": "^0.23.1",
     "d3": "^3.5.15",
+    "draft-js": "^0.1.0",
     "es5-shim": "^4.5.5",
     "es6-shim": "^0.34.4",
     "eslint": "^1.10.3",
@@ -40,6 +41,7 @@
     "gulp-rev": "^6.0.1",
     "gulp-rev-collector": "^1.0.2",
     "gulp-sass": "^2.0.4",
+    "gulp-shell": "^0.5.2",
     "gulp-uglify": "^1.2.0",
     "gulp-uglyfly": "^1.4.2",
     "highlight": "^0.2.4",
@@ -67,6 +69,7 @@
     "react-native": "^0.16.0",
     "react-redux": "^4.4.0",
     "react-router": "^1.0.3",
+    "redux": "^3.3.1",
     "sass": "^0.5.0",
     "style-loader": "^0.13.0",
     "three": "^0.73.2",
@@ -80,5 +83,8 @@
     "pack": "webpack --progress --colors --watch",
     "pack-server": " webpack-dev-server --progress --colors --watch",
     "huangcheng": "echo \"黄诚是傻逼\" "
+  },
+  "dependencies": {
+    "imagemin-jpegoptim": "^4.1.0"
   }
 }
