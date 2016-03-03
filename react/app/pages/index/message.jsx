@@ -1,8 +1,16 @@
 
 import React,{Component} from 'react'
 import ReactDOM,{render} from 'react-dom'
+import MyEditor from './edit.jsx'
 
 const Message = React.createClass({
+    componentDidMount(){
+        // 这个也可以用嘛，哈哈哈
+        ReactDOM.render(
+          <MyEditor />,
+          document.getElementById('container')
+        )
+    },
     render(){
         const LIST = [
             {time:'2007-9-1',username:'枫叶',content:'很高兴认识你'},
@@ -22,6 +30,8 @@ const Message = React.createClass({
                     </div>
                 })}
             </div>
+            <h1>编辑器</h1>
+            <div id="container" ></div>
         </div>
     }
 })
