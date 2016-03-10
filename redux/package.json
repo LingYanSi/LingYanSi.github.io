@@ -1,0 +1,36 @@
+{
+  "name": "redux-demo",
+  "version": "1.0.0",
+  "description": "学习一发",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.6.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "css-loader": "^0.23.1",
+    "less-loader": "^2.2.2",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-redux": "^4.4.0",
+    "redux": "^3.3.1",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.14",
+    "webpack-dev-middleware": "^1.5.1",
+    "webpack-hot-middleware": "^2.9.1"
+  },
+  "key": [
+      "redux","react"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "LingYan",
+  "license": "WTF",
+  "scripts": {
+      "clean": "rm -r dist",
+      "build": "npm run clean && webpack ",
+      "server": "node server.js"
+  }
+}

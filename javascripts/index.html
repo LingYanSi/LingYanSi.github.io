@@ -18,8 +18,31 @@
         </div>
         <div id="scan"></div>
 
+        <div id="ss">
+            <div class="qq">
+                <h1>
+                    <span>sdfsdsdf</span>
+                    不懂啊
+                </h1>
+                撒旦法撒旦公司的风格
+            </div>
+        </div>
+
         <script src="./build/pubsub.js" charset="utf-8"></script>
+        <script src="./library/jquery-2.1.4.min.js" charset="utf-8"></script>
         <script type="text/javascript">
+
+        $('#ss').on('click','span',function(e){
+            alert(1)
+        })
+        $('#ss').on('click','h1', function(){
+            return false
+        })
+        $('#ss').on('click','.qq', function(){
+            alert(22222)
+        })
+
+
         window.oncontextmenu = function (event) {
             // 右键弹出
             event.preventDefault();
