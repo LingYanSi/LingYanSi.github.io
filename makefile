@@ -1,5 +1,6 @@
 run:
 	touch song.js
+	vim song.js
 
 del:
 	rm song.js song-xiao-fan.js

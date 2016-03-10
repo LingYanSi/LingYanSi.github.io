@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <h1>知识测试呢</h1>
+        <div id="test"></div>
+        <script>
+            var pubsub = {
+                cache: {},
+                sub: function(subname, func){
+                    this.cache[subname] = func
+                },
+                pub: function(subname, data){
+                    this.cache[subname](subname, data)
+                }
+            }
+
+            pubsub('appready', function(msg, data){
+                document.querySelector('#test').innerHTML = JSON.stringify(data)
+            })
+        </script>
+    </body>
+</html>
