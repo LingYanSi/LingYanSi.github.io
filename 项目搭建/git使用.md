@@ -227,6 +227,10 @@ git reset –-hard：
 彻底回退到某个版本，本地的源码也会变为上一个版本的内容
 撤销commit，回滚到上个指定版本，已提交commit的信息会被清除
 
+回滚文件
+git reset commithash filename
+回滚文件不能使用--hard
+
 ## 魔方提交步骤
 git add .
 git commit -m 'blabla'

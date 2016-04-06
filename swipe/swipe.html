@@ -1,60 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-  <link rel="shortcut icon" href="http:/lingyansi.github.io/images/icon/icon.jpg">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  minimum-scale=1.0,user-scalable=0" name="viewport" />
+<link rel="shortcut icon" href="http:/lingyansi.github.io/images/icon/icon.jpg">
 
 <head>
     <meta charset="utf-8">
-    <style >
-        *{margin:0 ; padding: 0;}
-            .banner{
-                position: relative ;
-                height: 300px;
-                overflow: hidden;
-            }
-            .banner-items{
-                position:relative; height:100%;
-            }
-            a{
-                position: absolute;
-                top:0; left:0; width:100%; height: 100%; display:block;
-            }
-            a.current{
-                transition: all 0.5s ease-out;
-            }
-            .banner-dotts{
-                position: absolute; bottom: 0.5em; left: 0; width: 100%;
-            }
-            .banner-dotts span{
-                display: inline-block;
-                height: 0.5em; width:0.5em; border-radius: 50%; background: green;
-            }
-            .banner-dotts span.current{
-                background: red;
-            }
-            .banner-dotts span+span{
-                /*margin-left: 0.5em;*/
-            }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .banner {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .banner-items {
+            position: relative;
+            height: 100%;
+        }
+
+        a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .current {
+            transition: all 0.5s ease-out;
+        }
+
+        .banner-dotts {
+            position: absolute;
+            bottom: 0.5em;
+            left: 0;
+            width: 100%;
+        }
+
+        .banner-dotts span {
+            display: inline-block;
+            height: 0.5em;
+            width: 0.5em;
+            border-radius: 50%;
+            background: green;
+        }
+
+        .banner-dotts span.current {
+            background: red;
+        }
+
+        .banner-dotts span+span {
+            /*margin-left: 0.5em;*/
+        }
+    </style>
+
+    <style>
+        #what {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #what .item {
+            min-height: 500px;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background: #fff;
+        }
+
+        #what>div {
+            position: relative;
+            height: 100%;
+        }
+
+        .red {
+            height: 300px;
+            background-image: url(http://ww1.sinaimg.cn/mw690/718878b5jw1f25ii6ctpkj20go09dtaf.jpg);
+            background-size: cover;
+        }
+
+        .main {
+            padding-top: 50px;
+        }
+
+        Nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            background: #fff;
+            display: flex;
+            height: 50px;
+            line-height: 50px;
+        }
+
+        Nav>div {
+            flex: 1;
+            text-align: center;
+            border-bottom: 2px solid #fff;
+        }
+
+        Nav>div.current {
+            border-bottom-color: red;
+        }
     </style>
 </head>
 
 <body>
-    <div id="bb" class="banner" data-arr="[{link:'http://www.baidu.com',img:'http://s11.mogucdn.com/b7/avatar/150625/8mux_ieytszbtgezgemrqgizdambqmeyde_400x400.jpg'}]"></div>
+    <!-- <div id="bb" class="banner" data-arr="[{link:'http://www.baidu.com',img:'http://s11.mogucdn.com/b7/avatar/150625/8mux_ieytszbtgezgemrqgizdambqmeyde_400x400.jpg'}]"></div>
     <h1>asdSA撒大声地</h1>
-    <div id="aa" class="banner" data-arr="[{link:'http://www.baidu.com',img:'http://s11.mogucdn.com/b7/avatar/150625/8mux_ieytszbtgezgemrqgizdambqmeyde_400x400.jpg'},{link:'http://www.baidu.com',img:'http://s7.mogucdn.com/b7/avatar/150629/aibnt_ie2gkmtcgmzdanjrgizdambqgiyde_400x400.jpg'},{link:'http://www.baidu.com',img:'http://s11.mogucdn.com/b7/avatar/150625/8mux_ieytszbtgezgemrqgizdambqmeyde_400x400.jpg'},{link:'http://www.baidu.com',img:'http://s7.mogucdn.com/b7/avatar/150629/aibnt_ie2gkmtcgmzdanjrgizdambqgiyde_400x400.jpg'}]"></div>
-<script src="./min/slide.min.js"></script>
-<!-- <script src="./js/slide.js"></script> -->
-<script>
-    LunBo({
-        id: '#bb' ,
-        current: 1
-    });
-    LunBo({
-        id: '#aa' ,
-        current: 1 ,
-        autoplay: 1,
-    });
-</script>
+    <div id="aa" class="banner" data-arr="[{link:'http://www.baidu.com',img:'http://s11.mogucdn.com/b7/avatar/150625/8mux_ieytszbtgezgemrqgizdambqmeyde_400x400.jpg'},{link:'http://www.baidu.com',img:'http://s7.mogucdn.com/b7/avatar/150629/aibnt_ie2gkmtcgmzdanjrgizdambqgiyde_400x400.jpg'},{link:'http://www.baidu.com',img:'http://s11.mogucdn.com/b7/avatar/150625/8mux_ieytszbtgezgemrqgizdambqmeyde_400x400.jpg'},{link:'http://www.baidu.com',img:'http://s7.mogucdn.com/b7/avatar/150629/aibnt_ie2gkmtcgmzdanjrgizdambqgiyde_400x400.jpg'}]"></div> -->
+    <Nav>
+        <div>首页</div>
+        <div>我的</div>
+        <div>发现</div>
+    </Nav>
+    <div class="main">
+        <div id="what">
+            <div>
+                <div class="item">
+                    <div class="red"></div>
+                    <div class="red"></div>
+                    <div class="red"></div>
+                </div>
+                <div class="item">
+                    <div class="red"></div>
+                    <div class="red"></div>
+                    <div class="red"></div>
+                    <div class="red"></div>
+                    <div class="red"></div>
+                </div>
+                <div class="item">
+                    <div class="red"></div>
+                    <div class="red"></div>
+                    <div class="red"></div>
+                    <div class="red"></div>
+                    <div class="red"></div>
+                    <div class="red"></div>
+                    <div class="red"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="http://cdn.bootcss.com/zepto/1.1.6/zepto.min.js"></script>
+    <script src="./min/slide.min.js"></script>
+    <!-- <script src="./js/slide.js"></script> -->
+    <script>
+
+        // LunBo({
+        //     id: '#bb' ,
+        //     current: 1
+        // });
+        // var bitch = LunBo({
+        //     id: '#aa' ,
+        //     current: 1 ,
+        //     autoplay: 1,
+        //     direction: 'top',
+        //     time: 2000 ,
+        //     dottHidden: true,
+        //     transitonend: function(current){
+        //         console.log(current)
+        //     }
+        // });
+
+        var $what = document.querySelector('#what')
+        var $items = document.querySelectorAll('#what .item');
+        var $navs = $('Nav>div');
+        var currentItem, prevItem, nextItem
+                var arr = new Array($navs.length).fill(0)
+        var haha = LunBo({
+            id: '#what',
+            current: 1,
+            direction: 'left',
+            time: 2000,
+            dottHidden: true,
+            loop: false,
+            transitionstart: function() {
+
+            },
+            transition: function(process) {
+                // 百分比
+            },
+            transitionend: function(current, oldCurrent, isMove) {
+                console.log(current, oldCurrent, isMove)
+                    // 存储每个条目的scrollTop
+                    // 当我们滚动的时候，改变位置
+                    currentItem = current
+                if (isMove) {
+                    var $item = $items[current]
+                    $what.style.height = $item.clientHeight + 'px'
+                    // $navs[current].click()
+                    $navs.eq(current).addClass('current').siblings().removeClass('current')
+                }
+
+                document.body.scrollTop = 0 ;
+
+                // 无缝切换，保存上一页，下一页scrollTop
+                // prevItem = current-1 < 0 ? $navs.length-1 : current-1,
+                // nextItem = current+1 > $navs.length-1 ? 0 : current+1  ;
+                //
+                //
+                // requestAnimationFrame(function(){
+                //     document.body.scrollTop = arr[currentItem]
+                //     $items[currentItem].style.top = '0px'
+                //     $items[prevItem].style.top = -arr[prevItem]+arr[currentItem] + 'px'
+                //     $items[nextItem].style.top = -arr[nextItem]+arr[currentItem] + 'px'
+                // })
+            }
+        });
+
+        // 无缝切换，保存上一页，下一页scrollTop
+        // $(window).on('scroll',function(){
+        //     arr[currentItem] = document.body.scrollTop
+        //     $items[nextItem].style.top = -arr[nextItem]+arr[currentItem] + 'px'
+        //     $items[prevItem].style.top = -arr[prevItem]+arr[currentItem] + 'px'
+        // })
+
+    </script>
 </body>
 
 </html>

@@ -56,9 +56,9 @@ router.get('/', function *(){
     let ejsData = {}
     ejsData.jsFile = 'js/home/b.js'
     ejsData.data = {
-            nav: '国产五码',
+            nav: '国产电影',
             body: '黄诚.avi',
-            foot: '下载'
+            foot: '下载链接'
         }
     render(this,ejsData)
 })
@@ -69,7 +69,7 @@ router.get('/', function *(){
     var arr = []
 
     req.on('data', function(chunck){
-        try { 
+        try {
             arr.push(chunck)
 
         } catch (e) {

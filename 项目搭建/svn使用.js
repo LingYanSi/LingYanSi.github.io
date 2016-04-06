@@ -23,6 +23,8 @@ svn常用命令符号
 4.产看日志
     -> svn log path
     显示这个文件的所有修改记录，及其版本号的变化
+    -> svn log path -l 4
+    显示最近4条记录
 
 5、将改动的文件提交到版本库
   svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，就使用--no-unlock开关)

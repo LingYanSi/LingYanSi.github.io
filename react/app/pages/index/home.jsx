@@ -20,6 +20,11 @@ const data = [{
     }]
 
 const Home = React.createClass({
+    getInitialState(){
+        return {
+            upload:[1]
+        }
+    }, 
     render(){
         return <div>
             <h1>主页/Home</h1>

@@ -1,12 +1,23 @@
 
-function swipeReal(selector, direction, CLASSNAME){
+function swipeReal(arg){
+    // isSwipe: 是否可滑动
+    // isReal: 是否模拟真实滑动
+    // isChecked: 是否在touchmove时做边界校验
+    // movingCallback: 滑动中的回调函数，会传递一个参数
+    // direction: 左右滑动/上下滑动
+    // boundary: 边界{min:最大值，max:最小值}
+    // CLASSNAME: classname
+    // seletor: 选择器
+    
     // 父元素,父元素的宽度应要比子元素的宽度小
-    var $parent = document.querySelector(selector)
+    var $parent = document.querySelector(arg.selector)
     // 子元素
     var $dom = $parent.firstElementChild
+    var CLASSNAME = arg.classname
 
+    var movingCallback = arg.movingCallback
     // 判断是左右滑动，还是上下滑动
-    var DIR = direction=='left' || direction===undefined
+    var DIR = arg.direction=='left' || arg.direction===undefined
 
     var state = {
         canSwipe: true , // 是否可以滑动
@@ -89,6 +100,8 @@ function swipeReal(selector, direction, CLASSNAME){
                 event.preventDefault()
 
                 $dom.style.cssText += '-webkit-transform:translate3d('+(XX-xx+ state.distance.current)+'px,0,0)'
+
+                movingCallback && movingCallback(XX-xx+ state.distance.current)
             }
 
             // 上下滑动
@@ -103,6 +116,7 @@ function swipeReal(selector, direction, CLASSNAME){
 
                 $dom.style.cssText += '-webkit-transform:translate3d(0, '+(YY-yy+ state.distance.current)+'px, 0)'
 
+                movingCallback && movingCallback(YY-yy+ state.distance.current)
             }
         },
         touchend: function(event){
@@ -131,6 +145,7 @@ function swipeReal(selector, direction, CLASSNAME){
             state.canSwipe = true
             state.swipeY = true
             state.swipeX = true
+
         },
         init: function(){
             // 初始化
@@ -146,12 +161,15 @@ function swipeReal(selector, direction, CLASSNAME){
         },
         // 对distance进行边界校验
         distancePiPe: function(dis){
+
             dis = dis > state.distance.MAX ? state.distance.MAX : dis
             dis = dis < state.distance.MIN ? state.distance.MIN : dis
 
             return dis
         },
         // 手动改变transform new swipeReal().goto(100)
+        // goto应该是被异步假如队列
+        // 在requestAnimationFrame中被执行
         goto: function(dis){
             dis = this.distancePiPe(dis)
             if(dis === state.distance.current ) return
@@ -163,6 +181,10 @@ function swipeReal(selector, direction, CLASSNAME){
             $dom.offsetWidth
 
             $dom.style.cssText += DIR ? ';-webkit-transform:translate3d('+dis+'px, 0 ,0);' : ';-webkit-transform:translate3d(0,'+dis+'px,0);' ;
+
+        },
+        transitionend: function(){
+            handler.reset()
         }
     }
     $parent.addEventListener('touchstart',  handler.touchstart )
@@ -170,7 +192,7 @@ function swipeReal(selector, direction, CLASSNAME){
     $parent.addEventListener('touchend',  handler.touchend )
 
     // 监听滚动结束
-    $dom.addEventListener('webkitTransitionEnd', handler.reset )
+    $dom.addEventListener('webkitTransitionEnd', handler.transitionend )
 
     return handler
 }

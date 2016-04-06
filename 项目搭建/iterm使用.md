@@ -118,3 +118,16 @@ du -ks dirname/*
 ```
 du -ks dirname/*.js
 ```
+4. 显示文件夹/文件大小
+ll -sh
+
+##
+ps -e | grep node
+kill -9 30427
+
+node service/hall.js &
+node service/gmv.js &
+node service/map.js &
+node service/category.js &
+node service/index.js &
+node app

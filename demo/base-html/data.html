@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <div data-hah="撒旦法" data-aaCC="sth eles">
+            dataset <br>
+            在部分安卓机上，不支持 $(dom).attr('data-setAb',11) $(dom).data('setA') <br>
+            IE11一下： able to use data-* attributes and access them using getAttribute
+
+            <br><br>
+            data-aaCC会被转成aacc
+        </div>
+
+        <script type="text/javascript">
+            var $ = function(sel){
+                return document.querySelector(sel)
+            }
+
+            console.log( $('div').dataset['hah'] )
+
+            // hahaHeihei会转成data-haha-heihei，但获取的时候不支持haha-heihei，也不支持hahaheihei
+            $('div').dataset['hahaHeihei'] = 111
+
+            console.log( $('div').dataset['hahaHeihei'] )
+            // 很明显通过getAttribute也需要data-haha-heihei这种形式
+            console.log( $('div').getAttribute('data-haha-heihei') )
+
+
+            $('div').setAttribute('data-aaBb',222)
+            console.log( $('div').getAttribute('data-aaBb') )
+            // 获取不到，data只能以html直喷/ dataset['sth']的形式加入
+            console.log( $('div').dataset['aaBb'] )
+        </script>
+    </body>
+</html>

@@ -12,18 +12,20 @@ var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 
-gulp.task('fuck',function(){
+gulp.task('min',function(){
     gulp.src('./js/slide.js')
-        .pipe( babel() )
+        .pipe( babel({
+			presets: ['es2015']
+		}) )
         .pipe( uglify() )
         .pipe( rename('slide.min.js') )
         .pipe( gulp.dest('./min/') );
 });
 
 gulp.task('watch',function(){
-    gulp.watch('./js/slide.js',['fuck']);
+    gulp.watch('./js/slide.js',['min']);
 });
 
 gulp.task('default',['watch'],function(){
-    gulp.start('fuck');
+    gulp.start('min');
 });

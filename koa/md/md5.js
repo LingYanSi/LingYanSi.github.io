@@ -6,6 +6,13 @@ var md5 = require('blueimp-md5')
 var fs = require('fs')
 var path = require('path')
 
+/*
+* 文件上传
+* 根据内容，重命名成md5
+* 文件存储
+* 修改fileMap --> 因为解析fileMap时，对应的而文件必须存在
+*/
+
 function rename(filenames){
     var JSPATH = './static/'
     var filenames = filenames

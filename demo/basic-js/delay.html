@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- <title></title> -->
+        <style media="screen">
+            .tran{
+                height: 20px; width: 20px;
+                transition:all .5s ;
+            }
+            .animation{
+                animation: xx 1s linear infinite  ;
+            }
+            @keyframes xx
+            {
+                from { transform: rotateZ(0deg) ; }
+                to {transform: rotateZ(360deg) ;}
+            }
+        </style>
+    </head>
+    <body>
+        <!-- <div class="animation"></div> -->
+        <div style="height:500px;">
+            <div class="tran"></div>
+        </div>
+        <script type="text/javascript">
+            var $tran = document.querySelector('.tran')
+
+            function $(pipe){
+                return new _$(pipe)
+            }
+
+            function _$(pipe){
+                this.queueArr = []
+                this.pipe = pipe
+            }
+
+            _$.prototype = $.fn = {
+                next: function(){
+                    // 从任务队列中取任务
+                    var job = this.queueArr[0]
+                    if(!job) return
+                    // type = 1 立即执行
+                    if( job.type==1 ){
+                        // 从队列中移除任务
+                        this.queueArr.splice(0,1)
+
+                        // 对参数进行处理
+                        this.pipe(job.arg)
+
+                        // 循环迭代
+                        this.next()
+                    // type = 0 延时
+                    }else{
+                        var _this = this ;
+                        setTimeout(function(){
+                            console.log('延时了',job.arg)
+                            _this.queueArr.splice(0,1)
+                            _this.next()
+                        }, job.arg)
+                    }
+                },
+                delay: function(time){
+                    // 也应该加入到任务队列里面
+                    this.queueArr.push({type:0,arg:time})
+                    this.queueArr.length === 1 && this.next()
+    
+                    return this
+                },
+                play: function(name){
+                    // 加入到任务队列
+                    this.queueArr.push({type:1,arg:name})
+                    this.queueArr.length === 1 && this.next()
+
+                    return this
+                }
+            }
+            // 队列任务
+            // 所有的事件都托管到队列里
+            // 触发next的时候，执行队列的第一个任务，任务执行完毕后清空第一个任务
+
+            $(function(arg){
+                // 当type=1时，处理play里的参数
+                if( Object.prototype.toString.call(arg).toLocaleLowerCase().indexOf('function')>0 ){
+                    arg()
+                }else{
+                    var str = ''
+                    for(var key in arg){
+                        str +=';'+key+':'+ arg[key]
+                    }
+                    $tran.style.cssText += str
+                }
+            })
+            .delay(2000)
+            .play({width:'100px','background-color':'rgb(166, 49, 101)'})
+            .delay(2000)
+            .play({'height':'100px','margin-top':'200px'})
+            .delay(1000)
+            .play({'border-radius':'50%','background-color':'rgb(0, 255, 232)'})
+            .delay(1000)
+            .play({'border-top-left-radius':'0'})
+            .delay(1000)
+            .play({'border-bottom-right-radius':'0'})
+            .delay(1000)
+            .play(function(){
+                $tran.classList.add('animation')
+            })
+            .delay(1000)
+            .play({'margin-left':'200px'})
+            .delay(1000)
+            .play(function(){
+                $tran.classList.remove('animation')
+            })
+            .delay(50)
+            .play({'transform':'scale3d(2,2,1)','background':'rgb(100, 73, 111)'})
+            .delay(500)
+            .play({'transform':'scale3d(4,4,1) rotateZ(120deg)','background':'rgb(64, 217, 79)'})
+            .delay(500)
+            .play({'transform':'none','background':'rgb(183, 186, 31)'})
+            .delay(1000)
+            .play({'margin-top':0,'margin-left':0})
+
+        </script>
+    </body>
+</html>

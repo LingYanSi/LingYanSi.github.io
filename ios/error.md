@@ -16,3 +16,6 @@ alert.addAction(UIAlertAction(title: "确认", style: UIAlertActionStyle.Default
 ## 添加WKScriptMessageHandler时候提示 does not conform to protocol 'WKScriptMessageHandler'
 意为，没有遵守WKScriptMessageHandler协议
 ### 何为协议
+
+## process launch failed: Security
+设置 -> 通用 -> 设备管理 -> 点击信任

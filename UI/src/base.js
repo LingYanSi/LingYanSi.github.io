@@ -283,15 +283,15 @@ eventProxy('body', 'click', '.switch', function(event){
 
 
 $('.modal-tips').onclick = function(){
-    Modal.tips('日你先人版本',500)
+    Modal.tips('我是tips',500)
 }
 $('.modal-alert').onclick = function(){
-    Modal.alert('日你先人版本', ()=>{
+    Modal.alert('我是alert', ()=>{
         console.log('alert确认按钮' )
     })
 }
 $('.modal-confirm').onclick = function(){
-    Modal.confirm('日你先人版本', ()=>{
+    Modal.confirm('我是confirm', ()=>{
         console.log('alert确认按钮' )
     }, ()=>{
         console.log('alert确认按钮' )
@@ -299,8 +299,8 @@ $('.modal-confirm').onclick = function(){
 }
 $('.modal-open').onclick = function(){
     Modal.open({
-        body: `<div> 
-            这都是什么几把玩意儿~
+        body: `<div>
+            我是自定义~
             <button class="cancel modal-close">就这样吧</button>
         </div>`,
         title: '我是标题title',

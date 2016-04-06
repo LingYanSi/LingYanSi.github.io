@@ -202,3 +202,14 @@ server{
     }
     # access_log logs/songxiaofan.log;
 }
+
+-> 代理转发至指定ip
+http://www.iteye.com/problems/94450
+server{
+    listen 80;
+    server_name www.mogujie.com;
+
+    location / {
+        proxy_pass  http://127.0.0.1:8000;
+    }
+}

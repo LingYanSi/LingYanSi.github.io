@@ -65,15 +65,32 @@
 				</div>
 			</div>
          </div>
-         <div style="height:1000px;"></div>
+         <a href="#game123">撒旦法师打发</a>
+         <div id="game123">嘿嘿</div>
+         <div style="height:1000px;">
+
+         </div>
+
+         <video src="http://www.baidu.com" height="300" width="300" autoplay controls poster="img/1.jpg">
+
+         </video>
 	</div>
 <script src="js/ku.js"></script>
 <script src="js/swipe-really.js"></script>
 <!-- <script src="js/swipe1.js"></script> -->
  <script type="text/javascript">
 
-     var du = swipeReal('#nav','left','swipe-real-change');
+    // 左右上下滚动
+     var du = swipeReal({
+         selector: '#nav',
+         direction: 'left',
+         classname: 'swipe-real-change'
+     });
 
+     // 去中间位置
+     $('#nav .nav-item').on('click', function(){
+         du.goto( -$(this).position().left+($('#nav').width()-$(this).width() )/2 );
+     })
  </script>
  </body>
 </html>

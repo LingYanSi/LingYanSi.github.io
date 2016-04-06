@@ -34,3 +34,7 @@ node_modules/
 # 忽略gulp下的图片文件
 gulp/img/
 gulp/img-dist/
+
+# 忽略蘑菇
+mogu/
+

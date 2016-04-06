@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+
+        <script type="text/javascript">
+            'use strict'
+            var state = {}
+            var store = {
+                getState: function(){
+                    return state
+                },
+                dispatch: function(action){
+                    switch(action){
+                        case 'fxck':
+                            state.name = "不小心"
+                        case 'kiss':
+                            console.log('实际执行')
+                            state.name = "去哦们主机"
+                            return state
+                    }
+                }
+            }
+
+            // 强行函数式编程 curry化
+            // next表示disp
+            // 非curry化版本
+            // var hah = function(store){
+            //     return function(next){
+                        // 新的dispatch
+            //         return function(action){
+            //             next(aciton)
+            //         }
+            //     }
+            // }
+            // store: 可以从store中获取state
+            // next: 其他middleware返回的函数，这里应该理解为被其他middleware修改过的dispatch
+            // action: 就是action
+            // 再理解一下: store() 返回一个接受dispatch，返回新dispatch的函数
+
+
+            var hah = store => next => action => {
+                console.log('可接受到初始state')
+
+                var result = next(action)
+
+                console.log('修改后的')
+
+                return result
+            }
+
+            var hei = store => next => action => {
+                console.log('什么鬼1')
+
+                var result = next(action)
+
+                console.log('什么鬼2')
+
+                // result原始dispatch执行后的返回值，经过中间件层层传递，返回
+                return result
+            }
+
+            function middleWare(store, middleWares){
+                middleWares = middleWares.slice()
+                // 翻转
+                middleWares.reverse()
+
+                // 最后一个中间件会被最先塞到dispatch中，最后执行
+
+                let dispatch = store.dispatch
+
+                middleWares.forEach((item)=>{
+                    // 修改dispatch
+                    // 原始的dispatch会在第一次被注入，执行包装好的dispatch的时候，原始的dispatch只会被执行一次
+                    dispatch = item(store)(dispatch)
+                })
+
+                // 返回新的store
+                return Object.assign({}, store, {dispatch: dispatch})
+            }
+
+
+            var heiStore = middleWare(store,[hah, hei])
+
+            console.log( heiStore.dispatch('kiss') )
+
+
+
+        </script>
+    </body>
+</html>

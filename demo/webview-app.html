@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,maximum-scale=1.0,initial-scale=1.0,minimum-scale=1.0,user-scalable=0">
+        <title></title>
+    </head>
+    <body>
+        <a href="tel:18668055229">打电话</a>
+        <a href="moguje://open?url='mgj://'" id="evoke">跳转原生</a>
+
+        <a href="mogujie://open?url=mgj://index">直接跳转</a>
+
+        <button type="button" name="button" id="close">关闭页面</button>
+        <button id="open">打开一个页面</button>
+
+        <script type="text/javascript">
+            var $ = function(selector){
+                return document.querySelector(selector)
+            }
+
+            $('#close').addEventListener('click', function(){
+                window.close()
+            })
+
+            $('#open').addEventListener('click', function(){
+                window.open('http://www.baidu.com')
+            })
+
+            $('#evoke').addEventListener('click', function(event){
+                event.preventDefault()
+
+
+                var startTime = new Date().getTime()
+                // 因为ios是为后台，因此timeout会被延迟执行
+                // android是真后台，因此需要配合 document.hidden 使用
+                setTimeout(function () {
+                    return
+                    var endTime = new Date().getTime()
+                    if(endTime - startTime < 50 ){
+                        location.href = 'http://m.mogujie.com'
+                    } else{
+                        location.href = "itms-apps://itunes.apple.com/app/";
+                    }
+
+                }, 25);
+
+                // var iframe = document.createElement('iframe')
+                // iframe.src = "weixin://home?url="
+                // iframe.style.cssText = ';display:none;'
+                // document.body.appendChild('iframe')
+                // 在ios9.0已上，需要配置un
+                // location.href = "weixin://home?url=" ;
+                location.href = "mogujie://open?" ;
+            })
+        </script>
+    </body>
+</html>

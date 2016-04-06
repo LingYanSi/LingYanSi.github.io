@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  minimum-scale=1.0,user-scalable=0" name="viewport" />
+        <style media="screen">
+            *{margin:0; padding:0;}
+            #nuo{
+                 height: 100%; width: 100%; overflow:hidden;
+            }
+
+            #nuo>div{
+                position: relative; height: 100%; overflow: hidden ;
+            }
+
+            .item{
+                position: absolute; height: 100%; width: 100%;
+                background-size: cover;
+            }
+
+            .current{
+                transition: transform .3s ;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="nuo">
+            <div>
+                <div class="item"></div>
+                <div class="item"></div>
+            </div>
+        </div>
+
+
+        <script src="./min/slide.min.js"></script>
+        <script type="text/javascript">
+
+        var $items = document.querySelectorAll('.item');
+        ['http://ww1.sinaimg.cn/mw690/62fa6fd0jw1f2733x7v6kj20qo1be45m.jpg',
+        'http://ww3.sinaimg.cn/mw690/62fa6fd0jw1f2733y73jrj20qo1begt9.jpg',].forEach(function(ele,index){
+            $items[index].style.backgroundImage = 'url('+ele+')'
+        })
+
+        document.querySelector('#nuo').style.height = '1000px'
+        var haha = LunBo({
+            id: '#nuo',
+            current: 0,
+            direction: 'top',
+            time: 2000,
+            dottHidden: true,
+            loop: true,
+            flow: true,
+            // transitionend: function(){
+            //     alert(222)
+            // },
+            // callback: function(){
+            //     console.log(arguments)
+            // }
+        });
+        </script>
+    </body>
+</html>
