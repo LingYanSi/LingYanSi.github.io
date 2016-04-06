@@ -1,0 +1,16 @@
+{
+  "name": "demo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "react-native": "^0.21.0"
+  },
+  "devDependencies": {
+    "react-native-carousel": "^0.4.5",
+    "react-native-linear-gradient": "^1.5.3",
+    "react-native-looped-carousel": "0.0.9"
+  }
+}
