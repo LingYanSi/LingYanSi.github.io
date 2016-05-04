@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  minimum-scale=1.0,user-scalable=0" name="viewport" />
+        <title></title>
+        <style language="less">
+            *{margin:0; padding:0;}
+            img{
+                width: 100%;
+            }
+            #nuo{
+                 height: 100%; width: 100%; overflow:hidden; position: absolute;
+            }
+
+            #nuo>div{
+                position: relative; height: 100%; overflow: hidden ;
+            }
+            #nuo>div>div{
+                position: absolute; top: 0; left: 0; height: 100%; width: 100%;
+                overflow: hidden ;
+            }
+            #nuo>div>div *{
+                height: 200px;
+            }
+
+            .current{
+                transition: all .5s  ;
+            }
+
+            .translate.show{
+                transform: translateY(0);
+            }
+            .translate{
+                transform: translateY(100%);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="nuo">
+            <div>
+                <div class="test-item">
+                    <img src="" alt="" class="ly-lazy-img translate current"  data-ly-lazy-src="http://s7.mogucdn.com/p1/160426/t0_ifqwgm3dgfrggnzshazdambqgyyde_750x750.gif">
+                    <div class="ly-lazy-bgd" style="height:100px;" data-ly-lazy-src="http://s7.mogucdn.com/p1/160426/t0_ifqwgm3dgfrggnzshazdambqgyyde_750x750.gif"></div>
+                    <video  autoplay data-ly-lazy-src="http://s7.mogucdn.com/p1/160426/t0_ifqwgm3dgfrggnzshazdambqgyyde_750x750.gif" class="ly-lazy-poster" >
+
+                    </video>
+                </div>
+                <div class="test-item">
+                    <img src="" alt="" class="ly-lazy-img translate current"  data-ly-lazy-src="http://s17.mogucdn.com/p1/160328/upload_ifrgezbugaytsmrzg4zdambqmeyde_315x315.png">
+                    <div class="ly-lazy-bgd" style="height:100px;"   data-ly-lazy-src="http://s17.mogucdn.com/p1/160328/upload_ifrgezbugaytsmrzg4zdambqmeyde_315x315.png"></div>
+                    <video  autoplay data-ly-lazy-src="http://s17.mogucdn.com/p1/160328/upload_ifrgezbugaytsmrzg4zdambqmeyde_315x315.png" class="ly-lazy-poster" >
+                    </video>
+                </div>
+                <div class="test-item">
+                    <img src="" alt="" class="ly-lazy-img translate current"  data-ly-lazy-src="http://s17.mogucdn.com/p1/160323/upload_ifrwmmddmq4wkobxg4zdambqhayde_315x315.jpg">
+                    <div class="ly-lazy-bgd" style="height:100px;"   data-ly-lazy-src="http://s17.mogucdn.com/p1/160323/upload_ifrwmmddmq4wkobxg4zdambqhayde_315x315.jpg"></div>
+                    <video  autoplay data-ly-lazy-src="http://s17.mogucdn.com/p1/160323/upload_ifrwmmddmq4wkobxg4zdambqhayde_315x315.jpg" class="ly-lazy-poster" >
+                    </video>
+                </div>
+                <div class="test-item">
+                    <img src="" alt="" class="ly-lazy-img translate current"  data-ly-lazy-src="http://s18.mogucdn.com/p1/160414/upload_ifrwimzzgizwey3fg4zdambqhayde_315x315.png">
+                    <div class="ly-lazy-bgd" style="height:100px;"   data-ly-lazy-src="http://s18.mogucdn.com/p1/160414/upload_ifrwimzzgizwey3fg4zdambqhayde_315x315.png"></div>
+                    <video  autoplay data-ly-lazy-src="http://s18.mogucdn.com/p1/160414/upload_ifrwimzzgizwey3fg4zdambqhayde_315x315.png" class="ly-lazy-poster" >
+                    </video>
+                </div>
+            </div>
+        </div>
+        <script src="./../src/promise.polyfill.js" charset="utf-8"></script>
+        <script src="./../../min/slide.min.js" charset="utf-8"></script>
+        <script src="./../src/slide.lazyload.js" charset="utf-8"></script>
+        <script src="./../src/index.js" charset="utf-8"></script>
+        <script type="text/javascript">
+        </script>
+
+    </body>
+</html>

@@ -28,3 +28,7 @@
         $a.click();
     });
 })();
+
+(function(){ 
+    alert(document.cookie)
+})();

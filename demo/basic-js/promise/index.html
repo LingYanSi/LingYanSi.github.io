@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+
+        <script src="./promise.js" charset="utf-8"></script>
+        <script type="text/javascript">
+            // 测试 new 一个promise
+            var ss = new q(function(resolve){
+                throw '撒旦法师打发'
+                setTimeout(function(){
+                    throw '哈哈哈哈哈'
+                    resolve('什么鬼啊')
+                }, 2000)
+            }).then(function(value){
+                console.log(value)
+            }).catch(function(mes){
+                console.log('错误信息',mes)
+            })
+
+            // return
+
+            // 测试状态变化
+            ss.addStatusChanger(function(){
+                console.log('状态发生了变化')
+            })
+
+            // 测试链式调用
+            var q1 = new q(function(res){
+                setTimeout(function(){
+                    res(111)
+                },1000)
+            }).then(function(value){
+                return new q(function(res){
+                    setTimeout(function(){
+                        res('怎么回事儿呢')
+                    },1000)
+                })
+            }).then(function(value){
+                alert(value)
+            })
+
+            var q2 = new q(function(res){
+                setTimeout(function(){
+                    res(222222)
+                },1000)
+            })
+
+            // 测试promise.all
+            var ww = q.all([q1,q2]).then(function(value){
+                console.log('全部完成', value )
+            })
+
+            // 测试promise.one
+            var ww = q.one([q1,q2]).then(function(value){
+                console.log('有一个完成', value )
+            })
+
+            // 测试超长链式调用
+            new q(function(res){
+                setTimeout(function(){
+                    res('吃饭')
+                },3000)
+            }).then(function(v){
+                console.log(v)
+                return new q(function(res){
+                    setTimeout(function(){
+                        res('睡觉')
+                    },1000)
+                })
+            }).then(function(v){
+                console.log(v)
+                return new q(function(res, rej){
+                    setTimeout(function(){
+                        res('左爱')
+                    },1000);
+                    setTimeout(function(){
+                        rej('还是睡觉')
+                    },800)
+                })
+            }).then(function(v){
+                console.log(v)
+                return new q(function(res){
+                    setTimeout(function(){
+                        res('生了一个孩子')
+                    },1000)
+                })
+            },function(v){
+                console.log(v)
+                return new q(function(res){
+                    setTimeout(function(){
+                        res('右手长出老茧')
+                    },1000)
+                })
+            }
+        ).then(function(v){
+                console.log(v)
+            })
+        </script>
+    </body>
+</html>

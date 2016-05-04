@@ -13,12 +13,12 @@
         padding: 0;
         margin: 0;
     }
-    
+
     nav {height: 100px; background: red; }
     article {display: flex; height: auto; flex-direction: row; }
-    .main {flex: 5; flex-basis: 200px; background: green; }
-    .sidebar {flex: 1; flex-basis: 10px; }
-    footer {height: 100px; background: red; } 
+    .main {flex: 5; flex-basis: 200px;  }
+    .sidebar {flex: 1; flex-basis: 10px; background-color: rgb(214, 128, 52);}
+    footer {height: 100px; background: red; }
 
     /*#container{ flex-direction:row; }*/
 	.c-item{ display:flex; }
@@ -27,10 +27,10 @@
 	.c-item:nth-child(3){ justify-content: flex-end; }
 	.c-item:nth-child(4){ justify-content: space-between; }
 	.c-item:nth-child(5){ justify-content: space-around; }
-    .c-item>div{ width:100px; height:50px; background-image:linear-gradient(45deg,rgba(255,0,0,1),rgba(0,255,255,1));}
+    .c-item>div{ width:100px; height:50px; background-color: #555;}
 
-    #flex-wrap>div{ display:flex; flex-wrap:wrap; }
-    #flex-wrap>div>div{ width:300px; height:50px; background-image:linear-gradient(45deg,rgba(255,0,0,1),rgba(0,255,255,1)); }
+    #flex-wrap>div{ display:flex; flex-wrap:wrap; margin: 10px 0;}
+    #flex-wrap>div>div{ width:300px; height:50px; background-color: #666; }
     #flex-wrap>div>div:nth-child(2){ height:100px; }
     #flex-wrap>div:nth-child(1){ align-items: center;}
     #flex-wrap>div:nth-child(2){ align-items: flex-start;}
@@ -38,9 +38,40 @@
     #flex-wrap>div:nth-child(4){ align-items: baseline;}
     #flex-wrap>div:nth-child(5){ align-items: stretch;}
 
-    #flex-wrap>div:nth-child(5)>div:nth-child(1){ order:1; }
-    #flex-wrap>div:nth-child(5)>div:nth-child(2){ order:3; }
-    #flex-wrap>div:nth-child(5)>div:nth-child(3){ order:2; }
+
+    .flex-flow{
+        display: flex; flex-wrap:wrap; padding: 10px;
+    }
+    .flex-flow>div{
+        width: 33.33333333333333333%; height: 100px;
+        padding: 10px; background-color: red;
+        background-clip: content-box; box-sizing: border-box;
+    }
+
+    .flex{
+        display: flex;
+    }
+    .flex>div{
+        flex: 1;
+        display: flex;
+        border: 1px solid #888 ;
+    }
+    .flex>div>div{
+        /*height: auto;*/
+        background-color: red;
+    }
+    .text-top{
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+    .text-center{
+        justify-content: center;
+        align-items: center;
+    }
+    .text-bottom{
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
     </style>
 </head>
 
@@ -48,63 +79,72 @@
     <div class="wrap">
         <nav>顶部</nav>
         <article>
-            <div class="main">主内容
-                <!-- 需要左右排版，上下排版，并且每个元素的高度不同 -->
-                <div id="container">
-                	<div class="c-item">
-                		<div></div>
-                		<div></div>
-                		<div></div>
-                	</div>
-                	<div class="c-item">
-                		<div></div>
-                		<div></div>
-                		<div></div>
-                	</div>
-                	<div class="c-item">
-                		<div></div>
-                		<div></div>
-                		<div></div>
-                	</div>
-                	<div class="c-item">
-                		<div></div>
-                		<div></div>
-                		<div></div>
-                	</div>
-                	<div class="c-item">
-                		<div></div>
-                		<div></div>
-                		<div></div>
-                	</div>
+            <div class="main">
+                <div>
+                    <h2>flex-wrap: wrap;</h2>
+                    <p>内部元素可以自动换行，不用float</p>
+                    <div class="flex-flow">
+                        <div style="height:200px;">1</div>
+                        <div>2</div>
+                        <div style="height:40px;">3</div>
+                        <div>4</div>
+                        <div>5</div>
+                        <div>6</div>
+                        <div style="flex:1; order:1;">7</div>
+                        <div style="flex:1; order:0;">8</div>
+                    </div>
                 </div>
-                <div id="flex-wrap">
-                	<div class="f-item">
-                		<div></div>
-                		<div></div>
-                		<div></div>
-                	</div>
-                	<div class="f-item">
-                		<div></div>
-                		<div></div>
-                		<div></div>
-                	</div>
-                	<div class="f-item">
-                		<div></div>
-                		<div></div>
-                		<div></div>
-                	</div>
-                	<div class="f-item">
-                		<div></div>
-                		<div></div>
-                		<div></div>
-                	</div>
-                	<div class="f-item">
-                		<div></div>
-                		<div></div>
-                		<div></div>
-                	</div>
+
+                <div class="">
+                    <h2>内容布局</h2>
+                    <p>
+                        竖向位置: align-items: center/flex-start/flex-end/stretch/baseline; <br>
+                        横向位置: justify-content: center/flex-start/flex-end
+                    </p>
+                    <div class="flex" style="height: 300px;">
+                        <div class="text-top"><div>文字顶部</div></div>
+                        <div class="text-center"><div>文字中部</div></div>
+                        <div class="text-bottom"><div>文字底部</div></div>
+                    </div>
                 </div>
-            </div>
+
+                <div class="">
+                    <h2>order: number;可用来更改排列次序</h2>
+                    <p>
+                        规则：没有order属性的元素排列在最前，0，1，2 <br>
+                        可以用来改变元素排列次序
+                    </p>
+                    <div class="flex" style="height:60px;">
+                        <div style="order:3;">1</div>
+                        <div style="order:1;">2</div>
+                        <div style="order:2;">3</div>
+                        <div style="order:0;">4</div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2>上下可伸缩</h2>
+                    <p>column</p>
+                    <button class="flex-direction" data-switch="column,row">切换</button>
+                    <div class="flex" style="flex-direction: column; height: 200px; font-size: 20px;">
+                        <div style="order:3; flex:1; align-items: center;">1.你好我asdf</div>
+                        <div style="order:1; flex:1;align-items: center;">2.找揍九重天</div>
+                        <div style="order:2; flex:1;align-items: center;">3.王羲之</div>
+                        <div style="order:0; flex:1;align-items: center;">4.袁崇焕</div>
+                    </div>
+                </div>
+
+                <div class="">
+                    <h2>justify-content: space-around;</h2>
+                    <p>space-around;</p>
+                    <button class="justify-content" data-switch="space-around,space-between,flex-start,flex-end,center">切换</button>
+                    <div style="display:flex; height: 300px; justify-content: space-around;">
+                        <div class="width: 100px;"><div>文字顶部</div></div>
+                        <div class="width: 100px;"><div>文字中部</div></div>
+                        <div class="width: 100px;"><div>文字底部</div></div>
+                    </div>
+                </div>
+                </div>
             <div class="sidebar">侧边栏</div>
         </article>
         <footer>底部</footer>
@@ -113,9 +153,9 @@
     /*
     	flex ： 弹性布局
         阮一峰bolg:http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html
-        
+
     	flex: flex-grow flex-shrink flex-basis ; // 三者的简写
-    	flex-shrink: 1/auto/none ; auto表示1，none表示0// 表示默认值	
+    	flex-shrink: 1/auto/none ; auto表示1，none表示0// 表示默认值
     	flex-basis: 100px/2em/auto/content // 这个很有意思
 
     	1. flex-grow属性：属性值为该伸缩项所占空间相对于其他伸缩项（声明了flex相关属性的项）的比值。
@@ -124,7 +164,7 @@
     		假如父元素p的display:flex; 子元素a的flex:5 200px; b的flex:1 10px;
     		ab的宽度是这样分配的，先把200px+10px与父元素的宽度width做对比
     		如果200+10>=width ; ab的宽度为 200+(width-200-10)/6*5 10+(width-200-10)/6*1 ；
-    		如果200+10<width ; ab的宽度为 (200/10)*width*200 (200/10)*width*10 
+    		如果200+10<width ; ab的宽度为 (200/10)*width*200 (200/10)*width*10
     	4. align-items : center/flex-start/flex-end/stretch/baseline 根据不同的高度自适应，是居中，置顶，置底，可伸缩的，基线
     	5. order：数值 ，用于给flex-item一个数字，然后flex-item会根据大小，按照flex-direction进行排列
 
@@ -133,7 +173,7 @@
 
     	8. flex-flow: flex-direction flex-wrap ; // 这两首个属性的简写
 
-    	在移动开发的时候，可能还需要使用 
+    	在移动开发的时候，可能还需要使用
     	-webkit-box // flex
     	-webkit-box-flex // flex-grow
     	-webkit-box-direction // 是否反转
@@ -143,6 +183,28 @@
 
     	flex可以和min-height min-width混合使用
      */
+    </script>
+    <script type="text/javascript">
+        var $ = function(s){
+            return document.querySelector(s)
+        }
+        function SWTICH_STATE(cssname){
+            var arr = this.dataset['switch'].split(',')
+            var index = this.dataset['index'] || 0
+            index = +index
+            index++
+            index = index >= arr.length ? 0 : index
+
+            this.previousElementSibling.textContent = arr[index]
+            this.nextElementSibling.style[cssname] = arr[index]
+            this.dataset['index'] = index
+        }
+        $('.flex-direction').addEventListener('click',function(){
+            SWTICH_STATE.call(this,'flexDirection')
+        })
+        $('.justify-content').addEventListener('click',function(){
+            SWTICH_STATE.call(this,'justifyContent')
+        })
     </script>
 </body>
 

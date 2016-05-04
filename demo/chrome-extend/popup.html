@@ -1,30 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html>
 <head>
-    <meta charset="utf-8">
-    <style>
-        .main{ width:600px; }
-        .main>div{ height:20px; }
-        .main>div:nth-child(odd){ background:green; }
-    </style>
 </head>
-
 <body>
-    <h1>链接下载</h1>
-    <div class="main">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-
-    <script>
-        chrome.browserAction.setBadgeText({
-            text:'1'
-        });
-    </script>
+<p id="demo">=a</p>
+<button type="button" id="do-count">Count</button>
+<script src="popup.js"></script>
 </body>
-
 </html>

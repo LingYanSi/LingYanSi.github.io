@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Loading animation</title>
+        <style media="screen">
+            /* 圆球loading */
+            .ly-loading-1{
+                position: relative;
+                height: 200px; width: 200px;
+            }
+            .ly-loading-1>span{
+                position: absolute;
+                height: 20px; width: 20px; background-color: red;
+                border-radius: 100%;
+                top: 90px;
+                transform-origin: 100px ;
+            }
+            .ly-loading-1>span:nth-child(1){
+                background-color: rgb(210, 194, 76);
+                animation: ly-loading-1-key 1.8s 0s linear infinite backwards;
+            }
+            .ly-loading-1>span:nth-child(2){
+                background-color: rgb(128, 12, 75);
+                animation: ly-loading-1-key 1.8s .2s linear infinite backwards;
+            }
+            .ly-loading-1>span:nth-child(3){
+                background-color: rgb(97, 196, 75);
+                animation: ly-loading-1-key 1.8s .4s linear infinite backwards;
+            }
+            .ly-loading-1>span:nth-child(4){
+                background-color: rgb(34, 57, 96);
+                animation: ly-loading-1-key 1.8s .6s linear infinite backwards;
+            }
+            .ly-loading-1>span:nth-child(5){
+                background-color: rgb(56, 247, 230);
+                animation: ly-loading-1-key 1.8s .8s linear infinite backwards;
+            }
+            .ly-loading-1>span:nth-child(6){
+                background-color: rgb(200, 52, 60);
+                animation: ly-loading-1-key 1.8s 1s linear infinite backwards;
+            }
+
+            .ly-loading-1-end span{
+                animation-name: ly-loading-1-key-end !important ;
+            }
+
+            @keyframes ly-loading-1-key{
+                0% { transform: rotateZ(0deg); }
+                100% { transform: rotateZ(360deg); }
+            }
+            @keyframes ly-loading-1-key-end{
+                0% { transform: rotateZ(0deg); }
+                50% { transform: rotateZ(180deg); }
+                100% { transform: translateX(1000%) rotateZ(180deg); }
+            }
+
+            /* 圆环loading */
+            .ly-loading-2{
+                position: relative;
+                height: 200px; width: 200px;
+                animation: ly-loading-2-key 1.4s linear infinite ;
+            }
+            @keyframes ly-loading-2-key{
+                0% { transform: rotateZ(0deg); }
+                100% { transform:  rotateZ(360deg); }
+            }
+
+            .ly-loading-2>.top{
+                position: relative;
+                height: 50%; width: 100%;
+                border-top-left-radius: 200px ;
+                border-top-right-radius: 200px ;
+                background: linear-gradient(90deg, rgba(0,0,0,0), rgba(23, 184, 122, .5));
+            }
+            .ly-loading-2>.top:before{
+                height: calc(100% - 4px); width: calc(100% - 8px); display: block;
+                position: absolute; content: "";
+                bottom: 0; left: 4px ; background-color: #fff ;
+                border-top-left-radius: 200px ;
+                border-top-right-radius: 200px ;
+            }
+            .ly-loading-2>.bottom{
+                position: relative;
+                height: 50%; width: 100%;
+                border-bottom-left-radius: 200px ;
+                border-bottom-right-radius: 200px ;
+                background: linear-gradient(90deg, rgba(23, 184, 122, 1), rgba(23, 184, 122,0.5) );
+            }
+            .ly-loading-2>.bottom:before{
+                height: calc(100% - 4px); width: calc(100% - 8px); display: block;
+                position: absolute; content: "";
+                top: 0; left: 4px ; background-color: #fff ;
+                border-bottom-left-radius: 200px ;
+                border-bottom-right-radius: 200px ;
+            }
+
+            /* 行走loading */
+            .ly-loading-3{
+                position: relative;
+                height: 200px; width: 200px;
+            }
+            .ly-loading-3 .footer-1{
+                height: 60px; width: 10px; background-color: rgb(70, 133, 204);
+                position: absolute; top: 0; left: 50%;
+                transform-origin: 0 -20%;
+                animation: ly-loading-3-footer-1 1s infinite alternate;
+            }
+            .ly-loading-3 .footer-1:after{
+                content:""; display: block;
+                width: 40px; height: 20px;
+                border-top-right-radius: 100%;
+                border-bottom-right-radius: 100%;
+                background-color: rgb(65, 218, 228);
+                position: absolute; bottom: 0 ;
+            }
+            .ly-loading-3 .footer-2{
+                /*left: 60%;*/
+                animation-name: ly-loading-3-footer-2 ;
+            }
+            @keyframes ly-loading-3-footer-1{
+                0% { transform: rotateZ(-30deg); }
+                100% { transform: rotateZ(30deg); }
+            }
+            @keyframes ly-loading-3-footer-2{
+                0% { transform: rotateZ(30deg); }
+                100% { transform: rotateZ(-30deg); }
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Type 3 行走loading</h1>
+        <div>
+            <div class="ly-loading-3">
+                <!-- 双脚 -->
+                <div class="footer-1"></div>
+                <div class="footer-1 footer-2"></div>
+            </div>
+        </div>
+        <h1>Type 2 圆环loading</h1>
+        <div>
+            <p>其使用canvas更好一点吧，或者svg?</p>
+            <div class="ly-loading-2">
+                <div class="top"></div>
+                <div class="bottom"> </div>
+            </div>
+        </div>
+        <h1>Type 1 弹珠loading</h1>
+        <div class="">
+            <div class="ly-loading-1">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            document.querySelector('.ly-loading-1').addEventListener('click',function(){
+                // [].slice.call(document.querySelectorAll('.ly-loading-1 span') ).forEach((item)=>{
+                //     var state = item.style.animationPlayState
+                //     item.style.animationPlayState = state == 'paused' ? 'running' : 'paused'
+                // })
+                this.classList.add('ly-loading-1-end')
+                // 我们期望的是当他完成一周运动后，再去消失掉，并且这个动作可以通过css完成
+            })
+        </script>
+    </body>
+</html>

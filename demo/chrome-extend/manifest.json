@@ -1,5 +1,5 @@
 {
-    "name": "草榴下载",
+    "name": "下载地址",
     "manifest_version": 2,
     "version": "0.1",
     "description": "download the torrent",
@@ -13,7 +13,7 @@
         "default_popup": "popup.html"
     },
     "content_scripts": [{
-        "matches": ["http://cl.naki.pw/*", "http://www.t66y.com/*"],
+        "matches": ["http://www.baidu.com/*","https://www.baidu.com/*"],
         "css": ["css/get-url.css"],
         "js": ["js/get-url.js"]
     }]

@@ -1,0 +1,46 @@
+{
+  "name": "redux",
+  "version": "1.0.0",
+  "description": "redux学习",
+  "devDependencies": {
+    "autoprefixer": "^6.3.1",
+    "autoprefixer-loader": "^3.2.0",
+    "babel": "^6.3.26",
+    "babel-core": "^6.4.5",
+    "babel-loader": "^6.2.1",
+    "babel-plugin-transform-runtime": "^6.4.3",
+    "babel-polyfill": "^6.3.14",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "css-loader": "^0.23.1",
+    "es5-shim": "^4.5.5",
+    "es6-shim": "^0.34.4",
+    "history": "^1.17.0",
+    "immutable": "^3.7.6",
+    "node-notifier": "^4.4.0",
+    "on-build-webpack": "^0.1.0",
+    "path-order-webpack-plugin": "^0.1.1",
+    "postcss-loader": "^0.6.0",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-native": "^0.16.0",
+    "react-redux": "^4.4.5",
+    "react-router": "^1.0.3",
+    "redux": "^3.3.1",
+    "sass": "^0.5.0",
+    "style-loader": "^0.13.0",
+    "three": "^0.73.2",
+    "through2": "^2.0.0",
+    "webpack": "^1.12.12"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pack": "webpack --progress --colors --watch",
+    "pack-server": " webpack-dev-server --progress --colors --watch",
+    "huangcheng": "echo \"黄诚是傻逼\" "
+  },
+  "dependencies": {
+    "imagemin-jpegoptim": "^4.1.0"
+  }
+}

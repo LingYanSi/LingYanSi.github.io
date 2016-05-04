@@ -36,6 +36,8 @@ var LunBo = (function(){
         // 对于android的兼容
         var transitionend = window.navigator.userAgent.toLowerCase().match('android')?'webkitTransitionEnd':'transitionend' ;
 
+        var touchendCallback = arg.touchendCallback
+
         var dataArrExit = true
 
         if( !dataArr || !Array.isArray(dataArr) || !dataArr.length ){
@@ -308,15 +310,16 @@ var LunBo = (function(){
             // 滑动结束
             touchEnd: function(){
                 // console.log('鼠标抬起来了')
-                if(!TOLEFT){
-                    // event.stopPropagation()
-                    // event.preventDefault()
-                }
                 if( touch.swiping ) return
 
+                if(TOLEFT && touch.cha){
+                    event.stopPropagation()
+                    event.preventDefault()
+                }
 
                 oldCurrent = current ;
 
+                touchendCallback && touchendCallback(touch.cha,current)
 
                 // 不跟随
                 if(!FLOW){

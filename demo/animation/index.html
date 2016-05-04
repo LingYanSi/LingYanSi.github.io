@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style media="screen">
+            *{
+                margin: 0 ; padding: 0 ;
+            }
+        </style>
+    </head>
+    <body>
+        <ul id="scene">
+          <li class="layer" data-depth="0.00"><img src="http://s16.mogucdn.com/p1/160412/upload_ie4tgnddmzrgezteg4zdambqgqyde_1920x528.png"></li>
+          <li class="layer" data-depth="0.20"><img src="http://s18.mogucdn.com/p1/160412/upload_ifrwmodggnrwezteg4zdambqhayde_1920x528.png"></li>
+          <li class="layer" data-depth="0.40"><img src="http://s18.mogucdn.com/p1/160412/upload_ifrdcmzygfrwezteg4zdambqmeyde_1920x528.png"></li>
+          <li class="layer" data-depth="0.60"><img src="http://s18.mogucdn.com/p1/160412/upload_ie4dgyrrgvrwezteg4zdambqgiyde_1920x528.png"></li>
+        </ul>
+
+        <script src="./11.js" charset="utf-8"></script>
+        <script type="text/javascript">
+            var scene = document.getElementById('scene');
+            var parallax = new Parallax(scene);
+        </script>
+    </body>
+</html>
