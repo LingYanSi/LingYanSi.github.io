@@ -36,5 +36,4 @@ gulp/img/
 gulp/img-dist/
 
 # 忽略蘑菇
-mogu/
-
+# mogu/
