@@ -32,29 +32,34 @@
 </head>
 
 <body>
-    <svg version="1.1" baseProfile="full" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
-
-        <rect width="100%" height="100%" fill="red" />
-
-        <circle id="svg-circle" cx="150" cy="100" r="80" fill="green" />
-
+    <svg version="1.1" baseProfile="full" width="100%" height="200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100%" height="100%" fill="rgb(60, 147, 210)" />
+        <circle id="svg-circle" cx="150" cy="100" r="80" fill="rgb(193, 70, 155)" />
         <text x="150" y="125" font-size="60" text-anchor="middle" fill="white">SVG</text>
-
     </svg>
-
-    <button>what</button>
-    <div class="" style="position:relative;">
+    <div class="wrap" style="position:relative;height: 10rem;overflow: hidden;">
         <div>
-            <img src="http://s7.mogucdn.com/p1/160426/t0_ifqwgm3dgfrggnzshazdambqgyyde_750x750.gif" alt="">
+            <img src="http://s7.mogucdn.com/p1/160503/16r_ie4tqn3gmvtdsyruhazdambqgqyde_750x200.jpg" alt="">
         </div>
         <div style="position:absolute; top:0;left:0;width:100%;">
-            <svg version="1.1" baseProfile="full" width="100%" height="20rem" xmlns="http://www.w3.org/2000/svg">
-
-                <path id="heihei" d="M 10 75 Q 205 60 400 75 L400 400 L10 400 L10 75 " stroke="black" stroke-linecap="round" fill="#fff" />
+            <svg version="1.1" baseProfile="full" width="100%" height="500" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern id="img1" patternUnits="userSpaceOnUse" width="1280" height="1280">
+                    <image xlink:href="http://s7.mogucdn.com/p1/160426/t0_ifqwgm3dgfrggnzshazdambqgyyde_750x750.gif" x="0" y="0" width="1280" height="1280" />
+                  </pattern>
+                </defs>
+                <path id="heihei" d="M 10 75 Q 205 60 400 75 L400 400 L10 400 L10 75 " stroke="black" stroke-linecap="round" fill="#fff" style="stroke-width: 10px;" />
             </svg>
         </div>
     </div>
-
+    <div style="word-break: break-all; font-size: .30rem;line-height:1.6;">
+        为path添加填充图片<a href="http://stackoverflow.com/questions/3796025/fill-svg-path-element-with-a-background-image">这里</a> <br>
+        如果使用了填充图片，用requestAnimationFrame做起动画来，性能就会变得很低 <br>
+        不过对于支持svg transition的浏览器，性能就还不错 <br>
+        Safari不支持svg transitionend <br>
+        Chrome支持 <br>
+        总的来说感觉svg不如canvas <br>
+    </div>
     <script type="text/javascript">
         var $hei = document.querySelector('#heihei')
 
@@ -62,80 +67,16 @@
         var state = {
             chaCache: 0,
             transitionEnd: 1,
-            chaY: 0
+            chaY: 0 ,
+            X: width/2
         }
-        var ISPHONE = navigator.userAgent.toLowerCase().match(/phone/g)
-
-        var mousedown = ISPHONE ? 'touchstart' : 'mousedown',
-            mousemove = ISPHONE ? 'touchmove' : 'mousemove',
-            mouseup = ISPHONE ? 'touchend' : 'mouseup',
-            mouseleave = ISPHONE ? 'touchcancel' : 'mouseleave'
-
-
-        document.querySelector('body').addEventListener(mousedown, function(event) {
-            if (!state.transitionEnd) return
-            state.y = event.pageY || event.touches[0].screenY
-            state.able = true
-        })
-        document.querySelector('body').addEventListener(mousemove, function(event) {
-            if (!state.able) return
-
-            event.preventDefault()
-
-            state.Y = event.pageY || event.touches[0].screenY
-            state.chaY = state.Y - state.y
-            $hei.setAttribute('d', path((state.chaCache + state.chaY)))
-        })
-        document.querySelector('body').addEventListener(mouseup, function(event) {
-            state.chaCache = state.chaCache + state.chaY
-            state.able = false
-
-            if (state.chaCache == 0) {
-                $hei.classList.remove('transition')
-                state.transitionEnd = true
-                return
-            }
-            if (ISPHONE) {
-                state.transitionEnd = false
-                animation()
-            } else {
-                $hei.classList.add('transition')
-                $hei.clientWidth
-                $hei.setAttribute('d', path())
-            }
-        })
-        document.querySelector('body').addEventListener(mouseleave, function(event) {
-            state.chaCache = state.chaCache + state.chaY
-            state.able = false
-
-            if (state.chaCache == 0) {
-                $hei.classList.remove('transition')
-                state.transitionEnd = true
-                return
-            }
-            if (ISPHONE) {
-                state.transitionEnd = false
-                animation()
-            } else {
-                $hei.classList.add('transition')
-                $hei.clientWidth
-                $hei.setAttribute('d', path())
-            }
-        })
-
-        $hei.addEventListener('transitionend', function() {
-            this.classList.remove('transition')
-            state.transitionEnd = true
-            state.chaCache = 0
-        })
 
 
         function path(v) {
             v = (isNaN(v) ? 0 : v) || 0
                 // return `M 0 75 Q ${width/2} ${v+75} ${width} 75 L${width} ${width} L0 ${width} L0 75 `
-            return 'M 0 75 Q ' + width / 2 + ' ' + (v + 75) + ' ' + width + ' 75 L' + width + ' ' + width + ' L0 ' + width + ' L0 75'
+            return 'M 0 0 Q ' + state.X + ' ' + (v + 0) + ' ' + width + ' 0 L' + width + ' ' + width + ' L0 ' + width + ' L0 0'
         }
-        $hei.setAttribute('d', path())
 
         function animation() {
             // 一个简单的animate函数
@@ -153,15 +94,89 @@
                 }
                 $hei.setAttribute('d', path(state.chaCache))
                 if (state.chaCache == 0) {
-                    state.transitionEnd = true
-                    state.chaCache = 0
+                    mySVG.transitionend()
                     return
                 }
                 requestAnimationFrame(decrease)
             }
             requestAnimationFrame(decrease)
         }
-        
+
+
+        var ISPHONE = navigator.userAgent.toLowerCase().match(/phone/g)
+        var IS_SPPORT_SVG_TRANSITION = false
+
+        var mySVG = {
+            mousedown: function(event) {
+                if (!state.transitionEnd) return
+                state.y = event.clientY || event.touches[0].clientY
+                state.X = event.clientX || event.touches[0].clientX
+                // console.log(state.X, event.touches[0].clientX);
+                state.able = true
+                state.chaY = 0
+            },
+            mousemove: function(event) {
+                if (!state.able) return
+
+                event.preventDefault()
+                event.stopPropagation()
+
+                state.Y = event.clientY || event.touches[0].clientY
+                state.chaY = state.Y - state.y
+                requestAnimationFrame(function(){
+                    $hei.setAttribute('d', path((state.chaCache + state.chaY)))
+                })
+            },
+            mouseup: function(event) {
+                if(!state.able) return
+                state.able = false
+                state.chaCache = state.chaCache + state.chaY
+
+                requestAnimationFrame(function(){
+                    // console.log(state);
+                    if (state.chaY == 0) {
+                        mySVG.transitionend()
+                        return
+                    }
+                    if (ISPHONE || !IS_SPPORT_SVG_TRANSITION) {
+                        $hei.classList.remove('transition')
+                        state.transitionEnd = false
+                        animation()
+                    } else {
+                        $hei.classList.add('transition')
+                        $hei.clientWidth
+                        $hei.setAttribute('d', path())
+                    }
+                })
+            },
+            transitionend: function() {
+                $hei.classList.remove('transition')
+                state.transitionEnd = true
+                state.chaCache = 0
+            },
+            events: function(){
+                var mousedown = ISPHONE ? 'touchstart' : 'mousedown',
+                    mousemove = ISPHONE ? 'touchmove' : 'mousemove',
+                    mouseup = ISPHONE ? 'touchend' : 'mouseup',
+                    mouseleave = ISPHONE ? 'touchcancel' : 'mouseout'
+
+                var $ele = document.querySelector('.wrap')
+
+                $ele.addEventListener(mousedown, mySVG.mousedown )
+                $ele.addEventListener(mousemove, mySVG.mousemove)
+                $ele.addEventListener(mouseup, mySVG.mouseup )
+                $ele.addEventListener(mouseleave, mySVG.mouseup)
+
+                $hei.addEventListener('transitionend',mySVG.transitionend )
+            },
+            init: function(){
+                this.events()
+                $hei.setAttribute('d', path())
+            }
+        }
+
+        mySVG.init()
+
     </script>
 </body>
 

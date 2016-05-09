@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="shortcut icon" href="" />
+  <title></title>
+  <style type="text/css">
+	  *{margin:0;padding:0;}
+	  #wrap{
+	      position: absolute;
+          height: 100%; width: 100%; top: 0; left: 0 ;
+          background-color: rgb(34, 241, 254);
+          overflow: hidden;
+	  }
+      img{
+          width: 100%;
+      }
+      .item{
+          width: 100%; height: 100%;
+          background-color: rgb(222, 94, 156);
+      }
+      .transition{
+          transition: all .3s ;
+      }
+  </style>
+ </head>
+ <body>
+	<div id="wrap" class="wrap">
+        <div class="item">
+            <img src="http://s22.mogucdn.com/p1/160502/65330863_ifrtcnrrgu4dsnzuhazdambqhayde_640x960.jpg" alt="">
+        </div>
+        <div id="console" style="word-break: break-all; position: absolute; top:0; left: 0;"></div>
+	</div>
+ <script src="./scale.js"></script>
+ <script type="text/javascript">
+	 scale(document.querySelector('#wrap'),document.querySelector('.item'))
+
+     var $ = function(s){
+         return document.querySelector(s)
+     }
+ </script>
+ </body>
+</html>
