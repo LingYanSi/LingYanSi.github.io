@@ -131,3 +131,23 @@ node service/map.js &
 node service/category.js &
 node service/index.js &
 node app
+
+## vim配色，显示
+$ vim ~/.vimrc
+"语法高亮
+syntax on
+"显示行号
+set number
+"显示光标所在行列
+set ruler
+
+## zsh: command not found: xxxx
+ls命令基本每个linux shell都会存在，因为这是基本的应用命令。就好比，手机接打电话、短信内容一样，这是最基本的，所以不可能是没有这个命令。
+
+1、你可以先用whereis或者which命令查看一下有没有这个命令 具体执行
+which ls
+whereis ls
+
+2、有可能是系统环境变量导致的问题
+解决方案在.bash_profile/.zshrc后面添加：
+export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
