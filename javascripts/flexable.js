@@ -22,8 +22,9 @@
         meta.content = 'width=device-width, initial-scale='+(1/DPR)+', maximum-scale='+(1/DPR)+', user-scalable=no' ;
         doc.head.appendChild(meta);*/
 
-        // width = width>=375?width:375 ;
-        doc.querySelector('html').style.fontSize = width/10 + 'px' ;
+        width = Math.max(350,width) ;
+        width = Math.min(750,width) ;
+        doc.querySelector('html').style.fontSize = width/750*100 + 'px' ;
 
         /*if( doc.readyState=='complete' ){
             doc.body.style.fontSize = 12*DPR+ 'px' ;

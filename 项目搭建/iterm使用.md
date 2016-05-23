@@ -152,4 +152,4 @@ whereis ls
 解决方案在.bash_profile/.zshrc后面添加：
 export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
 
-## 
+## which/whereis command
