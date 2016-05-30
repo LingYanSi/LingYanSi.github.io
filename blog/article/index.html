@@ -1,20 +1,66 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-    </head>
-    <body>
 
-        <script type="text/javascript">
-            var db_url = './../database/' + 'index.json'
+<head>
+    <meta charset="utf-8">
+    <title>文章-灵岩寺</title>
+    <link rel="stylesheet" href="/css/master.css" media="screen" title="no title" charset="utf-8">
+</head>
+
+<body>
+    <!-- 顶部 -->
+    <!-- 侧边栏系统 -->
+    <!--  -->
+    <div class="nav">
+        顶部
+    </div>
+    <div class="">
+        <div id="sidebar">
+            侧边栏
+        </div>
+        <div id="content">
+            <h1>标题</h1>
+            <div>
+                内容
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        底部
+    </div>
+    <script type="template">
+
+    </script>
+    <script src="./build/js/router.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var handle_url_change = function(){
+            var id = location.search.slice(1)
+            var db_url = `./../database/${id}.json`
+
+            if(!id) return
+
             fetch(db_url)
-            .then(function(response) {
-              return response.json();
-            })
-            .then(function(data) {
-              console.log(data.title, data)
-            });
-        </script>
-    </body>
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    console.log(data.title, data)
+                    render(data)
+                }, function() {
+                    //   404文章不存在
+                    render(0, true)
+                });
+        }
+
+        router.addChangeListener(handle_url_change)
+
+        function render(data, notFound){
+            if(notFound){
+                return `<h1>404 not found</h1>`
+            }
+            return `<h1>${data.title}</h1><div>${data.content}</div>`
+        }
+    </script>
+</body>
+
 </html>
