@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" name="viewport" />
+        <script src="./../../../javascripts/flexable.js" charset="utf-8"></script>
+        <style media="screen">
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            .slider-warp{
+                height: 7.90rem;
+                overflow: hidden;
+            }
+            .slider-scroll{
+                height: 8.2rem;
+                width: 100%;
+                overflow-x: scroll;
+                -webkit-overflow-scrolling: touch;
+            }
+            .slider{
+                overflow: hidden;
+                padding: .20rem 0 ;
+            }
+            .item{
+                width: 6.5rem;
+                height: 7.50rem;
+                margin: 0 .20rem ;
+                box-shadow: 0 0 .18rem #000;
+                float: left;
+                background-image: url(http://ww1.sinaimg.cn/mw690/73feb172gw1f45qqwpbmgj20qs0zkq78.jpg);
+                background-size: cover;
+                background-position: center;
+            }
+            .item:nth-child(n+2){
+                margin-left: 0rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="slider-warp">
+            <div class="slider-scroll">
+                <div class="slider">
+                    <div class="item"></div>
+                    <div class="item"></div>
+                    <div class="item"></div>
+                    <div class="item"></div>
+                    <div class="item"></div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            document.querySelector('.slider').style.width = (document.querySelectorAll('.item').length * (6.5+.2)+.2)+'rem'
+        </script>
+    </body>
+</html>

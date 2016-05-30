@@ -3,9 +3,17 @@
     <head>
         <meta charset="utf-8">
         <title></title>
+        <style media="screen">
+            .ellipsis{
+                height: 1em; width: 100px;
+                text-overflow: ellipsis;
+	            white-space: nowrap;
+                overflow: hidden;
+            }
+        </style>
     </head>
     <body>
-        
+
         <h2>单行带省略号</h2>
         <div></div>
 
@@ -21,5 +29,10 @@
         <h2>首行缩进</h2>
         <div></div>
 
+        <h2>单行省略号</h2>
+        <div class="ellipsis">噫吁戏，蜀道之难，难于上青天，蚕丛及鱼凫，开国何茫然？</div>
+
+        <h2>多行省略号</h2>
+        <div class="ellipsis">噫吁戏，蜀道之难，难于上青天，蚕丛及鱼凫，开国何茫然？</div>
     </body>
 </html>
