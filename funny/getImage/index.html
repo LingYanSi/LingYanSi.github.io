@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style media="screen">
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            span{
+                color: red;
+            }
+            #log {
+                text-align: center;
+                color: red;
+                padding: 10px;
+            }
+
+            #main {
+                text-align: center;
+            }
+
+            .hide {
+                display: none;
+            }
+
+            .tips {
+                text-align: center;
+                line-height: 2;
+                padding: 10px ;
+                color: rgb(100, 100, 100);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="log"></div>
+        <div id="main">
+            <canvas id="canvas" width="0" height="0"></canvas>
+            <br>
+            <a href="" download="">下载</a>
+        </div>
+        <div class="tips">
+            LingYanSi.github.io/funny/getImage/?<span>100</span>x<span>100</span>
+            获取一张100x100的png图片
+        </div>
+
+        <script>
+            var $ = function(s){
+                return document.querySelector(s)
+            }
+            var $log = $('#log')
+            function createImage(canvas, width, height, text){
+                canvas.height = height
+                canvas.width = width
+
+    			var ctx = canvas.getContext("2d")
+
+                ctx.clearRect(0, 0, width, height)
+
+                ctx.fillStyle = 'rgb(131, 131, 116)'
+                ctx.fillRect(0,0,width,height)
+                ctx.fill()
+
+                ctx.fillStyle = '#fff'
+                ctx.font = "lighter 20px serif";
+                ctx.textAlign = 'center'
+                ctx.textBaseline = "middle"
+                text = width + '×' + height
+                ctx.fillText(text, width/2, height/2, width);
+
+                return canvas
+            }
+
+            function download(canvas, filename){
+                $('a').href = canvas.toDataURL('image/png')
+                $('a').download = filename+'.png'
+            }
+            function init(){
+                var search = location.search.slice(1) || ''
+                var arr = search.split('x')
+                var width = arr[0] , height = arr[1]
+
+                if( !/[0-9]+/.test(width) || !/[0-9]+/.test(height)  ){
+                    $log.textContent = '参数错误'
+                    $('#main').classList.add('hide')
+                    return
+                }
+                var canvas = createImage($('#canvas'), width, height, search)
+                download(canvas, search)
+            }
+            init()
+
+        </script>
+    </body>
+</html>
