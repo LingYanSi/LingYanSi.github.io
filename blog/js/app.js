@@ -1056,59 +1056,12 @@
 	    }
 
 	    _createClass(Home, [{
-	        key: 'getList',
-	        value: function getList() {
-	            var that = this;
-
-	            fetch('./getList').then(function (response) {
-	                return response.json();
-	            }).then(function (data) {
-	                console.log(data);
-	                that.setState({
-	                    list: data.list
-	                });
-	            });
-	        }
-	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            this.getList();
-	        }
-	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'home' },
-	                _react2.default.createElement(
-	                    'h1',
-	                    null,
-	                    '首页'
-	                ),
-	                _react2.default.createElement(
-	                    'ul',
-	                    null,
-	                    this.state.list.map(function (item) {
-	                        return _react2.default.createElement(
-	                            'li',
-	                            null,
-	                            _react2.default.createElement(
-	                                _reactRouter.Link,
-	                                { to: '/article/' + item.id },
-	                                _react2.default.createElement(
-	                                    'h3',
-	                                    null,
-	                                    item.title
-	                                ),
-	                                _react2.default.createElement(
-	                                    'p',
-	                                    null,
-	                                    item.content
-	                                )
-	                            )
-	                        );
-	                    })
-	                )
+	                '我是首页'
 	            );
 	        }
 	    }]);
