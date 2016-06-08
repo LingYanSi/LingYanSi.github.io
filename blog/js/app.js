@@ -385,7 +385,7 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'tags-wrap' },
-	                    'weishj标签：',
+	                    '标签：',
 	                    _react2.default.createElement(
 	                        'span',
 	                        { className: 'tag tag-pink' },
@@ -987,32 +987,7 @@
 	}
 
 /***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(29);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(32)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/autoprefixer-loader/index.js!./home.scss", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/autoprefixer-loader/index.js!./home.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
+/* 18 */,
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1030,6 +1005,10 @@
 
 	var _reactRouter = __webpack_require__(6);
 
+	var _index = __webpack_require__(10);
+
+	var _index2 = _interopRequireDefault(_index);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1038,7 +1017,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(18);
+	__webpack_require__(33);
 
 	var Home = function (_Component) {
 	    _inherits(Home, _Component);
@@ -1061,7 +1040,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'home' },
-	                '我是首页'
+	                _react2.default.createElement(_index2.default, null)
 	            );
 	        }
 	    }]);
@@ -1160,7 +1139,7 @@
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Sidebar).call(this));
 
-	        var LIST = [{ url: '/', title: '首页' }, { url: '/about', title: '关于' }, { url: '/article', title: '文章' }];
+	        var LIST = [{ url: '/', title: '首页' }, { url: '/article', title: '文章' }, { url: '/about', title: '关于' }];
 	        _this.state = {
 	            list: LIST,
 	            current: 0
@@ -1333,20 +1312,7 @@
 
 
 /***/ },
-/* 29 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(31)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "#home h1 {\n  color: red; }\n\n#home li {\n  margin-bottom: 20px; }\n  #home li h3 {\n    color: #555; }\n  #home li p {\n    color: #999; }\n", ""]);
-
-	// exports
-
-
-/***/ },
+/* 29 */,
 /* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1665,6 +1631,46 @@
 		if(oldSrc)
 			URL.revokeObjectURL(oldSrc);
 	}
+
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(34);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(32)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/autoprefixer-loader/index.js!./index.scss", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/autoprefixer-loader/index.js!./index.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(31)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "#home h1 {\n  color: red; }\n\n#home li {\n  margin-bottom: 20px; }\n  #home li h3 {\n    color: #555; }\n  #home li p {\n    color: #999; }\n", ""]);
+
+	// exports
 
 
 /***/ }

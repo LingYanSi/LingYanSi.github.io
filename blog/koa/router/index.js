@@ -34,15 +34,13 @@ module.exports = function (router, koaBody){
         // this.body = JSON.stringify( this.request.body )
         // 重定向
         // this.response.redirect('/#/')
-
+        getList()
         this.body = JSON.stringify({status:{code:1001, msg: '发布成功'}, result: data })
-    })
-    .get('/getList', function *(){
-        this.body = getList()
     })
     .get('/article/del', function *(){
         var id = this.request.query.id
         fs.unlinkSync(`./koa/static/database/article/${id}.json`)
+        getList()
         this.body = JSON.stringify({status:{code:1001, msg:'删除成功'}, result:{}})
     })
 }

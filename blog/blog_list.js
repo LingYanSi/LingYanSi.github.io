@@ -10,7 +10,7 @@ module.exports = function(){
         var str = fs.readFileSync(path.resolve(__dirname, './koa/static/database/article/'+item), 'utf-8')
         var data = JSON.parse(str)
         return data
-    })
+    }).reverse()
 
     var data = {}
     data.list = summary

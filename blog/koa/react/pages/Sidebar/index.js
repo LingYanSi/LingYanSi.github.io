@@ -8,8 +8,8 @@ class Sidebar extends Component{
         super()
         const LIST = [
             { url: '/', title: '首页' },
-            { url: '/about', title: '关于' },
             { url: '/article', title: '文章' },
+            { url: '/about', title: '关于' },
         ]
         this.state = {
             list: LIST ,

@@ -1,7 +1,8 @@
 import React,{Component} from 'react'
 import { Router, Route, Link, browserHistory } from 'react-router'
+import List from './../Article/List/index.js'
 
-require('./home.scss')
+require('./index.scss')
 
 class Home extends Component{
     constructor(){
@@ -13,7 +14,7 @@ class Home extends Component{
     }
     render(){
         return <div id="home">
-            我是首页
+            <List></List>
         </div>
     }
 }

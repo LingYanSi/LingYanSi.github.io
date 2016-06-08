@@ -52,7 +52,7 @@ class Details extends Component{
         return <div id="article-details">
             <h1>{state.title}</h1>
             <div className="tags-wrap">
-                weishj标签：<span className="tag tag-pink">{state.tags}</span>
+                标签：<span className="tag tag-pink">{state.tags}</span>
             </div>
             <div className="details-tool">
                 <button onClick={this.del.bind(this)}>DEL</button>
