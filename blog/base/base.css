@@ -1,0 +1,10 @@
+.theme {
+  color: "blue";
+  display: -ms-flexbox;
+  display: flex; }
+
+.hide {
+  display: none; }
+
+.center {
+  text-align: center; }

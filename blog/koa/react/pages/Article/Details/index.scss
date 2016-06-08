@@ -1,0 +1,32 @@
+#article-details {
+    font-size: 14px;
+    h1 {
+        color: rgb(50, 50 ,50);
+        font-size: 1.8em;
+        line-height: 2;
+    }
+
+    .tags-wrap {
+        // line-height: 2 ;
+        .tag {
+            background: pink ;
+            color: #fff;
+            padding: 4px;
+        }
+    }
+
+    .details-tool {
+        padding: 5px 0;
+        button {
+            margin-right: 6px;
+        }
+    }
+
+    .details-content {
+        line-height: 1.4;
+    }
+
+    .details-time {
+        color: rgb(210, 210, 210);
+    }
+}

@@ -16,7 +16,8 @@
     </div>
     <div class="">
         <div id="sidebar">
-            侧边栏
+            <a href="javascript:;" data-link="1">文章一</a>
+            <a href="javascript:;" data-link="2">文章二</a>
         </div>
         <div id="content">
             <h1>标题</h1>
@@ -31,8 +32,12 @@
     <script type="template">
 
     </script>
-    <script src="./../build/js/router.js" charset="utf-8"></script>
+    <!-- <script src="./../build/js/router.js" charset="utf-8"></script> -->
+    <script src="./../basejs/router.js" charset="utf-8"></script>
     <script type="text/javascript">
+        var $ = function(s){
+            return s.startsWith('#') ? document.querySelector(s) : [].slice.call(document.querySelectorAll(s))
+        }
         var handle_url_change = function(){
             var id = location.search.slice(1)
             var db_url = `./../database/${id}.json`
@@ -53,12 +58,17 @@
         }
 
         Router.addChangeListener(handle_url_change)
+        handle_url_change()
+
+        $('a').forEach(item=>item.addEventListener('click', function(){
+            Router.push(item.textContent, '?'+item.dataset['link'] )
+        }))
 
         function render(data, notFound){
             if(notFound){
                 return `<h1>404 not found</h1>`
             }
-            return `<h1>${data.title}</h1><div>${data.content}</div>`
+            $('#content').innerHTML = `<h1>${data.title}</h1><div>${data.content}</div>`
         }
     </script>
 </body>

@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ul,ol,li {
+    list-style: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,input,textarea {
+    outline: none;
+}
+
+button {
+    padding: 0 1em;
+    line-height: 2em;
+}
+
+.mian {
+    display: flex;
+
+    .content {
+        flex: 1;
+        min-height: 100vh;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+}

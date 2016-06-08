@@ -1,18 +1,20 @@
-
+'use strict';
 var Router = (function(){
     window.onpopstate = function(){
         event_hostory_change.forEach(item => item())
     }
     var event_hostory_change = [];
-
+    console.log(1111)
     return {
         push: function(title,url){
             history.pushState(null, title, url);
             document.title = title ;
+            window.onpopstate()
         },
         replace: function(title,url){
             history.replaceState(null, title, url);
             document.title = title ;
+            window.onpopstate()
         },
         addChangeListener: function(fun){
             fun instanceof Function &&  event_hostory_change.push(fun)

@@ -1,0 +1,22 @@
+#sidebar {
+    width: 200px;
+    background-color: rgb(43, 45, 39);
+    color: #fff;
+    line-height: 2.2;
+    li {
+        border-bottom: 1px solid rgb(91, 105, 106);
+        
+        &.current {
+            background: rgb(43, 200, 215);
+        }
+    }
+
+    a {
+        display: block;
+        padding-left: 2em;
+
+        &:hover {
+            background: rgb(43, 200, 215);
+        }
+    }
+}
