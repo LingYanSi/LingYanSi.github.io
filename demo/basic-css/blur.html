@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style media="screen">
+            *{
+                margin: 0;
+                padding: 0;
+            }
+
+            .bgd {
+                background: url("./../../images/bufazhitu.jpg") ;
+                height: 600px;
+                /*width: 600px;*/
+                background-size: cover;
+                position: relative;
+            }
+
+            .blur {
+                height: 80%;
+                width: 80%;
+                position: absolute;
+                top: 50%; left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 5%;
+                overflow: hidden;
+                color: #fff;
+                box-sizing: border-box;
+                padding: 20px;
+                line-height: 2;
+            }
+
+            .blur::before {
+                content: "";
+                display: block;
+                background: url("./../../images/bufazhitu.jpg") ;
+                -webkit-filter: blur(10px);
+                background-size: cover;
+                position: absolute;
+                height: 120%;
+                width: 120%;
+                top: -10%;
+                left: -10%;
+                z-index: -1;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="bgd">
+            <div class="blur">
+                江枫渔火对愁眠。姑苏城外寒山寺，夜半钟声到客船。
+                窗外雨潺潺，
+            </div>
+        </div>
+    </body>
+</html>

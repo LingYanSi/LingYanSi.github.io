@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style media="screen">
+            #d3 {
+                height: 300px;
+                width: 300px;
+                background: red;
+            }
+
+            input {
+                width: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>matrix3d 矩阵变换</h1>
+        <div class="">
+            3d矩阵变换有16个参数，测试一番
+        </div>
+        <input type="text" name="name" value="0,0,0,0, 0,0,0,0, 0,0,1,0, 0,0,0,0">
+
+        <div id="d3"></div>
+
+        <script type="text/javascript">
+            var $ = function(s){
+                return document.querySelector(s)
+            }
+            $('input').addEventListener('change', function(){
+                $('#d3').style.transform = `matrix3d(${this.value})`
+            })
+        </script>
+    </body>
+</html>
