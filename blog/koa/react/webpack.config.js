@@ -8,9 +8,6 @@ var notifier = require('node-notifier');
 
 var path = require('path')
 
-// require一个watch任务
-require('./copy.js')
-
 function webpackDone(title, message, sound){
     notifier.notify({
         title: title,
