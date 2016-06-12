@@ -370,6 +370,11 @@
 	            });
 	        }
 	    }, {
+	        key: 'rawHtml',
+	        value: function rawHtml(str) {
+	            return { __html: str };
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var state = this.state;
@@ -410,11 +415,7 @@
 	                        )
 	                    )
 	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'details-content' },
-	                    state.content
-	                ),
+	                _react2.default.createElement('div', { className: 'details-content', dangerouslySetInnerHTML: this.rawHtml(state.content) }),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'details-time' },
@@ -605,8 +606,19 @@
 	            this.getList();
 	        }
 	    }, {
+	        key: 'rawHtml',
+	        value: function rawHtml() {
+	            var str = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+
+	            return {
+	                __html: str
+	            };
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'article-list' },
@@ -630,11 +642,7 @@
 	                                    null,
 	                                    item.title
 	                                ),
-	                                _react2.default.createElement(
-	                                    'p',
-	                                    null,
-	                                    item.content
-	                                )
+	                                _react2.default.createElement('p', { dangerouslySetInnerHTML: _this2.rawHtml(item.content) })
 	                            )
 	                        );
 	                    })
@@ -729,6 +737,18 @@
 	            if (id !== undefined) {
 	                this.getData(id);
 	            }
+
+	            setTimeout(function () {
+	                $('#editor').wysiwyg();
+	            }, 1000);
+
+	            console.log('time2');
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            // $('.article-new').remove('.editor-wrap')
+	            $('#editor').remove();
 	        }
 	    }, {
 	        key: 'getData',
@@ -745,6 +765,7 @@
 	        value: function submit(event) {
 	            event.preventDefault();
 	            var fd = new FormData(document.querySelector('#fd'));
+	            fd.set('content', $('#editor').html());
 
 	            var state = this.state;
 	            for (var key in state) {
@@ -764,6 +785,13 @@
 	            });
 	        }
 	    }, {
+	        key: 'rawHtml',
+	        value: function rawHtml() {
+	            var str = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+
+	            return { __html: str };
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var state = this.state;
@@ -771,6 +799,8 @@
 	            if (!state.id && this.props.params.id != undefined) {
 	                return null;
 	            }
+
+	            console.log('time1');
 
 	            return _react2.default.createElement(
 	                'div',
@@ -784,9 +814,18 @@
 	                    _react2.default.createElement('br', null),
 	                    _react2.default.createElement('input', { type: 'text', name: 'tags', placeholder: '标签', defaultValue: state.tags }),
 	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement('textarea', { name: 'content', id: '', cols: '30', rows: '10',
-	                        placeholder: '写点什么吧。。。',
-	                        defaultValue: state.content }),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { 'class': 'btn-toolbar', 'data-role': 'editor-toolbar',
+	                            'data-target': '#editor' },
+	                        _react2.default.createElement(
+	                            'a',
+	                            { 'data-edit': 'bold', className: 'btn' },
+	                            '粗'
+	                        ),
+	                        _react2.default.createElement('input', { type: 'file', 'data-edit': 'insertImage' })
+	                    ),
+	                    _react2.default.createElement('div', { id: 'editor', 'data-placeholder': 'fuck u please write sth ', dangerouslySetInnerHTML: this.rawHtml(state.content) }),
 	                    _react2.default.createElement(
 	                        'button',
 	                        { type: 'submit', onClick: this.submit.bind(this) },
@@ -950,7 +989,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'header' },
-	                '顶部'
+	                '灵岩寺'
 	            );
 	        }
 	    }]);
@@ -1278,7 +1317,7 @@
 
 
 	// module
-	exports.push([module.id, ".article-new input {\n  height: 2em; }\n\n.article-new textarea {\n  display: block;\n  width: 80%;\n  min-height: 10em; }\n", ""]);
+	exports.push([module.id, ".article-new input {\n  height: 2em; }\n\n.article-new textarea {\n  display: block;\n  width: 80%;\n  min-height: 10em; }\n\n#editor {\n  overflow: scroll;\n  max-height: 500px;\n  height: 500px;\n  color: #000;\n  border: 1px solid #555;\n  outline: none;\n  padding: 10px;\n  line-height: 1.4; }\n", ""]);
 
 	// exports
 
@@ -1306,7 +1345,7 @@
 
 
 	// module
-	exports.push([module.id, "#header {\n  height: 30px;\n  line-height: 30px;\n  background: #2b82dd;\n  color: #fff; }\n", ""]);
+	exports.push([module.id, "#header {\n  line-height: 1.6;\n  background: #2b82dd;\n  color: #fff;\n  font-size: 1.4em;\n  padding-left: 1.5em; }\n", ""]);
 
 	// exports
 

@@ -3,12 +3,20 @@ var path = require('path')
 
 var pathname = path.resolve(__dirname,'./koa/static/database/article/')
 
+// 去除html标签
+function removeTags(str){
+    str = str.replace(/\<[^\<^\>]+\>/g,'')
+
+    str = str.slice(0, 100)
+    return str
+}
+
 module.exports = function(){
     var summary = fs.readdirSync(pathname).map(function(item){
-        console.log(item);
-        // return
         var str = fs.readFileSync(path.resolve(__dirname, './koa/static/database/article/'+item), 'utf-8')
         var data = JSON.parse(str)
+        
+        data.content = removeTags(data.content)
         return data
     }).reverse()
 

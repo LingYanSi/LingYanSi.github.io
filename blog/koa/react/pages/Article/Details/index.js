@@ -46,6 +46,9 @@ class Details extends Component{
                 location.href = '#/'
             })
     }
+    rawHtml(str){
+        return {__html: str}
+    }
     render(){
         const state = this.state
 
@@ -60,7 +63,7 @@ class Details extends Component{
                     <button>编辑</button>
                 </Link>
             </div>
-            <div className="details-content">{state.content}</div>
+            <div className="details-content" dangerouslySetInnerHTML={this.rawHtml(state.content)}></div>
             <div className="details-time">时间：{state.time}</div>
         </div>
     }

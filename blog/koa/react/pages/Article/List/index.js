@@ -28,15 +28,20 @@ class List extends Component{
     componentDidMount(){
         this.getList()
     }
+    rawHtml(str=''){
+        return {
+            __html: str
+        }
+    }
     render(){
         return <div id="article-list">
             <h1>-------文章列表-----</h1>
             <ul>
-                {this.state.list.map(function(item){
+                {this.state.list.map(item => {
                     return <li>
                         <Link to={`/article/${item.id}`}>
                             <h3>{item.title}</h3>
-                            <p>{item.content}</p>
+                            <p dangerouslySetInnerHTML={this.rawHtml(item.content)}></p>
                         </Link>
                     </li>
                 })}

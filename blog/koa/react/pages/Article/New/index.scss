@@ -9,3 +9,14 @@
         min-height: 10em;
     }
 }
+
+#editor {
+    overflow: scroll;
+    max-height: 500px;
+    height: 500px;
+    color: #000;
+    border: 1px solid #555;
+    outline: none;
+    padding: 10px;
+    line-height: 1.4;
+}

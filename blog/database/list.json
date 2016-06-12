@@ -1,1 +1,1 @@
-{"list":[{"title":"富文本编辑器","tags":"待添加","content":"现在的样式有点丑","time":1465381002077,"id":1465381002077},{"title":"第一篇","tags":"你好","content":"这个世界怎么了呢","time":"1465380796096","id":"1465380796096"}]}
+{"list":[{"title":"文章test","tags":"富文本","content":"富文本编辑器添加一张图片试一试","time":1465716877464,"id":1465716877464},{"title":"在react项目中使用编辑器","tags":"React 编辑器","content":"使用【bootstrap-wysiwyg】它依赖jquery.js jquery.hotkeys.js&nbsp;目前遇到的坑有，初始化editor时候，需要在componentDidMount中执行","time":"1465714149470","id":"1465714149470"}]}
