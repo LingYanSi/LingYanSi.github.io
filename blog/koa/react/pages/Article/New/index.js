@@ -73,8 +73,6 @@ class New extends React.Component{
             return null
         }
 
-        console.log('time1');
-
         return <div className="article-new">
             <form action="/newArticle?name=ssss" method="POST" id="fd">
                 <input type="text" name="title"

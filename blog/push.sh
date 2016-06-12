@@ -1,4 +1,7 @@
 #/bin/bash!
+branch=`git rev-parse --abbrev-ref HEAD`
+
+# exit
 
 echo '--》复制js文件'
 # js文件
@@ -9,6 +12,10 @@ echo '--》复制database文件'
 # database文件
 rm -r ./database/
 cp -r ./koa/static/database/ ./database/
+
+echo '--> pull: 当前分支'$branch
+git fetch
+git merge origin $branch
 
 echo '--》git提交文件'
 git add ../blog

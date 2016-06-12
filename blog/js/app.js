@@ -800,8 +800,6 @@
 	                return null;
 	            }
 
-	            console.log('time1');
-
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'article-new' },
