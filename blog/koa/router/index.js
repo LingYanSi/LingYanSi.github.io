@@ -27,6 +27,7 @@ module.exports = function (router, koaBody){
         const filename = data.id || new Date().getTime()
         data.time = filename
         data.id = filename
+        data.tags = data.tags.split(' ')
         fs.writeFileSync(`./koa/static/database/article/${filename}.json`, JSON.stringify( data ), 'utf-8');
 
         console.log('数据写入完成')

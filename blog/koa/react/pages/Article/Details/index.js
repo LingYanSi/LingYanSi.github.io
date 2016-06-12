@@ -10,7 +10,7 @@ class Details extends Component{
             title: '',
             content: '',
             time: '',
-            tags: '',
+            tags: [],
             id: 0
         }
     }
@@ -55,7 +55,9 @@ class Details extends Component{
         return <div id="article-details">
             <h1>{state.title}</h1>
             <div className="tags-wrap">
-                标签：<span className="tag tag-pink">{state.tags}</span>
+                标签：{ state.tags.map(item=>{
+                    return <span className="tag tag-pink cursor" title={item}>{item}</span>
+                }) }
             </div>
             <div className="details-tool">
                 <button onClick={this.del.bind(this)}>DEL</button>

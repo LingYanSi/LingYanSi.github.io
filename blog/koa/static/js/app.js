@@ -329,7 +329,7 @@
 	            title: '',
 	            content: '',
 	            time: '',
-	            tags: '',
+	            tags: [],
 	            id: 0
 	        };
 	        return _this;
@@ -391,11 +391,13 @@
 	                    'div',
 	                    { className: 'tags-wrap' },
 	                    '标签：',
-	                    _react2.default.createElement(
-	                        'span',
-	                        { className: 'tag tag-pink' },
-	                        state.tags
-	                    )
+	                    state.tags.map(function (item) {
+	                        return _react2.default.createElement(
+	                            'span',
+	                            { className: 'tag tag-pink cursor', title: item },
+	                            item
+	                        );
+	                    })
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -1287,7 +1289,7 @@
 
 
 	// module
-	exports.push([module.id, "#article-details {\n  font-size: 14px; }\n  #article-details h1 {\n    color: #323232;\n    font-size: 1.8em;\n    line-height: 2; }\n  #article-details .tags-wrap .tag {\n    background: pink;\n    color: #fff;\n    padding: 4px; }\n  #article-details .details-tool {\n    padding: 5px 0; }\n    #article-details .details-tool button {\n      margin-right: 6px; }\n  #article-details .details-content {\n    line-height: 1.4; }\n  #article-details .details-time {\n    color: #d2d2d2; }\n", ""]);
+	exports.push([module.id, "#article-details {\n  font-size: 14px; }\n  #article-details h1 {\n    color: #323232;\n    font-size: 1.8em;\n    line-height: 2; }\n  #article-details .tags-wrap .tag {\n    background: pink;\n    color: #fff;\n    padding: 4px;\n    margin-right: .5em; }\n  #article-details .details-tool {\n    padding: 5px 0; }\n    #article-details .details-tool button {\n      margin-right: 6px; }\n  #article-details .details-content {\n    line-height: 1.4; }\n  #article-details .details-time {\n    color: #d2d2d2; }\n", ""]);
 
 	// exports
 
