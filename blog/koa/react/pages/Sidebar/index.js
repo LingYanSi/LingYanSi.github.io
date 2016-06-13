@@ -13,7 +13,8 @@ class Sidebar extends Component{
         ]
         this.state = {
             list: LIST ,
-            current: 0
+            current: 0 ,
+            show: false
         }
     }
     hashChange(){
@@ -27,10 +28,14 @@ class Sidebar extends Component{
             current: current
         })
 
-        console.log('current',current, hash)
     }
     addHashChange(){
         window.addEventListener('hashchange', this.hashChange.bind(this))
+    }
+    toggle(){
+        this.setState({
+            show: !this.state.show
+        })
     }
     componentDidMount(){
         this.hashChange()
@@ -39,12 +44,15 @@ class Sidebar extends Component{
     render(){
         const state = this.state
 
-        return <div id="sidebar">
-                    { state.list.map((item, index)=>{
-                        return <li className={index==state.current?'current':''}>
-                            <Link to={item.url}>{item.title}</Link>
-                        </li>
-                    })}
+        return <div id="sidebar" className={state.show && 'show'}>
+                    <button onClick={this.toggle.bind(this)}>三</button>
+                    <ul>
+                        { state.list.map((item, index)=>{
+                            return <li className={index==state.current?'current':''}>
+                                <Link to={item.url}>{item.title}</Link>
+                            </li>
+                        })}
+                    </ul>
                 </div>
     }
 }
