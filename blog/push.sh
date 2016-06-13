@@ -13,6 +13,9 @@ echo '--》复制database文件'
 rm -r ./database/
 cp -r ./koa/static/database/ ./database/
 
+echo '-->渲染jade文件到index.html'
+node render_index.js
+
 echo '--> pull: 当前分支'$branch
 git fetch
 git merge origin $branch
