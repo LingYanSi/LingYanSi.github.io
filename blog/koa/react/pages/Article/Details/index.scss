@@ -25,6 +25,10 @@
 
     .details-content {
         line-height: 1.4;
+        img {
+            max-width: 100%;
+            height: auto;
+        }
     }
 
     .details-time {

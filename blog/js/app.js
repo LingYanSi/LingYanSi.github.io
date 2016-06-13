@@ -1340,7 +1340,7 @@
 
 
 	// module
-	exports.push([module.id, "#article-details {\n  font-size: 14px; }\n  #article-details h1 {\n    color: #323232;\n    font-size: 1.8em;\n    line-height: 2; }\n  #article-details .tags-wrap .tag {\n    background: pink;\n    color: #fff;\n    padding: 4px;\n    margin-right: .5em; }\n  #article-details .details-tool {\n    padding: 5px 0; }\n    #article-details .details-tool button {\n      margin-right: 6px; }\n  #article-details .details-content {\n    line-height: 1.4; }\n  #article-details .details-time {\n    color: #d2d2d2; }\n", ""]);
+	exports.push([module.id, "#article-details {\n  font-size: 14px; }\n  #article-details h1 {\n    color: #323232;\n    font-size: 1.8em;\n    line-height: 2; }\n  #article-details .tags-wrap .tag {\n    background: pink;\n    color: #fff;\n    padding: 4px;\n    margin-right: .5em; }\n  #article-details .details-tool {\n    padding: 5px 0; }\n    #article-details .details-tool button {\n      margin-right: 6px; }\n  #article-details .details-content {\n    line-height: 1.4; }\n    #article-details .details-content img {\n      max-width: 100%;\n      height: auto; }\n  #article-details .details-time {\n    color: #d2d2d2; }\n", ""]);
 
 	// exports
 
@@ -1368,7 +1368,7 @@
 
 
 	// module
-	exports.push([module.id, ".article-new input {\n  height: 2em; }\n\n.article-new textarea {\n  display: block;\n  width: 80%;\n  min-height: 10em; }\n\n#editor {\n  overflow: scroll;\n  max-height: 500px;\n  height: 500px;\n  color: #000;\n  border: 1px solid #555;\n  outline: none;\n  padding: 10px;\n  line-height: 1.4; }\n", ""]);
+	exports.push([module.id, ".article-new input {\n  height: 2em; }\n\n.article-new textarea {\n  display: block;\n  width: 80%;\n  min-height: 10em; }\n\n#editor {\n  overflow: scroll;\n  max-height: 500px;\n  height: 500px;\n  color: #000;\n  border: 1px solid #555;\n  outline: none;\n  padding: 10px;\n  line-height: 1.4; }\n  #editor img {\n    max-width: 100%;\n    height: auto; }\n", ""]);
 
 	// exports
 
@@ -1424,7 +1424,7 @@
 
 
 	// module
-	exports.push([module.id, "#sidebar {\n  background-color: #2b2d27;\n  color: #fff;\n  position: fixed;\n  top: 0;\n  left: 0;\n  box-sizing: border-box;\n  padding-top: 35px;\n  height: 100%;\n  width: 200px;\n  -webkit-transform: translateX(0%);\n  transform: translateX(0%);\n  -webkit-transition: -webkit-transform .3s;\n  transition: -webkit-transform .3s;\n  transition: transform .3s;\n  transition: transform .3s, -webkit-transform .3s;\n  line-height: 2.2; }\n  #sidebar.show {\n    -webkit-transform: translateX(-100%);\n    transform: translateX(-100%); }\n  #sidebar button {\n    position: absolute;\n    left: 100%;\n    bottom: 35px;\n    opacity: .2; }\n  #sidebar li {\n    border-bottom: 1px solid #5b696a; }\n    #sidebar li.current {\n      background: #2bc8d7; }\n  #sidebar a {\n    display: block;\n    padding-left: 2em; }\n    #sidebar a:hover {\n      background: #2bc8d7; }\n", ""]);
+	exports.push([module.id, "#sidebar {\n  background-color: #2b2d27;\n  color: #fff;\n  position: fixed;\n  top: 0;\n  left: 0;\n  box-sizing: border-box;\n  padding-top: 35px;\n  height: 100%;\n  width: 200px;\n  -webkit-transform: translateX(0%);\n  transform: translateX(0%);\n  -webkit-transition: -webkit-transform .3s;\n  transition: -webkit-transform .3s;\n  transition: transform .3s;\n  transition: transform .3s, -webkit-transform .3s;\n  line-height: 2.2; }\n  #sidebar.show {\n    -webkit-transform: translateX(-100%);\n    transform: translateX(-100%); }\n  #sidebar button {\n    position: absolute;\n    left: 100%;\n    bottom: 35px;\n    opacity: .8; }\n  #sidebar li {\n    border-bottom: 1px solid #5b696a; }\n    #sidebar li.current {\n      background: #2bc8d7; }\n  #sidebar a {\n    display: block;\n    padding-left: 2em; }\n    #sidebar a:hover {\n      background: #2bc8d7; }\n", ""]);
 
 	// exports
 
