@@ -33,8 +33,10 @@ class Sidebar extends Component{
         window.addEventListener('hashchange', this.hashChange.bind(this))
     }
     toggle(){
+        const show = this.state.show
+        $('.main').toggleClass('sidebar-hide', !show)
         this.setState({
-            show: !this.state.show
+            show: !show
         })
     }
     componentDidMount(){

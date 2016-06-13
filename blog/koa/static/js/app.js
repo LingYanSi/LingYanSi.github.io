@@ -167,7 +167,16 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                '关于'
+	                _react2.default.createElement(
+	                    'h1',
+	                    null,
+	                    '关于'
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    '纯手工打造'
+	                )
 	            );
 	        }
 	    }]);
@@ -421,7 +430,7 @@
 	                _react2.default.createElement(_index2.default, null),
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'mian' },
+	                    { className: 'main' },
 	                    _react2.default.createElement(_index6.default, null),
 	                    _react2.default.createElement(
 	                        'div',
@@ -904,7 +913,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'footer' },
-	                'sb about all right @2016'
+	                'lingyansi.github.io about all right @2016'
 	            );
 	        }
 	    }]);
@@ -1233,8 +1242,10 @@
 	    }, {
 	        key: 'toggle',
 	        value: function toggle() {
+	            var show = this.state.show;
+	            $('.main').toggleClass('sidebar-hide', !show);
 	            this.setState({
-	                show: !this.state.show
+	                show: !show
 	            });
 	        }
 	    }, {
@@ -1315,7 +1326,7 @@
 
 
 	// module
-	exports.push([module.id, "* {\n  margin: 0;\n  padding: 0; }\n\nul, ol, li {\n  list-style: none; }\n\na {\n  color: inherit;\n  text-decoration: none; }\n\nbutton, input, textarea {\n  outline: none; }\n\nbutton {\n  padding: 0 1em;\n  line-height: 2em; }\n\n.mian {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex; }\n  .mian .content {\n    -webkit-box-flex: 1;\n    -ms-flex: 1;\n    flex: 1;\n    min-height: 100vh;\n    padding: 10px;\n    box-sizing: border-box; }\n", ""]);
+	exports.push([module.id, "* {\n  margin: 0;\n  padding: 0; }\n\nul, ol, li {\n  list-style: none; }\n\na {\n  color: inherit;\n  text-decoration: none; }\n\nbutton, input, textarea {\n  outline: none; }\n\nbutton {\n  padding: 0 1em;\n  line-height: 2em; }\n\n.main {\n  padding-top: 35px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-transition: padding .3s;\n  transition: padding .3s;\n  padding-left: 200px; }\n  .main.sidebar-hide {\n    padding-left: 0; }\n  .main .content {\n    -webkit-box-flex: 1;\n    -ms-flex: 1;\n    flex: 1;\n    min-height: 100vh;\n    padding: 10px;\n    box-sizing: border-box; }\n", ""]);
 
 	// exports
 
@@ -1371,7 +1382,7 @@
 
 
 	// module
-	exports.push([module.id, "#footer {\n  text-align: center; }\n", ""]);
+	exports.push([module.id, "#footer {\n  text-align: center;\n  line-height: 2;\n  color: gainsboro; }\n", ""]);
 
 	// exports
 
@@ -1385,7 +1396,7 @@
 
 
 	// module
-	exports.push([module.id, "#header {\n  line-height: 1.6;\n  background: #2b82dd;\n  color: #fff;\n  font-size: 1.4em;\n  padding-left: 1.5em;\n  position: relative;\n  z-index: 100; }\n", ""]);
+	exports.push([module.id, "#header {\n  line-height: 35px;\n  background: #2b82dd;\n  color: #fff;\n  font-size: 1.4em;\n  padding-left: 1.5em;\n  position: fixed;\n  width: 100%;\n  top: 0;\n  z-index: 10001; }\n", ""]);
 
 	// exports
 
@@ -1399,7 +1410,7 @@
 
 
 	// module
-	exports.push([module.id, "#home h1 {\n  color: red; }\n\n#home li {\n  margin-bottom: 20px; }\n  #home li h3 {\n    color: #555; }\n  #home li p {\n    color: #999; }\n", ""]);
+	exports.push([module.id, "#home > h1 {\n  color: red; }\n", ""]);
 
 	// exports
 
@@ -1413,7 +1424,7 @@
 
 
 	// module
-	exports.push([module.id, "#sidebar {\n  background-color: #2b2d27;\n  color: #fff;\n  position: fixed;\n  top: 0;\n  left: 0;\n  box-sizing: border-box;\n  padding-top: 35px;\n  height: 100%;\n  width: 200px;\n  -webkit-transform: translateX(0%);\n  transform: translateX(0%);\n  -webkit-transition: -webkit-transform .3s;\n  transition: -webkit-transform .3s;\n  transition: transform .3s;\n  transition: transform .3s, -webkit-transform .3s;\n  line-height: 2.2; }\n  #sidebar.show {\n    -webkit-transform: translateX(-100%);\n    transform: translateX(-100%); }\n  #sidebar button {\n    position: absolute;\n    left: 100%;\n    top: 35px;\n    opacity: .2; }\n  #sidebar li {\n    border-bottom: 1px solid #5b696a; }\n    #sidebar li.current {\n      background: #2bc8d7; }\n  #sidebar a {\n    display: block;\n    padding-left: 2em; }\n    #sidebar a:hover {\n      background: #2bc8d7; }\n", ""]);
+	exports.push([module.id, "#sidebar {\n  background-color: #2b2d27;\n  color: #fff;\n  position: fixed;\n  top: 0;\n  left: 0;\n  box-sizing: border-box;\n  padding-top: 35px;\n  height: 100%;\n  width: 200px;\n  -webkit-transform: translateX(0%);\n  transform: translateX(0%);\n  -webkit-transition: -webkit-transform .3s;\n  transition: -webkit-transform .3s;\n  transition: transform .3s;\n  transition: transform .3s, -webkit-transform .3s;\n  line-height: 2.2; }\n  #sidebar.show {\n    -webkit-transform: translateX(-100%);\n    transform: translateX(-100%); }\n  #sidebar button {\n    position: absolute;\n    left: 100%;\n    bottom: 35px;\n    opacity: .2; }\n  #sidebar li {\n    border-bottom: 1px solid #5b696a; }\n    #sidebar li.current {\n      background: #2bc8d7; }\n  #sidebar a {\n    display: block;\n    padding-left: 2em; }\n    #sidebar a:hover {\n      background: #2bc8d7; }\n", ""]);
 
 	// exports
 

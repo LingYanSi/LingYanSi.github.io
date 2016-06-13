@@ -1,17 +1,5 @@
 #home {
-    h1 {
+    &>h1 {
         color: red;
-    }
-
-    li {
-        margin-bottom: 20px;
-
-        h3 {
-            color: #555;
-        }
-
-        p {
-            color: #999;
-        }
     }
 }

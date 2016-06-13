@@ -12,7 +12,7 @@ class Main extends Component{
     render(){
         return <div>
             <Header/>
-            <div className="mian">
+            <div className="main">
                 <Sidebar />
                 <div className="content">
                     {this.props.children ? this.props.children : <Home/> }

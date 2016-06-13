@@ -1,9 +1,13 @@
+@import './../../sass/size';
+
 #header {
-    line-height: 1.6;
+    line-height: $header_height;
     background: rgb(43, 130, 221);
     color: #fff;
     font-size: 1.4em;
     padding-left: 1.5em;
-    position: relative;
-    z-index: 100;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10001;
 }
