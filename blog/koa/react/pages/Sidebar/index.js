@@ -46,7 +46,7 @@ class Sidebar extends Component{
     render(){
         const state = this.state
 
-        return <div id="sidebar" className={state.show && 'show'}>
+        return <div id="sidebar" className={state.show ? 'show' : ''}>
                     <button onClick={this.toggle.bind(this)}>三</button>
                     <ul>
                         { state.list.map((item, index)=>{

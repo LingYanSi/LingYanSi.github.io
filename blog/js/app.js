@@ -1261,7 +1261,7 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                { id: 'sidebar', className: state.show && 'show' },
+	                { id: 'sidebar', className: state.show ? 'show' : '' },
 	                _react2.default.createElement(
 	                    'button',
 	                    { onClick: this.toggle.bind(this) },
@@ -1396,7 +1396,7 @@
 
 
 	// module
-	exports.push([module.id, "#header {\n  line-height: 35px;\n  background: #2b82dd;\n  color: #fff;\n  font-size: 1.4em;\n  padding-left: 1.5em;\n  position: fixed;\n  width: 100%;\n  top: 0;\n  z-index: 10001; }\n", ""]);
+	exports.push([module.id, "#header {\n  line-height: 35px;\n  background: #2b82dd;\n  color: #fff;\n  font-size: 1.4em;\n  padding-left: 1.5em;\n  position: fixed;\n  width: 100%;\n  top: 0;\n  left: 0;\n  z-index: 10001; }\n", ""]);
 
 	// exports
 
