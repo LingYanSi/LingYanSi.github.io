@@ -27,7 +27,7 @@ git fetch
 git merge origin $branch
 
 echo '--》git提交文件'
-git add ../blog
+git add .
 git commit -m '博客更新'
 
 echo '--》开始提交代码'
