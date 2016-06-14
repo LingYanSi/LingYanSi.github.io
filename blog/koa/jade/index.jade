@@ -5,6 +5,7 @@ html
         meta(name='viewport',content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
         title='灵岩寺——博客'
     body
+        - var name = {name: '傻逼'}
         div(id='app')
         script(src='js/jquery.min.js')
         script(src='js/jquery.hotkeys.js')
@@ -15,4 +16,4 @@ html
         script(src='js/react-dom.'+MIN+'js')
         script(src='js/react-with-addons.'+MIN+'js')
         script(src='js/ReactRouter.min.js')
-        script(src='js/app.'+MIN+'js')
+        script(src= router['js/app.js'])

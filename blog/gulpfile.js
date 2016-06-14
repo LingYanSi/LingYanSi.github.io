@@ -7,6 +7,7 @@ let postcss = require('gulp-postcss');
 let autoprefixer = require('autoprefixer')
 let concat = require('gulp-concat')
 let rename = require('gulp-rename')
+let md5 = require('gulp-md5')
 
 
 let sourcemaps = require('gulp-sourcemaps');
@@ -45,9 +46,11 @@ gulp.task('watch::js', ['js::router'], ()=>{
     gulp.watch('./build/js/*.js', ['js::router'])
 })
 
+// 如果要做cdn、md5，那就需要业务文件
+// 先压缩，后获取md5
 gulp.task('minify::js', ()=>{
     return gulp.src('./js/app.js')
             .pipe( uglify() )
-            .pipe( rename('app.min.js') )
+            .pipe( md5() )
             .pipe( gulp.dest('./js') )
 })

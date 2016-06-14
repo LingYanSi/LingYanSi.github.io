@@ -4,12 +4,18 @@ var fs = require('fs')
 var util = require('util')
 var _ = require('lodash')
 var pug = require('pug')
+
 var jadeTpl = fs.readFileSync( './koa/jade/index.jade', 'utf8' )
 var getList = require('./../../blog_list.js')
+var fileRouter = require('./../../router_config.js')
+
+Object.keys(fileRouter).map(item=>{
+    fileRouter[item] = item
+})
 
 module.exports = function (router, koaBody){
     router.get('/', function *(){
-        const tpl = pug.render(jadeTpl,{MIN: ''})
+        const tpl = pug.render(jadeTpl,{MIN: '', router: fileRouter})
         // console.log(tpl)
         this.body = tpl
     })
