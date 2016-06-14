@@ -9,7 +9,7 @@ var getList = require('./../../blog_list.js')
 
 module.exports = function (router, koaBody){
     router.get('/', function *(){
-        const tpl = pug.render(jadeTpl)
+        const tpl = pug.render(jadeTpl,{MIN: ''})
         // console.log(tpl)
         this.body = tpl
     })
