@@ -250,3 +250,6 @@ git show hash字符串 显示某次更改详细信息
 
 ## fetch 和 pull 的区别
 pull = fetch + merge
+
+## git log -p
+显示详细的提交信息
