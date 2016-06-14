@@ -44,3 +44,10 @@ gulp.task('js::router', ()=>{
 gulp.task('watch::js', ['js::router'], ()=>{
     gulp.watch('./build/js/*.js', ['js::router'])
 })
+
+gulp.task('minify::js', ()=>{
+    return gulp.src('./js/app.js')
+            .pipe( uglify() )
+            .pipe( rename('app.min.js') )
+            .pipe( gulp.dest('./js') )
+})

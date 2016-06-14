@@ -8,6 +8,12 @@ echo '--》复制js文件'
 rm -r ./js
 cp -r ./koa/static/js/ ./js/
 
+echo '--> 压缩js文件'
+gulp minify::js
+rm ./js/app.js
+
+echo '--> 压缩完毕'
+
 echo '--》复制database文件'
 # database文件
 rm -r ./database/
