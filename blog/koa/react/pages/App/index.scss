@@ -26,17 +26,17 @@ button {
 .main {
     padding-top: $header_height;
     display: flex;
-    transition: padding .3s;
-    padding-left: $sidebar_width;
-
-    &.sidebar-hide {
-        padding-left: 0;
-    }
 
     .content {
         flex: 1;
         min-height: 100vh;
         padding: 10px;
         box-sizing: border-box;
+        transition: transform .3s;
+        transform: translateX($sidebar_width);
+
+        &.sidebar-hide {
+            transform: translateX(0);
+        }
     }
 }

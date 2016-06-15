@@ -34,7 +34,7 @@ class Sidebar extends Component{
     }
     toggle(){
         const show = this.state.show
-        $('.main').toggleClass('sidebar-hide', !show)
+        $('.content,#header').toggleClass('sidebar-hide', !show)
         this.setState({
             show: !show
         })

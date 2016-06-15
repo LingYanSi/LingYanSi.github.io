@@ -6,10 +6,19 @@
     background: rgb(76, 159, 62);
     color: #fff;
     font-size: 1.4em;
-    padding-left: 1.5em;
+    padding-left: 60px;
+    box-sizing: border-box;
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 10001;
+    z-index: 10000;
+    transform: translateX(0);
+
+    transition: transform .3s;
+    transform: translateX($sidebar_width);
+
+    &.sidebar-hide {
+        transform: translateX(0);
+    }
 }

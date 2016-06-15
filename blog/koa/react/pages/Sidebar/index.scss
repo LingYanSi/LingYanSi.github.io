@@ -7,12 +7,12 @@
     top: 0;
     left: 0;
     box-sizing: border-box;
-    padding-top: $header_height;
     height: 100%;
     width: $sidebar_width;
     transform: translateX(0%);
     transition: transform .3s;
     line-height: 2.2;
+    z-index: 10001;
 
     &.show {
         transform: translateX(-100%);
@@ -21,8 +21,9 @@
     button {
         position: absolute;
         left: 100%;
-        bottom: $header_height;
+        top: 0;
         opacity: .8;
+        height: $header_height;
     }
 
     li {
