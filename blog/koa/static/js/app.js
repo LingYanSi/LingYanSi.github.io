@@ -1396,7 +1396,7 @@
 
 
 	// module
-	exports.push([module.id, "#header {\n  line-height: 35px;\n  background: #2b82dd;\n  color: #fff;\n  font-size: 1.4em;\n  padding-left: 1.5em;\n  position: fixed;\n  width: 100%;\n  top: 0;\n  left: 0;\n  z-index: 10001; }\n", ""]);
+	exports.push([module.id, "#header {\n  line-height: 35px;\n  background: #4c9f3e;\n  color: #fff;\n  font-size: 1.4em;\n  padding-left: 1.5em;\n  position: fixed;\n  width: 100%;\n  top: 0;\n  left: 0;\n  z-index: 10001; }\n", ""]);
 
 	// exports
 
