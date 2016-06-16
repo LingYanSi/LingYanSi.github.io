@@ -1,4 +1,4 @@
-@import './../../sass/size.scss';
+@import './../../sass/base';
 
 #sidebar {
     background-color: rgb(43, 45, 39);
@@ -25,7 +25,8 @@
         opacity: .8;
         height: $header_height;
         display: inline-block;
-        background: red;
+        background: none;
+        border: 0;
     }
 
     li {

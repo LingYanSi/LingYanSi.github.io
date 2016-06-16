@@ -22,6 +22,8 @@ button,input,textarea {
 button {
     padding: 0 1em;
     line-height: 2em;
+    border-width: 1px;
+    cursor: pointer;
 }
 
 .main {

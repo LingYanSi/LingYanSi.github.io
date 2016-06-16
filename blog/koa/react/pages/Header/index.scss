@@ -1,12 +1,11 @@
-@import './../../sass/size';
+@import './../../sass/base';
 
 #header {
     line-height: $header_height;
-    // background: rgb(43, 130, 221);
-    background: rgb(76, 159, 62);
+    background: $header_color;
     color: #fff;
-    font-size: 1.4em;
-    padding-left: 60px;
+    font-size: 1.2em;
+    padding-left: 40px;
     box-sizing: border-box;
     position: fixed;
     width: 100%;

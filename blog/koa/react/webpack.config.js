@@ -2,6 +2,7 @@
 
 var webpack = require('webpack')
 var WebpackOnBuildPlugin = require('on-build-webpack');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var WebpackPathOrderPlugin = require('path-order-webpack-plugin');
 var notifier = require('node-notifier');
@@ -45,7 +46,7 @@ module.exports = {
             // 对js/jsx文件的处理
             { test: /\.(js|jsx)$/ , loader: 'babel-loader' },
             // 对less的处理
-            { test: /\.scss$/, loaders: ['style','css','sass','autoprefixer'] },
+            { test: /\.scss$/, loader: ExtractTextPlugin.extract('style','css!sass!autoprefixer','sass-loader','autoprefixer-loader') },
             // { test: /\.css$/, loader: 'style-loader!css-loader!autoprefixer-loader' }
         ]
     },
@@ -66,11 +67,12 @@ module.exports = {
     resolve:{
         alias:{},
         unsafeCache: true,
-        // extensions: ['','js','jsx']
+        extensions: ['','js','jsx','scss']
     },
     // 插件
     plugins: [
         new WebpackPathOrderPlugin(),
+        new ExtractTextPlugin("./../css/app.css"),
         // 打印日志
         new WebpackOnBuildPlugin(function(stats) {
             var compilation = stats.compilation;

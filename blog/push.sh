@@ -3,6 +3,11 @@ branch=`git rev-parse --abbrev-ref HEAD`
 
 # exit
 
+echo '--》复制css文件'
+# js文件
+rm -r ./css
+cp -r ./koa/static/css/ ./css/
+
 echo '--》复制js文件'
 # js文件
 rm -r ./js

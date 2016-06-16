@@ -48,5 +48,8 @@
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1"
+  },
+  "dependencies": {
+    "extract-text-webpack-plugin": "^1.0.1"
   }
 }
