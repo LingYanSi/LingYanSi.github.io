@@ -2,6 +2,7 @@
 
 var webpack = require('webpack')
 var WebpackOnBuildPlugin = require('on-build-webpack');
+// 使用ExtractTextPlugin把css抽出来
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var WebpackPathOrderPlugin = require('path-order-webpack-plugin');
@@ -48,6 +49,7 @@ module.exports = {
             // 对less的处理
             { test: /\.scss$/, loader: ExtractTextPlugin.extract('style','css!sass!autoprefixer','sass-loader','autoprefixer-loader') },
             // { test: /\.css$/, loader: 'style-loader!css-loader!autoprefixer-loader' }
+            // { test: /\.css$/, loaders: ['style','css','scss','autoprefixer'] }
         ]
     },
     // babel需要的 presets / plugins 预设或者插件
