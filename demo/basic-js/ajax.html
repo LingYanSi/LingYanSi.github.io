@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <script type="text/javascript">
+            // before after error complete
+            // data url type dataType
+            
+            var ajax = function(arg){
+                // return
+                var xhr = new XMLHttpRequest()
+                xhr.open('GET','bibao.html',true)
+                xhr.addEventListener('loadstart', function(){
+                    console.log('请求开始');
+                })
+
+                xhr.addEventListener('progress', function(e){
+                    console.log('请求中', e);
+                })
+
+                xhr.addEventListener('error', function(){
+                    console.log('请求出错');
+                })
+
+                xhr.addEventListener('abort', function(){
+                    console.log('请求中止');
+                })
+
+                xhr.addEventListener('load', function(){
+                    console.log('请求完成');
+                })
+
+                xhr.addEventListener('loadend', function(){
+                    console.log('请求结束');
+                })
+
+                xhr.addEventListener('readystatechange', function(e){
+                    console.log(xhr.readyState, e);
+                    if(xhr.readyState == 4){
+                        console.log(xhr.response, xhr.responseText);
+                    }
+                })
+
+                xhr.send()
+            }
+            ajax()
+        </script>
+    </body>
+</html>

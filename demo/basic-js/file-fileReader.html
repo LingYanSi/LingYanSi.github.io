@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <form class="" action="index.html" method="post">
+            <input type="file" accept=".jpg,.png,.webp" name="name" value="">
+        </form>
+        <div class="">
+
+        </div>
+
+        <script type="text/javascript">
+            var $ = (s)=> document.querySelector(s)
+
+            function handleFile(file){
+                var fr = new FileReader()
+                fr.onload = function(e){
+                    // console.log(fr.result)
+                    $('div').textContent = fr.result
+                }
+                fr.onprocess = function(e){
+
+                }
+                fr.onerror = function(e){
+
+                }
+                fr.onabort = function(){
+
+                }
+                // 以文本形式读取
+                fr.readAsDataURL(file,'utf-8')
+                // readAsDataURL/ readAsArrayBuffer / readAsBinaryString
+            }
+
+            $('input').addEventListener('change', function(e){
+                var files = e.target.files
+                var arr = Array.prototype.slice.call(files)
+                console.log(arr);
+                arr.forEach(function(item){
+                    handleFile(item)
+                } )
+            })
+
+        </script>
+    </body>
+</html>
