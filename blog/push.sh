@@ -34,6 +34,7 @@ echo '--》git提交文件'
 git add .
 
 commit_msg='博客更新'
+# 如果参数1不为空，就使用参数一
 if [[ -n $1 ]]; then
     commit_msg=$1
 fi
