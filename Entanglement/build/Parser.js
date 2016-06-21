@@ -12,18 +12,18 @@
  * @PRE : entId 前缀
  * @INDEX : 元素所处位置
  */
- 
+
 function getVDom(str,PRE,INDEX){
     str = str.trim()
     // 匹配第一个<>内的数据
     var f = str.match(/<([^><]+)>/)[1]
     // 获取tagname
-    var tagname = f.match(/[a-z]+/)[0]
+    var tagname = f.match(/[a-zA-Z][a-zA-Z0-9]*/)[0]
     // 去除tagname
     f = f.replace(tagname,'').trim()
     // 获取属性
     var properties = f.split(' ')
-    var events = {}, props
+    var events = {}, ref
 
 
     var propertiesArr =  properties.map((item)=>{
@@ -34,6 +34,7 @@ function getVDom(str,PRE,INDEX){
         var key = item.indexOf('=')>0 ? item.split('=')[0].trim() : item
         var value = key===item ? undefined : item.split('=')[1].trim()
 
+        if(!value) return
         // 去除双引号 与 花括号
         value = value.startsWith('"')||value.startsWith('{') ? value.slice(1,-1) : value
 
@@ -44,8 +45,8 @@ function getVDom(str,PRE,INDEX){
             return
         }
         // props
-        if(key==='props'){
-            props = value
+        if(key==='ref'){
+            ref = value
             return
         }
 
@@ -73,14 +74,17 @@ function getVDom(str,PRE,INDEX){
         splitChildren(childrenStr, children, entId)
     }
 
+    var IS_COMPONENT = /[A-Z][a-z]*/.test(tagname)
     // 其中以on开头的是事件，props是属性值
     return {
         tagName: tagname ,
-        properties: propertiesArr ,
+        properties: IS_COMPONENT ? [] : propertiesArr ,
         entId: entId ,
         // 对于花括号内的数据要支持简单的js语法，?: ! data.key.key 这样子
         events: events ,
-        props: props ,
+        // 如果是以A-Z开头，表示其也是一个组件
+        props:  IS_COMPONENT ? propertiesArr : [] ,
+        ref: ref,
         children: children,
         type: '元素节点',
         nodeType: 1
@@ -103,8 +107,6 @@ function splitChildren(str, children, PRE){
     str = str.trim()
     if(!str) return
 
-    // var arr = str.split(/<[a-zA-Z!]+[^>]+>/)
-    // console.log(str.match(/<[a-zA-Z!]+[^>]+>/), arr )
     // 匹配注释元素
     var comment = str.match(/<!--[^><]+-->/)
     comment = comment?comment[0]:' '
@@ -122,12 +124,12 @@ function splitChildren(str, children, PRE){
     }
 
     // 匹配一般元素，对于img/input元素还没有做特殊处理
-    // console.log('bug调试',str)
     var node = str.match(/<[a-zA-Z]{1,}\s*[^><]*>/)
     node = node ? node[0] : ' '
     if(str.indexOf(node)===0){
-        var lastIndex = findTagClose(str, node.match(/[a-zA-Z]+/)[0])
-        // console.log( lastIndex, node  )
+        // 因为要考虑h1 h2之类的标签
+        var lastIndex = findTagClose(str, node.match(/[a-zA-Z][a-zA-Z0-9]*/)[0])
+
         // 如果没有匹配到闭合标签
         if(lastIndex==='404'){
             str = matchTextNode(str, children, node, PRE)
@@ -144,8 +146,6 @@ function splitChildren(str, children, PRE){
 
     // 匹配文本节点
     var text = str.indexOf('<')>=0 ? str.slice(0, str.indexOf('<') ) : str.slice(0) // 文本元素
-    // console.log(str,text);
-    // text.startsWith('{') && console.log('文本节点',text, str);
     if(!text){
         text = str.match(/<[^>]+(?=<)/)
         text = !text || text.index!==0 ? str.match(/<[^a-zA-Z!/]{1,}(?=<)|[^>]*>/) : text
@@ -160,6 +160,7 @@ function splitChildren(str, children, PRE){
 }
 
 function matchTextNode(str, children, text, PRE){
+    console.log(text);
     var lastChild = children[children.length-1]
     lastChild && lastChild.nodeType===3? lastChild.text += text : children.push({
         nodeType: 3,
@@ -208,7 +209,6 @@ function findTagClose(str,tagname){
         }else break
     }
 
-    // console.log(tagname, openNum, closeNum );
     // 如果找不到闭合标签，1：报错 2：按文本字节处理
     if(closeNum.length< openNum) return '404'
 

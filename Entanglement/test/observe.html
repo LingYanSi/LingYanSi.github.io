@@ -7,41 +7,12 @@
     <body>
         <div id="app"></div>
         <script src="./../build/Observe.js" charset="utf-8"></script>
-        <script type="text/javascript">
-            var $ = function(s){
-                return document.querySelector(s)
-            }
-
-            var store = {
-                title: '什么',
-                content: '我是内容',
-                comments: [
-                    {content:'评论已'},
-                    {content:'评论2'},
-                ]
-            }
-
-            // 其实store的作用是生命文档格式，data是真正的store
-            var data = Observe(store, render)
-
-            // render函数应该被放到一个队列中执行，也就是说render应该是异步的
-            // queue.push(tack)触发一个重新render的钩子即可
-            // setTimeout(render)
-            function render(){
-                $('#app').innerHTML = `
-                    <h1>${data.title}</h1>
-                    <div>${data.content}</div>
-                    <ul>${data.comments.map(item=>{
-                        return `<li>${item.content}</li>`
-                    }).join('')}</ul>
-                `
-            }
-
-            render()
-
-            // 需要知道一个组件依赖了那些数据，更新的时候只更新这个组件即可
-            // 这是不是要解析数据？？
-            // 还是应该看一看vue源码
-        </script>
+        <script src="./../build/Queue.js" charset="utf-8"></script>
+        <script src="./../build/Component.js" charset="utf-8"></script>
+        <script src="./../build/Parser.js" charset="utf-8"></script>
+        <script src="./../build/Render.js" charset="utf-8"></script>
+        <script src="./../build/Operation.js" charset="utf-8"></script>
+        <script src="./../build/Ent.js" charset="utf-8"></script>
+        <script src="./index.js" charset="utf-8"></script>
     </body>
 </html>
