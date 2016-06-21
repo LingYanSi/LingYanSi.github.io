@@ -468,6 +468,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	__webpack_require__(33);
+
 	var Article = function (_React$Component) {
 	    _inherits(Article, _React$Component);
 
@@ -484,18 +486,22 @@
 	                'div',
 	                null,
 	                _react2.default.createElement(
-	                    _reactRouter.Link,
-	                    { to: 'article/new' },
+	                    'div',
+	                    { className: 'tool' },
+	                    _react2.default.createElement(
+	                        _reactRouter.Link,
+	                        { to: 'article/new' },
+	                        _react2.default.createElement(
+	                            'button',
+	                            null,
+	                            '新建'
+	                        )
+	                    ),
 	                    _react2.default.createElement(
 	                        'button',
 	                        null,
-	                        '新建'
+	                        '管理'
 	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'button',
-	                    null,
-	                    '管理'
 	                ),
 	                _react2.default.createElement(_index2.default, null)
 	            );
@@ -584,18 +590,16 @@
 	        value: function render() {
 	            var _this2 = this;
 
+	            var len = this.props.len;
+	            var list = len ? this.state.list.slice(0, len) : this.state.list;
+
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'article-list' },
 	                _react2.default.createElement(
-	                    'h1',
-	                    null,
-	                    '-------文章列表-----'
-	                ),
-	                _react2.default.createElement(
 	                    'ul',
 	                    null,
-	                    this.state.list.map(function (item) {
+	                    list.map(function (item) {
 	                        return _react2.default.createElement(
 	                            'li',
 	                            null,
@@ -954,10 +958,7 @@
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Home).call(this));
 
-	        console.log(_this);
-	        _this.state = {
-	            list: []
-	        };
+	        _this.state = {};
 	        return _this;
 	    }
 
@@ -967,7 +968,8 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'home' },
-	                _react2.default.createElement(_index2.default, null)
+	                _react2.default.createElement('div', { className: 'banner' }),
+	                _react2.default.createElement(_index2.default, { len: 3 })
 	            );
 	        }
 	    }]);
@@ -1153,6 +1155,22 @@
 
 /***/ },
 /* 22 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

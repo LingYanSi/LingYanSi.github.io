@@ -22,8 +22,9 @@
     -webkit-transform: translateX(0);
     transform: translateX(0); }
 #footer {
+  font-size: 12px;
   text-align: center;
-  line-height: 2;
+  line-height: 4;
   color: gainsboro; }
 #sidebar {
   background-color: #2b2d27;
@@ -73,14 +74,22 @@
     padding: 10px;
     font-size: 14px;
     line-height: 1.4;
-    border-bottom: 1px solid; }
+    border-bottom: 1px solid #98a0a2; }
     #article-list li h3 {
       color: #555;
       font-size: 1.2em; }
     #article-list li p {
-      color: #999; }
+      color: #999;
+      word-break: break-all; }
 #home > h1 {
   color: red; }
+
+#home .banner {
+  padding-top: 40%;
+  background-image: url(http://ww4.sinaimg.cn/mw690/69b8b46egw1esqv7eo4slj20xc0m80vi.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center; }
 * {
   margin: 0;
   padding: 0; }
@@ -112,7 +121,6 @@ button {
     -ms-flex: 1;
     flex: 1;
     min-height: 100vh;
-    padding: 10px;
     box-sizing: border-box;
     -webkit-transition: -webkit-transform .3s;
     transition: -webkit-transform .3s;
@@ -123,8 +131,13 @@ button {
     .main .content.sidebar-hide {
       -webkit-transform: translateX(0);
       transform: translateX(0); }
+.tool {
+  padding: 10px; }
+  .tool button {
+    margin-left: 5px; }
 #article-details {
-  font-size: 14px; }
+  font-size: 14px;
+  padding: 10px; }
   #article-details h1 {
     color: #323232;
     font-size: 1.8em;

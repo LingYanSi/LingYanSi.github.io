@@ -10,7 +10,7 @@
         padding: 10px;
         font-size: 14px;
         line-height: 1.4;
-        border-bottom: 1px solid;
+        border-bottom: 1px solid rgb(152, 160, 162);
 
         h3 {
             color: #555;
@@ -19,6 +19,7 @@
 
         p {
             color: #999;
+            word-break: break-all;
         }
     }
 }

@@ -7,14 +7,13 @@ require('./index.scss')
 class Home extends Component{
     constructor(){
         super()
-        console.log(this)
         this.state = {
-            list: []
         }
     }
     render(){
         return <div id="home">
-            <List></List>
+            <div className="banner"></div>
+            <List len={3}></List>
         </div>
     }
 }

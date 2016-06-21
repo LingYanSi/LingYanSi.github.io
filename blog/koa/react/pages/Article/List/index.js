@@ -34,10 +34,12 @@ class List extends Component{
         }
     }
     render(){
+        const len = this.props.len
+        var list = len ? this.state.list.slice(0,len) : this.state.list
+        
         return <div id="article-list">
-            <h1>-------文章列表-----</h1>
             <ul>
-                {this.state.list.map(item => {
+                {list.map(item => {
                     return <li>
                         <Link to={`/article/${item.id}`}>
                             <h3>{item.title}</h3>
