@@ -36,6 +36,7 @@ var app = new Component({
         this.data.title = '傻逼吗'+ this.data.num++
     },
     // 对模板的支持还是太弱了
+    // 三则运算符，if else/forEach,等等，最好的一个状态是{}内包裹的是js语句
     template: `
         <div>
             <h1 >ToDo</h1>
@@ -46,7 +47,7 @@ var app = new Component({
             <Fuck name="周永康" style={style}></Fuck>
             <!-- 执行结果 -->
             <ol>
-            {comments.map(item=> item.content ).join('')}
+                <li>ww我问问阿斯顿发</li>
             </ol>
         </div>
     `,
