@@ -25,7 +25,7 @@
                 text-align: center;
             }
 
-            .download {
+            .btn {
                 display: inline-block;
                 line-height: 2 ;
                 color: #fff;
@@ -52,10 +52,11 @@
             <canvas id="canvas" width="0" height="0"></canvas>
             <br>
             <div class="">
-                <input type="text" name="name" value="">
-                <button>重置标题</button>
+                <label for="">标题:</label><input type="text" name="name" class="title" value="">
+                <label for="">颜色:</label><input type="color" name="name" class="color" value="#e5e5e5">
+                <button class="btn">重绘</button>
             </div>
-            <a href="" download="" class="download">下载</a>
+            <a href="" download="" class="download btn">下载</a>
         </div>
         <div class="tips">
             <ul>
@@ -87,7 +88,7 @@
 
                 ctx.clearRect(0, 0, data.width, data.height)
 
-                ctx.fillStyle = 'rgb(137, 208, 218)'
+                ctx.fillStyle = $('.color').value
                 ctx.fillRect(0,0,data.width,data.height)
                 ctx.fill()
 
@@ -108,7 +109,7 @@
             function analyze(str){
                 var data
                 if(str.indexOf('&')>0){
-                    str.split('&').forEach(item=>{
+                    str.split('&').forEach(function(item){
                         var item_arr = item.split('=')
                         if(item_arr[0] == 'size'){
                             data = getWidthHeight(item_arr[1])
@@ -120,7 +121,7 @@
                     data = getWidthHeight(str)
                 }
 
-                data.title = $('input').value || data.title
+                data.title = $('.title').value || data.title
                 return data
             }
 
