@@ -17,7 +17,7 @@ mysql -h127.0.0.1 -uroot -p123
 -p password 默认是123
 
 #### 远程服务器
-mysql -h10.11.2.103 -P3306 -uusername -ppassword
+mysql -h127.0.0.1 -P8000 -uusername -ppassword
 > -h : host ip地址
 -P : Port 端口地址
 -u : username 用户名
@@ -88,10 +88,10 @@ var sql = require('node-mysql')
 
 const config = {
     which:{
-        host: '10.11.3.192', // 主机ip
-        user: 'portal_1111', // 用户名
-        password: '3c3f1e2dcda8991894ae8b23fc965d14', // 密码
-        database: 'realtime', // 库名
+        host: '', // 主机ip
+        user: '', // 用户名
+        password: '', // 密码
+        database: '', // 库名
         port: 3306  // 端口
     }
 }
