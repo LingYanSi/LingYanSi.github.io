@@ -10,7 +10,7 @@ class New extends React.Component{
         this.state = {
             title: '',
             content: '',
-            tags: ''
+            tags: []
         }
     }
     componentDidMount(){
@@ -78,7 +78,7 @@ class New extends React.Component{
                 <input type="text" name="title"
                     placeholder="标题"
                     defaultValue={state.title} /><br/>
-                <input type="text" name="tags" placeholder="标签" defaultValue={state.tags} /><br/>
+                <input type="text" name="tags" placeholder="标签" defaultValue={state.tags.join(' ')} /><br/>
 
                 <div class="btn-toolbar" data-role="editor-toolbar"
                         data-target="#editor">

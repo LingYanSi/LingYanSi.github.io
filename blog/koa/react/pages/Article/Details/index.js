@@ -52,6 +52,8 @@ class Details extends Component{
     render(){
         const state = this.state
 
+        document.body.scrollTop = 0
+
         return <div id="article-details">
             <h1>{state.title}</h1>
             <div className="tags-wrap">

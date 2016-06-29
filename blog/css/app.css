@@ -95,6 +95,14 @@
   margin: 0;
   padding: 0; }
 
+::-webkit-scrollbar {
+  width: 4px;
+  height: 0;
+  background: transparent; }
+
+::-webkit-scrollbar-thumb {
+  background: rgba(125, 50, 0, 0.4); }
+
 ul, ol, li {
   list-style: none; }
 
