@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+
+        <script type="text/javascript">
+        var errorDeal = function(e){
+                // 解析stack
+                var arr = e.stack.match(/at.+/)[0].split(':')
+
+                var line_column = arr.slice(-2)
+                e.lineNumber = line_column[0]
+                e.columnNumber = line_column[1]
+
+                e.fileName = arr.slice(0,-2).join(':')
+
+                console.log(`
+                    Error:  msg: ${e.message}\n
+                        stack: ${e.stack}\n
+                        文件名: ${e.fileName}\n
+                        错误位置: ${e.lineNumber}行${e.columnNumber}列
+                `)
+        }
+
+        // 代码报错的时候 onerror并不会响应
+        window.onerror = errorDeal
+
+        try{
+            sss
+        }catch(e){
+            errorDeal(e)
+        }
+        </script>
+    </body>
+</html>

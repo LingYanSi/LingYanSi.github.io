@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+        ::-webkit-scrollbar {
+            width: 4px;
+            background: rgba(0,0,0,0);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content" style="height: 2000px;">
+
+    </div>
+    <button class="del">del</button>
+    <button class="add">add</button>
+
+    <script type="text/javascript">
+        var $ = function(s) {
+            return document.querySelector(s)
+        }
+
+        function init() {
+            $('select').addEventListener('change', event => {
+                console.log(event.target.value);
+            })
+        }
+
+        function del() {
+            $('.content').innerHTML = ''
+        }
+
+        function add() {
+            $('.content').innerHTML = `<select class="" name="">
+                    <option value="11">收到</option>
+                    <option value="option" selected="selected">option</option>
+                </select>`
+            init()
+        }
+
+        add()
+
+        $('.del').addEventListener('click', del)
+        $('.add').addEventListener('click', add)
+
+        // 事件系统
+        $('select').addEventListener('click', (e) => {
+            // 如果父元素使用的事件useCapture，那点击事件依然会先被派发到父元素，再派发到子元素
+            // 那这里还有一个问题，如果不阻止冒泡，父元素并不会被触发两次
+            e.stopPropagation()
+            console.log('select被点击了');
+        })
+        $('.content').addEventListener('click', () => {
+            console.log('content被点击了');
+        }, true)
+        $('body').addEventListener('click', () => {
+            console.log('body被点击了');
+        })
+    </script>
+</body>
+
+</html>
