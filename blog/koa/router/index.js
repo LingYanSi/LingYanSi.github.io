@@ -20,6 +20,7 @@ module.exports = function (router, koaBody){
         this.body = tpl
     })
     .get('/about', function *(){
+        console.log(this.cookies.get('___rl__test__cookies'));
         this.body = '关于'
     })
     .post('/newArticle',koaBody, function *(){
@@ -51,3 +52,46 @@ module.exports = function (router, koaBody){
         this.body = JSON.stringify({status:{code:1001, msg:'删除成功'}, result:{}})
     })
 }
+
+// Async的应用
+
+// function *ajax(url){
+//     var result = yield fetch(url)
+//     console.log( result )
+// }
+//
+// var g = ajax('index.html')
+// g.next().value.then(response=> response.text()).then(data=>g.next(data))
+
+// yield不断回调，直到状态变为done
+// async function fuck(url='index.html'){
+//     var sb = await fetch(url)
+//     var text = await sb.then(res => res.text())
+//     return await text.then(data=> data)
+// }
+//
+// fuck().then(data=>console.log)
+//
+//
+// co(function *ajax(){
+//     console.log('第一步');
+//     var f1 = yield fetch('index.html')
+//     console.log('第二部');
+//     var text1 = yield f1.text()
+//     console.log(text1);
+//
+//         console.log('第3步');
+//     var f2 = yield fetch('push.sh')
+//         console.log('第4步');
+//     var text2 = yield f2.text()
+//     console.log(text2);
+//
+//     return {
+//         text1: text1,
+//         text2: text2
+//     }
+// }).then(function(msg){
+//     console.log(msg)
+// }, function(msg){
+//     console.log('出错了', msg);
+// })

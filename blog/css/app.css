@@ -80,7 +80,8 @@
       font-size: 1.2em; }
     #article-list li p {
       color: #999;
-      word-break: break-all; }
+      word-break: break-all;
+      text-align: justify; }
 #home > h1 {
   color: red; }
 
