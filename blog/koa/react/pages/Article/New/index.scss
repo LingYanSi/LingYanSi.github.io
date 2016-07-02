@@ -10,6 +10,15 @@
     }
 }
 
+.btn-toolbar {
+    a[data-edit] {
+        border: 1px solid red;
+        display: inline-block;
+        line-height: 2;
+        padding: 0 .5em;
+    }
+}
+
 #editor {
     overflow: scroll;
     max-height: 500px;

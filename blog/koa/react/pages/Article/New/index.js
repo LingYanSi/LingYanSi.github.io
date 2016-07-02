@@ -23,13 +23,14 @@ class New extends React.Component{
             $('#editor').wysiwyg()
         },1000)
 
-        console.log('time2');
-
     }
+    // 卸载前
     componentWillUnmount(){
         // $('.article-new').remove('.editor-wrap')
+        // 移除window上的事件
         $('#editor').remove()
     }
+    // 获取文章信息
     getData(id){
         let that = this
         fetch(`database/article/${id}.json`)
@@ -40,6 +41,7 @@ class New extends React.Component{
                 that.setState(data)
             })
     }
+    // 提交
     submit(event){
         event.preventDefault()
         var fd = new FormData(document.querySelector('#fd'))
@@ -63,6 +65,7 @@ class New extends React.Component{
             location.href = '#/'
         })
     }
+    // 返回html
     rawHtml(str=''){
         return {__html: str}
     }
@@ -80,9 +83,9 @@ class New extends React.Component{
                     defaultValue={state.title} /><br/>
                 <input type="text" name="tags" placeholder="标签" defaultValue={state.tags.join(' ')} /><br/>
 
-                <div class="btn-toolbar" data-role="editor-toolbar"
+                <div className="btn-toolbar" data-role="editor-toolbar"
                         data-target="#editor">
-                     <a data-edit="bold" className="btn">粗</a>
+                     <a data-edit="bold" className="btn">B</a>
                      <input type="file" data-edit="insertImage" />
                 </div>
 

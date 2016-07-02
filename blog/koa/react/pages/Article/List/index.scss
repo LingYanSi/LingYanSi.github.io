@@ -18,9 +18,14 @@
         }
 
         p {
+            font-size: 12px;
             color: #999;
             word-break: break-all;
-            text-align: justify;
+            // text-align: justify;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
         }
     }
 }

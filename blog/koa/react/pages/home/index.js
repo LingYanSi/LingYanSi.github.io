@@ -12,8 +12,8 @@ class Home extends Component{
     }
     render(){
         return <div id="home">
-            <div className="banner"></div>
-            <List len={3}></List>
+            {/*<div className="banner"></div>*/}
+            <List></List>
         </div>
     }
 }

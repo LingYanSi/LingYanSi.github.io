@@ -9,12 +9,26 @@ import Home from './../Home/index.js'
 require('./index.scss')
 
 class Main extends Component{
+    constructor(){
+        super()
+        this.state = {
+            sidebar: false
+        }
+    }
+    handleSidebarChange(){
+        this.setState({
+            sidebar: !this.state.sidebar
+        })
+    }
     render(){
+        let state = this.state
+
         return <div>
-            <Header/>
+            <Header sidebar={state.sidebar} />
             <div className="main">
-                <Sidebar />
-                <div className="content">
+                <Sidebar sidebar={state.sidebar}
+                        handleSidebarChange={this.handleSidebarChange.bind(this)} />
+                <div className={`${state.sidebar?'':'sidebar-hide'} content`}>
                     {this.props.children ? this.props.children : <Home/> }
                 </div>
             </div>

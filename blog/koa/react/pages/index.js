@@ -9,6 +9,12 @@ import Details from './Article/Details/index.js'
 import ArticleNew from './Article/New/index.js'
 import NotFound from './NotFound/index.js'
 
+window.sidebar = {
+    hide: true
+}
+
+// React.initializeTouchEvents(true)
+
 class App extends React.Component{
     render(){
         return <Router history={browserHistory}>

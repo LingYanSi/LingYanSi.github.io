@@ -14,7 +14,7 @@ class Sidebar extends Component{
         this.state = {
             list: LIST ,
             current: 0 ,
-            show: false
+            show: true
         }
     }
     hashChange(){
@@ -32,22 +32,16 @@ class Sidebar extends Component{
     addHashChange(){
         window.addEventListener('hashchange', this.hashChange.bind(this))
     }
-    toggle(){
-        const show = this.state.show
-        $('.content,#header').toggleClass('sidebar-hide', !show)
-        this.setState({
-            show: !show
-        })
-    }
     componentDidMount(){
         this.hashChange()
         this.addHashChange()
     }
     render(){
         const state = this.state
+        const props = this.props
 
-        return <div id="sidebar" className={state.show ? 'show' : ''}>
-                    <button onClick={this.toggle.bind(this)}>三</button>
+        return <div id="sidebar" className={props.sidebar ? 'show' : ''}>
+                    <button onClick={props.handleSidebarChange}>三</button>
                     <ul>
                         { state.list.map((item, index)=>{
                             return <li className={index==state.current?'current':''}>

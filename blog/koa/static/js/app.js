@@ -94,6 +94,12 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	window.sidebar = {
+	    hide: true
+	};
+
+	// React.initializeTouchEvents(true)
+
 	var App = function (_React$Component) {
 	    _inherits(App, _React$Component);
 
@@ -236,23 +242,38 @@
 	    function Main() {
 	        _classCallCheck(this, Main);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Main).apply(this, arguments));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Main).call(this));
+
+	        _this.state = {
+	            sidebar: false
+	        };
+	        return _this;
 	    }
 
 	    _createClass(Main, [{
+	        key: 'handleSidebarChange',
+	        value: function handleSidebarChange() {
+	            this.setState({
+	                sidebar: !this.state.sidebar
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var state = this.state;
+
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_index2.default, null),
+	                _react2.default.createElement(_index2.default, { sidebar: state.sidebar }),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'main' },
-	                    _react2.default.createElement(_index6.default, null),
+	                    _react2.default.createElement(_index6.default, { sidebar: state.sidebar,
+	                        handleSidebarChange: this.handleSidebarChange.bind(this) }),
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'content' },
+	                        { className: (state.sidebar ? '' : 'sidebar-hide') + ' content' },
 	                        this.props.children ? this.props.children : _react2.default.createElement(_index8.default, null)
 	                    )
 	                ),
@@ -603,7 +624,7 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                { id: 'article-list' },
+	                { id: 'article-list', title: 'list' },
 	                _react2.default.createElement(
 	                    'ul',
 	                    null,
@@ -630,6 +651,13 @@
 
 	    return List;
 	}(_react.Component);
+
+	// 用于检测类型，类型检测只能是class的静态方法
+
+
+	List.propTypes = {
+	    title: _react2.default.PropTypes.string.isRequired
+	};
 
 	exports.default = List;
 
@@ -698,15 +726,18 @@
 	            setTimeout(function () {
 	                $('#editor').wysiwyg();
 	            }, 1000);
-
-	            console.log('time2');
 	        }
+	        // 卸载前
+
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
 	            // $('.article-new').remove('.editor-wrap')
+	            // 移除window上的事件
 	            $('#editor').remove();
 	        }
+	        // 获取文章信息
+
 	    }, {
 	        key: 'getData',
 	        value: function getData(id) {
@@ -717,6 +748,8 @@
 	                that.setState(data);
 	            });
 	        }
+	        // 提交
+
 	    }, {
 	        key: 'submit',
 	        value: function submit(event) {
@@ -741,6 +774,8 @@
 	                location.href = '#/';
 	            });
 	        }
+	        // 返回html
+
 	    }, {
 	        key: 'rawHtml',
 	        value: function rawHtml() {
@@ -771,12 +806,12 @@
 	                    _react2.default.createElement('br', null),
 	                    _react2.default.createElement(
 	                        'div',
-	                        { 'class': 'btn-toolbar', 'data-role': 'editor-toolbar',
+	                        { className: 'btn-toolbar', 'data-role': 'editor-toolbar',
 	                            'data-target': '#editor' },
 	                        _react2.default.createElement(
 	                            'a',
 	                            { 'data-edit': 'bold', className: 'btn' },
-	                            '粗'
+	                            'B'
 	                        ),
 	                        _react2.default.createElement('input', { type: 'file', 'data-edit': 'insertImage' })
 	                    ),
@@ -907,9 +942,11 @@
 	    _createClass(Home, [{
 	        key: 'render',
 	        value: function render() {
+	            var props = this.props;
+
 	            return _react2.default.createElement(
 	                'div',
-	                { id: 'header' },
+	                { id: 'header', className: props.sidebar ? '' : 'sidebar-hide' },
 	                '灵岩寺'
 	            );
 	        }
@@ -976,8 +1013,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'home' },
-	                _react2.default.createElement('div', { className: 'banner' }),
-	                _react2.default.createElement(_index2.default, { len: 3 })
+	                _react2.default.createElement(_index2.default, null)
 	            );
 	        }
 	    }]);
@@ -1086,7 +1122,7 @@
 	        _this.state = {
 	            list: LIST,
 	            current: 0,
-	            show: false
+	            show: true
 	        };
 	        return _this;
 	    }
@@ -1110,15 +1146,6 @@
 	            window.addEventListener('hashchange', this.hashChange.bind(this));
 	        }
 	    }, {
-	        key: 'toggle',
-	        value: function toggle() {
-	            var show = this.state.show;
-	            $('.content,#header').toggleClass('sidebar-hide', !show);
-	            this.setState({
-	                show: !show
-	            });
-	        }
-	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.hashChange();
@@ -1128,13 +1155,14 @@
 	        key: 'render',
 	        value: function render() {
 	            var state = this.state;
+	            var props = this.props;
 
 	            return _react2.default.createElement(
 	                'div',
-	                { id: 'sidebar', className: state.show ? 'show' : '' },
+	                { id: 'sidebar', className: props.sidebar ? 'show' : '' },
 	                _react2.default.createElement(
 	                    'button',
-	                    { onClick: this.toggle.bind(this) },
+	                    { onClick: props.handleSidebarChange },
 	                    '三'
 	                ),
 	                _react2.default.createElement(
