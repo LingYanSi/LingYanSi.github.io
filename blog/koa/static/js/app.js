@@ -640,7 +640,17 @@
 	                                    null,
 	                                    item.title
 	                                ),
-	                                _react2.default.createElement('p', { dangerouslySetInnerHTML: _this2.rawHtml(item.content) })
+	                                _react2.default.createElement('p', { dangerouslySetInnerHTML: _this2.rawHtml(item.content) }),
+	                                _react2.default.createElement(
+	                                    'p',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'span',
+	                                        null,
+	                                        'time: ',
+	                                        item.time
+	                                    )
+	                                )
 	                            )
 	                        );
 	                    })

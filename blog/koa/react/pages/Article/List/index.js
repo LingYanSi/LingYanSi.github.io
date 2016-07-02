@@ -44,6 +44,9 @@ class List extends Component{
                         <Link to={`/article/${item.id}`}>
                             <h3>{item.title}</h3>
                             <p dangerouslySetInnerHTML={this.rawHtml(item.content)}></p>
+                            <p>
+                                <span>time: {item.time}</span>
+                            </p>
                         </Link>
                     </li>
                 })}

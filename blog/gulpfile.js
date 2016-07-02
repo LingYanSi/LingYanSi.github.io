@@ -49,7 +49,7 @@ gulp.task('watch::js', ['js::router'], ()=>{
 // 如果要做cdn、md5，那就需要业务文件
 // 先压缩，后获取md5
 gulp.task('minify::js', ()=>{
-    return gulp.src('./js/app.js')
+    return gulp.src(['./js/app.js', './js/base.js'])
             .pipe( uglify() )
             .pipe( md5() )
             .pipe( gulp.dest('./js') )
