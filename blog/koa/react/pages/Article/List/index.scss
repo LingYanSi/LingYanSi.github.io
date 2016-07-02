@@ -10,14 +10,26 @@
         padding: 10px;
         font-size: 14px;
         line-height: 1.4;
-        border-bottom: 1px solid rgb(152, 160, 162);
+        position: relative;
+
+        &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            transform: translateY(50%);
+            background: rgb(152, 160, 162);
+        }
 
         h3 {
             color: #555;
             font-size: 1.2em;
         }
 
-        p {
+        .summary {
             font-size: 12px;
             color: #999;
             word-break: break-all;
@@ -26,6 +38,12 @@
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
             overflow: hidden;
+        }
+
+        .bott {
+            color: #777;
+            font-size: 12px;
+            margin-top: 4px;
         }
     }
 }

@@ -14,7 +14,6 @@ class Sidebar extends Component{
         this.state = {
             list: LIST ,
             current: 0 ,
-            show: true
         }
     }
     hashChange(){
@@ -44,7 +43,7 @@ class Sidebar extends Component{
                     <button onClick={props.handleSidebarChange}>三</button>
                     <ul>
                         { state.list.map((item, index)=>{
-                            return <li className={index==state.current?'current':''}>
+                            return <li className={index==state.current?'current':''} key={item.url}>
                                 <Link to={item.url}>{item.title}</Link>
                             </li>
                         })}

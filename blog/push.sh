@@ -12,8 +12,8 @@ rm -r ./js
 cp -r ./koa/static/js/ ./js/
 
 echo '--> 压缩js文件,打上md5'
-gulp minify::js
-rm ./js/app.js
+gulp minify::app
+rm ./js/app.js ./js/base.js
 
 echo '--> 生成map'
 node getMap.js

@@ -19,7 +19,6 @@ class List extends Component{
                 return response.json()
             })
             .then(function(data){
-                console.log(data);
                 that.setState({
                     list: data.list
                 })
@@ -40,12 +39,12 @@ class List extends Component{
         return <div id="article-list" title={'list'}>
             <ul>
                 {list.map(item => {
-                    return <li>
+                    return <li key={item.id}>
                         <Link to={`/article/${item.id}`}>
                             <h3>{item.title}</h3>
-                            <p dangerouslySetInnerHTML={this.rawHtml(item.content)}></p>
-                            <p>
-                                <span>time: {item.time}</span>
+                            <div className="summary" dangerouslySetInnerHTML={this.rawHtml(item.content)}></div>
+                            <p className="bott">
+                                <span className="time">{Utils.time.toString(item.time)}</span>
                             </p>
                         </Link>
                     </li>

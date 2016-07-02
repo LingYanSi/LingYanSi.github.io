@@ -23,8 +23,6 @@ class Details extends Component{
                 return response.json()
             })
             .then(function(data){
-                data.time = new Date(+data.time).toString()
-
                 that.setState(data)
             })
     }
@@ -68,7 +66,7 @@ class Details extends Component{
                 </Link>
             </div>
             <div className="details-content" dangerouslySetInnerHTML={this.rawHtml(state.content)}></div>
-            <div className="details-time">时间：{state.time}</div>
+            <div className="details-time">时间：{Utils.time.toString(state.time)}</div>
         </div>
     }
 }

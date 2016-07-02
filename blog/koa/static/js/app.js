@@ -445,8 +445,6 @@
 	            fetch(url).then(function (response) {
 	                return response.json();
 	            }).then(function (data) {
-	                data.time = new Date(+data.time).toString();
-
 	                that.setState(data);
 	            });
 	        }
@@ -525,7 +523,7 @@
 	                    'div',
 	                    { className: 'details-time' },
 	                    '时间：',
-	                    state.time
+	                    Utils.time.toString(state.time)
 	                )
 	            );
 	        }
@@ -594,7 +592,6 @@
 	            fetch('database/list.json').then(function (response) {
 	                return response.json();
 	            }).then(function (data) {
-	                console.log(data);
 	                that.setState({
 	                    list: data.list
 	                });
@@ -631,7 +628,7 @@
 	                    list.map(function (item) {
 	                        return _react2.default.createElement(
 	                            'li',
-	                            null,
+	                            { key: item.id },
 	                            _react2.default.createElement(
 	                                _reactRouter.Link,
 	                                { to: '/article/' + item.id },
@@ -640,15 +637,14 @@
 	                                    null,
 	                                    item.title
 	                                ),
-	                                _react2.default.createElement('p', { dangerouslySetInnerHTML: _this2.rawHtml(item.content) }),
+	                                _react2.default.createElement('div', { className: 'summary', dangerouslySetInnerHTML: _this2.rawHtml(item.content) }),
 	                                _react2.default.createElement(
 	                                    'p',
-	                                    null,
+	                                    { className: 'bott' },
 	                                    _react2.default.createElement(
 	                                        'span',
-	                                        null,
-	                                        'time: ',
-	                                        item.time
+	                                        { className: 'time' },
+	                                        Utils.time.toString(item.time)
 	                                    )
 	                                )
 	                            )
@@ -1131,8 +1127,7 @@
 	        var LIST = [{ url: '/', title: '首页' }, { url: '/article', title: '文章' }, { url: '/about', title: '关于' }];
 	        _this.state = {
 	            list: LIST,
-	            current: 0,
-	            show: true
+	            current: 0
 	        };
 	        return _this;
 	    }
@@ -1181,7 +1176,7 @@
 	                    state.list.map(function (item, index) {
 	                        return _react2.default.createElement(
 	                            'li',
-	                            { className: index == state.current ? 'current' : '' },
+	                            { className: index == state.current ? 'current' : '', key: item.url },
 	                            _react2.default.createElement(
 	                                _reactRouter.Link,
 	                                { to: item.url },
