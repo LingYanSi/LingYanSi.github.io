@@ -28,6 +28,7 @@
   color: gainsboro; }
 #sidebar {
   background-color: #2b2d27;
+  background-image: url(http://ww2.sinaimg.cn/mw1024/69b8b46egw1etud17q77zj20rs0r315z.jpg);
   color: #fff;
   position: fixed;
   top: 0;
@@ -54,16 +55,30 @@
     height: 35px;
     display: inline-block;
     background: none;
-    border: 0; }
-  #sidebar li {
-    border-bottom: 1px solid #5b696a; }
-    #sidebar li.current {
-      background: #2bc8d7; }
-  #sidebar a {
+    border: 0;
+    -webkit-transition: 1s;
+    transition: 1s;
+    -webkit-transform: rotateZ(0deg);
+    transform: rotateZ(0deg); }
+    #sidebar button.show {
+      -webkit-transform: rotateZ(270deg);
+      transform: rotateZ(270deg);
+      color: #fff; }
+  #sidebar ul {
+    backdrop: blur(10px); }
+  #sidebar li:after {
+    content: "";
+    display: block;
+    height: 1px;
+    transform: scaleY(0.5);
+    background: #fff; }
+  #sidebar li.current {
+    background: rgba(43, 200, 215, 0.2); }
+  #sidebar li a {
     display: block;
     padding-left: 2em; }
-    #sidebar a:hover {
-      background: #2bc8d7; }
+    #sidebar li a:hover {
+      background: rgba(43, 200, 215, 0.2); }
 #article-list {
   font-size: 14px;
   line-height: 1.4; }
@@ -77,9 +92,8 @@
       content: "";
       display: block;
       height: 1px;
-      -webkit-transform: translateY(50%);
-      transform: translateY(50%);
-      background: #e3ebec; }
+      transform: scaleY(0.5);
+      background: #ece8e8; }
     #article-list li > a {
       display: block;
       padding: 10px; }

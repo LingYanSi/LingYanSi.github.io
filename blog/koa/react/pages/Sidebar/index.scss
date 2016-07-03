@@ -2,6 +2,7 @@
 
 #sidebar {
     background-color: rgb(43, 45, 39);
+    background-image: url(http://ww2.sinaimg.cn/mw1024/69b8b46egw1etud17q77zj20rs0r315z.jpg);
     color: #fff;
     position: fixed;
     top: 0;
@@ -27,22 +28,41 @@
         display: inline-block;
         background: none;
         border: 0;
-    }
+        transition: 1s;
+        transform: rotateZ(0deg);
 
-    li {
-        border-bottom: 1px solid rgb(91, 105, 106);
-
-        &.current {
-            background: rgb(43, 200, 215);
+        &.show {
+            transform: rotateZ(270deg);
+            color: #fff;
         }
     }
 
-    a {
-        display: block;
-        padding-left: 2em;
+    ul {
+        backdrop: blur(10px);
+    }
 
-        &:hover {
-            background: rgb(43, 200, 215);
+    li {
+        // border-bottom: 1px solid #fff;
+
+        &:after {
+            content: "";
+            display: block;
+            @include border(#fff);
+        }
+
+        $bgd: rgba(43, 200, 215, .2);
+        &.current {
+
+            background: $bgd;
+        }
+
+        a {
+            display: block;
+            padding-left: 2em;
+
+            &:hover {
+                background: $bgd;
+            }
         }
     }
 }

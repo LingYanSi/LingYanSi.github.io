@@ -1167,7 +1167,8 @@
 	                { id: 'sidebar', className: props.sidebar ? 'show' : '' },
 	                _react2.default.createElement(
 	                    'button',
-	                    { onClick: props.handleSidebarChange },
+	                    { className: props.sidebar ? 'show' : '',
+	                        onClick: props.handleSidebarChange },
 	                    '三'
 	                ),
 	                _react2.default.createElement(

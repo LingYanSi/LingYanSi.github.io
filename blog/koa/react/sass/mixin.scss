@@ -1,0 +1,6 @@
+
+@mixin border($bgd: #000) {
+    height: 1px;
+    transform: scaleY(.5);
+    background: $bgd;
+}

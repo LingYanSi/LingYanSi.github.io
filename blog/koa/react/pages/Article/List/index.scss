@@ -1,3 +1,9 @@
+@import "./../../../sass/base.scss";
+
+%fuck {
+    background: #f00;
+    border: 10px solid;
+}
 #article-list {
     font-size: 14px;
     line-height: 1.4;
@@ -6,17 +12,20 @@
         font-size: 1.6em;
     }
 
+
     li {
         font-size: 14px;
         line-height: 1.4;
+
+
+
         &::after {
             content: "";
             display: block;
-            height: 1px;
-            transform: translateY(50%);
-            background: rgb(227, 235, 236);
+            $border-color: #ece8e8;
+            @include border($border-color);
         }
-        
+
         &>a {
             display: block;
             padding: 10px;
