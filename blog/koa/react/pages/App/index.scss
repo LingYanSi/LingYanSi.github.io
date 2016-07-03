@@ -36,6 +36,11 @@ button {
     cursor: pointer;
 }
 
+body {
+    overflow-x: hidden;
+    font-size: 14px;
+}
+
 .main {
     padding-top: $header_height;
     display: flex;

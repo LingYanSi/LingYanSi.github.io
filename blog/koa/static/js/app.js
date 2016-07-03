@@ -158,6 +158,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	__webpack_require__(35);
+
 	var Home = function (_Component) {
 	    _inherits(Home, _Component);
 
@@ -172,16 +174,30 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    'h1',
-	                    null,
-	                    '关于'
-	                ),
+	                { id: 'about' },
 	                _react2.default.createElement(
 	                    'div',
 	                    null,
-	                    '纯手工打造'
+	                    '暗香',
+	                    _react2.default.createElement('br', null),
+	                    '旧时月色，算几番照我，梅边吹笛。 ',
+	                    _react2.default.createElement('br', null),
+	                    '唤起玉人，不管清寒与攀摘。 ',
+	                    _react2.default.createElement('br', null),
+	                    '何逊而今渐老，都忘却，春风词笔。 ',
+	                    _react2.default.createElement('br', null),
+	                    '但怪得竹外疏花，香冷入瑶席。 ',
+	                    _react2.default.createElement('br', null),
+	                    _react2.default.createElement('br', null),
+	                    '江国，正寂寂。 ',
+	                    _react2.default.createElement('br', null),
+	                    '叹寄与路遥，夜雪初积。 ',
+	                    _react2.default.createElement('br', null),
+	                    '翠尊易泣，红萼无言耿相忆。 ',
+	                    _react2.default.createElement('br', null),
+	                    '长记曾携手处，千树压，西湖寒碧。 ',
+	                    _react2.default.createElement('br', null),
+	                    '又片片吹尽也，几时见得？'
 	                )
 	            );
 	        }
@@ -1197,6 +1213,23 @@
 
 /***/ },
 /* 23 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

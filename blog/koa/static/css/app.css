@@ -153,6 +153,10 @@ button {
   border-width: 1px;
   cursor: pointer; }
 
+body {
+  overflow-x: hidden;
+  font-size: 14px; }
+
 .main {
   padding-top: 35px;
   display: -webkit-box;
@@ -173,6 +177,9 @@ button {
     .main .content.sidebar-hide {
       -webkit-transform: translateX(0);
       transform: translateX(0); }
+#about div {
+  padding: 10px;
+  line-height: 1.8; }
 .tool {
   padding: 10px; }
   .tool button {
