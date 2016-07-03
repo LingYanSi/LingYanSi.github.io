@@ -67,7 +67,9 @@ module.exports = {
         'jQuery': 'window.$',
     },
     resolve:{
-        alias:{},
+        alias:{
+            scss: path.resolve(__dirname, './sass/')
+        },
         unsafeCache: true,
         extensions: ['','js','jsx','scss']
     },

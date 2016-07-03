@@ -29,13 +29,17 @@ button,input,textarea {
     border-radius: 0;
     color: inherit;
     font-size: inherit;
+    box-shadow: none;
 }
 
 button {
+    // 奇怪，在iPhone上必须设置background，才会显示正常
+    background: inherit;
     padding: 0 1em;
     line-height: 2;
     border-width: 1px;
     cursor: pointer;
+    border: 1px solid rgb(223, 220, 216);
 }
 
 body {

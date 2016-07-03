@@ -57,14 +57,16 @@
     display: inline-block;
     background: none;
     border: 0;
+    width: 40px;
+    box-sizing: border-box;
+    padding: 0;
     -webkit-transition: 1s;
     transition: 1s;
     -webkit-transform: rotateZ(0deg);
     transform: rotateZ(0deg); }
     #sidebar button.show {
       -webkit-transform: rotateZ(270deg);
-      transform: rotateZ(270deg);
-      color: #fff; }
+      transform: rotateZ(270deg); }
   #sidebar .sidebar-content {
     box-sizing: border-box;
     height: 100%;
@@ -158,13 +160,16 @@ button, input, textarea {
   outline: none;
   border-radius: 0;
   color: inherit;
-  font-size: inherit; }
+  font-size: inherit;
+  box-shadow: none; }
 
 button {
+  background: inherit;
   padding: 0 1em;
   line-height: 2;
   border-width: 1px;
-  cursor: pointer; }
+  cursor: pointer;
+  border: 1px solid #dfdcd8; }
 
 body {
   overflow-x: hidden;
@@ -197,9 +202,9 @@ body {
     padding: 10px;
     line-height: 1.8; }
 .tool {
-  padding: 10px; }
+  padding: 10px 10px 0; }
   .tool button {
-    margin-left: 5px; }
+    margin-right: 5px; }
 #article-details {
   font-size: 14px;
   padding: 10px; }

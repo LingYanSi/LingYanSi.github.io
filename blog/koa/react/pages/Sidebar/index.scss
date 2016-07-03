@@ -29,12 +29,14 @@
         display: inline-block;
         background: none;
         border: 0;
+        width: 40px;
+        box-sizing: border-box;
+        padding: 0;
         transition: 1s;
         transform: rotateZ(0deg);
 
         &.show {
             transform: rotateZ(270deg);
-            color: #fff;
         }
     }
 
