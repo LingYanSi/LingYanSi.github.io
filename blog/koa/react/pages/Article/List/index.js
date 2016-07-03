@@ -36,7 +36,7 @@ class List extends Component{
         const len = this.props.len
         var list = len ? this.state.list.slice(0,len) : this.state.list
 
-        return <div id="article-list" title={'list'}>
+        return <div className="article-list" title={'list'}>
             <ul>
                 {list.map(item => {
                     return <li key={item.id}>

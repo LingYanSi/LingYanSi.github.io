@@ -1,6 +1,15 @@
+@import "./../../../sass/base.scss";
+
 .article-new {
+    padding: $padding;
+
     input {
         height: 2em;
+        padding: 0 $padding;
+        width: 300px;
+        max-width: 100%;
+        // display: block;
+        border: 1px solid rgb(191, 187, 188);
     }
 
     textarea {
@@ -26,7 +35,7 @@
     color: #000;
     border: 1px solid #555;
     outline: none;
-    padding: 10px;
+    padding: $padding;
     line-height: 1.4;
     img {
         max-width: 100%;

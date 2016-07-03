@@ -4,7 +4,8 @@
     background: #f00;
     border: 10px solid;
 }
-#article-list {
+
+.article-list {
     font-size: 14px;
     line-height: 1.4;
     h1 {
@@ -16,8 +17,6 @@
     li {
         font-size: 14px;
         line-height: 1.4;
-
-
 
         &::after {
             content: "";

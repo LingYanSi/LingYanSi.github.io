@@ -27,11 +27,13 @@ a {
 button,input,textarea {
     outline: none;
     border-radius: 0;
+    color: inherit;
+    font-size: inherit;
 }
 
 button {
     padding: 0 1em;
-    line-height: 2em;
+    line-height: 2;
     border-width: 1px;
     cursor: pointer;
 }

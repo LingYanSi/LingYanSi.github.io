@@ -92,28 +92,28 @@
       padding-left: 2em; }
       #sidebar .sidebar-content li a:hover {
         background: rgba(43, 200, 215, 0.4); }
-#article-list {
+.article-list {
   font-size: 14px;
   line-height: 1.4; }
-  #article-list h1 {
+  .article-list h1 {
     color: #332F2F;
     font-size: 1.6em; }
-  #article-list li {
+  .article-list li {
     font-size: 14px;
     line-height: 1.4; }
-    #article-list li::after {
+    .article-list li::after {
       content: "";
       display: block;
       height: 1px;
       transform: scaleY(0.5);
       background: #ece8e8; }
-    #article-list li > a {
+    .article-list li > a {
       display: block;
       padding: 10px; }
-    #article-list li h3 {
+    .article-list li h3 {
       color: #555;
       font-size: 1.2em; }
-    #article-list li .summary {
+    .article-list li .summary {
       font-size: 12px;
       color: #999;
       word-break: break-all;
@@ -121,7 +121,7 @@
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
       overflow: hidden; }
-    #article-list li .bott {
+    .article-list li .bott {
       color: #777;
       font-size: 12px;
       margin-top: 4px; }
@@ -156,11 +156,13 @@ a {
 
 button, input, textarea {
   outline: none;
-  border-radius: 0; }
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit; }
 
 button {
   padding: 0 1em;
-  line-height: 2em;
+  line-height: 2;
   border-width: 1px;
   cursor: pointer; }
 
@@ -189,8 +191,7 @@ body {
       -webkit-transform: translateX(0);
       transform: translateX(0); }
 #about {
-  height: 100%;
-  background-image: -webkit-repeating-linear-gradient(0, transparent 0px, transparent 10px, rgba(32, 145, 108, 0.1) 10px, rgba(32, 145, 108, 0.1) 20px), -webkit-repeating-linear-gradient(left, transparent 0px, transparent 10px, rgba(32, 145, 108, 0.1) 10px, rgba(32, 145, 108, 0.1) 20px);
+  height: 100vh;
   background-image: repeating-linear-gradient(0, transparent 0px, transparent 10px, rgba(32, 145, 108, 0.1) 10px, rgba(32, 145, 108, 0.1) 20px), repeating-linear-gradient(90deg, transparent 0px, transparent 10px, rgba(32, 145, 108, 0.1) 10px, rgba(32, 145, 108, 0.1) 20px); }
   #about div {
     padding: 10px;
@@ -222,13 +223,18 @@ body {
       height: auto; }
   #article-details .details-time {
     color: #d2d2d2; }
-.article-new input {
-  height: 2em; }
-
-.article-new textarea {
-  display: block;
-  width: 80%;
-  min-height: 10em; }
+.article-new {
+  padding: 10px; }
+  .article-new input {
+    height: 2em;
+    padding: 0 10px;
+    width: 300px;
+    max-width: 100%;
+    border: 1px solid #bfbbbc; }
+  .article-new textarea {
+    display: block;
+    width: 80%;
+    min-height: 10em; }
 
 .btn-toolbar a[data-edit] {
   border: 1px solid red;
