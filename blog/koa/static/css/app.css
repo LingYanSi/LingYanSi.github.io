@@ -65,32 +65,33 @@
       -webkit-transform: rotateZ(270deg);
       transform: rotateZ(270deg);
       color: #fff; }
-  #sidebar .avatar {
-    width: 50%;
-    padding-top: 50%;
-    border-radius: 100%;
-    margin: 2em auto 1.5em;
-    background-color: #c3625e;
-    background-image: url(http://ww1.sinaimg.cn/mw1024/69b8b46egw1f5gv71trm4j21ho1hon94.jpg);
-    background-size: cover;
-    box-shadow: 0 0 4px #fff; }
-  #sidebar ul {
+  #sidebar .sidebar-content {
+    box-sizing: border-box;
     height: 100%;
+    padding-top: 2em;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px); }
-  #sidebar li:after {
-    content: "";
-    display: block;
-    height: 1px;
-    transform: scaleY(0.5);
-    background: #fff; }
-  #sidebar li.current {
-    background: rgba(43, 200, 215, 0.4); }
-  #sidebar li a {
-    display: block;
-    padding-left: 2em; }
-    #sidebar li a:hover {
+    #sidebar .sidebar-content .avatar {
+      width: 50%;
+      padding-top: 50%;
+      border-radius: 100%;
+      margin: 0 auto 1.5em;
+      background-color: #c3625e;
+      background-size: cover;
+      box-shadow: 0 0 4px 2px rgba(255, 255, 255, 0.8); }
+    #sidebar .sidebar-content li:after {
+      content: "";
+      display: block;
+      height: 1px;
+      transform: scaleY(0.5);
+      background: #fff; }
+    #sidebar .sidebar-content li.current {
       background: rgba(43, 200, 215, 0.4); }
+    #sidebar .sidebar-content li a {
+      display: block;
+      padding-left: 2em; }
+      #sidebar .sidebar-content li a:hover {
+        background: rgba(43, 200, 215, 0.4); }
 #article-list {
   font-size: 14px;
   line-height: 1.4; }

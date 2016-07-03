@@ -38,43 +38,44 @@
         }
     }
 
-    .avatar {
-        width: 50%;
-        padding-top: 50%;
-        border-radius: 100%;
-        margin: 2em auto 1.5em;
-        background-color: rgb(195, 98, 94);
-        background-image: url(http://ww1.sinaimg.cn/mw1024/69b8b46egw1f5gv71trm4j21ho1hon94.jpg) ;
-        background-size: cover;
-        box-shadow: 0 0 4px #fff;
-    }
-
-    ul {
+    .sidebar-content {
+        box-sizing: border-box;
         height: 100%;
+        padding-top: 2em;
         backdrop-filter: blur(10px);
-    }
 
-    li {
-        // border-bottom: 1px solid #fff;
-
-        &:after {
-            content: "";
-            display: block;
-            @include border(#fff);
+        .avatar {
+            width: 50%;
+            padding-top: 50%;
+            border-radius: 100%;
+            margin: 0 auto 1.5em;
+            background-color: rgb(195, 98, 94);
+            background-size: cover;
+            box-shadow: 0 0 4px 2px rgba(255, 255, 255, .8);
         }
 
-        $bgd: rgba(43, 200, 215, .4);
-        &.current {
+        li {
+            // border-bottom: 1px solid #fff;
 
-            background: $bgd;
-        }
+            &:after {
+                content: "";
+                display: block;
+                @include border(#fff);
+            }
 
-        a {
-            display: block;
-            padding-left: 2em;
+            $bgd: rgba(43, 200, 215, .4);
+            &.current {
 
-            &:hover {
                 background: $bgd;
+            }
+
+            a {
+                display: block;
+                padding-left: 2em;
+
+                &:hover {
+                    background: $bgd;
+                }
             }
         }
     }

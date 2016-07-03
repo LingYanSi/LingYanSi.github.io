@@ -14,6 +14,7 @@ class Sidebar extends Component{
         this.state = {
             list: LIST ,
             current: 0 ,
+            avatar: 'http://ww1.sinaimg.cn/mw1024/69b8b46egw1f5gv71trm4j21ho1hon94.jpg'
         }
     }
     hashChange(){
@@ -42,16 +43,16 @@ class Sidebar extends Component{
         return <div id="sidebar" className={props.sidebar ? 'show' : ''}>
                     <button className={props.sidebar ? 'show' : ''}
                             onClick={props.handleSidebarChange}>三</button>
-                    <div className="avatar">
-
+                    <div className="sidebar-content">
+                        <div className="avatar" style={{backgroundImage: `url(${state.avatar})`}}></div>
+                        <ul>
+                            { state.list.map((item, index)=>{
+                                return <li className={index==state.current?'current':''} key={item.url}>
+                                    <Link to={item.url}>{item.title}</Link>
+                                </li>
+                            })}
+                        </ul>
                     </div>
-                    <ul>
-                        { state.list.map((item, index)=>{
-                            return <li className={index==state.current?'current':''} key={item.url}>
-                                <Link to={item.url}>{item.title}</Link>
-                            </li>
-                        })}
-                    </ul>
                 </div>
     }
 }

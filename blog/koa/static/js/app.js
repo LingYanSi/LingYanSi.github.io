@@ -1143,7 +1143,8 @@
 	        var LIST = [{ url: '/', title: '首页' }, { url: '/article', title: '文章' }, { url: '/about', title: '关于' }];
 	        _this.state = {
 	            list: LIST,
-	            current: 0
+	            current: 0,
+	            avatar: 'http://ww1.sinaimg.cn/mw1024/69b8b46egw1f5gv71trm4j21ho1hon94.jpg'
 	        };
 	        return _this;
 	    }
@@ -1187,21 +1188,25 @@
 	                        onClick: props.handleSidebarChange },
 	                    '三'
 	                ),
-	                _react2.default.createElement('div', { className: 'avatar' }),
 	                _react2.default.createElement(
-	                    'ul',
-	                    null,
-	                    state.list.map(function (item, index) {
-	                        return _react2.default.createElement(
-	                            'li',
-	                            { className: index == state.current ? 'current' : '', key: item.url },
-	                            _react2.default.createElement(
-	                                _reactRouter.Link,
-	                                { to: item.url },
-	                                item.title
-	                            )
-	                        );
-	                    })
+	                    'div',
+	                    { className: 'sidebar-content' },
+	                    _react2.default.createElement('div', { className: 'avatar', style: { backgroundImage: 'url(' + state.avatar + ')' } }),
+	                    _react2.default.createElement(
+	                        'ul',
+	                        null,
+	                        state.list.map(function (item, index) {
+	                            return _react2.default.createElement(
+	                                'li',
+	                                { className: index == state.current ? 'current' : '', key: item.url },
+	                                _react2.default.createElement(
+	                                    _reactRouter.Link,
+	                                    { to: item.url },
+	                                    item.title
+	                                )
+	                            );
+	                        })
+	                    )
 	                )
 	            );
 	        }
