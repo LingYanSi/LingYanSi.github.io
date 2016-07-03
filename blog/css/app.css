@@ -188,9 +188,13 @@ body {
     .main .content.sidebar-hide {
       -webkit-transform: translateX(0);
       transform: translateX(0); }
-#about div {
-  padding: 10px;
-  line-height: 1.8; }
+#about {
+  height: 100%;
+  background-image: -webkit-repeating-linear-gradient(0, transparent 0px, transparent 10px, rgba(32, 145, 108, 0.1) 10px, rgba(32, 145, 108, 0.1) 20px), -webkit-repeating-linear-gradient(left, transparent 0px, transparent 10px, rgba(32, 145, 108, 0.1) 10px, rgba(32, 145, 108, 0.1) 20px);
+  background-image: repeating-linear-gradient(0, transparent 0px, transparent 10px, rgba(32, 145, 108, 0.1) 10px, rgba(32, 145, 108, 0.1) 20px), repeating-linear-gradient(90deg, transparent 0px, transparent 10px, rgba(32, 145, 108, 0.1) 10px, rgba(32, 145, 108, 0.1) 20px); }
+  #about div {
+    padding: 10px;
+    line-height: 1.8; }
 .tool {
   padding: 10px; }
   .tool button {
