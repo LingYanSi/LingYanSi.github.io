@@ -65,6 +65,7 @@
       transform: rotateZ(270deg);
       color: #fff; }
   #sidebar ul {
+    height: 100%;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px); }
   #sidebar li:after {
@@ -74,12 +75,12 @@
     transform: scaleY(0.5);
     background: #fff; }
   #sidebar li.current {
-    background: rgba(43, 200, 215, 0.2); }
+    background: rgba(43, 200, 215, 0.4); }
   #sidebar li a {
     display: block;
     padding-left: 2em; }
     #sidebar li a:hover {
-      background: rgba(43, 200, 215, 0.2); }
+      background: rgba(43, 200, 215, 0.4); }
 #article-list {
   font-size: 14px;
   line-height: 1.4; }

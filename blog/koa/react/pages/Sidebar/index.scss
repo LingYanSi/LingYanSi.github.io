@@ -38,6 +38,7 @@
     }
 
     ul {
+        height: 100%;
         backdrop-filter: blur(10px);
     }
 
@@ -50,7 +51,7 @@
             @include border(#fff);
         }
 
-        $bgd: rgba(43, 200, 215, .2);
+        $bgd: rgba(43, 200, 215, .4);
         &.current {
 
             background: $bgd;
