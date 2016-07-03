@@ -42,6 +42,9 @@ class Sidebar extends Component{
         return <div id="sidebar" className={props.sidebar ? 'show' : ''}>
                     <button className={props.sidebar ? 'show' : ''}
                             onClick={props.handleSidebarChange}>三</button>
+                    <div className="avatar">
+
+                    </div>
                     <ul>
                         { state.list.map((item, index)=>{
                             return <li className={index==state.current?'current':''} key={item.url}>

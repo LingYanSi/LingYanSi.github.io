@@ -14,6 +14,7 @@
     transition: transform .3s;
     line-height: 2.2;
     z-index: 10001;
+    font-size: 1.2em;
 
     &.show {
         transform: translateX(0%);
@@ -35,6 +36,17 @@
             transform: rotateZ(270deg);
             color: #fff;
         }
+    }
+
+    .avatar {
+        width: 50%;
+        padding-top: 50%;
+        border-radius: 100%;
+        margin: 2em auto 1.5em;
+        background-color: rgb(195, 98, 94);
+        background-image: url(http://ww1.sinaimg.cn/mw1024/69b8b46egw1f5gv71trm4j21ho1hon94.jpg) ;
+        background-size: cover;
+        box-shadow: 0 0 4px #fff;
     }
 
     ul {

@@ -43,7 +43,8 @@
   transition: transform .3s;
   transition: transform .3s, -webkit-transform .3s;
   line-height: 2.2;
-  z-index: 10001; }
+  z-index: 10001;
+  font-size: 1.2em; }
   #sidebar.show {
     -webkit-transform: translateX(0%);
     transform: translateX(0%); }
@@ -64,6 +65,15 @@
       -webkit-transform: rotateZ(270deg);
       transform: rotateZ(270deg);
       color: #fff; }
+  #sidebar .avatar {
+    width: 50%;
+    padding-top: 50%;
+    border-radius: 100%;
+    margin: 2em auto 1.5em;
+    background-color: #c3625e;
+    background-image: url(http://ww1.sinaimg.cn/mw1024/69b8b46egw1f5gv71trm4j21ho1hon94.jpg);
+    background-size: cover;
+    box-shadow: 0 0 4px #fff; }
   #sidebar ul {
     height: 100%;
     -webkit-backdrop-filter: blur(10px);

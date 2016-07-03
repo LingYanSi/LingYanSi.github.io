@@ -1187,6 +1187,7 @@
 	                        onClick: props.handleSidebarChange },
 	                    '三'
 	                ),
+	                _react2.default.createElement('div', { className: 'avatar' }),
 	                _react2.default.createElement(
 	                    'ul',
 	                    null,
