@@ -38,7 +38,7 @@
     }
 
     ul {
-        backdrop: blur(10px);
+        backdrop-filter: blur(10px);
     }
 
     li {

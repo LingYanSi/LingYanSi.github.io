@@ -65,7 +65,8 @@
       transform: rotateZ(270deg);
       color: #fff; }
   #sidebar ul {
-    backdrop: blur(10px); }
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px); }
   #sidebar li:after {
     content: "";
     display: block;
