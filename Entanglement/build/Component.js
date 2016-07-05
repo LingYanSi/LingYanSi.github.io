@@ -60,9 +60,9 @@ Component.prototype = {
         // 去parser字符串,获取dom树
         var tree = getVDom(this.template)
 
-        var node = render(tree, this)
-
         console.log( tree);
+
+        var node = render(tree, this)
         this.$ele.innerHTML = ''
         this.$ele.appendChild(node)
 

@@ -1,4 +1,17 @@
 # 博客系统
+## 目前
+```
+// git提交
+bash push.sh 提交信息
+
+// 启动本地服务
+node app.js
+
+// 开发
+cd koa/react
+webpack
+```
+
 ## 想法
 
 - 数据库：使用json文件来作为数据存储

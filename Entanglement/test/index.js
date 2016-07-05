@@ -46,8 +46,8 @@ var app = new Component({
             <button class="add" onClick={fuck}>add</button>
             <Fuck name="周永康" style={style}></Fuck>
             <!-- 执行结果 -->
-            <ol>
-                <li>ww我问问阿斯顿发</li>
+            <ol v-for="x in comments">
+                <li>{x.content}</li>
             </ol>
         </div>
     `,

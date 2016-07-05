@@ -58,6 +58,8 @@
                 this.updateToolbar( editor, toolbarBtnSelector, options );
             }.bind( this ) );
 
+        /*
+        // 取消全局事件
         $( window ).bind( "touchend", function( e ) {
             var isInside = ( editor.is( e.target ) || editor.has( e.target ).length > 0 ),
             currentRange = this.getCurrentRange(),
@@ -68,6 +70,7 @@
                 this.updateToolbar( editor, toolbarBtnSelector, options );
             }
         } );
+        */
      }
 
      Wysiwyg.prototype.readFileIntoDataUrl = function( fileInfo ) {

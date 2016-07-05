@@ -1,1 +1,1 @@
-{"title":"使用七牛来上传静态资源文件","tags":["七牛","node","cdn"],"content":"[文档](http://developer.qiniu.com/code/v6/sdk/nodejs.html)","time":1466048639729,"id":1466048639729}
+{"title":"使用七牛来上传静态资源文件","tags":["七牛","node","cdn"],"content":"[文档](http://developer.qiniu.com/code/v6/sdk/nodejs.html)<div>静态资源，不应该直接写cdn域名，而应该是有一个转换函数pipe，这样方便cdn服务商切换，或者自己搭建cdn等等</div>","time":"1466048639729","id":"1466048639729"}

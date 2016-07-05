@@ -18,6 +18,9 @@ function render(htmlObj, that){
             node.setAttribute(item.key, item.value||'')
         })
 
+        // 如果有v-for / v-if 的指令，就需要对子元素进行特殊处理
+        // 另外一方面，能不能直接使用js
+
         htmlObj.children && htmlObj.children.forEach(function(item){
             var child = render(item,that, node)
             child && node.appendChild( child )
@@ -42,6 +45,7 @@ function render(htmlObj, that){
     }
     // 新建文本节点
     if(htmlObj.nodeType===3){
+        // 作用域
         var node = document.createTextNode( Operation(htmlObj.text, that.data) )
     }
     // 新建注释节点
