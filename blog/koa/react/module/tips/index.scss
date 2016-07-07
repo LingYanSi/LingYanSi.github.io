@@ -1,0 +1,20 @@
+@import "~sass/base";
+
+.tips {
+    margin: $padding/2 $padding;
+    position: relative;
+    a {
+        display: block;
+        background: $successColor;
+        padding: $padding;
+        color: #fff;
+        border-radius: $padding/2 ;
+    }
+
+    button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        border: none;
+    }
+}

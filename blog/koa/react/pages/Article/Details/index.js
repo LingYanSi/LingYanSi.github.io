@@ -20,21 +20,18 @@ class Details extends Component{
     }
     getData(){
         const url = `database/article/${this.props.params.id}.json`
-        var that = this
 
         fetch(url)
             .then( function(response){
                 return response.json()
             })
-            .then(function(data){
-                that.setState(data)
+            .then( (data) => {
+                this.setState(data)
             })
     }
     componentDidMount(){
         this.getData()
-
         this.showLoveDays()
-        // console.log(rocess);
     }
     del(){
         let id = this.state.id
@@ -58,6 +55,7 @@ class Details extends Component{
     rawHtml(str){
         return {__html: str}
     }
+    // 线上删除/编辑按钮不显示
     getToolBar(){
         const HOSTNAME = 'lingyansi.github.io'
         if (HOSTNAME != location.hostname) {

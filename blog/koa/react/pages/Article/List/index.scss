@@ -13,12 +13,18 @@
         font-size: 1.6em;
     }
 
-
     li {
         font-size: 14px;
         line-height: 1.4;
 
         &::after {
+            content: "";
+            display: block;
+            $border-color: #ece8e8;
+            @include border($border-color);
+        }
+
+        &:first-child::before {
             content: "";
             display: block;
             $border-color: #ece8e8;

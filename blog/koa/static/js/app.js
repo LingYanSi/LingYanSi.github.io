@@ -678,22 +678,21 @@
 	    _createClass(Details, [{
 	        key: 'getData',
 	        value: function getData() {
+	            var _this2 = this;
+
 	            var url = 'database/article/' + this.props.params.id + '.json';
-	            var that = this;
 
 	            fetch(url).then(function (response) {
 	                return response.json();
 	            }).then(function (data) {
-	                that.setState(data);
+	                _this2.setState(data);
 	            });
 	        }
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.getData();
-
 	            this.showLoveDays();
-	            // console.log(rocess);
 	        }
 	    }, {
 	        key: 'del',
@@ -718,6 +717,8 @@
 	        value: function rawHtml(str) {
 	            return { __html: str };
 	        }
+	        // 线上删除/编辑按钮不显示
+
 	    }, {
 	        key: 'getToolBar',
 	        value: function getToolBar() {
@@ -1328,6 +1329,8 @@
 	    value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(6);
@@ -1343,6 +1346,10 @@
 	var _index3 = __webpack_require__(1);
 
 	var _index4 = _interopRequireDefault(_index3);
+
+	var _index5 = __webpack_require__(41);
+
+	var _index6 = _interopRequireDefault(_index5);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1362,16 +1369,37 @@
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Home).call(this));
 
-	        _this.state = {};
+	        _this.state = {
+	            tips: [{
+	                content: '旅行者 ⇨ 吴俊德',
+	                url: 'http://www.xiami.com/song/1771509481?spm=a1z1s.6659509.0.0.q1s4GZ'
+	            }]
+	        };
 	        return _this;
 	    }
 
 	    _createClass(Home, [{
+	        key: 'tipsClose',
+	        value: function tipsClose(index) {
+	            var tips = this.state.tips;
+	            tips.splice(index, 1);
+
+	            console.log(tips);
+	            this.setState({
+	                tips: tips
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'home' },
+	                this.state.tips.map(function (item, index) {
+	                    return _react2.default.createElement(_index6.default, _extends({}, item, { close: _this2.tipsClose.bind(_this2, index) }));
+	                }),
 	                _react2.default.createElement(_index2.default, { len: 0 })
 	            );
 	        }
@@ -1557,6 +1585,88 @@
 
 /***/ },
 /* 26 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	__webpack_require__(42);
+
+	var Tips = function (_Component) {
+	    _inherits(Tips, _Component);
+
+	    function Tips() {
+	        _classCallCheck(this, Tips);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Tips).call(this));
+	    }
+
+	    _createClass(Tips, [{
+	        key: 'render',
+	        value: function render() {
+	            var props = this.props;
+
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'tips' },
+	                _react2.default.createElement(
+	                    'a',
+	                    { href: props.url ? props.url : 'javascript:0;', target: '_blank' },
+	                    props.content
+	                ),
+	                _react2.default.createElement(
+	                    'button',
+	                    { onClick: props.close },
+	                    'x'
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Tips;
+	}(_react.Component);
+
+	exports.default = Tips;
+
+/***/ },
+/* 42 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
