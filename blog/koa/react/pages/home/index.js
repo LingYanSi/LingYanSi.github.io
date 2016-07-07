@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import { Router, Route, Link, browserHistory } from 'react-router'
 import List from './../Article/List/index.js'
 
+import Modal from './../../module/modal/index.js'
 require('./index.scss')
 
 class Home extends Component{
@@ -13,7 +14,7 @@ class Home extends Component{
     render(){
         return <div id="home">
             {/*<div className="banner"></div>*/}
-            <List></List>
+            <List len={0}></List>
         </div>
     }
 }

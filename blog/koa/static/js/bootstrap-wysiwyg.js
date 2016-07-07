@@ -74,6 +74,8 @@
      }
 
      Wysiwyg.prototype.readFileIntoDataUrl = function( fileInfo ) {
+        //  在此处做图片上传的处理
+        // 一个promise
         var loader = $.Deferred(),
         fReader = new FileReader();
 

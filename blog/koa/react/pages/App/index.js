@@ -5,6 +5,7 @@ import Footer from './../Footer/index.js'
 import Sidebar from './../Sidebar/index.js'
 
 import Home from './../Home/index.js'
+import Modal from 'module/modal/index.js'
 
 require('./index.scss')
 
@@ -20,10 +21,14 @@ class Main extends Component{
             sidebar: !this.state.sidebar
         })
     }
+    componentDidMount(){
+
+    }
     render(){
         let state = this.state
 
         return <div>
+            <Modal></Modal>
             <Header sidebar={state.sidebar} />
             <div className="main">
                 <Sidebar sidebar={state.sidebar}

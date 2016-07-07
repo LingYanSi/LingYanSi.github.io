@@ -68,7 +68,8 @@ module.exports = {
     },
     resolve:{
         alias:{
-            scss: path.resolve(__dirname, './sass/')
+            sass: path.resolve(__dirname, './sass/'),
+            module: path.resolve(__dirname, './module/'),
         },
         unsafeCache: true,
         extensions: ['','js','jsx','scss']

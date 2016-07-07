@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import { Router, Route, Link, browserHistory } from 'react-router'
 
+
 require('./index.scss')
 
 class Sidebar extends Component{
@@ -45,7 +46,7 @@ class Sidebar extends Component{
                     <button className={props.sidebar ? 'show' : ''}
                             onClick={props.handleSidebarChange}>三</button>
                     <div className="sidebar-content">
-                        <div className="avatar" style={{backgroundImage: `url(${state.avatar})`}}></div>
+                        <div className="avatar" style={{backgroundImage: `url(${state.avatar})`}} ></div>
                         <ul>
                             { state.list.map((item, index)=>{
                                 return <li className={index==state.current?'current':''} key={item.url}>

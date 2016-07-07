@@ -1,6 +1,11 @@
+
+@import "~sass/base";
+
 #article-details {
     font-size: 14px;
     padding: 10px;
+
+    $margin : 5px ;
     h1 {
         color: rgb(50, 50 ,50);
         font-size: 1.8em;
@@ -9,8 +14,11 @@
 
     .tags-wrap {
         // line-height: 2 ;
+        margin: $margin 0;
+
         .tag {
-            background: pink ;
+            display: inline-block;
+            background: $tagColor ;
             color: #fff;
             padding: 4px;
             margin-right: .5em;
@@ -18,13 +26,14 @@
     }
 
     .details-tool {
-        padding: 5px 0;
+        margin: $margin 0;
         button {
             margin-right: 6px;
         }
     }
 
     .details-content {
+        margin: $margin 0;
         line-height: 1.4;
         img {
             max-width: 100%;
@@ -33,6 +42,7 @@
     }
 
     .details-time {
+        margin: $margin 0;
         color: rgb(210, 210, 210);
     }
 }

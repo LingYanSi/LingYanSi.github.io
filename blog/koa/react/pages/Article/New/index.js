@@ -86,6 +86,8 @@ class New extends React.Component{
                 <div className="btn-toolbar" data-role="editor-toolbar"
                         data-target="#editor">
                      <a data-edit="bold" className="btn">B</a>
+                     <a data-edit="underline" className="btn">_</a>
+                     <input type="text" data-edit="createLink" placeholder="插入url" />
                      <input type="file" data-edit="insertImage" />
                 </div>
 

@@ -1,4 +1,4 @@
-@import './../../sass/base';
+@import '~sass/base';
 
 #header {
     line-height: $header_height;
@@ -14,7 +14,7 @@
     z-index: 10000;
     transform: translateX(0);
 
-    transition: transform .3s;
+    transition: transform .2s;
     transform: translateX($sidebar_width);
 
 

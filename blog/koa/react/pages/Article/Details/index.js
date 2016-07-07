@@ -1,7 +1,11 @@
 import React,{Component} from 'react'
 import { Router, Route, Link, browserHistory } from 'react-router'
+import Modal from 'module/modal/index.js'
 
 require('./index.scss')
+
+// 特殊文章id
+const ID = '1465987421552'
 
 class Details extends Component{
     constructor(){
@@ -28,24 +32,51 @@ class Details extends Component{
     }
     componentDidMount(){
         this.getData()
+
+        this.showLoveDays()
+        // console.log(rocess);
     }
     del(){
-        var is_del = confirm('确认删除？')
-        if( !is_del ){
+        let id = this.state.id
+        if (ID == id) {
+            Modal.tips('文章不可删除')
             return
         }
 
-        fetch(`./article/del?id=${this.state.id}`)
-            .then(function(response){
-                return response.json()
-            })
-            .then(function(data){
-                console.log('删除成功')
-                location.href = '#/'
-            })
+        Modal.alert('确认删除？', ()=>{
+            fetch(`./article/del?id=${id}`)
+                .then(function(response){
+                    return response.json()
+                })
+                .then(function(data){
+                    console.log('删除成功')
+                    location.href = '#/'
+                })
+        })
+
     }
     rawHtml(str){
         return {__html: str}
+    }
+    getToolBar(){
+        const HOSTNAME = 'lingyansi.github.io'
+        if (HOSTNAME != location.hostname) {
+            return <div className="details-tool">
+                <button onClick={this.del.bind(this)}>DEL</button>
+                <Link to={`/article/edit/${this.state.id}`}>
+                    <button>编辑</button>
+                </Link>
+            </div>
+        }
+
+        return null
+    }
+    showLoveDays(){
+
+        if (ID == this.props.params.id) {
+            let days =Math.ceil( (new Date() - new Date('2016-03-28')) / (1000 * 60 * 60 * 24) )
+            Modal.tips(`距离2016-03-28武汉之行，过去了${days}天`, 5000)
+        }
     }
     render(){
         const state = this.state
@@ -56,15 +87,10 @@ class Details extends Component{
             <h1>{state.title}</h1>
             <div className="tags-wrap">
                 标签：{ state.tags.map(item=>{
-                    return <span className="tag tag-pink cursor" title={item}>{item}</span>
+                    return <a href="javascript:0;" className="tag tag-pink cursor" title={item}>{item}</a>
                 }) }
             </div>
-            <div className="details-tool">
-                <button onClick={this.del.bind(this)}>DEL</button>
-                <Link to={`/article/edit/${state.id}`}>
-                    <button>编辑</button>
-                </Link>
-            </div>
+            { this.getToolBar() }
             <div className="details-content" dangerouslySetInnerHTML={this.rawHtml(state.content)}></div>
             <div className="details-time">时间：{Utils.time.toString(state.time)}</div>
         </div>

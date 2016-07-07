@@ -1,0 +1,54 @@
+
+@import "~sass/base";
+
+.modal {
+    .modal-item {
+        position: fixed;
+        z-index: 500;
+        top: 50%;
+        left: 50%;
+        height: 300px;
+        width: 70%;
+        max-width: 600px;
+        background: #fff;
+        transform: translate3D(-50%, -50%, 0);
+        border: 1px solid rgba(0, 0, 0, .2);
+        border-radius: 4px;
+
+        &.modal-item-tips {
+            height: auto;
+            padding: 10px;
+            background: rgb(100, 200, 100);
+            color: #fff;
+            border: none;
+        }
+
+        &.modal-item-alert {
+            text-align: center;
+            padding: 10px;
+            height: auto;
+            background: rgba(255, 255, 255, .5);
+        }
+
+        &.modal-item-confirm {
+            text-align: center;
+            padding: 10px;
+            height: auto;
+            background: rgba(255, 255, 255, .5);
+        }
+    }
+
+    .modal-item-btns {
+        text-align: center;
+        margin-top: 10px;
+
+        button + button {
+            margin-left: 20px;
+        }
+
+        button:first-child {
+            background: $themeColor;
+            color: #fff;
+        }
+    }
+}

@@ -1,4 +1,4 @@
-@import './../../sass/base';
+@import '~sass/base';
 
 #sidebar {
     background-color: rgb(43, 45, 39);
@@ -11,7 +11,7 @@
     height: 100%;
     width: $sidebar_width;
     transform: translateX(-100%);
-    transition: transform .3s;
+    transition: transform .2s;
     line-height: 2.2;
     z-index: 10001;
     font-size: 1.2em;

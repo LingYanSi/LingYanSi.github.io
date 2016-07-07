@@ -36,7 +36,7 @@ class List extends Component{
         const len = this.props.len
         var list = len ? this.state.list.slice(0,len) : this.state.list
 
-        return <div className="article-list" title={'list'}>
+        return <div className="article-list">
             <ul>
                 {list.map(item => {
                     return <li key={item.id}>
@@ -56,7 +56,7 @@ class List extends Component{
 
 // 用于检测类型，类型检测只能是class的静态方法
 List.propTypes = {
-    title: React.PropTypes.string.isRequired,
+    len: React.PropTypes.number.isRequired,
 }
 
 export default List
