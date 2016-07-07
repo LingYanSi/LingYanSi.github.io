@@ -1,1 +1,0 @@
-"use strict";var Utils={time:{toString:function(t){var e=new Date(+t);return e.getFullYear()+"-"+this.fillZero(e.getMonth()+1)+"-"+this.fillZero(e.getDate())+" "+this.fillZero(e.getHours())+":"+this.fillZero(e.getMinutes())+":"+this.fillZero(e.getSeconds())},fillZero:function(t){return 10>t?"0"+t:""+t}}};

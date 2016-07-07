@@ -58,7 +58,9 @@
                 this.updateToolbar( editor, toolbarBtnSelector, options );
             }.bind( this ) );
 
-        /*$( window ).bind( "touchend", function( e ) {
+        /*
+        // 取消全局事件
+        $( window ).bind( "touchend", function( e ) {
             var isInside = ( editor.is( e.target ) || editor.has( e.target ).length > 0 ),
             currentRange = this.getCurrentRange(),
             clear = currentRange && ( currentRange.startContainer === currentRange.endContainer && currentRange.startOffset === currentRange.endOffset );
@@ -67,7 +69,8 @@
                 this.saveSelection();
                 this.updateToolbar( editor, toolbarBtnSelector, options );
             }
-        } );*/
+        } );
+        */
      }
 
      Wysiwyg.prototype.readFileIntoDataUrl = function( fileInfo ) {
