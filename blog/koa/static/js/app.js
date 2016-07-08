@@ -1371,11 +1371,11 @@
 
 	        _this.state = {
 	            tips: [{
-	                content: '旅行者 ⇨ 吴俊德',
-	                url: 'http://www.xiami.com/song/1771509481?spm=a1z1s.6659509.0.0.q1s4GZ'
+	                content: '硬汉 ⇨ 腰',
+	                url: 'http://www.xiami.com/song/1772580840?spm=a1z1s.7154410.1996860142.3.7qJGVJ'
 	            }, {
-	                content: '黎耀辉，不如我们从头再来过 ⇨ 何宝荣',
-	                url: 'http://www.xiami.com/song/391558?spm=a1z1s.7154410.1996860142.1.BPodBZ'
+	                content: 'Crusade ⇨ Pentatonic',
+	                url: 'http://www.xiami.com/song/1768980046?spm=a1z1s.7154410.1996860142.1.7qJGVJ'
 	            }]
 	        };
 	        return _this;
