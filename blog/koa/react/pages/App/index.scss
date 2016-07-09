@@ -32,8 +32,9 @@ button,input,textarea {
     box-shadow: none;
 }
 
-button {
+button, .btn {
     // 奇怪，在iPhone上必须设置background，才会显示正常
+    display: inline-block;
     background: inherit;
     padding: 0 1em;
     line-height: 2;

@@ -220,7 +220,8 @@ button, input, textarea {
   font-size: inherit;
   box-shadow: none; }
 
-button {
+button, .btn {
+  display: inline-block;
   background: inherit;
   padding: 0 1em;
   line-height: 2;
