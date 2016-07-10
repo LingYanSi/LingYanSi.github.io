@@ -3,6 +3,12 @@
 ## 常用框架
 - laravel
 
+## windows php 安装
+[下载](http://windows.php.net/download/)
+下载的时zip，然后解压到一个位置，假设位置时E:\php7.0\
+配置环境变量，再path中添加E:\php7.0\
+搞定
+
 ## 快速开启一个web服务
 [参考文档](http://php.net/manual/zh/features.commandline.webserver.php)
 ```bash

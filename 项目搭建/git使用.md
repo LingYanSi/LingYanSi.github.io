@@ -253,3 +253,16 @@ pull = fetch + merge
 
 ## git log -p
 显示详细的提交信息
+
+## git commit -av
+保留merge信息
+
+## ssh问题
+使用https的项目地址，有一个蛋疼的地方是需要一致输入username password
+当项目的remote url 是ssh时候，提交会被拒绝，是因为没有把本地生成的ssh字符串，提交到github
+ssh字符串的生成，使用 ```ssh-keygen``` 一路回车下去 然后 cat以pub为后缀的目标文件，把这个字符串提交到[这里](https://github.com/settings/ssh)
+
+## 修改本地remote
+```
+git remote set-url origin git@github.com:LingYanSi/node-server-socket.git
+```
