@@ -5,6 +5,8 @@ function url_match(url_1='', url_2=''){
     url_1 = url_1.trim().replace(/\/{2,}/g, '/')
     url_2 = url_2.trim().replace(/\/{2,}/g, '/')
 
+    if(url_1 == '*') return {}
+
     const arr_1 = url_1.split('/')
     const arr_2 = url_2.split('/')
 
@@ -18,7 +20,7 @@ function url_match(url_1='', url_2=''){
         if(/:.+/.test(item) && arr_2[index]){
             params[item.slice(1)] = arr_2[index]
         }else{
-            // / 可以匹配 /index 
+            // / 可以匹配 /index
             matched = item === arr_2[index] || !item
         }
     })

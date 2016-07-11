@@ -11,8 +11,12 @@ router:
 class List extends Component{
     render(){
         return <div>
-            <Link to="/anxiang" className="btn">暗香</Link>
-            <Link to="/shuying" className="btn">疏影</Link>
+            <Link to="/hei/anxiang" className="btn">暗香</Link>
+            <Link to="/hei/shuying" className="btn">疏影</Link>
+            <Link to="/step/shuying" className="btn">疏影</Link>
+            <div>
+                {this.props.children}
+            </div>
         </div>
     }
 }
@@ -21,6 +25,8 @@ class Step1 extends Component{
 
     render(){
         const params = this.props.params
+
+        console.log('疏影',params);
 
         if(params.id == 'anxiang'){
             return <div>
@@ -45,7 +51,7 @@ class Step1 extends Component{
 class Step2 extends Component{
     render(){
         return <div>
-            哈哈哈哈哈
+            哈哈哈哈哈 {this.props.params.id}
             <Link to="/step/第三部">下一步</Link>
             {this.props.children}
         </div>
@@ -63,9 +69,11 @@ class Step3 extends Component{
 class Home extends Component{
     render(){
         return <div id="about">
-            <Router>
-                <Route path="/" component={List}></Route>
-                <Route path="/:id" component={Step1} />
+            <Router >
+                <Route path="/" component={List}>
+                    <Route path="/hei/:id" component={Step1} />
+                    <Route path="/step/:id" component={Step2} />
+                </Route>
             </Router>
         </div>
     }
