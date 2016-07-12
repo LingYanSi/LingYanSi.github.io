@@ -14,7 +14,7 @@ class List extends Component{
     getList(){
         var that = this
 
-        fetch('database/list.json')
+        fetch('/database/list.json')
             .then(function(response){
                 return response.json()
             })

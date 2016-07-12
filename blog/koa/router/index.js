@@ -51,6 +51,11 @@ module.exports = function (router, koaBody){
         getList()
         this.body = JSON.stringify({status:{code:1001, msg:'删除成功'}, result:{}})
     })
+    .get('/*', function *(){
+        const tpl = pug.render(jadeTpl,{MIN: '', router: fileRouter})
+        // console.log(tpl)
+        this.body = tpl
+    })
 }
 
 // Async的应用

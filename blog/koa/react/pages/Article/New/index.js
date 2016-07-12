@@ -33,7 +33,7 @@ class New extends React.Component{
     // 获取文章信息
     getData(id){
         let that = this
-        fetch(`database/article/${id}.json`)
+        fetch(`/database/article/${id}.json`)
             .then(function(response){
                 return response.json()
             })
