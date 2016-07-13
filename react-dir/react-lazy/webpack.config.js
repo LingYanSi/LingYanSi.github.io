@@ -47,16 +47,17 @@ module.exports = {
         // 用来处理文件
         loaders: [
             // 对js/jsx文件的处理
-            { test: /\.(js|jsx)$/ , loader: 'babel-loader' },
+            { test: /\.(js|jsx)$/ , loaders: ['babel'] },
             // 对less的处理
             // { test: /\.scss$/, loader: ExtractTextPlugin.extract('style','css!sass!autoprefixer','sass-loader','autoprefixer-loader') },
             // { test: /\.css$/, loader: 'style-loader!css-loader!autoprefixer-loader' }
-            // { test: /\.css$/, loaders: ['style','css','scss','autoprefixer'] }
+            { test: /\.css$/, loaders: ['style','css'] }
         ]
     },
     // babel需要的 presets / plugins 预设或者插件
     babel: {
-        presets: ['react','es2015'] // 把es2015转译成es5，这么做的弊端在于有些浏览器已经支持了新特性，却不能使用
+        presets: ['react','es2015'] , // 把es2015转译成es5，这么做的弊端在于有些浏览器已经支持了新特性，却不能使用
+        plugins: [['antd', {style: 'css'}]]
     },
     // postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
     // 不需要webpack打包的文件，key: require('key') , value: 全局对象名
@@ -65,8 +66,6 @@ module.exports = {
         'react-dom': 'window.ReactDOM',
         'react/addons': 'window.React',
         'react-router': 'window.ReactRouter',
-        'lodash': 'window._',
-        'jQuery': 'window.$',
     },
     resolve:{
         alias:{
@@ -74,12 +73,12 @@ module.exports = {
             module: path.resolve(__dirname, './module/'),
         },
         unsafeCache: true,
-        extensions: ['','js','jsx','scss']
+        extensions: ['','.js','.jsx','.scss']
     },
     // 插件
     plugins: [
         new WebpackPathOrderPlugin(),
-        new ExtractTextPlugin("./../css/app.css"),
+        // new ExtractTextPlugin("./../css/app.css"),
         // 打印日志
         new WebpackOnBuildPlugin(function(stats) {
             var compilation = stats.compilation;

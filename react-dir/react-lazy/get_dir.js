@@ -12,8 +12,6 @@ arr.map(item=>{
     if( fs.statSync(file) ) {
         maps[item] = file
     }
-})
-
-console.log(maps);
+}) 
 
 module.exports = maps

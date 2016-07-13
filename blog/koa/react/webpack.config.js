@@ -72,7 +72,7 @@ module.exports = {
             module: path.resolve(__dirname, './module/'),
         },
         unsafeCache: true,
-        extensions: ['','js','jsx','scss']
+        extensions: ['','.js','.jsx','.scss','.css']
     },
     // 插件
     plugins: [
