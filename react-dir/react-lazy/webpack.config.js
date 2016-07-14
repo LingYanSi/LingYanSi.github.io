@@ -66,6 +66,7 @@ module.exports = {
         'react-dom': 'window.ReactDOM',
         'react/addons': 'window.React',
         'react-router': 'window.ReactRouter',
+        'module/router': 'window.Router',
     },
     resolve:{
         alias:{

@@ -1,24 +1,27 @@
 import React,{Component} from 'react'
-import {render} from 'react-dom'
+import Link from 'module/link'
 
 // import {Button} from './../../node_modules/antd/dist/antd.js'
-import {Button, DatePicker} from 'antd'
+// import {Button, DatePicker} from 'antd'
 
-import 'antd/dist/antd.css'
+// import 'antd/dist/antd.css'
 
-import lys from 'lys'
+import home from 'module/bitch'
+import * as Sack from 'module/sack'
 
-lys.fuck()
+console.log(Sack);
+
 
 class Fuck extends Component{
-    
+    componentWillUnmount(){
+        console.log('生命周期结束');
+    }
     render(){
         return <div>
             1111
-            <DatePicker />
-            <Button>Button</Button>
+            <Link href="/home">去主页</Link>
         </div>
     }
 }
 
-render(<Fuck />, document.querySelector('#app'))
+window.cache['/'] = <Fuck />

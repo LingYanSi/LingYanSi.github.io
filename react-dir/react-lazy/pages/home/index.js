@@ -1,12 +1,11 @@
-
-require('module/bitch')
-window.y = 'fuck'
-
+import React,{Component} from 'react'
 
 class Fuck extends Component{
-    componentDidMount(){
-        Fuck.self = this
+    render(){
+        return <div>
+            你好啊
+        </div>
     }
 }
 
-export default Fuck
+window.cache['/home'] = <Fuck />
