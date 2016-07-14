@@ -1,5 +1,5 @@
 import {Component} from 'react'
-// import Router from 'module/router'
+import Router from 'module/router'
 
 class Link extends Component{
     handleClick(event){

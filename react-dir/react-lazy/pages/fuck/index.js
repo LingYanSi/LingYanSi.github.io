@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import Link from 'module/link'
+import cache from 'module/cache'
 
 // import {Button} from './../../node_modules/antd/dist/antd.js'
 // import {Button, DatePicker} from 'antd'
@@ -24,4 +25,4 @@ class Fuck extends Component{
     }
 }
 
-window.cache['/'] = <Fuck />
+cache['/fuck.js'] = Fuck

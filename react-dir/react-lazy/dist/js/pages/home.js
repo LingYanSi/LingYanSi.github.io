@@ -52,6 +52,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _cache = __webpack_require__(5);
+
+	var _cache2 = _interopRequireDefault(_cache);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -72,6 +76,7 @@
 	    _createClass(Fuck, [{
 	        key: 'render',
 	        value: function render() {
+	            console.log('props.param', this.props.param);
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -83,13 +88,27 @@
 	    return Fuck;
 	}(_react.Component);
 
-	window.cache['/home'] = _react2.default.createElement(Fuck, null);
+	_cache2.default['/home.js'] = Fuck;
 
 /***/ },
 /* 1 */
 /***/ function(module, exports) {
 
 	module.exports = window.React;
+
+/***/ },
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = window.cache;
 
 /***/ }
 /******/ ]);
