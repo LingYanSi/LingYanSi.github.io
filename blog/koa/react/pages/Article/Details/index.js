@@ -19,7 +19,7 @@ class Details extends Component{
         }
     }
     getData(){
-        const url = `/database/article/${this.props.params.id}.json`
+        const url = `./database/article/${this.props.params.id}.json`
 
         fetch(url)
             .then( function(response){

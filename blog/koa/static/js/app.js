@@ -1149,7 +1149,7 @@
 	        value: function getData() {
 	            var _this2 = this;
 
-	            var url = '/database/article/' + this.props.params.id + '.json';
+	            var url = './database/article/' + this.props.params.id + '.json';
 
 	            fetch(url).then(function (response) {
 	                return response.json();
@@ -1408,7 +1408,7 @@
 	        value: function getList() {
 	            var that = this;
 
-	            fetch('/database/list.json').then(function (response) {
+	            fetch('./database/list.json').then(function (response) {
 	                return response.json();
 	            }).then(function (data) {
 	                that.setState({
