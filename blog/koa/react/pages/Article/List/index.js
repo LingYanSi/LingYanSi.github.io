@@ -55,8 +55,8 @@ class List extends Component{
 }
 
 // 用于检测类型，类型检测只能是class的静态方法
-List.propTypes = {
-    len: React.PropTypes.number.isRequired,
-}
+// List.propTypes = {
+//     len: React.PropTypes.number.isRequired,
+// }
 
 export default List

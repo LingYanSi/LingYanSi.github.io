@@ -33,7 +33,7 @@ class Home extends Component{
         return <div id="home">
             {
                 this.state.tips.map((item, index) => {
-                    return <Tips {...item} close={this.tipsClose.bind(this, index)}></Tips>
+                    return <Tips {...item} close={this.tipsClose.bind(this, index)} key={item.url}></Tips>
                 })
             }
             {/*<div className="banner"></div>*/}

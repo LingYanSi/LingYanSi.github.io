@@ -85,7 +85,7 @@ class Details extends Component{
             <h1>{state.title}</h1>
             <div className="tags-wrap">
                 标签：{ state.tags.map(item=>{
-                    return <a href="javascript:0;" className="tag tag-pink cursor" title={item}>{item}</a>
+                    return <a href="javascript:0;" className="tag tag-pink cursor" key={item} title={item}>{item}</a>
                 }) }
             </div>
             { this.getToolBar() }

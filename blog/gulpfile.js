@@ -13,17 +13,16 @@ let md5 = require('gulp-md5')
 let sourcemaps = require('gulp-sourcemaps');
 let uglify = require('gulp-uglify')
 
-gulp.task('sass::base', ()=>{
-    return gulp.src(['./build/sass/base/index.scss'])
+const SASS_PATH = './koa/react/sass/base.scss'
+gulp.task('sass::base',['watch::sass'], ()=>{
+    return gulp.src([SASS_PATH])
         .pipe(sass())
         .pipe(postcss([ autoprefixer({ browsers: ['last 2 versions'] }) ]))
-        .pipe(concat('sass.css'))
-        .pipe(rename('base.css'))
-        .pipe( gulp.dest('./base/') )
+        .pipe( gulp.dest('./koa/static/css') )
 })
 
 gulp.task('watch::sass', ()=>{
-    gulp.watch('./build/sass/base/*.scss', ['sass::base'])
+    gulp.watch('./koa/react/sass/*.scss', ['sass::base'])
 })
 
 gulp.task('default',[], ()=>{
