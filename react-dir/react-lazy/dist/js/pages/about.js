@@ -50,7 +50,7 @@
 
 	var _react = __webpack_require__(1);
 
-	var _cache = __webpack_require__(5);
+	var _cache = __webpack_require__(2);
 
 	var _cache2 = _interopRequireDefault(_cache);
 
@@ -99,10 +99,7 @@
 	module.exports = window.React;
 
 /***/ },
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */
+/* 2 */
 /***/ function(module, exports) {
 
 	"use strict";

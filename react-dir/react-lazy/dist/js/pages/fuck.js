@@ -56,15 +56,15 @@
 
 	var _link2 = _interopRequireDefault(_link);
 
-	var _cache = __webpack_require__(5);
+	var _cache = __webpack_require__(2);
 
 	var _cache2 = _interopRequireDefault(_cache);
 
-	var _bitch = __webpack_require__(2);
+	var _bitch = __webpack_require__(5);
 
 	var _bitch2 = _interopRequireDefault(_bitch);
 
-	var _sack = __webpack_require__(4);
+	var _sack = __webpack_require__(6);
 
 	var Sack = _interopRequireWildcard(_sack);
 
@@ -128,17 +128,14 @@
 
 /***/ },
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 
-	var _sack = __webpack_require__(4);
-
-	var _sack2 = _interopRequireDefault(_sack);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	console.log(_sack2.default);
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = window.cache;
 
 /***/ },
 /* 3 */
@@ -154,7 +151,7 @@
 
 	var _react = __webpack_require__(1);
 
-	var _router = __webpack_require__(6);
+	var _router = __webpack_require__(4);
 
 	var _router2 = _interopRequireDefault(_router);
 
@@ -201,6 +198,26 @@
 /* 4 */
 /***/ function(module, exports) {
 
+	module.exports = window.Router;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _sack = __webpack_require__(6);
+
+	var _sack2 = _interopRequireDefault(_sack);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	console.log(_sack2.default);
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -217,23 +234,6 @@
 	var yy = exports.yy = 2;
 	exports.xx = xx;
 	exports.yy = yy;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = window.cache;
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-	module.exports = window.Router;
 
 /***/ }
 /******/ ]);

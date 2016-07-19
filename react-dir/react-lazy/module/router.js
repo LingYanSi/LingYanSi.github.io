@@ -1,7 +1,7 @@
 var maps = {
     '/': '/fuck.js',
     '/home': '/home.js',
-    '/home/:id': '/about.js',
+    '/home/:id': '/home.js',
     '*': '/notfound.js'
 }
 // 还需要增加一个路由匹配规则
@@ -115,7 +115,7 @@ window.Router = (function(cache, maps){
         },
         render: function(component, param){
             console.log('渲染', component, param);
-            // 渲染组件
+            // 强制渲染组件，没有dom-diff
             ReactDOM.render(React.createElement(component, {param}, null), document.querySelector('#app'))
         },
         load: function(url){
