@@ -1,11 +1,11 @@
 import React,{Component} from 'react'
 import { Router, Route, Link, browserHistory } from 'react-router'
-import List from './../Article/List/index.js'
+import List from 'pages/Article/List'
 
-import Modal from 'module/modal/index.js'
-import Tips from 'module/tips/index.js'
+import Modal from 'module/Modal'
+import Tips from 'module/Tips'
 
-require('./index.scss')
+import './index.scss'
 
 class Home extends Component{
     constructor(){
@@ -24,7 +24,6 @@ class Home extends Component{
         let tips = this.state.tips
         tips.splice(index, 1)
 
-        console.log(tips);
         this.setState({
             tips: tips
         })
@@ -36,7 +35,6 @@ class Home extends Component{
                     return <Tips {...item} close={this.tipsClose.bind(this, index)} key={item.url}></Tips>
                 })
             }
-            {/*<div className="banner"></div>*/}
             <List len={0}></List>
         </div>
     }

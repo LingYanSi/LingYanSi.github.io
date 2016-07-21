@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 
-require('./index.scss')
+import './index.scss'
 
 /*
 modal 在根组件被渲染，其他组件调用的是他的静态方法
@@ -176,6 +176,6 @@ Modal.closeAll = function(){
 }
 
 // 放到全局
-window.Modal = Modal
+// window.Modal = Modal
 
 export default Modal

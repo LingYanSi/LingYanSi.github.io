@@ -48,8 +48,7 @@ module.exports = {
             { test: /\.(js|jsx)$/ , loader: 'babel-loader' },
             // 对less的处理
             { test: /\.scss$/, loader: ExtractTextPlugin.extract('style','css!sass!autoprefixer','sass-loader','autoprefixer-loader') },
-            // { test: /\.css$/, loader: 'style-loader!css-loader!autoprefixer-loader' }
-            // { test: /\.css$/, loaders: ['style','css','scss','autoprefixer'] }
+            // { test: /\.scss$/, loaders: ['style','css','sass'] }
         ]
     },
     // babel需要的 presets / plugins 预设或者插件
@@ -69,6 +68,7 @@ module.exports = {
     resolve:{
         alias:{
             sass: path.resolve(__dirname, './sass/'),
+            pages: path.resolve(__dirname, './pages/'),
             module: path.resolve(__dirname, './module/'),
         },
         unsafeCache: true,

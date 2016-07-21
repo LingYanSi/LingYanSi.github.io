@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 
-require('./index.scss')
+import './index.scss'
 
 class Home extends Component{
     render(){
