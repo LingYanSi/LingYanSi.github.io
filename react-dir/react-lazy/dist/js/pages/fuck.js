@@ -60,16 +60,6 @@
 
 	var _cache2 = _interopRequireDefault(_cache);
 
-	var _bitch = __webpack_require__(5);
-
-	var _bitch2 = _interopRequireDefault(_bitch);
-
-	var _sack = __webpack_require__(6);
-
-	var Sack = _interopRequireWildcard(_sack);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -83,7 +73,10 @@
 
 	// import 'antd/dist/antd.css'
 
-	console.log(Sack);
+	// import home from 'module/bitch'
+	// import * as Sack from 'module/sack'
+
+	// console.log(Sack);
 
 	var Fuck = function (_Component) {
 	    _inherits(Fuck, _Component);
@@ -199,41 +192,6 @@
 /***/ function(module, exports) {
 
 	module.exports = window.Router;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _sack = __webpack_require__(6);
-
-	var _sack2 = _interopRequireDefault(_sack);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	console.log(_sack2.default);
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var index = 1;(function () {
-	    console.log('执行了一次');
-	    index++;
-	})();
-
-	exports.default = index;
-	var xx = exports.xx = 1;
-	var yy = exports.yy = 2;
-	exports.xx = xx;
-	exports.yy = yy;
 
 /***/ }
 /******/ ]);

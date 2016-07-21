@@ -1698,13 +1698,9 @@
 	                        null,
 	                        state.list.map(function (item, index) {
 	                            return _react2.default.createElement(
-	                                'li',
-	                                { className: index == state.current ? 'current' : '', key: item.url },
-	                                _react2.default.createElement(
-	                                    _reactRouter.Link,
-	                                    { to: item.url },
-	                                    item.title
-	                                )
+	                                _reactRouter.Link,
+	                                { to: item.url, activeClassName: 'current', key: item.url },
+	                                item.title
 	                            );
 	                        })
 	                    )

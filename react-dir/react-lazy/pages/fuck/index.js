@@ -7,10 +7,10 @@ import cache from 'module/cache'
 
 // import 'antd/dist/antd.css'
 
-import home from 'module/bitch'
-import * as Sack from 'module/sack'
+// import home from 'module/bitch'
+// import * as Sack from 'module/sack'
 
-console.log(Sack);
+// console.log(Sack);
 
 
 class Fuck extends Component{

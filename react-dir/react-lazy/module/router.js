@@ -15,7 +15,8 @@ var match = (function(){
         }
 
         let param = {}
-        let path = maps['*']
+        let filepath = maps['*']
+        let path = ''
 
         Object.keys(maps).some(item => {
             if(item == '*') return
@@ -42,7 +43,7 @@ var match = (function(){
                     }
                 })
 
-                return isMatch && (path = maps[item])
+                return isMatch && (path = item) && (filepath = maps[item])
             }
 
             if(item_array[item_array_length-1] == '*' && item_array_length < url_arr_length){
@@ -61,12 +62,13 @@ var match = (function(){
                     return 1
                 })
 
-                return isMatch && (path = maps[item])
+                return isMatch && (path = item) && (filepath = maps[item])
             }
         })
 
         return cache[url] = {
             param ,
+            filepath,
             path
         }
     }
@@ -82,11 +84,16 @@ window.Router = (function(cache, maps){
     // 是否使用hash做路由
     const USE_HASH = true
 
+    let changeFunCache = []
+
     var router = {
         loadScript: function(url){
-            let {path, param} = match(url, maps)
-            let matchObj = {path, param}
-            let filepath = '/dist/js/pages'+path
+            let {filepath, param, path} = match(url, maps)
+            let matchObj = {filepath, param}
+            filepath = '/dist/js/pages'+filepath
+
+            // 触发url change事件
+            this.change(path)
 
             return new Promise(function(resolve, reject){
                 if(!cache[path]){
@@ -122,7 +129,7 @@ window.Router = (function(cache, maps){
             url = url || '/'
 
             this.loadScript(url).then((matchObj)=>{
-                this.render(cache[matchObj.path], matchObj.param)
+                this.render(cache[matchObj.filepath], matchObj.param)
             },function(){
                 console.log('加载失败');
             })
@@ -143,6 +150,17 @@ window.Router = (function(cache, maps){
         pushState: function(url){
             USE_HASH ? (location.href = `#${url}`) : history.pushState(null, '', url)
             USE_HASH || this.load(url)
+        },
+        addChangeListener(fun){
+            changeFunCache.push(fun)
+        },
+        removeChangeListener(fun){
+            changeFunCache = changeFunCache.filter(item => item !== fun)
+        },
+        change(path){
+            changeFunCache.forEach(item => {
+                item(path)
+            })
         }
     }
     router.init()
