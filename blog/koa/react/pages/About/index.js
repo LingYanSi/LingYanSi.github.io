@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 // import { Router, Route, Link } from 'module/router/index.js'
 
-require('./index.scss')
+import './index.scss'
 
 /*
 router:

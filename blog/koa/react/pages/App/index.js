@@ -1,11 +1,11 @@
 import React,{Component} from 'react'
 import { Router, Route, Link, browserHistory } from 'react-router'
-import Header from './../Header/index.js'
-import Footer from './../Footer/index.js'
-import Sidebar from './../Sidebar/index.js'
+import Header from 'pages/Header'
+import Footer from 'pages/Footer'
+import Sidebar from 'pages/Sidebar'
 
-import Home from './../Home/index.js'
-import Modal from 'module/modal/index.js'
+import Home from 'pages/Home'
+import Modal from 'module/Modal'
 
 require('./index.scss')
 

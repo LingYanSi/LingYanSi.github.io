@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import { Router, Route, Link, hashHistory } from 'react-router'
-import Main from './App/index.js'
-import Home from './Home/index.js'
-import About from './About/index.js'
-import Article from './Article/index.js'
-import Details from './Article/Details/index.js'
-import ArticleNew from './Article/New/index.js'
-import NotFound from './NotFound/index.js'
+import Main from './App'
+import Home from './Home'
+import About from './About'
+import Article from './Article'
+import Details from './Article/Details'
+import ArticleNew from './Article/New'
+import NotFound from './NotFound'
 
 
 // React.initializeTouchEvents(true)

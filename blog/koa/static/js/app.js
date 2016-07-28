@@ -58,33 +58,33 @@
 
 	var _reactRouter = __webpack_require__(7);
 
-	var _index = __webpack_require__(10);
+	var _App = __webpack_require__(10);
 
-	var _index2 = _interopRequireDefault(_index);
+	var _App2 = _interopRequireDefault(_App);
 
-	var _index3 = __webpack_require__(24);
+	var _Home = __webpack_require__(24);
 
-	var _index4 = _interopRequireDefault(_index3);
+	var _Home2 = _interopRequireDefault(_Home);
 
-	var _index5 = __webpack_require__(5);
+	var _About = __webpack_require__(5);
 
-	var _index6 = _interopRequireDefault(_index5);
+	var _About2 = _interopRequireDefault(_About);
 
-	var _index7 = __webpack_require__(14);
+	var _Article = __webpack_require__(14);
 
-	var _index8 = _interopRequireDefault(_index7);
+	var _Article2 = _interopRequireDefault(_Article);
 
-	var _index9 = __webpack_require__(12);
+	var _Details = __webpack_require__(12);
 
-	var _index10 = _interopRequireDefault(_index9);
+	var _Details2 = _interopRequireDefault(_Details);
 
-	var _index11 = __webpack_require__(18);
+	var _New = __webpack_require__(18);
 
-	var _index12 = _interopRequireDefault(_index11);
+	var _New2 = _interopRequireDefault(_New);
 
-	var _index13 = __webpack_require__(26);
+	var _NotFound = __webpack_require__(26);
 
-	var _index14 = _interopRequireDefault(_index13);
+	var _NotFound2 = _interopRequireDefault(_NotFound);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -113,13 +113,13 @@
 	                { history: _reactRouter.hashHistory },
 	                _react2.default.createElement(
 	                    _reactRouter.Route,
-	                    { path: '/', component: _index2.default },
-	                    _react2.default.createElement(_reactRouter.Route, { path: 'about', component: _index6.default }),
-	                    _react2.default.createElement(_reactRouter.Route, { path: 'article', component: _index8.default }),
-	                    _react2.default.createElement(_reactRouter.Route, { path: 'article/new', component: _index12.default }),
-	                    _react2.default.createElement(_reactRouter.Route, { path: 'article/edit/:id', component: _index12.default }),
-	                    _react2.default.createElement(_reactRouter.Route, { path: 'article/:id', component: _index10.default }),
-	                    _react2.default.createElement(_reactRouter.Route, { path: '*', component: _index14.default })
+	                    { path: '/', component: _App2.default },
+	                    _react2.default.createElement(_reactRouter.Route, { path: 'about', component: _About2.default }),
+	                    _react2.default.createElement(_reactRouter.Route, { path: 'article', component: _Article2.default }),
+	                    _react2.default.createElement(_reactRouter.Route, { path: 'article/new', component: _New2.default }),
+	                    _react2.default.createElement(_reactRouter.Route, { path: 'article/edit/:id', component: _New2.default }),
+	                    _react2.default.createElement(_reactRouter.Route, { path: 'article/:id', component: _Details2.default }),
+	                    _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFound2.default })
 	                )
 	            );
 	        }
@@ -158,6 +158,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	__webpack_require__(4);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -165,8 +167,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	__webpack_require__(4);
 
 	var Tips = function (_Component) {
 	    _inherits(Tips, _Component);
@@ -226,6 +226,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	__webpack_require__(9);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -233,10 +235,7 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 	// import { Router, Route, Link } from 'module/router/index.js'
-
-	__webpack_require__(9);
 
 	/*
 	router:
@@ -386,6 +385,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	__webpack_require__(1);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -393,8 +394,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	__webpack_require__(1);
 
 	/*
 	modal 在根组件被渲染，其他组件调用的是他的静态方法
@@ -641,7 +640,7 @@
 	};
 
 	// 放到全局
-	window.Modal = Modal;
+	// window.Modal = Modal
 
 	exports.default = Modal;
 
@@ -669,25 +668,25 @@
 
 	var _reactRouter = __webpack_require__(7);
 
-	var _index = __webpack_require__(22);
+	var _Header = __webpack_require__(22);
 
-	var _index2 = _interopRequireDefault(_index);
+	var _Header2 = _interopRequireDefault(_Header);
 
-	var _index3 = __webpack_require__(20);
+	var _Footer = __webpack_require__(20);
 
-	var _index4 = _interopRequireDefault(_index3);
+	var _Footer2 = _interopRequireDefault(_Footer);
 
-	var _index5 = __webpack_require__(27);
+	var _Sidebar = __webpack_require__(27);
 
-	var _index6 = _interopRequireDefault(_index5);
+	var _Sidebar2 = _interopRequireDefault(_Sidebar);
 
-	var _index7 = __webpack_require__(24);
+	var _Home = __webpack_require__(24);
 
-	var _index8 = _interopRequireDefault(_index7);
+	var _Home2 = _interopRequireDefault(_Home);
 
-	var _index9 = __webpack_require__(8);
+	var _Modal = __webpack_require__(8);
 
-	var _index10 = _interopRequireDefault(_index9);
+	var _Modal2 = _interopRequireDefault(_Modal);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -731,20 +730,20 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_index10.default, null),
-	                _react2.default.createElement(_index2.default, { sidebar: state.sidebar }),
+	                _react2.default.createElement(_Modal2.default, null),
+	                _react2.default.createElement(_Header2.default, { sidebar: state.sidebar }),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'main' },
-	                    _react2.default.createElement(_index6.default, { sidebar: state.sidebar,
+	                    _react2.default.createElement(_Sidebar2.default, { sidebar: state.sidebar,
 	                        handleSidebarChange: this.handleSidebarChange.bind(this) }),
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: (state.sidebar ? '' : 'sidebar-hide') + ' content' },
-	                        this.props.children ? this.props.children : _react2.default.createElement(_index8.default, null)
+	                        this.props.children ? this.props.children : _react2.default.createElement(_Home2.default, null)
 	                    )
 	                ),
-	                _react2.default.createElement(_index4.default, null)
+	                _react2.default.createElement(_Footer2.default, null)
 	            );
 	        }
 	    }]);
@@ -778,9 +777,11 @@
 
 	var _reactRouter = __webpack_require__(7);
 
-	var _index = __webpack_require__(8);
+	var _Modal = __webpack_require__(8);
 
-	var _index2 = _interopRequireDefault(_index);
+	var _Modal2 = _interopRequireDefault(_Modal);
+
+	__webpack_require__(13);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -789,8 +790,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	__webpack_require__(13);
 
 	// 特殊文章id
 	var ID = '1465987421552';
@@ -837,11 +836,11 @@
 	        value: function del() {
 	            var id = this.state.id;
 	            if (ID == id) {
-	                _index2.default.tips('文章不可删除');
+	                _Modal2.default.tips('文章不可删除');
 	                return;
 	            }
 
-	            _index2.default.alert('确认删除？', function () {
+	            _Modal2.default.alert('确认删除？', function () {
 	                fetch('./article/del?id=' + id).then(function (response) {
 	                    return response.json();
 	                }).then(function (data) {
@@ -890,7 +889,7 @@
 
 	            if (ID == this.props.params.id) {
 	                var days = Math.ceil((new Date() - new Date('2016-03-28')) / (1000 * 60 * 60 * 24));
-	                _index2.default.tips('距离2016-03-28武汉之行，过去了' + days + '天', 5000);
+	                _Modal2.default.tips('距离2016-03-28武汉之行，过去了' + days + '天', 5000);
 	            }
 	        }
 	    }, {
@@ -965,9 +964,9 @@
 
 	var _reactRouter = __webpack_require__(7);
 
-	var _index = __webpack_require__(16);
+	var _List = __webpack_require__(16);
 
-	var _index2 = _interopRequireDefault(_index);
+	var _List2 = _interopRequireDefault(_List);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1012,7 +1011,7 @@
 	                        '管理'
 	                    )
 	                ),
-	                _react2.default.createElement(_index2.default, null)
+	                _react2.default.createElement(_List2.default, null)
 	            );
 	        }
 	    }]);
@@ -1351,6 +1350,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	__webpack_require__(21);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1358,8 +1359,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	__webpack_require__(21);
 
 	var Home = function (_Component) {
 	    _inherits(Home, _Component);
@@ -1408,6 +1407,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	__webpack_require__(23);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1415,8 +1416,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	__webpack_require__(23);
 
 	var Home = function (_Component) {
 	    _inherits(Home, _Component);
@@ -1471,17 +1470,19 @@
 
 	var _reactRouter = __webpack_require__(7);
 
-	var _index = __webpack_require__(16);
+	var _List = __webpack_require__(16);
 
-	var _index2 = _interopRequireDefault(_index);
+	var _List2 = _interopRequireDefault(_List);
 
-	var _index3 = __webpack_require__(8);
+	var _Modal = __webpack_require__(8);
 
-	var _index4 = _interopRequireDefault(_index3);
+	var _Modal2 = _interopRequireDefault(_Modal);
 
-	var _index5 = __webpack_require__(3);
+	var _Tips = __webpack_require__(3);
 
-	var _index6 = _interopRequireDefault(_index5);
+	var _Tips2 = _interopRequireDefault(_Tips);
+
+	__webpack_require__(25);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1490,8 +1491,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	__webpack_require__(25);
 
 	var Home = function (_Component) {
 	    _inherits(Home, _Component);
@@ -1519,7 +1518,6 @@
 	            var tips = this.state.tips;
 	            tips.splice(index, 1);
 
-	            console.log(tips);
 	            this.setState({
 	                tips: tips
 	            });
@@ -1533,9 +1531,9 @@
 	                'div',
 	                { id: 'home' },
 	                this.state.tips.map(function (item, index) {
-	                    return _react2.default.createElement(_index6.default, _extends({}, item, { close: _this2.tipsClose.bind(_this2, index), key: item.url }));
+	                    return _react2.default.createElement(_Tips2.default, _extends({}, item, { close: _this2.tipsClose.bind(_this2, index), key: item.url }));
 	                }),
-	                _react2.default.createElement(_index2.default, { len: 0 })
+	                _react2.default.createElement(_List2.default, { len: 0 })
 	            );
 	        }
 	    }]);
@@ -1622,6 +1620,8 @@
 
 	var _reactRouter = __webpack_require__(7);
 
+	__webpack_require__(28);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1629,8 +1629,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	__webpack_require__(28);
 
 	var Sidebar = function (_Component) {
 	    _inherits(Sidebar, _Component);
@@ -1698,9 +1696,13 @@
 	                        null,
 	                        state.list.map(function (item, index) {
 	                            return _react2.default.createElement(
-	                                _reactRouter.Link,
-	                                { to: item.url, activeClassName: 'current', key: item.url },
-	                                item.title
+	                                'li',
+	                                { className: index == state.current ? 'current' : '', key: item.url },
+	                                _react2.default.createElement(
+	                                    _reactRouter.Link,
+	                                    { to: item.url },
+	                                    item.title
+	                                )
 	                            );
 	                        })
 	                    )

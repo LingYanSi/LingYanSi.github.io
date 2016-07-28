@@ -1,8 +1,8 @@
 import React,{Component} from 'react'
 import { Router, Route, Link, browserHistory } from 'react-router'
-import Modal from 'module/modal/index.js'
+import Modal from 'module/Modal'
 
-require('./index.scss')
+import './index.scss'
 
 // 特殊文章id
 const ID = '1465987421552'

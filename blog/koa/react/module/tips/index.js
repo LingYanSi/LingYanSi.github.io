@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 
-require('./index.scss')
+import './index.scss'
 
 class Tips extends Component{
     constructor(){
