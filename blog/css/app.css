@@ -81,18 +81,18 @@
       background-color: #c3625e;
       background-size: cover;
       box-shadow: 0 0 4px 2px rgba(255, 255, 255, 0.8); }
-    #sidebar .sidebar-content li:after {
-      content: "";
-      display: block;
-      height: 1px;
-      transform: scaleY(0.5);
-      background: #fff; }
-    #sidebar .sidebar-content li.current {
-      background: rgba(43, 200, 215, 0.4); }
-    #sidebar .sidebar-content li a {
+    #sidebar .sidebar-content a {
       display: block;
       padding-left: 2em; }
-      #sidebar .sidebar-content li a:hover {
+      #sidebar .sidebar-content a:after {
+        content: "";
+        display: block;
+        height: 1px;
+        transform: scaleY(0.5);
+        background: #fff; }
+      #sidebar .sidebar-content a.current {
+        background: rgba(43, 200, 215, 0.4); }
+      #sidebar .sidebar-content a:hover {
         background: rgba(43, 200, 215, 0.4); }
 .article-list {
   font-size: 14px;

@@ -1,4 +1,4 @@
-#/bin/bash!
+#!/bin/bash
 
 #grep 查询字符串
 grep sth filename filename

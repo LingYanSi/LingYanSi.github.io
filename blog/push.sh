@@ -1,4 +1,4 @@
-#/bin/bash!
+#!/bin/bash
 branch=`git rev-parse --abbrev-ref HEAD`
 
 echo '--》复制css文件'
