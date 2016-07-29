@@ -91,6 +91,11 @@ var Data = [
         type: 'mark-down',
         data: 3,
         animation: ''
+    },
+    {
+        type: 'html',
+        data: `Thanks`,
+        animation: ''
     }
 ]
 
