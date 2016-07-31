@@ -3,12 +3,59 @@
     <head>
         <meta charset="utf-8">
         <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
         <link rel="stylesheet" href="index.css" media="screen" title="no title" charset="utf-8">
         <link rel="stylesheet" href="markdown.css" media="screen" title="no title" charset="utf-8">
+        <script>
+            'use strict'
+            (function(){
+                function setRem (){
+                    // let fs = 14
+                    let {innerWidth, innerHeight} = window
+                    // let PHONE = navigator.userAgent.toLowerCase().includes('phone')
+                    // fs = PHONE ? window.innerHeight / 750 * 20 : Math.max(window.innerWidth, window.innerHeight) / 1920 * 25
+                    document.querySelector('html').style.fontSize = innerWidth > innerHeight ? '1vw' : '2.5vh'
+                }
+                setRem()
+                window.addEventListener('resize', setRem)
+            })()
+        </script>
     </head>
     <body>
-        <div id="app"></div>
+        <div id="app">
+            <!-- 背景层 -->
+            <div class="layer"></div>
+            <!-- 内容层 -->
+            <div class="content">
+
+            </div>
+        </div>
         <script src="showdown.js" charset="utf-8"></script>
+        <script type="text/javascript">
+            'use strict'
+
+            // 路由初始化 使用hash
+            var Router = (function(){
+                let hash = location.hash.slice(2)
+                let hashArr = hash.split('/')
+                const NAME = hashArr[0]
+                const PAGE = /[0-9]+/.test(hashArr[1]) ? +hashArr[1] : 0
+                const pathname = location.pathname
+
+                return {
+                    push(page){
+                        window.history.replaceState(document.title, null, `${pathname}#/${NAME}/${page}`)
+                    },
+                    PAGE,
+                    NAME
+                }
+            })();
+
+            ;(function(){
+                // tong bu jia zai
+                document.write(`<script src='${Router.NAME}/data.js'><\/script>`)
+            })()
+        </script>
         <script src="index.js" charset="utf-8"></script>
     </body>
 </html>
