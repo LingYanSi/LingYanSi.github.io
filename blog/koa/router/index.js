@@ -7,15 +7,17 @@ var pug = require('pug')
 
 var jadeTpl = fs.readFileSync( './koa/jade/index.jade', 'utf8' )
 var getList = require('./../../blog_list.js')
-var fileRouter = require('./../../router_config.js')
+var source = require('./../../router_config.js')
 
 const loadfile = function(path){
-    return fileRouter[path] || path
+    return source[path] || path
 }
+loadfile.source = source
+loadfile.sourceStr = JSON.stringify(source)
 
 module.exports = function (router, koaBody){
     router.get('/', function *(){
-        const tpl = pug.render(jadeTpl,{router: loadfile})
+        const tpl = pug.render(jadeTpl,{ loadfile: loadfile})
         // console.log(tpl)
         this.body = tpl
     })
@@ -52,7 +54,7 @@ module.exports = function (router, koaBody){
         this.body = JSON.stringify({status:{code:1001, msg:'删除成功'}, result:{}})
     })
     .get('/*', function *(){
-        const tpl = pug.render(jadeTpl,{ router: loadfile})
+        const tpl = pug.render(jadeTpl,{ loadfile: loadfile})
         // console.log(tpl)
         this.body = tpl
     })
