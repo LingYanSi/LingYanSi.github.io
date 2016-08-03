@@ -185,6 +185,12 @@
     right: 0;
     top: 0;
     border: none; }
+.swipe {
+  width: 100%;
+  overflow-x: hidden; }
+  .swipe .transition {
+    -webkit-transition: all .5s;
+    transition: all .5s; }
 #home > h1 {
   color: red; }
 
@@ -194,6 +200,19 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center; }
+
+.text {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100px; }
+  .text > .fuck {
+    background: green; }
+  .text > .side {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    background: red; }
 * {
   margin: 0;
   padding: 0; }

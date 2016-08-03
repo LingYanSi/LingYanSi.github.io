@@ -1,0 +1,10 @@
+@import "~sass/var";
+
+.swipe {
+    width: 100%;
+    overflow-x: hidden;
+
+    .transition {
+        transition: all .5s;
+    }
+}
