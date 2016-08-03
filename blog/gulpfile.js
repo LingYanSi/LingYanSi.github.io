@@ -14,16 +14,13 @@ let sourcemaps = require('gulp-sourcemaps');
 let uglify = require('gulp-uglify')
 
 const SASS_PATH = './koa/react/sass/base.scss'
-gulp.task('sass::base',['watch::sass'], ()=>{
+gulp.task('sass::base', ()=>{
     return gulp.src([SASS_PATH])
         .pipe(sass())
         .pipe(postcss([ autoprefixer({ browsers: ['last 2 versions'] }) ]))
         .pipe( gulp.dest('./koa/static/css') )
 })
 
-gulp.task('watch::sass', ()=>{
-    gulp.watch('./koa/react/sass/*.scss', ['sass::base'])
-})
 
 gulp.task('default',[], ()=>{
     gulp.start('watch::sass')
@@ -45,21 +42,33 @@ gulp.task('watch::js', ['js::router'], ()=>{
     gulp.watch('./build/js/*.js', ['js::router'])
 })
 
-// 如果要做cdn、md5，那就需要业务文件
-// 先压缩，后获取md5
-gulp.task('minify::app', ['minify::base'], ()=>{
-    return gulp.src(['./js/app.js'])
-            .pipe( uglify() )
-            .pipe( md5() )
-            .pipe( gulp.dest('./js') )
+// util
+gulp.task('js::util', ()=>{
+    return gulp.src(['./koa/react/util/index.js'])
+            .pipe( babel({
+                presets: ['es2015']
+            }) )
+            .pipe( rename('util.js') )
+            .pipe( gulp.dest('./koa/static/js/') )
 })
 
-gulp.task('minify::base', ()=>{
-    return gulp.src(['./js/base.js'])
-        .pipe( babel({
-            presets: ['es2015']
+// 先压缩，后获取md5
+gulp.task('minify::app', ['minify::css'], ()=>{
+    return gulp.src(['./static/js/*'])
+            .pipe( uglify() )
+            .pipe( rename(function(path) {
+                path.basename += ".min";
+            }) )
+            .pipe( md5() )
+            .pipe( gulp.dest('./static/js/min/') )
+})
+
+// 压缩 md5 css文件
+gulp.task('minify::css', ()=>{
+    return gulp.src(['./static/css/*'])
+        .pipe( rename(function(path) {
+            path.basename += ".min";
         }) )
-        .pipe( uglify() )
         .pipe( md5() )
-        .pipe( gulp.dest('./js') )
+        .pipe( gulp.dest('./static/css/min/') )
 })

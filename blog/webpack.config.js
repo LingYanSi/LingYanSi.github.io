@@ -31,12 +31,12 @@ module.exports = {
     clearBeforeBuild: true,
     // 入口配置
     entry: {
-        'app': './pages/index.js',
+        'app': './koa/react/pages/index.js',
     },
     // 输出配置
     output: {
         // 输出路径
-        path: './../static/js/',
+        path: './koa/static/js/',
         filename: "[name].js",
         // 块文件名称？
         chunkFilename: "[name].js",
@@ -67,9 +67,9 @@ module.exports = {
     },
     resolve:{
         alias:{
-            sass: path.resolve(__dirname, './sass/'),
-            pages: path.resolve(__dirname, './pages/'),
-            module: path.resolve(__dirname, './module/'),
+            sass: path.resolve(__dirname, './koa/react/sass/'),
+            pages: path.resolve(__dirname, './koa/react/pages/'),
+            module: path.resolve(__dirname, './koa/react/module/'),
         },
         unsafeCache: true,
         extensions: ['','.js','.jsx','.scss','.css']

@@ -4,7 +4,7 @@
   "description": "one github blog ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pack": "webpack --progress --profile --watch --colors --display-error-details --display-cached"
   },
   "keywords": [
     "blog",

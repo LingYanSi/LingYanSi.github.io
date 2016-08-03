@@ -3,20 +3,19 @@ branch=`git rev-parse --abbrev-ref HEAD`
 
 echo '--》复制css文件'
 # js文件
-rm -r ./css
-cp -r ./koa/static/css/ ./css/
+rm -r ./static/css
+cp -r ./koa/static/css/ ./static/css/
 
 echo '--》复制js文件'
 # js文件
-rm -r ./js
-cp -r ./koa/static/js/ ./js/
+rm -r ./static/js
+cp -r ./koa/static/js/ ./static/js/
 
 echo '--> 压缩js文件,打上md5'
 gulp minify::app
-rm ./js/app.js ./js/base.js
 
 echo '--> 生成map'
-node getMap.js
+node getMap.js production
 
 echo '--》复制database文件'
 # database文件
