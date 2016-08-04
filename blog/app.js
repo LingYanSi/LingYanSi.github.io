@@ -1,8 +1,20 @@
-let koa = require('koa');
-let router = require('koa-router')(),
-    koaBody = require('koa-body')({multipart: true});
-let serve = require('koa-static');
-let app = koa();
+let koa = require('koa')
+let router = require('koa-router')()
+let koaBody = require('koa-body')({multipart: true})
+let serve = require('koa-static')
+let app = koa()
+var compress = require('koa-compress')
+
+// 开启gzip
+app.use(compress({
+  filter: function (content_type) {
+    //  console.log('类型====》',content_type,/(application\/javascript|text\/css)/i.test(content_type));
+    return /(application\/javascript|text\/css)/i.test(content_type)
+  },
+  threshold: 2048,
+  flush: require('zlib').Z_SYNC_FLUSH
+}))
+
 const ENV = process.argv.slice(2)[0] == 'production' ? 'pro' : 'dev'
 
 const __congif = {
@@ -20,7 +32,10 @@ const config = __congif[ENV]
 require('./koa/router/index.js')(router, koaBody)
 
 // 开启静态服务器
-app.use( serve(config.static[0]) ) 
+app.use( serve(config.static[0], {
+    gzip: true,
+    maxage: 1000*60*60*24*30
+}) )
 
 app
   .use(router.routes())

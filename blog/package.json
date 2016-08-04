@@ -37,6 +37,7 @@
     "jquery": "^1.12.4",
     "koa": "^1.2.0",
     "koa-body": "^1.4.0",
+    "koa-compress": "^1.0.9",
     "koa-router": "^5.4.0",
     "koa-static": "^2.0.0",
     "lodash": "^4.13.1",
