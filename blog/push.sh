@@ -15,12 +15,15 @@ echo '--> 压缩js文件,打上md5'
 gulp minify::app
 
 echo '--> 生成map'
-node getMap.js production
+node getMap.js github
 
 echo '--》复制database文件'
 # database文件
 rm -r ./database/
 cp -r ./koa/static/database/ ./database/
+
+rm -r ./static/database/
+cp -r ./koa/static/database/ ./static/database/
 
 echo '-->渲染jade文件到index.html'
 node render_index.js

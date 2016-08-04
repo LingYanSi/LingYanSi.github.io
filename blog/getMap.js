@@ -1,11 +1,12 @@
 'use strict'
 let fs = require('fs')
 let path = require('path')
-let PRO = process.argv.slice(2)[0] == 'production'
+const TYPE = process.argv.slice(2)[0] 
+const PRO = TYPE
 
 // 获取文件名，然后去生成map app_sth.js
 let obj = {}
-const STATIC = PRO ? './static' : ''
+const STATIC = TYPE=='github' ? './static' : ''
 const PARENT = PRO ? './static' : './koa/static'
 
 fuck(`${PARENT}/js`, '/js/', PRO)

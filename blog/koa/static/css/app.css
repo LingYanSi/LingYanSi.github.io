@@ -94,6 +94,12 @@
       padding-left: 2em; }
       #sidebar .sidebar-content li a:hover {
         background: rgba(43, 200, 215, 0.4); }
+.swipe {
+  width: 100%;
+  overflow-x: hidden; }
+  .swipe .transition {
+    -webkit-transition: all .5s;
+    transition: all .5s; }
 .article-list {
   font-size: 14px;
   line-height: 1.4; }
@@ -115,7 +121,7 @@
       height: 1px;
       transform: scaleY(0.5);
       background: #ece8e8; }
-    .article-list li > a {
+    .article-list li .item {
       display: block;
       padding: 10px; }
     .article-list li h3 {
@@ -185,12 +191,6 @@
     right: 0;
     top: 0;
     border: none; }
-.swipe {
-  width: 100%;
-  overflow-x: hidden; }
-  .swipe .transition {
-    -webkit-transition: all .5s;
-    transition: all .5s; }
 #home > h1 {
   color: red; }
 
@@ -204,10 +204,7 @@
 .text {
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
-  height: 100px; }
-  .text > .fuck {
-    background: green; }
+  display: flex; }
   .text > .side {
     -webkit-box-flex: 1;
     -ms-flex: 1;

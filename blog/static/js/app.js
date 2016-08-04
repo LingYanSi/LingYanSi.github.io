@@ -531,7 +531,8 @@
 	            swipeY: false, // 上下滑动
 	            direactX: 0, // 滑动方向 0表示没有滑动 -1逆向 1顺向
 	            direactY: 0, // 滑动方向 0表示没有滑动 -1逆向 1顺向
-	            transitioning: false };
+	            transitioning: false, // 执行动画中
+	            touchable: true };
 
 	        _this.touchstart = _this.touchstart.bind(_this);
 	        _this.touchmove = _this.touchmove.bind(_this);
@@ -543,12 +544,16 @@
 	    _createClass(Swipe, [{
 	        key: 'touchstart',
 	        value: function touchstart(event) {
-	            // console.log(`开始滑动`, event);
 	            var state = this.state;
-	            if (state.transitioning) return;
+	            // 之所以有touchable是因为，如果开始触摸也用transitioning会导致在动画过程中，动画被touchmove/touchstart事件阻止
+	            // 体验有些差
+	            if (!state.touchable) return;
+	            state.touchable = false;
+	            state.transitioning = false;
 
-	            this.refs.ele.classList.remove(TRANSTION);
-	            state.width = this.refs.ele.clientWidth;
+	            var $ele = this.refs.ele;
+	            $ele.classList.remove(TRANSTION);
+	            state.width = $ele.clientWidth;
 
 	            var touch = event.touches[0];
 	            state.startX = touch.screenX;
@@ -557,6 +562,8 @@
 	    }, {
 	        key: 'touchmove',
 	        value: function touchmove(event) {
+	            var _this2 = this;
+
 	            var state = this.state;
 	            if (state.transitioning) return;
 
@@ -568,10 +575,13 @@
 	            if (!state.swipeY && (state.swipeX || Math.abs(screenX - state.startX) >= Math.abs(screenY - state.startY))) {
 	                state.swipeX = true;
 	                event.preventDefault();
-	                state.direactX = screenX - state.startX;
-	                state.offsetX = state.left + state.direactX;
-	                // requestAnimationFrame(function(){console.log(1)})
-	                this.setOffset(state.offsetX / state.width, this.refs.ele);
+	                requestAnimationFrame(function () {
+	                    state.direactX = screenX - state.startX;
+	                    state.offsetX = state.left + state.direactX;
+	                    // requestAnimationFrame(function(){console.log(1)})
+	                    _this2.setOffset(state.offsetX / state.width, _this2.refs.ele);
+	                });
+	                2;
 	            }
 	            if (!state.swipeX && (state.swipeY || Math.abs(screenX - state.startX) < Math.abs(screenY - state.startY))) {
 	                state.swipeY = true;
@@ -586,47 +596,63 @@
 	    }, {
 	        key: 'touchend',
 	        value: function touchend(event) {
+	            var _this3 = this;
+
 	            var state = this.state;
 	            if (state.transitioning) return;
+	            state.transitioning = true;
 
-	            if (state.direactX == 0) {
-	                this.transitionend();
-	                return;
-	            }
-	            var $ele = this.refs.ele;
-	            state.left = state.offsetX;
-	            $ele.classList.add(TRANSTION);
+	            requestAnimationFrame(function () {
+	                if (state.direactX == 0) {
+	                    _this3.transitionend();
+	                    return;
+	                }
+	                var $ele = _this3.refs.ele;
+	                state.left = state.offsetX;
+	                $ele.classList.add(TRANSTION);
 
-	            $ele.clientHeight;
-	            if (state.left / state.width < state.minOffsetX) {
-	                state.left = state.minOffsetX * state.width;
-	            } else if (state.left / state.width > state.maxOffsetX) {
-	                state.left = state.maxOffsetX * state.width;
-	            } else {
-	                if (state.direactX > 0) {
+	                $ele.clientHeight;
+	                if (state.left / state.width < state.minOffsetX) {
+	                    state.left = state.minOffsetX * state.width;
+	                } else if (state.left / state.width > state.maxOffsetX) {
 	                    state.left = state.maxOffsetX * state.width;
 	                } else {
-	                    state.left = state.minOffsetX * state.width;
+	                    if (state.direactX > 0) {
+	                        state.left = state.maxOffsetX * state.width;
+	                    } else {
+	                        state.left = state.minOffsetX * state.width;
+	                    }
 	                }
-	            }
 
-	            state.transitioning = true;
-	            this.setOffset(state.left / state.width, $ele);
+	                _this3.setOffset(state.left / state.width, $ele);
+	            });
 	        }
 	    }, {
 	        key: 'transitionend',
 	        value: function transitionend() {
 	            // alert('fuck you');
 	            var state = this.state;
-	            state.transitioning = false;
+	            var $ele = this.refs.ele;
+
+	            $ele.classList.remove(TRANSTION);
+	            // state.transitioning = false
+	            state.touchable = true;
 	            state.swipeX = false;
 	            state.swipeY = false;
 	            state.direactX = 0;
 	        }
+	        // shouldComponentUpdate会接收到新的props与state，做出比对，决定是否重新渲染
+	        // shouldComponentUpdate(xx, yy){
+	        //     console.log(xx, yy)
+	        //     // return false
+	        // }
+
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var props = this.props;
+
+	            console.log('重新渲染了？');
 
 	            return React.createElement(
 	                'div',
@@ -1218,6 +1244,10 @@
 
 	var _reactRouter = __webpack_require__(2);
 
+	var _swipe = __webpack_require__(6);
+
+	var _swipe2 = _interopRequireDefault(_swipe);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1258,6 +1288,14 @@
 	            });
 	        }
 	    }, {
+	        key: 'deleteSwipe',
+	        value: function deleteSwipe(id) {
+	            var list = this.state.list.filter(function (item) {
+	                return item.id != id;
+	            });
+	            this.setState({ list: list });
+	        }
+	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.getList();
@@ -1285,27 +1323,43 @@
 	                _react2.default.createElement(
 	                    'ul',
 	                    null,
-	                    list.map(function (item) {
+	                    list.map(function (item, index) {
+
+	                        var width = 2 / 10 + 1;
+
 	                        return _react2.default.createElement(
 	                            'li',
 	                            { key: item.id },
 	                            _react2.default.createElement(
-	                                _reactRouter.Link,
-	                                { to: '/article/' + item.id },
+	                                _swipe2.default,
+	                                { width: width },
 	                                _react2.default.createElement(
-	                                    'h3',
-	                                    null,
-	                                    item.title
-	                                ),
-	                                _react2.default.createElement('div', { className: 'summary', dangerouslySetInnerHTML: _this2.rawHtml(item.content) }),
-	                                _react2.default.createElement(
-	                                    'p',
-	                                    { className: 'bott' },
+	                                    'div',
+	                                    { className: 'text' },
 	                                    _react2.default.createElement(
-	                                        'span',
-	                                        { className: 'time' },
-	                                        Utils.time.toString(item.time)
-	                                    )
+	                                        'div',
+	                                        { className: 'fuck', style: { width: 1 / width * 100 + '%' } },
+	                                        _react2.default.createElement(
+	                                            _reactRouter.Link,
+	                                            { to: '/article/' + item.id, className: 'item' },
+	                                            _react2.default.createElement(
+	                                                'h3',
+	                                                null,
+	                                                item.title
+	                                            ),
+	                                            _react2.default.createElement('div', { className: 'summary', dangerouslySetInnerHTML: _this2.rawHtml(item.content) }),
+	                                            _react2.default.createElement(
+	                                                'p',
+	                                                { className: 'bott' },
+	                                                _react2.default.createElement(
+	                                                    'span',
+	                                                    { className: 'time' },
+	                                                    Utils.time.toString(item.time)
+	                                                )
+	                                            )
+	                                        )
+	                                    ),
+	                                    _react2.default.createElement('div', { className: 'side', onClick: _this2.deleteSwipe.bind(_this2, item.id) })
 	                                )
 	                            )
 	                        );
@@ -1720,8 +1774,8 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'home' },
-	                state.swipe.map(function (item) {
-	                    var width = item / 10 + 1;
+	                state.swipe.map(function (item, index) {
+	                    var width = (index + 1) / 10 + 1;
 	                    return _react2.default.createElement(
 	                        _swipe2.default,
 	                        { width: width, key: item },

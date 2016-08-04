@@ -22,6 +22,7 @@ class Swipe extends Component{
             direactX: 0, // 滑动方向 0表示没有滑动 -1逆向 1顺向
             direactY: 0, // 滑动方向 0表示没有滑动 -1逆向 1顺向
             transitioning: false , // 执行动画中
+            touchable: true , //是否可滑动
         }
 
         this.touchstart = this.touchstart.bind(this)
@@ -30,12 +31,16 @@ class Swipe extends Component{
         this.transitionend = this.transitionend.bind(this)
     }
     touchstart(event){
-        // console.log(`开始滑动`, event);
         let state = this.state
-        if(state.transitioning) return
+        // 之所以有touchable是因为，如果开始触摸也用transitioning会导致在动画过程中，动画被touchmove/touchstart事件阻止
+        // 体验有些差
+        if(!state.touchable) return
+        state.touchable = false
+        state.transitioning = false
 
-        this.refs.ele.classList.remove(TRANSTION)
-        state.width = this.refs.ele.clientWidth
+        let $ele = this.refs.ele
+        $ele.classList.remove(TRANSTION)
+        state.width = $ele.clientWidth
 
         let touch = event.touches[0]
         state.startX = touch.screenX
@@ -51,15 +56,16 @@ class Swipe extends Component{
         if (!state.swipeY && (state.swipeX || Math.abs(screenX - state.startX) >= Math.abs(screenY - state.startY)) ) {
             state.swipeX = true
             event.preventDefault()
-            state.direactX = screenX - state.startX
-            state.offsetX = state.left  + state.direactX
-            // requestAnimationFrame(function(){console.log(1)})
-            this.setOffset(state.offsetX/state.width, this.refs.ele)
-        }
+            requestAnimationFrame(()=>{
+                state.direactX = screenX - state.startX
+                state.offsetX = state.left  + state.direactX
+                // requestAnimationFrame(function(){console.log(1)})
+                this.setOffset(state.offsetX/state.width, this.refs.ele)
+            })
+2        }
         if (!state.swipeX && (state.swipeY || Math.abs(screenX - state.startX) < Math.abs(screenY - state.startY)) ) {
             state.swipeY = true
         }
- 
     }
     setOffset(offset, $ele){
         $ele.style.transform = `translateX(${offset * 100}%)`
@@ -68,44 +74,56 @@ class Swipe extends Component{
     touchend(event){
         let state = this.state
         if(state.transitioning) return
-
-        if(state.direactX == 0){
-            this.transitionend()
-            return
-        }
-        let $ele = this.refs.ele
-        state.left = state.offsetX
-        $ele.classList.add(TRANSTION)
-
-        $ele.clientHeight
-        if(state.left/state.width < state.minOffsetX){
-            state.left = state.minOffsetX * state.width
-        }else if(state.left/state.width > state.maxOffsetX){
-            state.left = state.maxOffsetX * state.width
-        }else{
-            if(state.direactX > 0){
-                state.left = state.maxOffsetX * state.width
-            }else {
-                state.left = state.minOffsetX * state.width
-            }
-        }
-
-
         state.transitioning = true
-        this.setOffset(state.left/state.width, $ele)
 
+        requestAnimationFrame(()=>{
+            if(state.direactX == 0){
+                this.transitionend()
+                return
+            }
+            let $ele = this.refs.ele
+            state.left = state.offsetX
+            $ele.classList.add(TRANSTION)
+
+            $ele.clientHeight
+            if(state.left/state.width < state.minOffsetX){
+                state.left = state.minOffsetX * state.width
+            }else if(state.left/state.width > state.maxOffsetX){
+                state.left = state.maxOffsetX * state.width
+            }else{
+                if(state.direactX > 0){
+                    state.left = state.maxOffsetX * state.width
+                }else {
+                    state.left = state.minOffsetX * state.width
+                }
+            }
+
+
+            this.setOffset(state.left/state.width, $ele)
+        })
 
     }
     transitionend(){
         // alert('fuck you');
         let state = this.state
-        state.transitioning = false
+        let $ele = this.refs.ele
+
+        $ele.classList.remove(TRANSTION)
+        // state.transitioning = false
+        state.touchable = true
         state.swipeX = false
         state.swipeY = false
         state.direactX = 0
     }
+    // shouldComponentUpdate会接收到新的props与state，做出比对，决定是否重新渲染
+    // shouldComponentUpdate(xx, yy){
+    //     console.log(xx, yy)
+    //     // return false
+    // }
     render(){
         const props = this.props
+
+        console.log('重新渲染了？');
 
         return <div className={`swipe`}
                     onTouchStart = {this.touchstart}

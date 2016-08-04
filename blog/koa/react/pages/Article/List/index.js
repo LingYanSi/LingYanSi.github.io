@@ -1,6 +1,8 @@
 import React,{Component} from 'react'
 import { Router, Route, Link, browserHistory } from 'react-router'
 
+import Swipe from 'module/swipe'
+
 require('./index.scss')
 
 class List extends Component{
@@ -24,6 +26,10 @@ class List extends Component{
                 })
             })
     }
+    deleteSwipe(id){
+        let list = this.state.list.filter(item => item.id != id)
+        this.setState({list})
+    }
     componentDidMount(){
         this.getList()
     }
@@ -38,15 +44,25 @@ class List extends Component{
 
         return <div className="article-list">
             <ul>
-                {list.map(item => {
+                {list.map((item, index) => {
+
+                    const width = 2 / 10 + 1
+
                     return <li key={item.id}>
-                        <Link to={`/article/${item.id}`}>
-                            <h3>{item.title}</h3>
-                            <div className="summary" dangerouslySetInnerHTML={this.rawHtml(item.content)}></div>
-                            <p className="bott">
-                                <span className="time">{Utils.time.toString(item.time)}</span>
-                            </p>
-                        </Link>
+                    <Swipe width={width}>
+                        <div className="text">
+                            <div className="fuck" style={{width: 1/width * 100 + '%'}}>
+                                <Link to={`/article/${item.id}`} className='item'>
+                                    <h3>{item.title}</h3>
+                                    <div className="summary" dangerouslySetInnerHTML={this.rawHtml(item.content)}></div>
+                                    <p className="bott">
+                                        <span className="time">{Utils.time.toString(item.time)}</span>
+                                    </p>
+                                </Link>
+                            </div>
+                            <div className="side" onClick={this.deleteSwipe.bind(this, item.id)}></div>
+                        </div>
+                    </Swipe>
                     </li>
                 })}
             </ul>

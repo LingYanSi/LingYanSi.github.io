@@ -41,8 +41,8 @@ class Home extends Component{
         let state = this.state
 
         return <div id="home">
-            {state.swipe.map(item => {
-                const width = item/10 + 1
+            {state.swipe.map((item, index) => { 
+                const width = (index+1)/10 + 1
                 return <Swipe width={width} key={item}>
                     <div className="text">
                         <div className="fuck" style={{width: 1/width * 100 + '%'}}></div>
