@@ -8,8 +8,8 @@ var compress = require('koa-compress')
 // 开启gzip
 app.use(compress({
   filter: function (content_type) {
-    //  console.log('类型====》',content_type,/(application\/javascript|text\/css)/i.test(content_type));
-    return /(application\/javascript|text\/css)/i.test(content_type)
+    //  js/css/json/image
+    return /(application\/javascript|text\/css|application\/json|image\/jpeg|image\/png|image\/gif|image\/webp)/i.test(content_type)
   },
   threshold: 2048,
   flush: require('zlib').Z_SYNC_FLUSH
