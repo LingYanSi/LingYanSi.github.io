@@ -76,7 +76,7 @@ class Swipe extends Component{
         if(state.transitioning) return
         state.transitioning = true
 
-        requestAnimationFrame(()=>{ 
+        requestAnimationFrame(()=>{
             if(state.direactX == 0){
                 this.transitionend()
                 return
@@ -105,6 +105,8 @@ class Swipe extends Component{
     transitionend(){
         // alert('fuck you');
         let state = this.state
+        // 异步任务，组件已卸载的时候，就不执行了
+        if(this.state.isMount) return
         let $ele = this.refs.ele
 
         $ele.classList.remove(TRANSTION)
@@ -114,6 +116,9 @@ class Swipe extends Component{
         state.swipeY = false
         state.direactX = 0
     }
+    componentWillUnmount(){
+        this.state.isMount = true
+    }
     // shouldComponentUpdate会接收到新的props与state，做出比对，决定是否重新渲染
     // shouldComponentUpdate(xx, yy){
     //     console.log(xx, yy)
@@ -121,8 +126,6 @@ class Swipe extends Component{
     // }
     render(){
         const props = this.props
-
-        console.log('重新渲染了？');
 
         return <div className={`swipe`}
                     onTouchStart = {this.touchstart}
@@ -132,8 +135,7 @@ class Swipe extends Component{
                     onWebkitTransitionEnd={this.transitionend}
                     onTransitionEnd={this.transitionend}
                     style={{position: 'relative'}}>
-            <div style={{width: props.width * 100 + '%' }}
-                ref='ele' >
+            <div style={{width: props.width * 100 + '%' }} ref='ele' >
                 {props.children}
             </div>
         </div>

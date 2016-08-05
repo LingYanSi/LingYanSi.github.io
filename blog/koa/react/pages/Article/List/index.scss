@@ -59,3 +59,23 @@
         }
     }
 }
+
+
+.text {
+    display: flex;
+    // height: 100px;
+
+    &>.fuck{
+        // width: percentage(1 / 1.2);
+        // background: green;
+    }
+
+    &>.side {
+        flex: 1;
+        background: red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+    }
+}

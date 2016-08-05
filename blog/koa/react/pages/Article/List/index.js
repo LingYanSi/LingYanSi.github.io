@@ -60,7 +60,9 @@ class List extends Component{
                                     </p>
                                 </Link>
                             </div>
-                            <div className="side" onClick={this.deleteSwipe.bind(this, item.id)}></div>
+                            <div className="side" onClick={this.deleteSwipe.bind(this, item.id)}>
+                                Delete
+                            </div>
                         </div>
                     </Swipe>
                     </li>

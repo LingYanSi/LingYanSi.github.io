@@ -18,24 +18,28 @@ class Sidebar extends Component{
             avatar: 'http://ww3.sinaimg.cn/mw1024/69b8b46egw1f5h32f4t07j20k00qojwp.jpg'
         }
     }
-    hashChange(){
-        var hash = location.hash.slice(1)
-        var current = 0
-        this.state.list.forEach((item, index)=>{
-            hash.startsWith(item.url) && (current=index)
-        })
-
-        this.setState({
-            current: current
-        })
-
+    componentWillReceiveProps(newProps){
+        this.setCurrent(newProps)
     }
-    addHashChange(){
-        window.addEventListener('hashchange', this.hashChange.bind(this))
+    setCurrent(props){
+        const PATH_NAME = props.location.pathname
+
+        let current = 0
+        const MATCHED = this.state.list.some((item, index) => {
+            if (PATH_NAME === item.url) {
+                current = index
+                return true
+            }
+        })
+        if(!MATCHED){
+            current = -1
+        }
+        if(current != this.state.current){
+            this.setState({current})
+        }
     }
     componentDidMount(){
-        this.hashChange()
-        this.addHashChange()
+        this.setCurrent(this.props)
     }
     render(){
         const state = this.state

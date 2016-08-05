@@ -631,6 +631,8 @@
 	        value: function transitionend() {
 	            // alert('fuck you');
 	            var state = this.state;
+	            // 异步任务，组件已卸载的时候，就不执行了
+	            if (this.state.isMount) return;
 	            var $ele = this.refs.ele;
 
 	            $ele.classList.remove(TRANSTION);
@@ -639,6 +641,11 @@
 	            state.swipeX = false;
 	            state.swipeY = false;
 	            state.direactX = 0;
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            this.state.isMount = true;
 	        }
 	        // shouldComponentUpdate会接收到新的props与state，做出比对，决定是否重新渲染
 	        // shouldComponentUpdate(xx, yy){
@@ -650,8 +657,6 @@
 	        key: 'render',
 	        value: function render() {
 	            var props = this.props;
-
-	            console.log('重新渲染了？');
 
 	            return React.createElement(
 	                'div',
@@ -665,8 +670,7 @@
 	                    style: { position: 'relative' } },
 	                React.createElement(
 	                    'div',
-	                    { style: { width: props.width * 100 + '%' },
-	                        ref: 'ele' },
+	                    { style: { width: props.width * 100 + '%' }, ref: 'ele' },
 	                    props.children
 	                )
 	            );
@@ -859,6 +863,8 @@
 	    value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(5);
@@ -919,12 +925,10 @@
 	            });
 	        }
 	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {}
-	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var state = this.state;
+	            var props = this.props;
 
 	            return _react2.default.createElement(
 	                'div',
@@ -934,8 +938,8 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'main' },
-	                    _react2.default.createElement(_Sidebar2.default, { sidebar: state.sidebar,
-	                        handleSidebarChange: this.handleSidebarChange.bind(this) }),
+	                    _react2.default.createElement(_Sidebar2.default, _extends({}, props, { sidebar: state.sidebar,
+	                        handleSidebarChange: this.handleSidebarChange.bind(this) })),
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: (state.sidebar ? '' : 'sidebar-hide') + ' content' },
@@ -1359,7 +1363,11 @@
 	                                            )
 	                                        )
 	                                    ),
-	                                    _react2.default.createElement('div', { className: 'side', onClick: _this2.deleteSwipe.bind(_this2, item.id) })
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'side', onClick: _this2.deleteSwipe.bind(_this2, item.id) },
+	                                        'Delete'
+	                                    )
 	                                )
 	                            )
 	                        );
@@ -1906,28 +1914,33 @@
 	    }
 
 	    _createClass(Sidebar, [{
-	        key: 'hashChange',
-	        value: function hashChange() {
-	            var hash = location.hash.slice(1);
-	            var current = 0;
-	            this.state.list.forEach(function (item, index) {
-	                hash.startsWith(item.url) && (current = index);
-	            });
-
-	            this.setState({
-	                current: current
-	            });
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(newProps) {
+	            this.setCurrent(newProps);
 	        }
 	    }, {
-	        key: 'addHashChange',
-	        value: function addHashChange() {
-	            window.addEventListener('hashchange', this.hashChange.bind(this));
+	        key: 'setCurrent',
+	        value: function setCurrent(props) {
+	            var PATH_NAME = props.location.pathname;
+
+	            var current = 0;
+	            var MATCHED = this.state.list.some(function (item, index) {
+	                if (PATH_NAME === item.url) {
+	                    current = index;
+	                    return true;
+	                }
+	            });
+	            if (!MATCHED) {
+	                current = -1;
+	            }
+	            if (current != this.state.current) {
+	                this.setState({ current: current });
+	            }
 	        }
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            this.hashChange();
-	            this.addHashChange();
+	            this.setCurrent(this.props);
 	        }
 	    }, {
 	        key: 'render',
