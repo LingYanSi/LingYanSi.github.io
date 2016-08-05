@@ -1,11 +1,11 @@
 start:
-	echo '-->关闭应用'
-	make stop
-
-	make pack
-
 	echo '-->服务器端运行'
-	forever start --minUptime 1000 --spinSleepTime --uid blog 1000 app.js
+	forever start --minUptime 1000 --spinSleepTime 1000 --uid blog app.js
+
+startp:
+	make stop
+	make pack
+	make start
 
 stop:
 	forever stop blog
