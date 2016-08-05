@@ -581,7 +581,6 @@
 	                    // requestAnimationFrame(function(){console.log(1)})
 	                    _this2.setOffset(state.offsetX / state.width, _this2.refs.ele);
 	                });
-	                2;
 	            }
 	            if (!state.swipeX && (state.swipeY || Math.abs(screenX - state.startX) < Math.abs(screenY - state.startY))) {
 	                state.swipeY = true;
@@ -662,7 +661,8 @@
 	                    onTouchCancel: this.touchend,
 	                    onTouchEnd: this.touchend,
 	                    onWebkitTransitionEnd: this.transitionend,
-	                    onTransitionEnd: this.transitionend },
+	                    onTransitionEnd: this.transitionend,
+	                    style: { position: 'relative' } },
 	                React.createElement(
 	                    'div',
 	                    { style: { width: props.width * 100 + '%' },

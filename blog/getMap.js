@@ -1,7 +1,7 @@
 'use strict'
 let fs = require('fs')
 let path = require('path')
-const TYPE = process.argv.slice(2)[0] 
+const TYPE = process.argv.slice(2)[0]
 const PRO = TYPE
 
 // 获取文件名，然后去生成map app_sth.js
@@ -46,3 +46,8 @@ function fuck(dirpath, PRE, MIN) {
 console.log(obj);
 var str = `module.exports=${JSON.stringify(obj)}`
 fs.writeFileSync('./router_config.js', str)
+
+// 生成一个环境
+console.log(PRO ? 'app运行在生产环境': 'app运行在开发环境');
+const env = `module.exports='${PRO ? 'pro' : 'dev'}'`
+fs.writeFileSync('./app_config.js', env)

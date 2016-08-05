@@ -15,7 +15,7 @@ app.use(compress({
   flush: require('zlib').Z_SYNC_FLUSH
 }))
 
-const ENV = process.argv.slice(2)[0] == 'production' ? 'pro' : 'dev'
+const ENV = require('./app_config')
 
 const __congif = {
     pro : {

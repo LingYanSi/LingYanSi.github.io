@@ -62,7 +62,7 @@ class Swipe extends Component{
                 // requestAnimationFrame(function(){console.log(1)})
                 this.setOffset(state.offsetX/state.width, this.refs.ele)
             })
-2        }
+        }
         if (!state.swipeX && (state.swipeY || Math.abs(screenX - state.startX) < Math.abs(screenY - state.startY)) ) {
             state.swipeY = true
         }
@@ -76,7 +76,7 @@ class Swipe extends Component{
         if(state.transitioning) return
         state.transitioning = true
 
-        requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>{ 
             if(state.direactX == 0){
                 this.transitionend()
                 return
@@ -97,7 +97,6 @@ class Swipe extends Component{
                     state.left = state.minOffsetX * state.width
                 }
             }
-
 
             this.setOffset(state.left/state.width, $ele)
         })
@@ -131,7 +130,8 @@ class Swipe extends Component{
                     onTouchCancel = {this.touchend}
                     onTouchEnd = {this.touchend}
                     onWebkitTransitionEnd={this.transitionend}
-                    onTransitionEnd={this.transitionend}>
+                    onTransitionEnd={this.transitionend}
+                    style={{position: 'relative'}}>
             <div style={{width: props.width * 100 + '%' }}
                 ref='ele' >
                 {props.children}
