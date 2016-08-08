@@ -23,6 +23,7 @@ let httpServer = function(request, response){
         response.end()
     })
 
+    // 触发end事件
     request.pipe(req)
 }
 
