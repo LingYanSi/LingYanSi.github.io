@@ -6,7 +6,7 @@ var _ = require('lodash')
 var pug = require('pug')
 
 var jadeTpl = fs.readFileSync( './koa/jade/index.jade', 'utf8' )
-var getList = require('./../../blog_list.js')
+var getList = require('./../../util/blog_list.js')
 var source = require('./../../router_config.js')
 
 const loadfile = function(path){

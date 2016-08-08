@@ -1,5 +1,5 @@
 #!/bin/shell
 
-node getMap.js
-
+node ./util/getMap.js
+node ./util/render_index.js
 node app.js

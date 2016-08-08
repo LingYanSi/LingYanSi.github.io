@@ -15,7 +15,7 @@ module.exports = function(){
     var summary = fs.readdirSync(pathname).map(function(item){
         var str = fs.readFileSync(path.resolve(__dirname, './koa/static/database/article/'+item), 'utf-8')
         var data = JSON.parse(str)
-        
+
         data.content = removeTags(data.content)
         return data
     }).reverse()

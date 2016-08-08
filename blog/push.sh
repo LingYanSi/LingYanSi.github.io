@@ -10,7 +10,7 @@ echo '--> 打上md5'
 gulp minify::app
 
 echo '--> 生成map'
-node getMap.js github
+node util/getMap.js github
 
 echo '--》复制database文件'
 # database文件
@@ -18,7 +18,7 @@ rm -r ./database/
 cp -r ./koa/static/database/ ./database/
 
 echo '-->渲染jade文件到index.html'
-node render_index.js
+node util/render_index.js
 
 echo '--> pull: 当前分支'$branch
 git fetch
