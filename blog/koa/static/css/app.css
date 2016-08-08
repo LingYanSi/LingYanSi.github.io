@@ -211,6 +211,9 @@
     right: 0;
     top: 0;
     border: none; }
+.overflow-scrolling {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: scroll; }
 #home > h1 {
   color: red; }
 

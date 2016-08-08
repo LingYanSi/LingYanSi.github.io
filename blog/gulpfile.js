@@ -40,6 +40,7 @@ gulp.task('js::router', ()=>{
 
 gulp.task('watch::js', ['js::router'], ()=>{
     gulp.watch('./build/js/*.js', ['js::router'])
+    gulp.watch('./koa/react/util/index.js', ['js::util'])
 })
 
 // util

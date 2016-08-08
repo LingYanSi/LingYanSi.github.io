@@ -5,9 +5,12 @@ import List from 'pages/Article/List'
 import Modal from 'module/Modal'
 import Tips from 'module/Tips'
 
-import Swipe from 'module/swipe'
+import Scroll from 'module/scroll'
 
 import './index.scss'
+
+// lastPosition 记录最后浏览位置
+const URL = '/home'
 
 class Home extends Component{
     constructor(){
@@ -24,11 +27,6 @@ class Home extends Component{
         }
 
     }
-    deleteSwipe(item){
-        this.setState({
-            swipe: this.state.swipe.filter(index => index!=item)
-        })
-    }
     tipsClose(index){
         let tips = this.state.tips
         tips.splice(index, 1)
@@ -37,25 +35,55 @@ class Home extends Component{
             tips: tips
         })
     }
+    componentWillUnmount(){
+        // this.lastPosition()
+        document.body.style.cssText += `;min-height: 0px; `
+        Utils.scroll.remove('lastPosition::home')
+    }
+    lastPosition(){
+        const scrollTop = document.body.scrollTop
+        const minHeight = scrollTop + window.innerHeight
+        // debugger
+        console.log('滚动条高度', scrollTop, '页面最低高度', minHeight )
+        Utils.lastPosition.set(URL, {scrollTop, minHeight })
+    }
+    componentDidMount(){
+
+        let data = Utils.lastPosition.get(URL, 'object')
+        document.body.style.cssText += `;min-height: ${data.minHeight}px; `
+        document.body.scrollTop = data.scrollTop
+        // alert(document.body.scrollTop, data.scrollTop)
+        console.log('从seesion中拿数据', data);
+
+        // 触发滚动，去加载图片
+        Utils.scroll.trigger()
+
+        Utils.scroll.listen('lastPosition::home',()=>{
+            this.lastPosition()
+        })
+    }
     render(){
         let state = this.state
 
         return <div id="home">
-            {state.swipe.map((item, index) => { 
-                const width = (index+1)/10 + 1
-                return <Swipe width={width} key={item}>
-                    <div className="text">
-                        <div className="fuck" style={{width: 1/width * 100 + '%'}}></div>
-                        <div className="side" onClick={this.deleteSwipe.bind(this, item)}></div>
+            <div>
+                {
+                    state.tips.map((item, index) => <Tips key={item.url} {...item} close={this.tipsClose.bind(this, index)}></Tips>)
+                }
+            </div>
+            <Scroll width={140} rowWidth={10} num={10} height={100}>
+                {[1,2,3,4,5,6,7,8,9,10].map(item => {
+                    return <div className='flex-center' key={item} style={{width: 140, height: 100, 'boxSizing': 'border-box', border: '1px solid red'}}>
+                        {item}
                     </div>
-                </Swipe>
-            })}
-            {
-                this.state.tips.map((item, index) => {
-                    return <Tips {...item} close={this.tipsClose.bind(this, index)} key={item.url}></Tips>
-                })
-            }
+                })}
+            </Scroll>
             <List len={0}></List>
+            <img className='lazy-load-img' src="" data-lazy-img="http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg" style={{height: 300, width: 400, background: 'red',}} alt=""/>
+            <img className='lazy-load-img' src="" data-lazy-img="http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg" style={{height: 300, width: 400, background: 'red',}} alt=""/>
+            <img className='lazy-load-img' src="" data-lazy-img="http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg" style={{height: 300, width: 400, background: 'red',}} alt=""/>
+            <img className='lazy-load-img' src="" data-lazy-img="http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg" style={{height: 300, width: 400, background: 'red',}} alt=""/>
+            <img className='lazy-load-img' src="" data-lazy-bgd="http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg" style={{height: 300, width: 400, background: 'red',}} alt=""/>
         </div>
     }
 }

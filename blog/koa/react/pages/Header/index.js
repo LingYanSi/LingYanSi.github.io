@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 
 import './index.scss'
 
-class Home extends Component{
+class Header extends Component{
     render(){
         var props = this.props
 
@@ -12,4 +12,4 @@ class Home extends Component{
     }
 }
 
-export default Home
+export default Header

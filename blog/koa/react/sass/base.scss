@@ -3,3 +3,25 @@
 .padding {
     padding: $padding;
 }
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.layout-format {
+    display: block;
+    font-size: 0;
+    @for $i from 1 through 12 {
+      &>.layout-item-#{$i} {
+          box-sizing: border-box;
+          display: inline-block;
+          width: percentage($i/12);
+          font-size: $fontSize;
+      }
+      &>.layout-offset-#{$i} {
+          margin-left: percentage($i/12);
+      }
+    }
+}
