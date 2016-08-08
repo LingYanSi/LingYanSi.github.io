@@ -1,0 +1,96 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+.layout-format {
+  display: block;
+  font-size: 0; }
+  .layout-format > .layout-item-1 {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 8.33333%;
+    font-size: 14px; }
+  .layout-format > .layout-offset-1 {
+    margin-left: 8.33333%; }
+  .layout-format > .layout-item-2 {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 16.66667%;
+    font-size: 14px; }
+  .layout-format > .layout-offset-2 {
+    margin-left: 16.66667%; }
+  .layout-format > .layout-item-3 {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 25%;
+    font-size: 14px; }
+  .layout-format > .layout-offset-3 {
+    margin-left: 25%; }
+  .layout-format > .layout-item-4 {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 33.33333%;
+    font-size: 14px; }
+  .layout-format > .layout-offset-4 {
+    margin-left: 33.33333%; }
+  .layout-format > .layout-item-5 {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 41.66667%;
+    font-size: 14px; }
+  .layout-format > .layout-offset-5 {
+    margin-left: 41.66667%; }
+  .layout-format > .layout-item-6 {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 50%;
+    font-size: 14px; }
+  .layout-format > .layout-offset-6 {
+    margin-left: 50%; }
+  .layout-format > .layout-item-7 {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 58.33333%;
+    font-size: 14px; }
+  .layout-format > .layout-offset-7 {
+    margin-left: 58.33333%; }
+  .layout-format > .layout-item-8 {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 66.66667%;
+    font-size: 14px; }
+  .layout-format > .layout-offset-8 {
+    margin-left: 66.66667%; }
+  .layout-format > .layout-item-9 {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 75%;
+    font-size: 14px; }
+  .layout-format > .layout-offset-9 {
+    margin-left: 75%; }
+  .layout-format > .layout-item-10 {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 83.33333%;
+    font-size: 14px; }
+  .layout-format > .layout-offset-10 {
+    margin-left: 83.33333%; }
+  .layout-format > .layout-item-11 {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 91.66667%;
+    font-size: 14px; }
+  .layout-format > .layout-offset-11 {
+    margin-left: 91.66667%; }
+  .layout-format > .layout-item-12 {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 100%;
+    font-size: 14px; }
+  .layout-format > .layout-offset-12 {
+    margin-left: 100%; }
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center; }

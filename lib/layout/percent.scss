@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+$fontSize: 14px;
+
+.layout-format {
+    display: block;
+    font-size: 0;
+    @for $i from 1 through 12 {
+      &>.layout-item-#{$i} {
+          box-sizing: border-box;
+          display: inline-block;
+          width: percentage($i/12);
+          font-size: $fontSize;
+      }
+      &>.layout-offset-#{$i} {
+          margin-left: percentage($i/12);
+      }
+    }
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
