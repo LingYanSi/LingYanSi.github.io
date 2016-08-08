@@ -11,7 +11,7 @@ stop:
 	forever stop blog
 
 pack:
-	bash ./util/pro.sh
+	bash pro.sh
 
 restart:
 	forever restart blog
