@@ -1,3 +1,9 @@
+.hide {
+  display: none; }
+
+.hide-important {
+  display: none !important; }
+
 .padding {
   padding: 10px; }
 

@@ -1,5 +1,13 @@
 @import "./var";
 
+.hide {
+    display: none;
+}
+
+.hide-important {
+    display: none !important;
+}
+
 .padding {
     padding: $padding;
 }

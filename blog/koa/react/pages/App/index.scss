@@ -54,6 +54,7 @@ body {
 
     .content {
         flex: 1;
+        overflow: hidden;
         min-height: 100vh;
         box-sizing: border-box;
         transition: transform  .2s;

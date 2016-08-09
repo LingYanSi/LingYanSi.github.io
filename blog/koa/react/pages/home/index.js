@@ -6,6 +6,7 @@ import Modal from 'module/Modal'
 import Tips from 'module/Tips'
 
 import Scroll from 'module/scroll'
+import Upload from 'module/Upload'
 
 import './index.scss'
 
@@ -36,31 +37,50 @@ class Home extends Component{
         })
     }
     componentWillUnmount(){
-        // this.lastPosition()
+        // 组建卸载前，移除掉min-height，并移除对scroll事件的监听
         document.body.style.cssText += `;min-height: 0px; `
         Utils.scroll.remove('lastPosition::home')
     }
     lastPosition(){
+        // 把当前页面的scrollTop记录下来，存储到sessionStorage中去
         const scrollTop = document.body.scrollTop
         const minHeight = scrollTop + window.innerHeight
-        // debugger
-        console.log('滚动条高度', scrollTop, '页面最低高度', minHeight )
         Utils.lastPosition.set(URL, {scrollTop, minHeight })
     }
     componentDidMount(){
 
         let data = Utils.lastPosition.get(URL, 'object')
-        document.body.style.cssText += `;min-height: ${data.minHeight}px; `
-        document.body.scrollTop = data.scrollTop
-        // alert(document.body.scrollTop, data.scrollTop)
-        console.log('从seesion中拿数据', data);
+        let $body = document.body
+        $body.style.cssText += `;min-height: ${data.minHeight}px; `
+        $body.scrollTop = data.scrollTop
 
         // 触发滚动，去加载图片
-        Utils.scroll.trigger()
+        Utils.scroll.tick()
 
         Utils.scroll.listen('lastPosition::home',()=>{
             this.lastPosition()
         })
+
+        // var $ = function(ele){
+        //     return document.querySelector(ele)
+        // }
+        //
+        // $('#upload').addEventListener('change', function(event){
+        //     // console.log(event);
+        //     // 这是文件，
+        //     console.log();
+        //     let file = event.target.files[0]
+        //     let f = new FormData()
+        //     f.append('file', file)
+        //
+        //     Utils.fetch('/upload', {
+        //         method: 'post',
+        //         body: f,
+        //         uploadProgress(percent){
+        //             console.log(percent);
+        //         }
+        //     })
+        // })
     }
     render(){
         let state = this.state
@@ -71,6 +91,7 @@ class Home extends Component{
                     state.tips.map((item, index) => <Tips key={item.url} {...item} close={this.tipsClose.bind(this, index)}></Tips>)
                 }
             </div>
+            <Upload style={{width: 100, height: 100}} onProgress={percent=>{console.log(percent)}} onEnd={percent=>{console.log(percent)}} type='image' size='1-22k' zip={true} />
             <Scroll width={140} rowWidth={10} num={10} height={100}>
                 {[1,2,3,4,5,6,7,8,9,10].map(item => {
                     return <div className='flex-center' key={item} style={{width: 140, height: 100, 'boxSizing': 'border-box', border: '1px solid red'}}>

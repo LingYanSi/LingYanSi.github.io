@@ -53,7 +53,86 @@ module.exports = function (router, koaBody){
         getList()
         this.body = JSON.stringify({status:{code:1001, msg:'删除成功'}, result:{}})
     })
+    .post('/upload', function *(){
+        // 对于koa来说
+        let req = this.req
+
+        let data = ''
+        let urlArr = yield new Promise(res => {
+            let urlArr = []
+            req.setEncoding('binary')
+            req.on('data', (chunck)=>{
+                data += chunck
+                // data.push(chunck)
+            })
+
+            req.on('end', ()=>{
+                // this.body 写在这里会报错
+                let str = data
+                // 截取有用字段
+                /*
+                ------WebKitFormBoundaryUXitzBkPaZRnyeXg
+                Content-Disposition: form-data; name="file"; filename="F2E.png"
+                Content-Type: image/png
+
+                ------WebKitFormBoundaryUXitzBkPaZRnyeXg--
+                */
+                var BIAOZHI = str.match(/-{6}[^\n]+/)[0]
+
+                str = str.slice(BIAOZHI.length, -BIAOZHI.length - 2)
+
+                let regexp = new RegExp(`${BIAOZHI}[^\n]*`, 'g');
+
+                let arr = str.split(regexp).map(item => item.trim()).filter(item => item)
+
+                arr.forEach(item => {
+                    let line1_arr = item.match(/Content-Disposition[^\n]+/)
+                    let line1_str = line1_arr ? line1_arr[0] : ''
+                    let line2_arr = item.match(/Content-Type[^\n]+/)
+                    let line2_str = line2_arr ? line2_arr[0] : ''
+
+                    line1_str && (item = item.replace(line1_str, ''))
+                    line2_str && (item = item.replace(line2_str, ''))
+
+
+                    let obj = {content: item}
+                    line1_str && line1_str.split(';').forEach(item => {
+                        let arr = item.split(/=|:/)
+                        if(arr.length != 2) return
+
+                        let [key, value] = arr.map(item => item.trim())
+                        if(key != 'Content-Disposition') value = value.slice(1, -1)
+                        obj[key] = value
+                    })
+                    line2_str && line2_str.split(';').forEach(item => {
+                        let arr = item.split(/=|:/)
+                        if(arr.length != 2) return
+
+                        let [key, value] = arr.map(item => item.trim())
+                        if(key != 'Content-Disposition' && value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1)
+                        obj[key] = value
+                    })
+
+                    if(obj['Content-Type']){
+                        let ext = obj['Content-Type'].split('/')[1]
+                        // ie post的数据竟然没有filename，卧槽
+                        obj.filename = obj.filename || obj.name
+                        obj.filename += new Date().getTime() + '.' + ext
+                        fs.writeFileSync(`./koa/static/img/${obj.filename}`, obj.content.trim(), 'binary' );
+                        urlArr.push(`/img/${obj.filename}`)
+                    }
+                    console.log('看看最终数据： ========================》', obj);
+                })
+                res(urlArr)
+
+            })
+        })
+
+
+        this.body = JSON.stringify({url: urlArr})
+    })
     .get('/*', function *(){
+        console.log('执行到这里了？');
         const tpl = pug.render(jadeTpl,{ loadfile: loadfile})
         // console.log(tpl)
         this.body = tpl
