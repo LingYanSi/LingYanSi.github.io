@@ -134,7 +134,7 @@ var Utils = {
     scroll: function () {
         var cache = {};
         var fn = function fn() {
-            console.log(cache);
+            // console.log(cache );
             for (var key in cache) {
                 cache[key] && cache[key]();
             }
@@ -222,25 +222,27 @@ var Utils = {
             var __webp_surport__ = void 0;
 
             return function () {
-                console.log('what the fuck', __webp_surport__);
+
                 return new Promise(function (resolve, reject) {
                     if (__webp_surport__ === true) {
-                        resolve();
+                        resolve(true);
                         return;
                     }
                     if (__webp_surport__ === false) {
-                        reject();
+                        resolve(false);
                         return;
                     }
 
                     var $img = new Image();
                     $img.onload = function () {
                         __webp_surport__ = true;
-                        resolve();
+                        resolve(true);
+                        $img = null;
                     };
                     $img.onerror = function () {
                         __webp_surport__ = false;
-                        reject();
+                        resolve(false);
+                        $img = null;
                     };
 
                     $img.src = 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vlAAAA=';
@@ -289,27 +291,120 @@ var Utils = {
             // 移除掉class，下一次就不加载了
             $ele.classList.remove('lazy-load-img');
 
-            // 加载图片
-            _this.loadImageUtil.webp(src).then(function (resMsg) {
-                return console.log('支持WEBP!!!!!!!!!!!!!');
-            }, function (rejMsg) {
-                return console.log('不支持WEBP');
+            // 根据是不是支持webp， 对图片做一些处理，加载图片
+            _this.loadImageUtil.webp().then(function (webp) {
+                console.log('是不是支持webp', webp);
+                $img.src = src;
+                // 图片已经加载过
+                if ($img.width || $img.height || $img.complete) {
+                    // console.log('fuck');
+                    $img.onload = $img.onerror = $img.onabort = null;
+                    $img = null;
+                    _this.loadImageUtil.setSrc($ele, data);
+                }
             });
-            $img.src = src;
-
-            // 图片已经加载过
-            if ($img.width || $img.height || $img.complete) {
-                // console.log('fuck');
-                $img.onload = $img.onerror = $img.onabort = null;
-                $img = null;
-                _this.loadImageUtil.setSrc($ele, data);
-            }
         });
     },
 
     // ajax/fetch
-    fetch: __fetch
+    fetch: __fetch,
 
+    upload: function upload() {
+        var _this2 = this;
+
+        var files = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+        var fn = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+        var onStart = fn.onStart;
+        var onEnd = fn.onEnd;
+        var onError = fn.onError;
+        var onProgress = fn.onProgress;
+
+        var f = new FormData();
+        Promise.all(Array.from(files).map(function (file) {
+            return _this2.zip(file, .9);
+        })).then(function (res) {
+            res.forEach(function (file, index) {
+                f.append('file' + index, file);
+            });
+
+            onStart && onStart();
+            Utils.fetch('/upload', {
+                method: 'post',
+                body: f,
+                uploadProgress: function uploadProgress(percent) {
+                    onProgress && onProgress(percent);
+                }
+            }).then(function (res) {
+                onEnd && onEnd(res);
+            });
+        });
+    },
+
+    // 图片压缩，文件类型转换 etc
+    zip: function zip(file) {
+        var quality = arguments.length <= 1 || arguments[1] === undefined ? .01 : arguments[1];
+
+        // canvas toBlob polyfill
+        if (!HTMLCanvasElement.prototype.toBlob) {
+            Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
+                value: function value(callback, type, quality) {
+
+                    var binStr = atob(this.toDataURL(type, quality).split(',')[1]),
+                        len = binStr.length,
+                        arr = new Uint8Array(len);
+
+                    for (var i = 0; i < len; i++) {
+                        arr[i] = binStr.charCodeAt(i);
+                    }
+
+                    callback(new Blob([arr], {
+                        type: type || 'image/png'
+                    }));
+                }
+            });
+        }
+
+        // 对于大于1.5M的图片做一个强制压缩
+        if (quality != 1 && file.size / 1024 / 1024 > 1.5) {
+            quality = .5;
+        }
+
+        return new Promise(function (resolve, reject) {
+            // 对于非图片文件，直接上传
+            if (quality >= 1 || quality <= 0 || !file.type.startsWith('image/')) return resolve(file);
+            var canvas = document.createElement('canvas');
+
+            // 获取到图片的宽高
+            var url = window.URL.createObjectURL(file);
+            // console.log('图片路径', url, file);
+            // alert(file.type)
+            var $img = document.createElement('img');
+            $img.onload = function () {
+                var _$img = $img;
+                var width = _$img.width;
+                var height = _$img.height;
+
+                canvas.width = width;
+                canvas.height = height;
+                // document.body.appendChild(canvas)
+                var cxt = canvas.getContext('2d');
+                cxt.drawImage($img, 0, 0, canvas.width, canvas.height);
+                $img = null;
+                canvas.toBlob(function (Bob) {
+                    resolve(Bob);
+                }, file.type || "image/jpeg", quality);
+            };
+
+            // 加载错误，不是图片类型，直接返回原文件
+            $img.onerror = function () {
+                resolve(file);
+            };
+            $img.src = url;
+        });
+    }
 };
 
-Utils.scroll.listen('lazy-load-img', Utils.loadImage.bind(Utils));
+// 在加载图片前，先加载校验是不是支持webp
+Utils.loadImageUtil.webp().then(function (res) {
+    Utils.scroll.listen('lazy-load-img', Utils.loadImage.bind(Utils));
+});

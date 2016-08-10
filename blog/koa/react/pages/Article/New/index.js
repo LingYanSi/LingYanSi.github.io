@@ -44,19 +44,16 @@ class New extends React.Component{
     // 提交
     submit(event){
         event.preventDefault()
-        var fd = new FormData(document.querySelector('#fd'))
-        fd.set('content', $('#editor').html() )
 
-        var state = this.state
-        for (let key in state) {
-            if( !fd.has(key) ){
-                fd.set(key, state[key])
-            }
-        }
+        let data = this.state
+
+        data.title = this.refs.title.value
+        data.content = $('#editor').html()
+        data.tags = this.refs.tags.value
 
         fetch('/newArticle',{
             method: 'POST',
-            body: fd
+            body: JSON.stringify(data)
         }).then(function(response){
             return response.json()
         })
@@ -78,10 +75,10 @@ class New extends React.Component{
 
         return <div className="article-new">
             <form action="/newArticle?name=ssss" method="POST" id="fd">
-                <input type="text" name="title"
+                <input type="text" name="title" ref="title"
                     placeholder="标题"
                     defaultValue={state.title} /><br/>
-                <input type="text" name="tags" placeholder="标签" defaultValue={state.tags.join(' ')} /><br/>
+                <input type="text" name="tags" ref="tags" placeholder="标签" defaultValue={state.tags.join(' ')} /><br/>
 
                 <div className="btn-toolbar" data-role="editor-toolbar"
                         data-target="#editor">

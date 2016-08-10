@@ -14,28 +14,24 @@ class Upload extends Component{
     }
     // change事件
     handleChange(event){
-        let file = event.target.files[0]
-        let f = new FormData()
-        f.append('fuck', '习近平')
-        f.append('file', file)
-
-        Utils.fetch('/upload', {
-            method: 'post',
-            body: f,
-            uploadProgress:(percent)=>{
-                this.props.onProgress && this.props.onProgress(percent)
-            }
-        }).then(res => {
-            this.props.onEnd && this.props.onEnd(res)
-        })
+        let files = event.target.files
+        // let {onStart, onEnd, onError, onProgre} = this.props
+        Utils.upload(files, this.props )
     }
     render(){
         // zip是否压缩,压缩使用canvas压缩 accept接收文件类型 mult多图上传
-        let {className, style} = this.props
+        let {className, style, accept, multiple} = this.props
         let props = {className, style}
 
+        console.log('is support multiple', multiple);
+
         return <div {...props} onClick={this.handleClick}>
-            <input type="file" ref="file" onChange={this.handleChange} className="hide"/>
+            <form action="" className="hide" ref="form">
+            {
+                multiple ? <input type="file" ref="file" name="image" onChange={this.handleChange} accept={this.props.accept} multiple className="hide"/>
+                : <input type="file" ref="file" name="image" onChange={this.handleChange} accept={this.props.accept}  className="hide"/>
+            }
+            </form>
             {this.props.children}
         </div>
     }

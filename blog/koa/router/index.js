@@ -1,13 +1,18 @@
 
 'use strict'
-var fs = require('fs')
-var util = require('util')
-var _ = require('lodash')
-var pug = require('pug')
+let fs = require('fs')
+let path = require('path')
+let util = require('util')
+let _ = require('lodash')
+let pug = require('pug')
 
-var jadeTpl = fs.readFileSync( './koa/jade/index.jade', 'utf8' )
-var getList = require('./../../util/blog_list.js')
-var source = require('./../../router_config.js')
+let jadeTpl = fs.readFileSync( './koa/jade/index.jade', 'utf8' )
+let getList = require('./util/blog_list')
+let check_login = require('./util/check_login')
+
+const ROOT_PATH = path.resolve(__dirname, './../../')
+
+let source = require( path.resolve(ROOT_PATH, 'router_config.js') )
 
 const loadfile = function(path){
     return source[path] || path
@@ -17,6 +22,9 @@ loadfile.sourceStr = JSON.stringify(source)
 
 module.exports = function (router, koaBody){
     router.get('/', function *(){
+        this.cookies.set('__fuck_yousss__','11111', {maxAge: 1000*60*60, httpOnly:false ,secure:false , overwrite:true})
+        console.log(this.cookies.get('fuck_you'));
+
         const tpl = pug.render(jadeTpl,{ loadfile: loadfile})
         // console.log(tpl)
         this.body = tpl
@@ -25,35 +33,69 @@ module.exports = function (router, koaBody){
         console.log(this.cookies.get('___rl__test__cookies'));
         this.body = '关于'
     })
-    .post('/newArticle',koaBody, function *(){
+    .get('/login', koaBody, function *(){
+        let data = JSON.parse(this.request.body)
+        // 登录
+        if(data.password === 'xiaofan223!@#'){
+            this.cookies.set('huanhcneg','111111111', {maxAge: 1000*60*60, httpOnly:false ,secure:false , overwrite:true})
+            this.body = JSON.stringify({status: {code: 1001}, result: '登陆成功'})
+            return
+        }
+        this.body = `{status: {code: 4000}, result: '密码错误'}`
+    })
+    .post('/signout', function *(){
+        this.cookies.set('__fuck_you__', { httpOnly:false })
+        this.body = '推出成功'
+    })
+    .post('/newArticle', koaBody, function *(){
+        if( !check_login(this) ){
+            this.body = '你没有权限'
+            return
+        }
 
         // http://17koa.com/koa-generator-examples/http/get/query.html
         // query: 获取query body: 获取form 开启multipart 可以获取FormData
         console.log(this.query, this.type, this.method, this.originalUrl, this.ip, this.request.body );
 
         // 写入
-        var data = _.cloneDeep( this.request.body.fields || {} , this.request.body.files || {} ,this.query )
+        // var data = _.cloneDeep( this.request.body.fields || {} , this.request.body.files || {} ,this.query )
+        let data = JSON.parse(this.request.body)
         const filename = data.id || new Date().getTime()
         data.time = filename
         data.id = filename
         data.tags = data.tags.split(' ')
-        fs.writeFileSync(`./koa/static/database/article/${filename}.json`, JSON.stringify( data ), 'utf-8');
+
+        const DIR_PATH = path.resolve(ROOT_PATH, `./static1/database/article/`)
+        const FILE_PATH = path.resolve(ROOT_PATH, `./static1/database/article/${filename}.json`)
+        fs.writeFileSync(FILE_PATH, JSON.stringify( data ), 'utf-8');
 
         console.log('数据写入完成')
 
         // this.body = JSON.stringify( this.request.body )
         // 重定向
         // this.response.redirect('/#/')
-        getList()
+        getList(DIR_PATH)
         this.body = JSON.stringify({status:{code:1001, msg: '发布成功'}, result: data })
     })
     .get('/article/del', function *(){
+        if( !check_login(this) ){
+            this.body = '你没有权限'
+            return
+        }
+
         var id = this.request.query.id
-        fs.unlinkSync(`./koa/static/database/article/${id}.json`)
+        const FILE_PATH = path.resolve(ROOT_PATH, `./static1/database/article/${id}.json`)
+        fs.unlinkSync(FILE_PATH)
+
         getList()
         this.body = JSON.stringify({status:{code:1001, msg:'删除成功'}, result:{}})
     })
     .post('/upload', function *(){
+        if( !check_login(this) ){
+            this.body = '你没有权限'
+            return
+        }
+
         // 对于koa来说
         let req = this.req
 
@@ -85,7 +127,7 @@ module.exports = function (router, koaBody){
 
                 let arr = str.split(regexp).map(item => item.trim()).filter(item => item)
 
-                arr.forEach(item => {
+                arr.forEach((item, index) => {
                     let line1_arr = item.match(/Content-Disposition[^\n]+/)
                     let line1_str = line1_arr ? line1_arr[0] : ''
                     let line2_arr = item.match(/Content-Type[^\n]+/)
@@ -117,8 +159,11 @@ module.exports = function (router, koaBody){
                         let ext = obj['Content-Type'].split('/')[1]
                         // ie post的数据竟然没有filename，卧槽
                         obj.filename = obj.filename || obj.name
-                        obj.filename += new Date().getTime() + '.' + ext
-                        fs.writeFileSync(`./koa/static/img/${obj.filename}`, obj.content.trim(), 'binary' );
+                        obj.filename += `${new Date().getTime()}${index}.${ext}`
+                        obj.content = obj.content.trim()
+
+                        const FILE_PATH = path.resolve(ROOT_PATH, `./static1/img/${obj.filename}`)
+                        fs.writeFileSync(FILE_PATH, obj.content ,'binary' );
                         urlArr.push(`/img/${obj.filename}`)
                     }
                     console.log('看看最终数据： ========================》', obj);
@@ -132,7 +177,6 @@ module.exports = function (router, koaBody){
         this.body = JSON.stringify({url: urlArr})
     })
     .get('/*', function *(){
-        console.log('执行到这里了？');
         const tpl = pug.render(jadeTpl,{ loadfile: loadfile})
         // console.log(tpl)
         this.body = tpl

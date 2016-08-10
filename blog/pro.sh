@@ -9,6 +9,10 @@ echo '--》复制js文件'
 rm -r ./static/js
 cp -r ./koa/static/js/ ./static/js/
 
+
+rm -r ./static/lib
+cp -r ./koa/static/lib/ ./static/lib/
+
 echo '--> 压缩js文件,打上md5'
 gulp minify::app
 
@@ -17,8 +21,8 @@ node util/getMap.js production
 
 echo '--》复制database文件'
 
-rm -r ./static/database/
-cp -r ./koa/static/database/ ./static/database/
+rm -r ./database/
+cp -r ./static1/database/ ./database/
 
 echo '-->渲染jade文件到index.html'
 node util/render_index.js

@@ -55,7 +55,7 @@ gulp.task('js::util', ()=>{
 
 // 先压缩，后获取md5
 gulp.task('minify::app', ['minify::css'], ()=>{
-    return gulp.src(['./static/js/*'])
+    return gulp.src(['./static/js/*.js'])
             .pipe( uglify() )
             .pipe( rename(function(path) {
                 path.basename += ".min";
@@ -66,7 +66,7 @@ gulp.task('minify::app', ['minify::css'], ()=>{
 
 // 压缩 md5 css文件
 gulp.task('minify::css', ()=>{
-    return gulp.src(['./static/css/*'])
+    return gulp.src(['./static/css/*.css'])
         .pipe( rename(function(path) {
             path.basename += ".min";
         }) )

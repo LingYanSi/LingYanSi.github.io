@@ -8,6 +8,7 @@ import Article from './Article'
 import Details from './Article/Details'
 import ArticleNew from './Article/New'
 import NotFound from './NotFound'
+import Login from './Login'
 
 
 // React.initializeTouchEvents(true)
@@ -22,6 +23,7 @@ class App extends React.Component{
               <Route path="article/new" component={ArticleNew}/>
               <Route path="article/edit/:id" component={ArticleNew}/>
               <Route path="article/:id" component={Details} />
+              <Route path="/Login" component={Login} />
               <Route path="*" component={NotFound}/>
             </Route>
           </Router>

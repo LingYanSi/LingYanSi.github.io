@@ -19,10 +19,10 @@ const ENV = require('./app_config')
 
 const __congif = {
     pro : {
-        static: ['./static']
+        static: ['./static', './static1']
     },
     dev: {
-        static: ['./koa/static']
+        static: ['./koa/static', './static1']
     }
 }
 
@@ -32,10 +32,25 @@ const config = __congif[ENV]
 require('./koa/router/index.js')(router, koaBody)
 
 // 开启静态服务器
-app.use( serve(config.static[0], {
-    gzip: true,
-    maxage: 1000*60*60*24*30
-}) )
+config.static.forEach(function(item){
+    app.use( serve(item, {
+        gzip: true,
+        // dev env dont set browser cache
+        maxage: ENV == 'dev' ? 0 : 1000*60*60*24*30
+    }) )
+})
+// app.use(function *(next){
+//     yield next
+//     console.log('卧槽', this.cookies.get('fuck_you'))
+// })
+
+
+// app.use(function *(next){
+//
+//     console.log('哈哈哈===》', this.cookies.get('fuck_you'))
+//
+//     yield next
+// })
 
 app
   .use(router.routes())

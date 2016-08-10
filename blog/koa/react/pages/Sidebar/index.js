@@ -57,6 +57,8 @@ class Sidebar extends Component{
                                 </li>
                             })}
                         </ul>
+
+                        <Link to='/login'>登录</Link>
                     </div>
                 </div>
     }
