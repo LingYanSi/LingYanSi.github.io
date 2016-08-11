@@ -1245,8 +1245,10 @@
 	                }).then(function (response) {
 	                    return response.json();
 	                }).then(function (data) {
-	                    console.log('删除成功');
-	                    location.href = '#/';
+	                    if (data.status.code == 1001) {
+	                        location.href = '#/';
+	                    }
+	                    _Modal2.default.tips(data.result);
 	                });
 	            });
 	        }
@@ -1607,6 +1609,10 @@
 
 	var _reactRouter = __webpack_require__(10);
 
+	var _Modal = __webpack_require__(6);
+
+	var _Modal2 = _interopRequireDefault(_Modal);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1686,8 +1692,10 @@
 	            }).then(function (response) {
 	                return response.json();
 	            }).then(function (data) {
-	                console.log(data);
-	                location.href = '#/';
+	                if (data.status.code == 1001) {
+	                    location.href = '#/';
+	                }
+	                _Modal2.default.tips(data.result);
 	            });
 	        }
 	        // 返回html
@@ -2101,6 +2109,7 @@
 	                    // Modal.tips('登陆成功')
 	                    history.back();
 	                }
+	                _Modal2.default.tips(data.result);
 	            });
 	        }
 	    }, {
@@ -2108,7 +2117,7 @@
 	        value: function render() {
 	            return React.createElement(
 	                'div',
-	                { style: { paddingTop: '40vh' } },
+	                { style: { paddingTop: '40vh', textAlign: 'center' } },
 	                React.createElement('input', { type: 'password', ref: 'password' }),
 	                React.createElement(
 	                    'button',

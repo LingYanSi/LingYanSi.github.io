@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import { Router, Route, Link, browserHistory } from 'react-router'
+import Modal from 'module/Modal'
 
 require('./index.scss')
 
@@ -59,8 +60,10 @@ class New extends React.Component{
             return response.json()
         })
         .then(function(data){
-            console.log(data)
-            location.href = '#/'
+            if(data.status.code == 1001){
+                location.href = '#/'
+            }
+            Modal.tips(data.result)
         })
     }
     // 返回html

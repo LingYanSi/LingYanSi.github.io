@@ -62,7 +62,7 @@ module.exports = function(router, koaBody) {
                 })
                 return
             }
-            this.body = `{status: {code: 4000}, result: '密码错误'}`
+            this.body = JSON.stringify({status: {code: 4000}, result: '密码错误'})
         })
         .post('/signout', function*() {
             this.cookies.set('__fuck_you__', '', {
@@ -83,7 +83,7 @@ module.exports = function(router, koaBody) {
         })
         .post('/article/create', koaBody, function*() {
             if (!check_login(this)) {
-                this.body = '你没有权限'
+                this.body = JSON.stringify({status: {code: 4000}, result: '无权限'})
                 return
             }
 
@@ -113,12 +113,12 @@ module.exports = function(router, koaBody) {
                     code: 1001,
                     msg: '发布成功'
                 },
-                result: data
+                result: IS_CREATE ? '发布成功' : '修改成功'
             })
         })
         .post('/article/del', koaBody, function*() {
             if (!check_login(this)) {
-                this.body = '你没有权限'
+                this.body = JSON.stringify({status: {code: 4000}, result: '无权限'})
                 return
             }
             let data = JSON.parse(this.request.body)
@@ -134,12 +134,12 @@ module.exports = function(router, koaBody) {
                     code: 1001,
                     msg: '删除成功'
                 },
-                result: {}
+                result: '删除成功'
             })
         })
         .post('/upload', function*() {
             if (!check_login(this)) {
-                this.body = '你没有权限'
+                this.body = JSON.stringify({status: {code: 4000}, result: '无权限'})
                 return
             }
 

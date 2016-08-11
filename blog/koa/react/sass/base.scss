@@ -34,9 +34,11 @@
     }
 }
 
+// 懒加载图片
 [data-lazy-img] {
     padding-top: 80%;
-    background: red;
+    background: rgb(166, 214, 204);
     width: 100%;
     display: block;
 }
+// 懒加载背景图片

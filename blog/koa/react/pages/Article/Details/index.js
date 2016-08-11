@@ -54,13 +54,15 @@ class Details extends Component{
                 body: JSON.stringify({id}),
                 credentials: 'same-origin'
             })
-                .then(function(response){
-                    return response.json()
-                })
-                .then(function(data){
-                    console.log('删除成功')
+            .then(function(response){
+                return response.json()
+            })
+            .then(function(data){
+                if(data.status.code == 1001){
                     location.href = '#/'
-                })
+                }
+                Modal.tips(data.result)
+            })
         })
 
     }

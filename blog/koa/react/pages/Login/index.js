@@ -19,10 +19,11 @@ class Login extends Component{
                 // Modal.tips('登陆成功')
                 history.back()
             }
+            Modal.tips(data.result)
         })
     }
     render(){
-        return <div style={{paddingTop: '40vh'}}>
+        return <div style={{paddingTop: '40vh', textAlign: 'center'}}>
             <input type="password" ref="password"/>
             <button onClick={this.login}>登录</button>
         </div>
