@@ -16,7 +16,9 @@ var __fetch = function (__fetch) {
     // }
 
     // 请求进度条，可以通过ajax进度条实现
-    var ajax = function ajax(url, options) {
+    var ajax = function ajax(url) {
+        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
         // 一般而言，method/body 就够使用了
         // 因此在这里把cache复写
         return new Promise(function (resolve, reject) {
@@ -54,9 +56,9 @@ var __fetch = function (__fetch) {
             // 注意，非get请求参数，通过json字符串发送数据
             // 如果是FromData则发送FormData
             var body = options.body;
-            if (!body instanceof window.FormData) {
-                body = JSON.stringify(body);
-            }
+            // if(! body instanceof window.FormData){
+            //     body = JSON.stringify(body)
+            // }
 
             // 监听state变化
             xhr.addEventListener('readystatechange', function (state) {
@@ -86,7 +88,10 @@ var Queue = function Queue(fn) {
     this.tick = function () {
         this.queue.forEach(clearTimeout);
         this.queue.push(setTimeout(function () {
-            that.fn();
+            // 性能调优
+            requestAnimationFrame ? requestAnimationFrame(function () {
+                that.fn();
+            }) : that.fn();
         }, time));
     };
 };
@@ -169,6 +174,59 @@ var Utils = {
 
         return scroll;
     }(),
+    // 获取cdn图片路径
+    getImageCDNSrc: function getImageCDNSrc(url) {
+        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+        // 获取
+        var a = document.createElement('a');
+        a.href = url;
+        url = a.pathname;
+        a = null;
+
+        options = this.assign({
+            q: 75,
+            format: Utils.__webp_surport__ ? 'webp' : ''
+        }, options);
+
+        var optionsStr = Object.keys(options).map(function (key) {
+            return options[key] ? '/' + key + '/' + options[key] : '';
+        }).reduce(function (a, b) {
+            return a + b;
+        });
+        // merge一下就可以了
+        return this.CDN.qiniu + url + '?imageView2/2' + optionsStr;
+    },
+    assign: function assign() {
+        var target = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        for (var _len = arguments.length, arr = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+            arr[_key - 1] = arguments[_key];
+        }
+
+        arr.forEach(function (item) {
+            for (var key in item) {
+                target[key] = item[key];
+            }
+        });
+
+        return target;
+    },
+
+    // 返回cdn域名
+    CDN: function () {
+        var fn = function fn() {
+            // 返回一个随机域名
+            var index = Math.round(Math.random() * len);
+            index = Math.max(index, 0);
+            return fn.all[index];
+        };
+        fn.qiniu = 'http://o9fl7r0ix.bkt.clouddn.com';
+        fn.all = [fn.qiniu];
+        var len = fn.all.length - 1;
+
+        return fn;
+    }(),
     // 加载图片工具
     loadImageUtil: {
         // 获取懒加载类型，与资源路径
@@ -206,6 +264,7 @@ var Utils = {
             switch (data.type) {
                 case 'layzImg':
                     $ele.src = data.url;
+                    $ele.removeAttribute('data-lazy-img');
                     break;
                 case 'lazyBgd':
                     $ele.style.backgroundImage = 'url(' + data.url + ')';
@@ -235,7 +294,7 @@ var Utils = {
 
                     var $img = new Image();
                     $img.onload = function () {
-                        __webp_surport__ = true;
+                        Utils.__webp_surport__ = __webp_surport__ = true;
                         resolve(true);
                         $img = null;
                     };
@@ -254,6 +313,8 @@ var Utils = {
     loadImage: function loadImage() {
         var _this = this;
 
+        console.log(Utils.__webp_surport__);
+        // 优化
         var $eles = Array.from(document.querySelectorAll('.lazy-load-img'));
         if (!$eles.length) {
             return;
@@ -293,8 +354,11 @@ var Utils = {
 
             // 根据是不是支持webp， 对图片做一些处理，加载图片
             _this.loadImageUtil.webp().then(function (webp) {
-                console.log('是不是支持webp', webp);
-                $img.src = src;
+                var options = {
+                    format: webp ? 'webp' : ''
+                };
+                // 修改文件路径
+                $img.src = data.url = _this.getImageCDNSrc(src, options);
                 // 图片已经加载过
                 if ($img.width || $img.height || $img.complete) {
                     // console.log('fuck');
@@ -365,13 +429,14 @@ var Utils = {
         }
 
         // 对于大于1.5M的图片做一个强制压缩
-        if (quality != 1 && file.size / 1024 / 1024 > 1.5) {
+        var SIZE = file.size / 1024 / 1024;
+        if (quality != 1 && SIZE >= 1.5) {
             quality = .5;
         }
 
         return new Promise(function (resolve, reject) {
             // 对于非图片文件，直接上传
-            if (quality >= 1 || quality <= 0 || !file.type.startsWith('image/')) return resolve(file);
+            if (SIZE < 1.5 | quality >= 1 || quality <= 0 || !file.type.startsWith('image/')) return resolve(file);
             var canvas = document.createElement('canvas');
 
             // 获取到图片的宽高
@@ -401,10 +466,15 @@ var Utils = {
             };
             $img.src = url;
         });
+    },
+    init: function init() {
+        return new Promise(function (res) {
+            Utils.loadImageUtil.webp().then(function (webp) {
+                Utils.scroll.listen('lazy-load-img', Utils.loadImage.bind(Utils));
+                res('异步执行完');
+            });
+        });
     }
 };
 
 // 在加载图片前，先加载校验是不是支持webp
-Utils.loadImageUtil.webp().then(function (res) {
-    Utils.scroll.listen('lazy-load-img', Utils.loadImage.bind(Utils));
-});

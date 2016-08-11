@@ -48,7 +48,7 @@
   #sidebar.show {
     -webkit-transform: translateX(0%);
     transform: translateX(0%); }
-  #sidebar button {
+  #sidebar > button {
     position: absolute;
     left: 100%;
     top: 0;
@@ -64,7 +64,7 @@
     transition: 1s;
     -webkit-transform: rotateZ(0deg);
     transform: rotateZ(0deg); }
-    #sidebar button.show {
+    #sidebar > button.show {
       -webkit-transform: rotateZ(270deg);
       transform: rotateZ(270deg); }
   #sidebar .sidebar-content {
@@ -317,6 +317,7 @@ body {
     line-height: 1.4; }
     #article-details .details-content img {
       max-width: 100%;
+      display: block;
       height: auto; }
   #article-details .details-time {
     margin: 10px 0;
@@ -352,41 +353,3 @@ body {
   #editor img {
     max-width: 100%;
     height: auto; }
-.modal .modal-item {
-  position: fixed;
-  z-index: 500;
-  top: 50%;
-  left: 50%;
-  height: 300px;
-  width: 70%;
-  max-width: 600px;
-  background: #fff;
-  -webkit-transform: translate3D(-50%, -50%, 0);
-  transform: translate3D(-50%, -50%, 0);
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 4px; }
-  .modal .modal-item.modal-item-tips {
-    height: auto;
-    padding: 10px;
-    background: #64c864;
-    color: #fff;
-    border: none; }
-  .modal .modal-item.modal-item-alert {
-    text-align: center;
-    padding: 10px;
-    height: auto;
-    background: rgba(255, 255, 255, 0.5); }
-  .modal .modal-item.modal-item-confirm {
-    text-align: center;
-    padding: 10px;
-    height: auto;
-    background: rgba(255, 255, 255, 0.5); }
-
-.modal .modal-item-btns {
-  text-align: center;
-  margin-top: 10px; }
-  .modal .modal-item-btns button + button {
-    margin-left: 20px; }
-  .modal .modal-item-btns button:first-child {
-    background: #2b82dd;
-    color: #fff; }
