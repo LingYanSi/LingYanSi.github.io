@@ -793,11 +793,15 @@
 	    value: true
 	});
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(5);
+
+	var _UploadCore = __webpack_require__(51);
+
+	var _UploadCore2 = _interopRequireDefault(_UploadCore);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -813,51 +817,64 @@
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Upload).call(this));
 
-	        _this.handleClick = _this.handleClick.bind(_this);
-	        _this.handleChange = _this.handleChange.bind(_this);
+	        _this.state = {
+	            upload: [],
+	            progress: ''
+	        };
 	        return _this;
 	    }
-	    // 点击事件
-
 
 	    _createClass(Upload, [{
-	        key: 'handleClick',
-	        value: function handleClick() {
-	            var $file = this.refs.file;
-	            $file.click();
-	        }
-	        // change事件
+	        key: 'uploadDone',
+	        value: function uploadDone(res) {
+	            var data = JSON.parse(res);
+	            var upload = this.state.upload;
+	            upload = upload.concat(data.url.map(function (item) {
+	                return Utils.getImageCDNSrc(item);
+	            }));
 
-	    }, {
-	        key: 'handleChange',
-	        value: function handleChange(event) {
-	            var files = event.target.files;
-	            // let {onStart, onEnd, onError, onProgre} = this.props
-	            Utils.upload(files, this.props);
+	            this.setState({
+	                upload: upload
+	            });
 	        }
+	    }, {
+	        key: 'uploadProgress',
+	        value: function uploadProgress(percent) {
+	            // Modal.open()
+	            this.setState({
+	                progress: percent
+	            });
+	        }
+	    }, {
+	        key: 'uploadStart',
+	        value: function uploadStart() {}
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            // zip是否压缩,压缩使用canvas压缩 accept接收文件类型 mult多图上传
-	            var _props = this.props;
-	            var className = _props.className;
-	            var style = _props.style;
-	            var accept = _props.accept;
-	            var multiple = _props.multiple;
-
-	            var props = { className: className, style: style };
-
-	            console.log('is support multiple', multiple);
+	            var state = this.state;
 
 	            return React.createElement(
 	                'div',
-	                _extends({}, props, { onClick: this.handleClick }),
+	                null,
+	                state.upload.map(function (item) {
+	                    return React.createElement('img', { key: item, src: item, alt: '图片加载失败', height: '200', width: 'auto' });
+	                }),
 	                React.createElement(
-	                    'form',
-	                    { action: '', className: 'hide', ref: 'form' },
-	                    multiple ? React.createElement('input', { type: 'file', ref: 'file', name: 'image', onChange: this.handleChange, accept: this.props.accept, multiple: true, className: 'hide' }) : React.createElement('input', { type: 'file', ref: 'file', name: 'image', onChange: this.handleChange, accept: this.props.accept, className: 'hide' })
+	                    'div',
+	                    null,
+	                    '进度条',
+	                    state.progress
 	                ),
-	                this.props.children
+	                React.createElement(
+	                    _UploadCore2.default,
+	                    { style: { width: 100, height: 100, background: 'rgb(156, 224, 215)' }, onStart: this.uploadStart.bind(this), onProgress: this.uploadProgress.bind(this), onEnd: this.uploadDone.bind(this), multiple: true, accept: 'image', size: '1-22k', zip: true },
+	                    React.createElement(
+	                        'svg',
+	                        { width: '100%', height: '100%', version: '1.1', xmlns: 'http://www.w3.org/2000/svg' },
+	                        React.createElement('polyline', { points: '10, 40, 10, 60, 40, 60, 40, 90, 60, 90, 60, 60, 90, 60, 90, 40, 60, 40, 60, 10, 40, 10, 40, 40, 10, 40 ',
+	                            style: { fill: 'white', stroke: 'red' } })
+	                    )
+	                )
 	            );
 	        }
 	    }]);
@@ -1464,7 +1481,7 @@
 	        value: function getList() {
 	            var that = this;
 
-	            fetch('./database/list.json').then(function (response) {
+	            fetch('/article/list').then(function (response) {
 	                return response.json();
 	            }).then(function (data) {
 	                that.setState({
@@ -1662,7 +1679,7 @@
 	            data.content = $('#editor').html();
 	            data.tags = this.refs.tags.value;
 
-	            fetch('/newArticle', {
+	            fetch('/article/create', {
 	                method: 'POST',
 	                body: JSON.stringify(data),
 	                credentials: 'same-origin'
@@ -1938,9 +1955,7 @@
 	            }, {
 	                content: 'Crusade ⇨ Pentatonic',
 	                url: 'http://www.xiami.com/song/1768980046?spm=a1z1s.7154410.1996860142.1.7qJGVJ'
-	            }],
-	            upload: [],
-	            progress: ''
+	            }]
 	        };
 
 	        return _this;
@@ -1987,52 +2002,7 @@
 	            Utils.scroll.listen('lastPosition::home', function () {
 	                _this2.lastPosition();
 	            });
-
-	            // var $ = function(ele){
-	            //     return document.querySelector(ele)
-	            // }
-	            //
-	            // $('#upload').addEventListener('change', function(event){
-	            //     // console.log(event);
-	            //     // 这是文件，
-	            //     console.log();
-	            //     let file = event.target.files[0]
-	            //     let f = new FormData()
-	            //     f.append('file', file)
-	            //
-	            //     Utils.fetch('/upload', {
-	            //         method: 'post',
-	            //         body: f,
-	            //         uploadProgress(percent){
-	            //             console.log(percent);
-	            //         }
-	            //     })
-	            // })
 	        }
-	    }, {
-	        key: 'uploadDone',
-	        value: function uploadDone(res) {
-	            var data = JSON.parse(res);
-	            var upload = this.state.upload;
-	            upload = upload.concat(data.url.map(function (item) {
-	                return Utils.getImageCDNSrc(item);
-	            }));
-
-	            this.setState({
-	                upload: upload
-	            });
-	        }
-	    }, {
-	        key: 'uploadProgress',
-	        value: function uploadProgress(percent) {
-	            // Modal.open()
-	            this.setState({
-	                progress: percent
-	            });
-	        }
-	    }, {
-	        key: 'uploadStart',
-	        value: function uploadStart() {}
 	    }, {
 	        key: 'render',
 	        value: function render() {
@@ -2049,29 +2019,6 @@
 	                    state.tips.map(function (item, index) {
 	                        return _react2.default.createElement(_Tips2.default, _extends({ key: item.url }, item, { close: _this3.tipsClose.bind(_this3, index) }));
 	                    })
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    null,
-	                    state.upload.map(function (item) {
-	                        return _react2.default.createElement('img', { key: item, src: item, alt: '图片加载失败', height: '200', width: 'auto' });
-	                    }),
-	                    _react2.default.createElement(
-	                        'div',
-	                        null,
-	                        '进度条',
-	                        state.progress
-	                    ),
-	                    _react2.default.createElement(
-	                        _Upload2.default,
-	                        { style: { width: 100, height: 100, background: 'rgb(156, 224, 215)' }, onStart: this.uploadStart.bind(this), onProgress: this.uploadProgress.bind(this), onEnd: this.uploadDone.bind(this), multiple: true, accept: 'image', size: '1-22k', zip: true },
-	                        _react2.default.createElement(
-	                            'svg',
-	                            { width: '100%', height: '100%', version: '1.1', xmlns: 'http://www.w3.org/2000/svg' },
-	                            _react2.default.createElement('polyline', { points: '10, 40, 10, 60, 40, 60, 40, 90, 60, 90, 60, 60, 90, 60, 90, 40, 60, 40, 60, 10, 40, 10, 40, 40, 10, 40 ',
-	                                style: { fill: 'white', stroke: 'red' } })
-	                        )
-	                    )
 	                ),
 	                _react2.default.createElement(
 	                    _scroll2.default,
@@ -2161,7 +2108,7 @@
 	        value: function render() {
 	            return React.createElement(
 	                'div',
-	                null,
+	                { style: { paddingTop: '40vh' } },
 	                React.createElement('input', { type: 'password', ref: 'password' }),
 	                React.createElement(
 	                    'button',
@@ -2360,7 +2307,9 @@
 	                        'button',
 	                        { onClick: this.signout },
 	                        '退出'
-	                    )
+	                    ),
+	                    '状态',
+	                    __global__.login ? '已登路' : '未登录'
 	                )
 	            );
 	        }
@@ -2376,6 +2325,106 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Upload = function (_Component) {
+	    _inherits(Upload, _Component);
+
+	    function Upload() {
+	        _classCallCheck(this, Upload);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Upload).call(this));
+
+	        _this.handleClick = _this.handleClick.bind(_this);
+	        _this.handleChange = _this.handleChange.bind(_this);
+	        return _this;
+	    }
+	    // 点击事件
+
+
+	    _createClass(Upload, [{
+	        key: 'handleClick',
+	        value: function handleClick() {
+	            var $file = this.refs.file;
+	            $file.click();
+	        }
+	        // change事件
+
+	    }, {
+	        key: 'handleChange',
+	        value: function handleChange(event) {
+	            var files = event.target.files;
+	            // let {onStart, onEnd, onError, onProgre} = this.props
+	            Utils.upload(files, this.props);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            // zip是否压缩,压缩使用canvas压缩 accept接收文件类型 mult多图上传
+	            var _props = this.props;
+	            var className = _props.className;
+	            var style = _props.style;
+	            var accept = _props.accept;
+	            var multiple = _props.multiple;
+
+	            var props = { className: className, style: style };
+
+	            console.log('is support multiple', multiple);
+
+	            return React.createElement(
+	                'div',
+	                _extends({}, props, { onClick: this.handleClick }),
+	                React.createElement(
+	                    'form',
+	                    { action: '', className: 'hide', ref: 'form' },
+	                    multiple ? React.createElement('input', { type: 'file', ref: 'file', name: 'image', onChange: this.handleChange, accept: this.props.accept, multiple: true, className: 'hide' }) : React.createElement('input', { type: 'file', ref: 'file', name: 'image', onChange: this.handleChange, accept: this.props.accept, className: 'hide' })
+	                ),
+	                this.props.children
+	            );
+	        }
+	    }]);
+
+	    return Upload;
+	}(_react.Component);
+
+	exports.default = Upload;
 
 /***/ }
 /******/ ]);

@@ -69,6 +69,7 @@ class Sidebar extends Component{
 
                         <Link to='/login'>登录</Link>
                         <button onClick={this.signout}>退出</button>
+                        状态{__global__.login ? '已登路': '未登录'}
                     </div>
                 </div>
     }

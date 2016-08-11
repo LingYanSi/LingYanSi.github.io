@@ -1,38 +1,47 @@
 import {Component} from 'react'
+import UploadCore from 'module/UploadCore'
 
-class Upload extends Component{
+class Upload extends Component {
     constructor(){
         super()
 
-        this.handleClick = this.handleClick.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+        this.state = {
+            upload:[],
+            progress: ''
+        }
     }
-    // 点击事件
-    handleClick(){
-        let $file = this.refs.file
-        $file.click()
+    uploadDone(res){
+        let data = JSON.parse(res);
+        let upload =this.state.upload
+        upload = upload.concat(data.url.map(item => Utils.getImageCDNSrc(item) ) )
+
+        this.setState({
+            upload
+        })
     }
-    // change事件
-    handleChange(event){
-        let files = event.target.files
-        // let {onStart, onEnd, onError, onProgre} = this.props
-        Utils.upload(files, this.props )
+    uploadProgress(percent){
+        // Modal.open()
+        this.setState({
+            progress: percent
+        })
+    }
+    uploadStart(){
+
     }
     render(){
-        // zip是否压缩,压缩使用canvas压缩 accept接收文件类型 mult多图上传
-        let {className, style, accept, multiple} = this.props
-        let props = {className, style}
+        let state = this.state
 
-        console.log('is support multiple', multiple);
-
-        return <div {...props} onClick={this.handleClick}>
-            <form action="" className="hide" ref="form">
-            {
-                multiple ? <input type="file" ref="file" name="image" onChange={this.handleChange} accept={this.props.accept} multiple className="hide"/>
-                : <input type="file" ref="file" name="image" onChange={this.handleChange} accept={this.props.accept}  className="hide"/>
-            }
-            </form>
-            {this.props.children}
+        return <div>
+            {state.upload.map(item => {
+                return <img key={item} src={item} alt="图片加载失败" height='200' width='auto'/>
+            })}
+            <div>进度条{state.progress}</div>
+            <UploadCore style={{width: 100, height: 100, background: 'rgb(156, 224, 215)'}} onStart={this.uploadStart.bind(this)} onProgress={this.uploadProgress.bind(this)} onEnd={this.uploadDone.bind(this)} multiple={true} accept='image' size='1-22k' zip={true} >
+                <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <polyline points="10, 40, 10, 60, 40, 60, 40, 90, 60, 90, 60, 60, 90, 60, 90, 40, 60, 40, 60, 10, 40, 10, 40, 40, 10, 40 "
+                        style={{fill: 'white', stroke: 'red'}} />
+                </svg>
+            </UploadCore>
         </div>
     }
 }

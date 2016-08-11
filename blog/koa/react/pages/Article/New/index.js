@@ -51,7 +51,7 @@ class New extends React.Component{
         data.content = $('#editor').html()
         data.tags = this.refs.tags.value
 
-        fetch('/newArticle',{
+        fetch('/article/create',{
             method: 'POST',
             body: JSON.stringify(data),
             credentials: 'same-origin'

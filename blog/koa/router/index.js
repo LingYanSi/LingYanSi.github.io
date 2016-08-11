@@ -8,11 +8,12 @@ let _ = require('lodash')
 let pug = require('pug')
 
 let jadeTpl = fs.readFileSync('./koa/jade/index.jade', 'utf8')
-let getList = require('./util/blog_list')
 let check_login = require('./util/check_login')
 let cdn = require('./util/cdn')
 
 const ROOT_PATH = path.resolve(__dirname, './../../')
+const ARTICLE_LIST_PATH = path.resolve(ROOT_PATH, `./static1/database/article/`)
+let articleList = require('./util/blog_list')(ARTICLE_LIST_PATH)
 
 let source = require(path.resolve(ROOT_PATH, 'router_config.js'))
 
@@ -24,8 +25,17 @@ loadfile.sourceStr = JSON.stringify(source)
 
 module.exports = function(router, koaBody) {
     router.get('/', function*() {
+            // 是否登录
+            const state = check_login(this)
+            // 全局信息
+            let __global__ = {
+                login: state,
+                username: '灵岩',
+                avatar: ''
+            }
             const tpl = pug.render(jadeTpl, {
-                    loadfile: loadfile
+                    loadfile: loadfile ,
+                    __global__: JSON.stringify(__global__)
                 })
                 // console.log(tpl)
             this.body = tpl
@@ -68,7 +78,10 @@ module.exports = function(router, koaBody) {
                 result: '已退出'
             })
         })
-        .post('/newArticle', koaBody, function*() {
+        .get('/article/list', function *() {
+            this.body = JSON.stringify(articleList.data)
+        })
+        .post('/article/create', koaBody, function*() {
             if (!check_login(this)) {
                 this.body = '你没有权限'
                 return
@@ -81,21 +94,20 @@ module.exports = function(router, koaBody) {
             // 写入
             // var data = _.cloneDeep( this.request.body.fields || {} , this.request.body.files || {} ,this.query )
             let data = JSON.parse(this.request.body)
+            const IS_CREATE = !data.id
             const filename = data.id || new Date().getTime()
             data.time = filename
             data.id = filename
             data.tags = data.tags.split(' ')
 
-            const DIR_PATH = path.resolve(ROOT_PATH, `./static1/database/article/`)
-            const FILE_PATH = path.resolve(ROOT_PATH, `./static1/database/article/${filename}.json`)
+            const FILE_PATH = path.resolve(ARTICLE_LIST_PATH, `${filename}.json`)
             fs.writeFileSync(FILE_PATH, JSON.stringify(data), 'utf-8');
 
             console.log('数据写入完成')
-
+            IS_CREATE ? articleList.post(data) : articleList.put(data)
             // this.body = JSON.stringify( this.request.body )
             // 重定向
             // this.response.redirect('/#/')
-            getList(DIR_PATH)
             this.body = JSON.stringify({
                 status: {
                     code: 1001,
@@ -112,11 +124,11 @@ module.exports = function(router, koaBody) {
             let data = JSON.parse(this.request.body)
             var id = data.id
 
-            const DIR_PATH = path.resolve(ROOT_PATH, `./static1/database/article/`)
-            const FILE_PATH = path.resolve(ROOT_PATH, `./static1/database/article/${id}.json`)
+            const FILE_PATH = path.resolve(ARTICLE_LIST_PATH, `${id}.json`)
             fs.unlinkSync(FILE_PATH)
 
-            getList(DIR_PATH)
+            articleList.delete(id)
+
             this.body = JSON.stringify({
                 status: {
                     code: 1001,

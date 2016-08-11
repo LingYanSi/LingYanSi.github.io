@@ -8,7 +8,7 @@ class Login extends Component{
     }
     login(){
         let password = this.refs.password.value
-        
+
         fetch('/login', {
             method: 'POST',
             credentials: 'same-origin',
@@ -22,7 +22,7 @@ class Login extends Component{
         })
     }
     render(){
-        return <div>
+        return <div style={{paddingTop: '40vh'}}>
             <input type="password" ref="password"/>
             <button onClick={this.login}>登录</button>
         </div>
