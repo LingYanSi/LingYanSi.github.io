@@ -1,1 +1,1 @@
-module.exports='pro'
+module.exports='dev'

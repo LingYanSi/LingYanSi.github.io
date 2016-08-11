@@ -82,11 +82,11 @@
 
 	var _New2 = _interopRequireDefault(_New);
 
-	var _NotFound = __webpack_require__(31);
+	var _NotFound = __webpack_require__(32);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _Login = __webpack_require__(50);
+	var _Login = __webpack_require__(31);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
@@ -133,7 +133,12 @@
 	    return App;
 	}(_react2.default.Component);
 
-	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
+	// 必要工具初始化
+
+
+	Utils.init().then(function (msg) {
+	    _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
+	});
 
 /***/ },
 /* 1 */
@@ -1043,7 +1048,7 @@
 
 	var _Footer2 = _interopRequireDefault(_Footer);
 
-	var _Sidebar = __webpack_require__(32);
+	var _Sidebar = __webpack_require__(33);
 
 	var _Sidebar2 = _interopRequireDefault(_Sidebar);
 
@@ -1187,8 +1192,18 @@
 	            fetch(url).then(function (response) {
 	                return response.json();
 	            }).then(function (data) {
+	                data.content = _this2.imgTagReplace(data.content);
 	                _this2.setState(data);
+	                Utils.scroll.tick();
 	            });
+	        }
+	    }, {
+	        key: 'imgTagReplace',
+	        value: function imgTagReplace(str) {
+	            // <img src=\"/img
+	            str = str.replace(/<img(\s)+src=/gi, '<img class="lazy-load-img" data-lazy-img=');
+	            // console.log(str);
+	            return str;
 	        }
 	    }, {
 	        key: 'componentDidMount',
@@ -1206,7 +1221,11 @@
 	            }
 
 	            _Modal2.default.alert('确认删除？', function () {
-	                fetch('./article/del?id=' + id).then(function (response) {
+	                fetch('/article/del', {
+	                    method: 'POST',
+	                    body: JSON.stringify({ id: id }),
+	                    credentials: 'same-origin'
+	                }).then(function (response) {
 	                    return response.json();
 	                }).then(function (data) {
 	                    console.log('删除成功');
@@ -1645,7 +1664,8 @@
 
 	            fetch('/newArticle', {
 	                method: 'POST',
-	                body: JSON.stringify(data)
+	                body: JSON.stringify(data),
+	                credentials: 'same-origin'
 	            }).then(function (response) {
 	                return response.json();
 	            }).then(function (data) {
@@ -1994,7 +2014,9 @@
 	        value: function uploadDone(res) {
 	            var data = JSON.parse(res);
 	            var upload = this.state.upload;
-	            upload = upload.concat(data.url);
+	            upload = upload.concat(data.url.map(function (item) {
+	                return Utils.getImageCDNSrc(item);
+	            }));
 
 	            this.setState({
 	                upload: upload
@@ -2063,11 +2085,11 @@
 	                    })
 	                ),
 	                _react2.default.createElement(_List2.default, { len: 0 }),
-	                _react2.default.createElement('img', { className: 'lazy-load-img', src: '', 'data-lazy-img': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', style: { height: 300, width: 400, background: 'red' }, alt: '' }),
-	                _react2.default.createElement('img', { className: 'lazy-load-img', src: '', 'data-lazy-img': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', style: { height: 300, width: 400, background: 'red' }, alt: '' }),
-	                _react2.default.createElement('img', { className: 'lazy-load-img', src: '', 'data-lazy-img': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', style: { height: 300, width: 400, background: 'red' }, alt: '' }),
-	                _react2.default.createElement('img', { className: 'lazy-load-img', src: '', 'data-lazy-img': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', style: { height: 300, width: 400, background: 'red' }, alt: '' }),
-	                _react2.default.createElement('img', { className: 'lazy-load-img', src: '', 'data-lazy-bgd': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', style: { height: 300, width: 400, background: 'red' }, alt: '' })
+	                _react2.default.createElement('img', { className: 'lazy-load-img', src: '', 'data-lazy-img': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', alt: '' }),
+	                _react2.default.createElement('img', { className: 'lazy-load-img', src: '', 'data-lazy-img': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', alt: '' }),
+	                _react2.default.createElement('img', { className: 'lazy-load-img', src: '', 'data-lazy-img': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', alt: '' }),
+	                _react2.default.createElement('img', { className: 'lazy-load-img', src: '', 'data-lazy-img': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', alt: '' }),
+	                _react2.default.createElement('div', { className: 'lazy-load-img', src: '', 'data-lazy-bgd': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', style: { height: 300, width: 400 } })
 	            );
 	        }
 	    }]);
@@ -2085,6 +2107,83 @@
 
 /***/ },
 /* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _Modal = __webpack_require__(6);
+
+	var _Modal2 = _interopRequireDefault(_Modal);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Login = function (_Component) {
+	    _inherits(Login, _Component);
+
+	    function Login() {
+	        _classCallCheck(this, Login);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Login).call(this));
+
+	        _this.login = _this.login.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(Login, [{
+	        key: 'login',
+	        value: function login() {
+	            var password = this.refs.password.value;
+
+	            fetch('/login', {
+	                method: 'POST',
+	                credentials: 'same-origin',
+	                body: JSON.stringify({ password: password })
+	            }).then(function (res) {
+	                return res.json();
+	            }).then(function (data) {
+	                if (data.status.code == 1001) {
+	                    // Modal.tips('登陆成功')
+	                    history.back();
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return React.createElement(
+	                'div',
+	                null,
+	                React.createElement('input', { type: 'password', ref: 'password' }),
+	                React.createElement(
+	                    'button',
+	                    { onClick: this.login },
+	                    '登录'
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Login;
+	}(_react.Component);
+
+	exports.default = Login;
+
+/***/ },
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2137,7 +2236,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2154,7 +2253,7 @@
 
 	var _reactRouter = __webpack_require__(10);
 
-	__webpack_require__(33);
+	__webpack_require__(34);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2207,6 +2306,18 @@
 	            }
 	        }
 	    }, {
+	        key: 'signout',
+	        value: function signout() {
+	            fetch('/signout', {
+	                method: 'POST',
+	                credentials: 'same-origin'
+	            }).then(function (res) {
+	                return res.json();
+	            }).then(function (data) {
+	                console.log(data);
+	            });
+	        }
+	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.setCurrent(this.props);
@@ -2249,6 +2360,11 @@
 	                        _reactRouter.Link,
 	                        { to: '/login' },
 	                        '登录'
+	                    ),
+	                    _react2.default.createElement(
+	                        'button',
+	                        { onClick: this.signout },
+	                        '退出'
 	                    )
 	                )
 	            );
@@ -2261,377 +2377,7 @@
 	exports.default = Sidebar;
 
 /***/ },
-/* 33 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(5);
-
-	var _modal = __webpack_require__(51);
-
-	var _modal2 = _interopRequireDefault(_modal);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Login = function (_Component) {
-	    _inherits(Login, _Component);
-
-	    function Login() {
-	        _classCallCheck(this, Login);
-
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Login).call(this));
-
-	        _this.login = _this.login.bind(_this);
-	        return _this;
-	    }
-
-	    _createClass(Login, [{
-	        key: 'login',
-	        value: function login() {
-	            var password = this.refs.password.value;
-
-	            fetch('/login?password=' + password).then(function (res) {
-	                return res.json();
-	            }).then(function (data) {
-	                if (data.status.code == 1001) {
-	                    // Modal.tips('登陆成功')
-	                    history.back();
-	                }
-	            });
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            return React.createElement(
-	                'div',
-	                null,
-	                React.createElement('input', { type: 'password', ref: 'password' }),
-	                React.createElement(
-	                    'button',
-	                    { onClick: this.login },
-	                    '登录'
-	                )
-	            );
-	        }
-	    }]);
-
-	    return Login;
-	}(_react.Component);
-
-	exports.default = Login;
-
-/***/ },
-/* 51 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(5);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	__webpack_require__(52);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	/*
-	modal 在根组件被渲染，其他组件调用的是他的静态方法
-	*/
-
-	var Modal = function (_Component) {
-	    _inherits(Modal, _Component);
-
-	    function Modal() {
-	        _classCallCheck(this, Modal);
-
-	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Modal).call(this));
-
-	        _this2.state = {
-	            queue: []
-	        };
-	        return _this2;
-	    }
-
-	    _createClass(Modal, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            // 把实例化的对象指向静态属性
-	            Modal.self = this;
-	            Modal.id = 0;
-	        }
-	    }, {
-	        key: 'pipe',
-	        value: function pipe(arr) {
-	            return arr.map(function (item) {
-	                switch (item.type) {
-	                    case 'tips':
-	                        return _react2.default.createElement(
-	                            'div',
-	                            { className: 'modal-item modal-item-tips', key: 'modal_' + item.id },
-	                            _react2.default.createElement(
-	                                'p',
-	                                null,
-	                                item.component
-	                            )
-	                        );
-	                    case 'alert':
-	                        return _react2.default.createElement(
-	                            'div',
-	                            { className: 'modal-item modal-item-alert', key: 'modal_' + item.id },
-	                            _react2.default.createElement(
-	                                'p',
-	                                null,
-	                                item.component
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'modal-item-btns' },
-	                                _react2.default.createElement(
-	                                    'button',
-	                                    { onClick: item.success },
-	                                    '确认'
-	                                ),
-	                                _react2.default.createElement(
-	                                    'button',
-	                                    { onClick: item.cancel },
-	                                    '取消'
-	                                )
-	                            )
-	                        );
-	                    case 'confirm':
-	                        return _react2.default.createElement(
-	                            'div',
-	                            { className: 'modal-item modal-item-confirm', key: 'modal_' + item.id },
-	                            _react2.default.createElement(
-	                                'p',
-	                                null,
-	                                item.component
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'modal-item-btns' },
-	                                _react2.default.createElement(
-	                                    'button',
-	                                    { onClick: item.success },
-	                                    '确认'
-	                                ),
-	                                _react2.default.createElement(
-	                                    'button',
-	                                    { onClick: item.cancel },
-	                                    '取消'
-	                                )
-	                            )
-	                        );
-	                    case 'open':
-	                        return _react2.default.createElement(
-	                            'div',
-	                            { className: 'modal-item modal-item-open', key: 'modal_' + item.id },
-	                            item.component
-	                        );
-	                }
-	            });
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var modalItems = this.pipe(this.state.queue);
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'modal' },
-	                modalItems
-	            );
-	        }
-	    }]);
-
-	    return Modal;
-	}(_react.Component);
-
-	// 新建弹框
-
-
-	Modal.open = function () {
-	    var component = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-
-	    var _this = this.self;
-	    var queue = this.self.state.queue;
-	    var id = this.id++;
-
-	    queue.push({
-	        type: 'open',
-	        component: component,
-	        id: id
-	    });
-
-	    _this.setState({
-	        queue: queue
-	    });
-
-	    return id;
-	};
-
-	// 提示
-	Modal.tips = function () {
-	    var str = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-	    var time = arguments.length <= 1 || arguments[1] === undefined ? 3000 : arguments[1];
-
-	    var _this = this.self;
-	    var queue = this.self.state.queue;
-	    var id = this.id++;
-
-	    queue.push({
-	        type: 'tips',
-	        component: str,
-	        id: id
-	    });
-
-	    _this.setState({
-	        queue: queue
-	    });
-
-	    setTimeout(function () {
-	        Modal.close(id);
-	    }, time);
-
-	    return id;
-	};
-
-	// 弹窗
-	Modal.alert = function () {
-	    var str = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-	    var _success = arguments[1];
-	    var _cancel = arguments[2];
-
-	    var _this = this.self;
-	    var queue = this.self.state.queue;
-	    var id = this.id++;
-
-	    queue.push({
-	        type: 'alert',
-	        component: str,
-	        id: id,
-	        success: function success() {
-	            _success && _success();
-	            Modal.close(id);
-	        },
-	        cancel: function cancel() {
-	            _cancel && _cancel();
-	            Modal.close(id);
-	        }
-	    });
-
-	    _this.setState({
-	        queue: queue
-	    });
-
-	    return id;
-	};
-
-	// 需要用户输入
-	Modal.confirm = function () {
-	    var str = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-	    var _success2 = arguments[1];
-	    var _cancel2 = arguments[2];
-
-	    var _this = this.self;
-	    var queue = this.self.state.queue;
-	    var id = this.id++;
-
-	    queue.push({
-	        type: 'confirm',
-	        component: str,
-	        id: id,
-	        success: function success() {
-	            _success2 && _success2();
-	            Modal.close(id);
-	        },
-	        cancel: function cancel() {
-	            _cancel2 && _cancel2();
-	            Modal.close(id);
-	        }
-	    });
-
-	    _this.setState({
-	        queue: queue
-	    });
-
-	    return id;
-	};
-
-	// 关闭弹窗
-	Modal.close = function (id) {
-	    var _this = this.self;
-	    var queue = this.self.state.queue;
-
-	    id ? queue.pop() : queue = queue.filter(function (item) {
-	        return item.id != id;
-	    });
-
-	    _this.setState({
-	        queue: queue
-	    });
-	};
-
-	// 关闭所有
-	Modal.closeAll = function () {
-	    this.self.setState({
-	        queue: []
-	    });
-	};
-
-	// 放到全局
-	// window.Modal = Modal
-
-	exports.default = Modal;
-
-/***/ },
-/* 52 */
+/* 34 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

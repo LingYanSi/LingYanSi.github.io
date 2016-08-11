@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import Modal from 'module/modal'
+import Modal from 'module/Modal'
 
 class Login extends Component{
     constructor(){
@@ -8,8 +8,12 @@ class Login extends Component{
     }
     login(){
         let password = this.refs.password.value
-
-        fetch('/login?password='+password).then(res => res.json())
+        
+        fetch('/login', {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: JSON.stringify({password})
+        }).then(res => res.json())
         .then(data => {
             if(data.status.code == 1001){
                 // Modal.tips('登陆成功')

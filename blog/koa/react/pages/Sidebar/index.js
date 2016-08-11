@@ -38,6 +38,15 @@ class Sidebar extends Component{
             this.setState({current})
         }
     }
+    signout(){
+        fetch('/signout', {
+            method: 'POST',
+            credentials: 'same-origin'
+        }).then(res => res.json())
+        .then(data => {
+            console.log(data);
+        })
+    }
     componentDidMount(){
         this.setCurrent(this.props)
     }
@@ -59,6 +68,7 @@ class Sidebar extends Component{
                         </ul>
 
                         <Link to='/login'>登录</Link>
+                        <button onClick={this.signout}>退出</button>
                     </div>
                 </div>
     }

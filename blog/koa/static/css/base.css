@@ -102,3 +102,9 @@
     font-size: 14px; }
   .layout-format > .layout-offset-12 {
     margin-left: 100%; }
+
+[data-lazy-img] {
+  padding-top: 80%;
+  background: red;
+  width: 100%;
+  display: block; }

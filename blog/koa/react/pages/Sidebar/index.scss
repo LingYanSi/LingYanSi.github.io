@@ -20,7 +20,7 @@
         transform: translateX(0%);
     }
 
-    button {
+    &>button {
         position: absolute;
         left: 100%;
         top: 0;

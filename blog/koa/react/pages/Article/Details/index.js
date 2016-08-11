@@ -26,8 +26,16 @@ class Details extends Component{
                 return response.json()
             })
             .then( (data) => {
+                data.content = this.imgTagReplace(data.content)
                 this.setState(data)
+                Utils.scroll.tick()
             })
+    }
+    imgTagReplace(str){
+        // <img src=\"/img
+        str = str.replace(/<img(\s)+src=/gi, `<img class="lazy-load-img" data-lazy-img=`)
+        // console.log(str);
+        return str
     }
     componentDidMount(){
         this.getData()
@@ -41,7 +49,11 @@ class Details extends Component{
         }
 
         Modal.alert('确认删除？', ()=>{
-            fetch(`./article/del?id=${id}`)
+            fetch(`/article/del`,{
+                method: 'POST',
+                body: JSON.stringify({id}),
+                credentials: 'same-origin'
+            })
                 .then(function(response){
                     return response.json()
                 })

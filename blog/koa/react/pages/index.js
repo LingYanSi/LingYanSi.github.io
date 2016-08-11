@@ -30,4 +30,7 @@ class App extends React.Component{
     }
 }
 
-ReactDom.render(<App></App>, document.getElementById('app'))
+// 必要工具初始化
+Utils.init().then(msg => {
+    ReactDom.render(<App></App>, document.getElementById('app'))
+})

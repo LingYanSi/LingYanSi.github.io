@@ -80,7 +80,7 @@
         Utils.upload(fileInfo, {
                 onEnd: function(url) {
                     var data = JSON.parse(url)
-                    loader.resolve(data.url[0] || '')
+                    loader.resolve( Utils.CDN() + data.url[0] || '')
                 }
             })
             // 一个promise

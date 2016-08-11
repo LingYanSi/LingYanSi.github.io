@@ -53,7 +53,8 @@ class New extends React.Component{
 
         fetch('/newArticle',{
             method: 'POST',
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            credentials: 'same-origin'
         }).then(function(response){
             return response.json()
         })
