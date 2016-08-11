@@ -2084,12 +2084,7 @@
 	                        );
 	                    })
 	                ),
-	                _react2.default.createElement(_List2.default, { len: 0 }),
-	                _react2.default.createElement('img', { className: 'lazy-load-img', src: '', 'data-lazy-img': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', alt: '' }),
-	                _react2.default.createElement('img', { className: 'lazy-load-img', src: '', 'data-lazy-img': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', alt: '' }),
-	                _react2.default.createElement('img', { className: 'lazy-load-img', src: '', 'data-lazy-img': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', alt: '' }),
-	                _react2.default.createElement('img', { className: 'lazy-load-img', src: '', 'data-lazy-img': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', alt: '' }),
-	                _react2.default.createElement('div', { className: 'lazy-load-img', src: '', 'data-lazy-bgd': 'http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg', style: { height: 300, width: 400 } })
+	                _react2.default.createElement(_List2.default, { len: 0 })
 	            );
 	        }
 	    }]);

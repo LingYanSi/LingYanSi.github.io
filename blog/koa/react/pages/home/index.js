@@ -133,12 +133,6 @@ class Home extends Component{
                 })}
             </Scroll>
             <List len={0}></List>
-
-            <img className='lazy-load-img' src="" data-lazy-img="http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg" alt=""/>
-            <img className='lazy-load-img' src="" data-lazy-img="http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg" alt=""/>
-            <img className='lazy-load-img' src="" data-lazy-img="http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg" alt=""/>
-            <img className='lazy-load-img' src="" data-lazy-img="http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg" alt=""/>
-            <div className='lazy-load-img' src="" data-lazy-bgd="http://ww4.sinaimg.cn/mw690/699132e6jw1f6mi42zqqtj20gs0b7wfz.jpg" style={{height: 300, width: 400 }}></div>
         </div>
     }
 }
