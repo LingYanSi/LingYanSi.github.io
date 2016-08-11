@@ -30,6 +30,7 @@
 
 #editor {
     overflow: scroll;
+    -webkit-overflow-scrolling: touch;
     max-height: 500px;
     height: 500px;
     color: #000;

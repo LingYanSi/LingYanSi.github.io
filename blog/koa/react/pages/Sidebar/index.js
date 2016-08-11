@@ -44,7 +44,7 @@ class Sidebar extends Component{
             credentials: 'same-origin'
         }).then(res => res.json())
         .then(data => {
-            console.log(data);
+            location.reload()
         })
     }
     componentDidMount(){
@@ -54,11 +54,26 @@ class Sidebar extends Component{
         const state = this.state
         const props = this.props
 
+        // jiba
+        let classnames = function(obj){
+            return Object.keys(obj).map(key => {
+                if(obj[key]){
+                    return key
+                }
+            }).filter(item => item).join(' ')
+        }
+
+        let avatar_class = classnames({
+            'avatar': true,
+            login: __global__.login
+        })
+
         return <div id="sidebar" className={props.sidebar ? 'show' : ''}>
                     <button className={props.sidebar ? 'show' : ''}
                             onClick={props.handleSidebarChange}>三</button>
+
                     <div className="sidebar-content">
-                        <div className="avatar" style={{backgroundImage: `url(${state.avatar})`}} ></div>
+                        <div className={avatar_class} style={{backgroundImage: `url(${state.avatar})`}} ></div>
                         <ul>
                             { state.list.map((item, index)=>{
                                 return <li className={index==state.current?'current':''} key={item.url}>
@@ -67,9 +82,8 @@ class Sidebar extends Component{
                             })}
                         </ul>
 
-                        <Link to='/login'>登录</Link>
+                        <Link to='/login' className="btn">登录</Link>
                         <button onClick={this.signout}>退出</button>
-                        状态{__global__.login ? '已登路': '未登录'}
                     </div>
                 </div>
     }

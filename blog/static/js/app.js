@@ -2265,7 +2265,7 @@
 	            }).then(function (res) {
 	                return res.json();
 	            }).then(function (data) {
-	                console.log(data);
+	                location.reload();
 	            });
 	        }
 	    }, {
@@ -2279,6 +2279,22 @@
 	            var state = this.state;
 	            var props = this.props;
 
+	            // jiba
+	            var classnames = function classnames(obj) {
+	                return Object.keys(obj).map(function (key) {
+	                    if (obj[key]) {
+	                        return key;
+	                    }
+	                }).filter(function (item) {
+	                    return item;
+	                }).join(' ');
+	            };
+
+	            var avatar_class = classnames({
+	                'avatar': true,
+	                login: __global__.login
+	            });
+
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'sidebar', className: props.sidebar ? 'show' : '' },
@@ -2291,7 +2307,7 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'sidebar-content' },
-	                    _react2.default.createElement('div', { className: 'avatar', style: { backgroundImage: 'url(' + state.avatar + ')' } }),
+	                    _react2.default.createElement('div', { className: avatar_class, style: { backgroundImage: 'url(' + state.avatar + ')' } }),
 	                    _react2.default.createElement(
 	                        'ul',
 	                        null,
@@ -2309,16 +2325,14 @@
 	                    ),
 	                    _react2.default.createElement(
 	                        _reactRouter.Link,
-	                        { to: '/login' },
+	                        { to: '/login', className: 'btn' },
 	                        '登录'
 	                    ),
 	                    _react2.default.createElement(
 	                        'button',
 	                        { onClick: this.signout },
 	                        '退出'
-	                    ),
-	                    '状态',
-	                    __global__.login ? '已登路' : '未登录'
+	                    )
 	                )
 	            );
 	        }

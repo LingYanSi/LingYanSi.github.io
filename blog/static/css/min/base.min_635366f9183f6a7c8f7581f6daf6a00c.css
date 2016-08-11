@@ -108,3 +108,12 @@
   background: #a6d6cc;
   width: 100%;
   display: block; }
+
+.btn {
+  display: inline-block;
+  background: inherit;
+  padding: 0 1em;
+  line-height: 2;
+  border-width: 1px;
+  cursor: pointer;
+  border: 1px solid #dfdcd8; }

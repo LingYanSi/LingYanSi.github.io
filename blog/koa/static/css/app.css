@@ -81,6 +81,8 @@
       background-color: #c3625e;
       background-size: cover;
       box-shadow: 0 0 4px 2px rgba(255, 255, 255, 0.8); }
+      #sidebar .sidebar-content .avatar.login {
+        box-shadow: 0 0 4px 2px rgba(2, 33, 11, 0.8); }
     #sidebar .sidebar-content li:after {
       content: "";
       display: block;
@@ -343,6 +345,7 @@ body {
 
 #editor {
   overflow: scroll;
+  -webkit-overflow-scrolling: touch;
   max-height: 500px;
   height: 500px;
   color: #000;

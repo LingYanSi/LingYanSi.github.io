@@ -1,39 +1,33 @@
 @import "./var";
-
 .hide {
     display: none;
 }
-
 .hide-important {
     display: none !important;
 }
-
 .padding {
     padding: $padding;
 }
-
 .flex-center {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 .layout-format {
     display: block;
     font-size: 0;
     @for $i from 1 through 12 {
-      &>.layout-item-#{$i} {
-          box-sizing: border-box;
-          display: inline-block;
-          width: percentage($i/12);
-          font-size: $fontSize;
-      }
-      &>.layout-offset-#{$i} {
-          margin-left: percentage($i/12);
-      }
+        & > .layout-item-#{$i} {
+            box-sizing: border-box;
+            display: inline-block;
+            width: percentage($i/12);
+            font-size: $fontSize;
+        }
+        & > .layout-offset-#{$i} {
+            margin-left: percentage($i/12);
+        }
     }
 }
-
 // 懒加载图片
 [data-lazy-img] {
     padding-top: 80%;
@@ -42,3 +36,12 @@
     display: block;
 }
 // 懒加载背景图片
+.btn {
+    display: inline-block;
+    background: inherit;
+    padding: 0 1em;
+    line-height: 2;
+    border-width: 1px;
+    cursor: pointer;
+    border: 1px solid #dfdcd8;
+}
