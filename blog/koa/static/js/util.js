@@ -1,5 +1,7 @@
 'use strict';
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 // fetch pollify
 
 // 加入缓存机制，cache会被放在sessionStorage里面，如果真实请求的数据和缓存数据一样，则不更新视图
@@ -28,7 +30,7 @@ var __fetch = function (__fetch) {
             xhr.addEventListener('progress', function (event) {
                 // 下载进度条
                 options.progress && options.progress(event.loaded / event.total);
-                console.log('progress', event);
+                // console.log('progress', event);
             }, false);
             // 上传停止
             xhr.addEventListener('abort', function (xx) {
@@ -50,8 +52,8 @@ var __fetch = function (__fetch) {
                 // console.log('文件上传中', event);
                 options.uploadProgress && options.uploadProgress(event.loaded / event.total);
             };
-
-            xhr.open(options.method || 'Get', url, true);
+            xhr.open(options.method || 'GET', url, true);
+            options.contentType && xhr.setRequestHeader("Content-Type", options.contentType);
 
             // 注意，非get请求参数，通过json字符串发送数据
             // 如果是FromData则发送FormData
@@ -59,7 +61,7 @@ var __fetch = function (__fetch) {
             // if(! body instanceof window.FormData){
             //     body = JSON.stringify(body)
             // }
-
+            xhr.responseType = 'text';
             // 监听state变化
             xhr.addEventListener('readystatechange', function (state) {
                 // console.log(xhr.readyState, xhr.responseText, xhr.status);
@@ -373,6 +375,15 @@ var Utils = {
     // ajax/fetch
     fetch: __fetch,
 
+    getKey: function getKey(data) {
+        return new Promise(function (res) {
+            fetch('http://dev.weipaitang.com/manage/getUploadUrl?package=' + JSON.stringify(data)).then(function (res) {
+                return res.json();
+            }).then(function (data) {
+                res(data.requestUrl);
+            });
+        });
+    },
     upload: function upload() {
         var _this2 = this;
 
@@ -385,23 +396,110 @@ var Utils = {
 
         var f = new FormData();
         Promise.all(Array.from(files).map(function (file) {
-            return _this2.zip(file, .9);
+            return _this2.zip(file, 1);
         })).then(function (res) {
             res.forEach(function (file, index) {
+                // 对文件名进行编码，避免中文乱码
+                // file.name = encodeURIComponent(file.name)
                 f.append('file' + index, file);
             });
 
             onStart && onStart();
-            Utils.fetch('/upload', {
-                method: 'post',
-                body: f,
-                uploadProgress: function uploadProgress(percent) {
-                    onProgress && onProgress(percent);
-                }
-            }).then(function (res) {
-                onEnd && onEnd(res);
+            // Utils.fetch('/upload', {
+            //     method: 'POST',
+            //     body: f,
+            //     uploadProgress:(percent)=>{
+            //         onProgress && onProgress(percent)
+            //     }
+            // }).then(res => {
+            //     onEnd && onEnd(res)
+            // })
+            // return
+
+            var file = f = res[0];
+
+            var option = {
+                dataSize: file.size,
+                fileName: file.name,
+                fileSha: '9c4de28f4ac0bf5d75a2f537ad61df1e2c0a60e9',
+                fileSize: file.size,
+                fileType: file.type.split('/')[1].toUpperCase(),
+                offset: 0
+            };
+
+            var TYPE = file.type;
+            _this2.getKey(option).then(function (uploadUrl) {
+                console.log('服务器地址', uploadUrl);
+                uploadUrl = uploadUrl.replace('https://', 'http://');
+                var query = _this2.query(uploadUrl);
+
+                query = _this2.assign({}, query, {
+                    utype: 1,
+                    notifyUrl: 'http://dev.weipaitang.com/manage/videoCallback',
+                    name: query.fileName,
+                    isScreenshot: 1,
+                    isTranscode: 1,
+                    isWatermark: 1
+                });
+
+                var search = _this2.sort(query, ['Action', 'Nonce', 'Region', 'SecretId', 'Timestamp', 'dataSize', 'fileName', 'fileSha', 'fileSize', 'fileType', 'isScreenshot', 'isTranscode', 'isWatermark', 'name', 'notifyUrl', 'offset', 'utype', 'Signature']);
+
+                uploadUrl = uploadUrl.slice(0, uploadUrl.indexOf('?')) + '?' + search;
+
+                console.log('文件大小', f.size / 1024 / 1024);
+                // f = f.slice(0, 500)
+                f = f.slice(0, 950 * 1024);
+
+                Utils.fetch(uploadUrl, {
+                    method: 'POST',
+                    body: f,
+                    contentType: 'application/octet-stream',
+                    uploadProgress: function uploadProgress(percent) {
+                        onProgress && onProgress(percent);
+                    }
+                }).then(function (res) {
+                    onEnd && onEnd(res);
+                });
+
+                // let sth = new FileReader()
+                // sth.readAsArrayBuffer(f)
+                //
+                // sth.onloadend  = function(res){
+                //
+                //     let f = res.target.result
+                //
+                //     console.log(f instanceof ArrayBuffer);
+                //
+                //
+                // }
             });
         });
+    },
+    sort: function sort(obj, arr) {
+        var str = arr.map(function (item) {
+            return item + '=' + (obj[item] || '');
+            return obj[item] ? item + '=' + obj[item] : '';
+        }).filter(function (item) {
+            return item;
+        }).join('&');
+
+        return str;
+    },
+    query: function query(url) {
+        url = new URL(url);
+        var search = url.search.slice(1);
+        var query = {};
+        search.split('&').map(function (item) {
+            var _item$split = item.split('=');
+
+            var _item$split2 = _slicedToArray(_item$split, 2);
+
+            var key = _item$split2[0];
+            var value = _item$split2[1];
+
+            query[key] = value;
+        });
+        return query;
     },
 
     // 图片压缩，文件类型转换 etc
@@ -435,8 +533,9 @@ var Utils = {
         }
 
         return new Promise(function (resolve, reject) {
+            // alert(file.type)
             // 对于非图片文件，直接上传
-            if (SIZE < 1.5 | quality >= 1 || quality <= 0 || !file.type.startsWith('image/')) return resolve(file);
+            if (SIZE < 1.5 || quality >= 1 || quality <= 0 || !file.type.startsWith('image/')) return resolve(file);
             var canvas = document.createElement('canvas');
 
             // 获取到图片的宽高

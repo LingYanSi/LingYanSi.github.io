@@ -11,6 +11,8 @@ class Upload extends Component {
         }
     }
     uploadDone(res){
+        console.log(res);
+        return
         let data = JSON.parse(res);
         let upload =this.state.upload
         upload = upload.concat(data.url.map(item => Utils.getImageCDNSrc(item) ) )

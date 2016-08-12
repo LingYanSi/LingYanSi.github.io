@@ -24,7 +24,7 @@ let __fetch = (function(__fetch){
             xhr.addEventListener('progress',(event)=>{
                 // 下载进度条
                 options.progress && options.progress(event.loaded/event.total)
-                console.log('progress', event);
+                // console.log('progress', event);
             }, false)
             // 上传停止
             xhr.addEventListener('abort',(xx)=>{
@@ -46,8 +46,8 @@ let __fetch = (function(__fetch){
                 // console.log('文件上传中', event);
                 options.uploadProgress && options.uploadProgress(event.loaded/event.total)
             }
-
-            xhr.open(options.method || 'Get', url, true)
+            xhr.open(options.method || 'GET', url, true)
+            options.contentType && xhr.setRequestHeader("Content-Type", options.contentType);
 
             // 注意，非get请求参数，通过json字符串发送数据
             // 如果是FromData则发送FormData
@@ -55,7 +55,7 @@ let __fetch = (function(__fetch){
             // if(! body instanceof window.FormData){
             //     body = JSON.stringify(body)
             // }
-
+            xhr.responseType = 'text'
             // 监听state变化
             xhr.addEventListener('readystatechange', (state) => {
                 // console.log(xhr.readyState, xhr.responseText, xhr.status);
@@ -350,27 +350,119 @@ var Utils = {
     // ajax/fetch
     fetch: __fetch,
 
-    upload(files = [], fn = {}){
+    getKey(data){
+        return new Promise(res => {
+            fetch('http://dev.weipaitang.com/manage/getUploadUrl?package='+ JSON.stringify(data))
+                .then(res => res.json())
+                .then(data => {
+                    res(data.requestUrl);
+                })
+        })
+    },
+    upload( files = [], fn = {}){
         let {onStart, onEnd, onError, onProgress} = fn
         let f = new FormData()
         Promise.all(Array.from(files).map(file => {
-            return this.zip(file, .9)
+            return this.zip(file, 1)
         })).then(res => {
             res.forEach((file, index) => {
+                // 对文件名进行编码，避免中文乱码
+                // file.name = encodeURIComponent(file.name)
                 f.append(`file${index}`, file)
             })
 
             onStart && onStart()
-            Utils.fetch('/upload', {
-                method: 'post',
-                body: f,
-                uploadProgress:(percent)=>{
-                    onProgress && onProgress(percent)
-                }
-            }).then(res => {
-                onEnd && onEnd(res)
+            // Utils.fetch('/upload', {
+            //     method: 'POST',
+            //     body: f,
+            //     uploadProgress:(percent)=>{
+            //         onProgress && onProgress(percent)
+            //     }
+            // }).then(res => {
+            //     onEnd && onEnd(res)
+            // })
+            // return
+
+            let file = f = res[0]
+
+
+            const option = {
+                dataSize: file.size,
+                fileName: file.name ,
+                fileSha: '9c4de28f4ac0bf5d75a2f537ad61df1e2c0a60e9',
+                fileSize: file.size ,
+                fileType: file.type.split('/')[1].toUpperCase() ,
+                offset: 0,
+            }
+
+
+            const TYPE = file.type
+            this.getKey(option).then(uploadUrl => {
+                console.log('服务器地址', uploadUrl);
+                uploadUrl = uploadUrl.replace('https://', 'http://')
+                let query = this.query(uploadUrl)
+
+                query = this.assign({}, query, {
+                    utype: 1,
+                    notifyUrl: 'http://dev.weipaitang.com/manage/videoCallback',
+                    name: query.fileName,
+                    isScreenshot: 1,
+                    isTranscode: 1,
+                    isWatermark: 1,
+                })
+
+                let search = this.sort(query, ['Action', 'Nonce', 'Region', 'SecretId', 'Timestamp', 'dataSize', 'fileName', 'fileSha', 'fileSize', 'fileType', 'isScreenshot', 'isTranscode', 'isWatermark', 'name', 'notifyUrl', 'offset', 'utype', 'Signature'])
+
+                uploadUrl = uploadUrl.slice(0, uploadUrl.indexOf('?')) + '?' + search
+
+                console.log('文件大小', f.size/1024/1024)
+                // f = f.slice(0, 500)
+                f = f.slice(0, 950*1024 )
+
+                Utils.fetch(uploadUrl, {
+                    method: 'POST',
+                    body: f,
+                    contentType: 'application/octet-stream',
+                    uploadProgress:(percent)=>{
+                        onProgress && onProgress(percent)
+                    }
+                }).then(res => {
+                    onEnd && onEnd(res)
+                })
+
+                // let sth = new FileReader()
+                // sth.readAsArrayBuffer(f)
+                //
+                // sth.onloadend  = function(res){
+                //
+                //     let f = res.target.result
+                //
+                //     console.log(f instanceof ArrayBuffer);
+                //
+                //
+                // }
             })
+
+
         })
+    },
+    sort(obj, arr){
+        let str = arr.map(item => {
+            return item + '=' + (obj[item] || '')
+            return obj[item] ? (item + '=' + obj[item] ): ''
+        }).filter(item => item).join('&')
+
+        return str
+    },
+    query(url){
+        url = new URL(url)
+        const search = url.search.slice(1)
+        let query = {}
+        search.split('&').map(item => {
+            let [key, value] = item.split('=')
+            query[key] = value
+        })
+        return query
     },
     // 图片压缩，文件类型转换 etc
     zip(file, quality = .01){
@@ -401,8 +493,9 @@ var Utils = {
         }
 
         return new Promise(function(resolve, reject){
+            // alert(file.type)
             // 对于非图片文件，直接上传
-            if(SIZE < 1.5 | quality >= 1 || quality <= 0 || !file.type.startsWith('image/')) return resolve(file)
+            if(SIZE < 1.5 || quality >= 1 || quality <= 0 || !file.type.startsWith('image/')) return resolve(file)
             let canvas = document.createElement('canvas')
 
             // 获取到图片的宽高

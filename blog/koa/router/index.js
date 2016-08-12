@@ -152,6 +152,7 @@ module.exports = function(router, koaBody) {
                 req.setEncoding('binary')
                 req.on('data', (chunck) => {
                     data += chunck
+                    console.log(chunck);
                 })
 
                 req.on('end', () => {
@@ -209,7 +210,10 @@ module.exports = function(router, koaBody) {
                             // 异步
                             // return new Promise(res => {
                             if (obj['Content-Type']) {
+                                const IS_IMG = obj['Content-Type'].startsWith('image')
                                 let ext = obj['Content-Type'].split('/')[1]
+                                // 把quicktime转成MP4
+                                ext = ext == 'quicktime' ? 'mp4' : ''
                                     // ie post的数据竟然没有filename，卧槽
                                 obj.filename = obj.name
                                 obj.filename += `${new Date().getTime()}${index}`
@@ -218,9 +222,10 @@ module.exports = function(router, koaBody) {
                                 const FILE_PATH = path.resolve(ROOT_PATH, `./static1/img/${obj.filename}.${ext}`)
                                     // 本地缓存一份
                                 fs.writeFileSync(FILE_PATH, obj.content, 'binary')
+                                console.log(obj.content);
 
                                 // 获取图片大小
-                                const dimensions = sizeOf(FILE_PATH)
+                                const dimensions = IS_IMG ? sizeOf(FILE_PATH) : {}
 
                                 // 再把图片上传到cdn
                                 const d = new Date()
