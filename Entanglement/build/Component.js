@@ -8,8 +8,8 @@ var Component = function(arg){
     this.render = function(){
         this._componentWillUpdate()
 
-        // var html = arg.render.call(this)
-        // this.$ele.innerHTML = html
+        var html = arg.render.call(this)
+        this.$ele.innerHTML = html
 
         this._componentDidUpdate()
     }
@@ -58,13 +58,13 @@ Component.prototype = {
         this.componentWillUpdate()
 
         // 去parser字符串,获取dom树
-        var tree = getVDom(this.template)
+        // var tree = getVDom(this.template)
 
-        console.log( tree);
+        // console.log( tree);
 
-        var node = render(tree, this)
-        this.$ele.innerHTML = ''
-        this.$ele.appendChild(node)
+        // var node = render(tree, this)
+        // this.$ele.innerHTML = ''
+        // this.$ele.appendChild(node)
 
         // 渲染tree
     },

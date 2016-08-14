@@ -1,0 +1,25 @@
+
+
+.contacts {
+    width: 200px;
+    border: 1px solid #886;
+
+    $padding: 6px;
+
+    .list-item {
+        padding: $padding;
+        background: rgba(0, 0, 0, .1);
+
+        &:nth-child(n+2){
+            border-top: 1px solid #886;
+        }
+
+        &.active {
+            background: red ;
+        }
+
+        a + p {
+            margin-top: $padding;
+        }
+    }
+}

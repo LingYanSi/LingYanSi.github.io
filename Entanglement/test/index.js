@@ -5,7 +5,7 @@ var $ = function(s){
 // Fuck组件，渲染一次
 
 // 创建一个组件
-var app = new Component({
+var App = new Component({
     data: {
         title: '什么',
         content: '我是内容',
@@ -54,15 +54,17 @@ var app = new Component({
     render(){
         var data = this.data
 
+        console.log('--------');
         // 单纯的字符串模板无法完成功能，需要自定义一套语法
         return `
             <h1>ToDo</h1>
             <h2>{data.title}</h2>
             <div>{data.content}</div>
-            <input type="text" ref="comment" /><button class="add">add</button>
+            <input type="text" ref="comment" />
+            <button class="add" onClick={this.fuck.bind(this)}>add</button>
         `
     }
 })
 
 //  这里还有一个问题啊，不应立马render (⊙﹏⊙)b，不然有问题
-Ent.render(app, document.querySelector('#app'))
+Ent.render(App, document.querySelector('#app'))

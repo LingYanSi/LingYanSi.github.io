@@ -1,0 +1,63 @@
+@charset "UTF-8";
+#chat, #fuck {
+  margin: 0 auto;
+  margin-top: 100px;
+  height: 500px;
+  width: 600px;
+  display: flex; }
+
+.contacts {
+  width: 200px;
+  border: 1px solid #886; }
+  .contacts .list-item {
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.1); }
+    .contacts .list-item:nth-child(n+2) {
+      border-top: 1px solid #886; }
+    .contacts .list-item.active {
+      background: red; }
+    .contacts .list-item a + p {
+      margin-top: 6px; }
+
+/* 对话框 */
+.dialogue {
+  flex: 1;
+  box-sizing: border-box;
+  border: 1px solid #886; }
+
+/* 消息接收 */
+.message {
+  height: 400px; }
+  .message .message-item {
+    height: 100%;
+    overflow-y: scroll; }
+
+.message-list-item {
+  display: flex;
+  margin-bottom: 10px; }
+  .message-list-item.left {
+    text-align: left; }
+    .message-list-item.left .user {
+      order: -1; }
+    .message-list-item.left .content {
+      background: green; }
+  .message-list-item.right {
+    text-align: right; }
+    .message-list-item.right .user {
+      order: 1; }
+    .message-list-item.right .content {
+      background: red; }
+  .message-list-item .content-wrap {
+    flex: 1; }
+    .message-list-item .content-wrap .content {
+      text-align: left;
+      max-width: 80%;
+      border-radius: 10px;
+      border: 1px solid #000;
+      display: inline-block;
+      padding: 10px; }
+
+/* 消息发送 */
+.input {
+  height: 100px;
+  border-top: 1px solid #886; }

@@ -1,0 +1,65 @@
+
+/* 对话框 */
+.dialogue {
+    flex: 1;
+    box-sizing: border-box;
+    border: 1px solid #886;
+}
+
+
+/* 消息接收 */
+.message {
+    height: 400px;
+
+    .message-item {
+        height: 100%;
+        overflow-y: scroll;
+    }
+}
+
+.message-list-item{
+    $leftColor: green;
+    $rightColor: red;
+
+    display: flex;
+    margin-bottom: 10px;
+
+    &.left{
+        text-align: left;
+
+        .user {
+            order: -1;
+        }
+        .content {
+            background: $leftColor;
+        }
+    }
+
+    &.right{
+        text-align: right;
+
+        .user {
+            order: 1;
+        }
+
+        .content {
+            background: $rightColor;
+        }
+    }
+
+    .user{
+        // width: 50px;
+    }
+
+    .content-wrap{
+        flex: 1;
+        .content{
+            text-align: left;
+            max-width: 80%;
+            border-radius: 10px;
+            border: 1px solid #000;
+            display: inline-block;
+            padding: 10px;
+        }
+    }
+}

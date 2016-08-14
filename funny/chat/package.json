@@ -1,0 +1,9 @@
+{
+  "name": "chat",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
+    "node-sass": "^3.8.0"
+  }
+}
