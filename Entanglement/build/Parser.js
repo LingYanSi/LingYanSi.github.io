@@ -1,217 +1,493 @@
-
-//  第一步，获取内部元素
-// 构建一个对象树
 /*
-     闭合标签 div/span/p/pre/h1/h2/h3/h4/h5/h6/i/b/form/table/tbody/thead/tr/td
-            <!-- -->
-     半闭合 img/input
+ * HTML Parser By John Resig (ejohn.org)
+ * Original code by Erik Arvidsson, Mozilla Public License
+ * http://erik.eae.net/simplehtmlparser/simplehtmlparser.js
+ *
+ * // Use like so:
+ * HTMLParser(htmlString, {
+ *     start: function(tag, attrs, unary) {},
+ *     end: function(tag) {},
+ *     chars: function(text) {},
+ *     comment: function(text) {}
+ * });
+ *
+ * // or to get an XML string:
+ * HTMLtoXML(htmlString);
+ *
+ * // or to get an XML DOM Document
+ * HTMLtoDOM(htmlString);
+ *
+ * // or to inject into an existing document/DOM node
+ * HTMLtoDOM(htmlString, document);
+ * HTMLtoDOM(htmlString, document.body);
+ *
  */
 
- /*
- * @str : 模板字符串
- * @PRE : entId 前缀
- * @INDEX : 元素所处位置
- */
+(function(){
 
-function getVDom(str,PRE,INDEX){
-    str = str.trim()
-    // 匹配第一个<>内的数据
-    var f = str.match(/<([^><]+)>/)[1]
-    // 获取tagname
-    var tagname = f.match(/[a-zA-Z][a-zA-Z0-9]*/)[0]
-    // 去除tagname
-    f = f.replace(tagname,'').trim()
-    // 获取属性
-    var properties = f.split(' ')
-    var events = {}, ref
+	// Regular Expressions for parsing tags and attributes
+	var startTag = /^<([-A-Za-z0-9_]+)((?:\s+\w+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/,
+		endTag = /^<\/([-A-Za-z0-9_]+)[^>]*>/,
+		attr = /([-A-Za-z0-9_]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?/g;
+
+	// Empty Elements - HTML 4.01
+	var empty = makeMap("area,base,basefont,br,col,frame,hr,img,input,isindex,link,meta,param,embed");
+
+	// Block Elements - HTML 4.01
+	var block = makeMap("address,applet,blockquote,button,center,dd,del,dir,div,dl,dt,fieldset,form,frameset,hr,iframe,ins,isindex,li,map,menu,noframes,noscript,object,ol,p,pre,script,table,tbody,td,tfoot,th,thead,tr,ul");
+
+	// Inline Elements - HTML 4.01
+	var inline = makeMap("a,abbr,acronym,applet,b,basefont,bdo,big,br,button,cite,code,del,dfn,em,font,i,iframe,img,input,ins,kbd,label,map,object,q,s,samp,script,select,small,span,strike,strong,sub,sup,textarea,tt,u,var");
+
+	// Elements that you can, intentionally, leave open
+	// (and which close themselves)
+	var closeSelf = makeMap("colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr");
+
+	// Attributes that have their values filled in disabled="disabled"
+	var fillAttrs = makeMap("checked,compact,declare,defer,disabled,ismap,multiple,nohref,noresize,noshade,nowrap,readonly,selected");
+
+	// Special Elements (can contain anything)
+	var special = makeMap("script,style");
+
+	var HTMLParser = this.HTMLParser = function( html, handler ) {
+		var index, chars, match, stack = [], last = html;
+		stack.last = function(){
+			return this[ this.length - 1 ];
+		};
+
+		while ( html ) {
+			chars = true;
+
+			// Make sure we're not in a script or style element
+			if ( !stack.last() || !special[ stack.last() ] ) {
+
+				// Comment
+				if ( html.indexOf("<!--") == 0 ) {
+					index = html.indexOf("-->");
+
+					if ( index >= 0 ) {
+						if ( handler.comment )
+							handler.comment( html.substring( 4, index ) );
+						html = html.substring( index + 3 );
+						chars = false;
+					}
+
+				// end tag
+				} else if ( html.indexOf("</") == 0 ) {
+					match = html.match( endTag );
+
+					if ( match ) {
+						html = html.substring( match[0].length );
+						match[0].replace( endTag, parseEndTag );
+						chars = false;
+					}
+
+				// start tag
+				} else if ( html.indexOf("<") == 0 ) {
+					match = html.match( startTag );
+
+					if ( match ) {
+						html = html.substring( match[0].length );
+						match[0].replace( startTag, parseStartTag );
+						chars = false;
+					}
+				}
+
+				if ( chars ) {
+					index = html.indexOf("<");
+
+					var text = index < 0 ? html : html.substring( 0, index );
+					html = index < 0 ? "" : html.substring( index );
+
+					if ( handler.chars )
+						handler.chars( text );
+				}
+
+			} else {
+				html = html.replace(new RegExp("(.*)<\/" + stack.last() + "[^>]*>"), function(all, text){
+					text = text.replace(/<!--(.*?)-->/g, "$1")
+						.replace(/<!\[CDATA\[(.*?)]]>/g, "$1");
+
+					if ( handler.chars )
+						handler.chars( text );
+
+					return "";
+				});
+
+				parseEndTag( "", stack.last() );
+			}
+
+			if ( html == last )
+				throw "Parse Error: " + html;
+			last = html;
+		}
+
+		// Clean up any remaining tags
+		parseEndTag();
+
+		function parseStartTag( tag, tagName, rest, unary ) {
+			// tagName = tagName.toLowerCase();
+
+			if ( block[ tagName ] ) {
+				while ( stack.last() && inline[ stack.last() ] ) {
+					parseEndTag( "", stack.last() );
+				}
+			}
+
+			if ( closeSelf[ tagName ] && stack.last() == tagName ) {
+				parseEndTag( "", tagName );
+			}
+
+			unary = empty[ tagName ] || !!unary;
+
+			if ( !unary )
+				stack.push( tagName );
+
+			if ( handler.start ) {
+				// var attrs = [];
+				var attrs = {}
+
+				rest.replace(attr, function(match, name) {
+					var value = arguments[2] ? arguments[2] :
+						arguments[3] ? arguments[3] :
+						arguments[4] ? arguments[4] :
+						fillAttrs[name] ? name : "";
+
+					// attrs.push({
+					// 	name: name,
+					// 	value: value,
+					// 	escaped: value.replace(/(^|[^\\])"/g, '$1\\\"') //"
+					// });
+					attrs[name] = value
+				});
+
+				if ( handler.start )
+					handler.start( tagName, attrs, unary );
+			}
+		}
+
+		function parseEndTag( tag, tagName ) {
+			// If no tag name is provided, clean shop
+			if ( !tagName )
+				var pos = 0;
+
+			// Find the closest opened tag of the same type
+			else
+				for ( var pos = stack.length - 1; pos >= 0; pos-- )
+					if ( stack[ pos ] == tagName )
+						break;
+
+			if ( pos >= 0 ) {
+				// Close all the open elements, up the stack
+				for ( var i = stack.length - 1; i >= pos; i-- )
+					if ( handler.end )
+						handler.end( stack[ i ] );
+
+				// Remove the open elements from the stack
+				stack.length = pos;
+			}
+		}
+	};
+
+	this.HTMLtoXML = function( html ) {
+		var results = "";
+
+		HTMLParser(html, {
+			start: function( tag, attrs, unary ) {
+				results += "<" + tag;
+
+				for ( var i = 0; i < attrs.length; i++ )
+					results += " " + attrs[i].name + '="' + attrs[i].escaped + '"';
+
+				results += (unary ? "/" : "") + ">";
+			},
+			end: function( tag ) {
+				results += "</" + tag + ">";
+			},
+			chars: function( text ) {
+				results += text;
+			},
+			comment: function( text ) {
+				results += "<!--" + text + "-->";
+			}
+		});
+
+		return results;
+	};
+
+	this.HTMLtoDOM = function( html, doc ) {
+		// There can be only one of these elements
+		var one = makeMap("html,head,body,title");
+
+		// Enforce a structure for the document
+		var structure = {
+			link: "head",
+			base: "head"
+		};
+
+		if ( !doc ) {
+			if ( typeof DOMDocument != "undefined" )
+				doc = new DOMDocument();
+			else if ( typeof document != "undefined" && document.implementation && document.implementation.createDocument )
+				doc = document.implementation.createDocument("", "", null);
+			else if ( typeof ActiveX != "undefined" )
+				doc = new ActiveXObject("Msxml.DOMDocument");
+
+		} else
+			doc = doc.ownerDocument ||
+				doc.getOwnerDocument && doc.getOwnerDocument() ||
+				doc;
+
+		var elems = [],
+			documentElement = doc.documentElement ||
+				doc.getDocumentElement && doc.getDocumentElement();
+
+		// If we're dealing with an empty document then we
+		// need to pre-populate it with the HTML document structure
+		if ( !documentElement && doc.createElement ) (function(){
+			var html = doc.createElement("html");
+			var head = doc.createElement("head");
+			head.appendChild( doc.createElement("title") );
+			html.appendChild( head );
+			html.appendChild( doc.createElement("body") );
+			doc.appendChild( html );
+		})();
+
+		// Find all the unique elements
+		if ( doc.getElementsByTagName )
+			for ( var i in one )
+				one[ i ] = doc.getElementsByTagName( i )[0];
+
+		// If we're working with a document, inject contents into
+		// the body element
+		var curParentNode = one.body;
+
+		HTMLParser( html, {
+			start: function( tagName, attrs, unary ) {
+				// If it's a pre-built element, then we can ignore
+				// its construction
+				if ( one[ tagName ] ) {
+					curParentNode = one[ tagName ];
+					if ( !unary ) {
+						elems.push( curParentNode );
+					}
+					return;
+				}
+
+				var elem = doc.createElement( tagName );
+
+				for ( var attr in attrs )
+					elem.setAttribute( attrs[ attr ].name, attrs[ attr ].value );
+
+				if ( structure[ tagName ] && typeof one[ structure[ tagName ] ] != "boolean" )
+					one[ structure[ tagName ] ].appendChild( elem );
+
+				else if ( curParentNode && curParentNode.appendChild )
+					curParentNode.appendChild( elem );
+
+				if ( !unary ) {
+					elems.push( elem );
+					curParentNode = elem;
+				}
+			},
+			end: function( tag ) {
+				elems.length -= 1;
+
+				// Init the new parentNode
+				curParentNode = elems[ elems.length - 1 ];
+			},
+			chars: function( text ) {
+				curParentNode.appendChild( doc.createTextNode( text ) );
+			},
+			comment: function( text ) {
+				// create comment node
+			}
+		});
+
+		return doc;
+	};
+
+	function makeMap(str){
+		var obj = {}, items = str.split(",");
+		for ( var i = 0; i < items.length; i++ )
+			obj[ items[i] ] = true;
+		return obj;
+	}
+})();
 
 
-    var propertiesArr =  properties.map((item)=>{
-        item = item.trim()
-        // 对于image/input来说，他们是半闭合标签
-        if(!item || item=="/") return
+function Parser(HTMLStr, ctx){
+    // 生成一个dom数
+    HTMLStr = HTMLStr.trim()
+    var Dom = []
+    let currentNode = null
+    HTMLParser(HTMLStr, {
+        start: function(tag, attrs, unary) {
+            //  console.log(tag, attrs, unary);
 
-        var key = item.indexOf('=')>0 ? item.split('=')[0].trim() : item
-        var value = key===item ? undefined : item.split('=')[1].trim()
+             let node = {
+                 tag ,
+                 attrs,
+                 children: [],
+                 parent: currentNode
+             }
 
-        if(!value) return
-        // 去除双引号 与 花括号
-        value = value.startsWith('"')||value.startsWith('{') ? value.slice(1,-1) : value
+			 currentNode ? currentNode.children.push(node) : Dom.push(node)
+			//  如果是半闭合标签
+			 if(!Parser.empty.includes(tag)){
+	             currentNode = node
+			 }
 
-        // 事件
-        if(key.startsWith('on')) {
-            key = key.slice(2).toLowerCase()
-            events[key] = value
-            return
-        }
-        // props
-        if(key==='ref'){
-            ref = value
-            return
-        }
+        },
+        end: function(tag) {
 
-        return {
-            key: key ,
-            value: value
+            // 切换到currentNode的父节点
+            currentNode = currentNode.parent
+        },
+        chars: function(text) {
+            text = text.trim()
+            // 文本字节
+            // results += text;
+            text && currentNode.children.push({
+                text,
+                tag: null,
+                parent: currentNode,
+                attrs: {}
+            })
+        },
+        comment: function(text) {
+            // 注释字节不用处理
+            // results += "";
         }
     })
-    // 过滤无用元素
-    .filter(item=>item)
 
-    // 获取entId
-    var entId = addEntId(PRE, INDEX)
+    // 还需要对dom数种的一些数据做处理
+    BindDataToStr(Dom, ctx)
 
-    // 获取子元素
-    var children = []
-    if( tagname != 'input' && tagname != 'img' ){
-        // 标签开
-        var itemF = str.indexOf('>')
-        // 标签闭合
-        var itemL = str.lastIndexOf('<')
-        // 截取字符串
-        var childrenStr = str.slice(itemF+1, itemL).replace(/\n+/g,'')
-        // 分割子元素，返回数组
-        splitChildren(childrenStr, children, entId)
-    }
-
-    var IS_COMPONENT = /[A-Z][a-z]*/.test(tagname)
-    // 其中以on开头的是事件，props是属性值
-    return {
-        tagName: tagname ,
-        properties: IS_COMPONENT ? [] : propertiesArr ,
-        entId: entId ,
-        // 对于花括号内的数据要支持简单的js语法，?: ! data.key.key 这样子
-        events: events ,
-        // 如果是以A-Z开头，表示其也是一个组件
-        props:  IS_COMPONENT ? propertiesArr : [] ,
-        ref: ref,
-        children: children,
-        type: '元素节点',
-        nodeType: 1
-    }
+	console.log(Dom);
+    return Dom
 }
 
-// 检测是不是半闭合标签
-function isSpecialTag(tagname){
-    return tagname=='img' || tagname=='input'
-}
+Parser.empty = ["area","base","basefont","br","col","frame","hr","img","input","isindex","link","meta","param","embed"]
 
-// 添加entId
-function addEntId(PRE, INDEX){
-    return PRE ? PRE+'-'+INDEX : '0'
-}
+// 数据绑定转 字符串
+function BindDataToStr(Dom, ctx){
+    Dom.forEach(child => {
+        if(child.tag){
+            BindDataToStr.handleEach(child, ctx)
 
-// 分割子元素
-function splitChildren(str, children, PRE){
-    // 获取子元素，子元素需要排序， 文本元素/注释元素/一般元素
-    str = str.trim()
-    if(!str) return
+			let attrs = child.attrs
+			for(let key in attrs){
+				attrs[key] = BindDataToStr.matchTag(key, attrs, child, ctx)
+			}
 
-    // 匹配注释元素
-    var comment = str.match(/<!--[^><]+-->/)
-    comment = comment?comment[0]:' '
-    // console.log( comment, str.indexOf(comment) )
-    if(str.indexOf(comment)===0){
-        children.push({
-            nodeType: 8,
-            type: '注释节点',
-            text: comment.match(/<!--(.+)-->/)[1] ,
-            entId: addEntId(PRE, children.length)
-        })
-        str = str.replace(comment,'')
-        splitChildren(str, children, PRE)
-        return
-    }
-
-    // 匹配一般元素，对于img/input元素还没有做特殊处理
-    var node = str.match(/<[a-zA-Z]{1,}\s*[^><]*>/)
-    node = node ? node[0] : ' '
-    if(str.indexOf(node)===0){
-        // 因为要考虑h1 h2之类的标签
-        var lastIndex = findTagClose(str, node.match(/[a-zA-Z][a-zA-Z0-9]*/)[0])
-
-        // 如果没有匹配到闭合标签
-        if(lastIndex==='404'){
-            str = matchTextNode(str, children, node, PRE)
-            splitChildren(str, children, PRE)
-            return
+            child.children && BindDataToStr(child.children, ctx)
+        }else {
+			// 文本节点
+            child.text = BindDataToStr.matchTag('xx' ,{xx: child.text}, child, ctx)
         }
-        node = str.slice(0, lastIndex)
-        children.push(getVDom(node, PRE, children.length) )
-        str = str.replace(node,'')
-
-        splitChildren(str, children, PRE)
-        return
-    }
-
-    // 匹配文本节点
-    var text = str.indexOf('<')>=0 ? str.slice(0, str.indexOf('<') ) : str.slice(0) // 文本元素
-    if(!text){
-        text = str.match(/<[^>]+(?=<)/)
-        text = !text || text.index!==0 ? str.match(/<[^a-zA-Z!/]{1,}(?=<)|[^>]*>/) : text
-        text = text && text.index===0 ? text[0] : ''
-        // debugger
-    }
-    if(text){
-        str = matchTextNode(str, children, text, PRE)
-        splitChildren(str, children, PRE)
-        return
-    }
-}
-
-function matchTextNode(str, children, text, PRE){
-    console.log(text);
-    var lastChild = children[children.length-1]
-    lastChild && lastChild.nodeType===3? lastChild.text += text : children.push({
-        nodeType: 3,
-        type: '文本节点',
-        text: text,
-        entId: addEntId(PRE, children.length)
     })
-    return str.slice(text.length)
 }
 
-// 找到闭合标签的位置
-function findTagClose(str,tagname){
+BindDataToStr.matchTag = function(key, attrs, node, ctx){
+    // console.log('上下文', ctx);
+    const IS_EVENT =  key.startsWith('on')
+    let fn
+	let str = attrs[key]
 
-    var cache = '',
-        openNum = 0,
-        closeNum = [],
-        strCache = str ;
-    var close = '</'+tagname+'>'
-    var open = new RegExp('<'+tagname+'\s*[^><]*>')
 
-    // console.log('闭合标签',str.match(open)[0], tagname, closeNum);
+	// 只有字符串才有替换的必要
+    str = ( typeof str === 'string') ? str.replace(/{[^}]+}/g, function(matched, index, str){
+        let expression = matched.slice(1, -1)
+        let result
 
-    if(tagname=='input' || tagname=='img'){
-        var openStr = str.match(open)[0]
-        return str.indexOf(openStr)+openStr.length
-    }
+        // 主要处理 bind方法
+        BindDataToStr.bindCTX(function(){
+            // 把作用域合并
+            ctx = Object.assign({}, ctx, ...BindDataToStr.getAllCTX(node))
+            with(ctx){
+                result = eval(expression)
+            }
+        }, ctx)
 
-    // var openTag = ''
-    // 先找到所有开放标签，在找到所有的闭合标签，然后取 闭合标签中对应的开放标签的那个位置
-     while( true  ){
-        // 如果没有找到
-        if(str.match(open) ){
-            openTag = str.match(open)[0]
-            // cache += str.slice(0,str.indexOf(openTag)+openTag.length)
-            str = str.slice(str.indexOf(openTag)+openTag.length )
-            openNum++
-        }else break
-    }
+		// 如果是一个方法，就返回function
+        fn = IS_EVENT && result
+        return result
+    }) : str
 
-    str = strCache
-    while(1){
-        if( str.indexOf(close)>=0 ){
-            cache += str.slice(0,str.indexOf(close)+close.length)
-            str = str.slice(str.indexOf(close)+close.length )
-            closeNum.push( cache )
-        }else break
-    }
-
-    // 如果找不到闭合标签，1：报错 2：按文本字节处理
-    if(closeNum.length< openNum) return '404'
-
-    // 返回结束位置
-    return close.length+closeNum[openNum-1].length
+    return IS_EVENT ? fn : str
 }
+
+// 把方法的this指向作用域
+BindDataToStr.bindCTX = function(fn, ctx){
+    fn.call(ctx)
+}
+
+// 合并一个节点的ctx与其所有父节点的ctx
+BindDataToStr.getAllCTX = function(node){
+    let ctx = []
+    while (node) {
+        node.ctx && ctx.push(node.ctx)
+        node = node.parent
+    }
+
+    return ctx
+}
+
+// 深度clone html Tree 深度【attrs, children】
+BindDataToStr.deepClone = function(target, parent){
+    let newTarget = Object.assign({}, target)
+    newTarget.attrs = Object.assign({}, target.attrs)
+
+    parent && (newTarget.parent = parent)
+
+	newTarget.children = []
+    target.children && target.children.forEach(child => {
+        newTarget.children.push( BindDataToStr.deepClone(child, newTarget) )
+    })
+
+    return newTarget
+}
+
+// 把方法的this指向作用域
+BindDataToStr.handleEach = function(node, ctx){
+    // fn.call(ctx)
+	let attrs = node.attrs
+	for(let key in node.attrs){
+		if(key == 'each'){
+            let [name, expression] = attrs[key].split('in').map(item => item.trim())
+            // console.log('each:debugger', key, attr.value);
+			let __data
+			with(ctx){
+                __data = eval(expression)
+            }
+
+            node.children = new Array(__data.length).fill(node.children[0]).map(function(child, index){
+                // clone child 需要深度clone
+                child = BindDataToStr.deepClone(child)
+
+                child.ctx = {
+                    [name]: __data[index],
+                    $index: index
+                }
+
+                return child
+            })
+
+            // console.log(node);
+            break
+        }
+	}
+}
+
+// var test = {name: 'test'}
+// var hei = {name: 'call'}
+// function fuck(){
+//     console.log(this)
+//     console.log(eval('this'))
+//     with(test){
+//         console.log(this)
+//     }
+// }
+//
+// fuck.call(hei)

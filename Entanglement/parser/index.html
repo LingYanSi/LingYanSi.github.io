@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script src="./parser.js" charset="utf-8"></script>
+    <script src="./render.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var data = {
+            title: '谈笑风生，习近平\n',
+            body: 'fuck 有\n',
+            click: function(event){
+                // alert('被惦记了')
+                console.log(this, event)
+            },
+            list: [{name: '你好啊'}, {name: '喝哦ihei'}, {name: 'iheibuzhidao'}]
+        }
+
+        const T = `
+            <div>
+                <h1 onClick={click.bind(this)}>{title}</h1>
+                <p>{body}</p>
+                <ul each="x in list">
+                    <li onClick={click}>
+                        {$index}:{x.name}
+                        <App>什么鬼啊</App>
+                    </li>
+                </ul>
+            </div>
+        `
+        Render(Parser(T, data), document.querySelector('#app'))
+
+    </script>
+</body>
+
+</html>
