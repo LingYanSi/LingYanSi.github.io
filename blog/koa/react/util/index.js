@@ -239,8 +239,7 @@ var Utils = {
             }
         },
         // 设置资源路径
-        setSrc($ele, data){
-            console.log(data.type);
+        setSrc($ele, data){ 
             switch(data.type){
                 case 'layzImg':
                     $ele.src = data.url
@@ -372,78 +371,16 @@ var Utils = {
             })
 
             onStart && onStart()
-            // Utils.fetch('/upload', {
-            //     method: 'POST',
-            //     body: f,
-            //     uploadProgress:(percent)=>{
-            //         onProgress && onProgress(percent)
-            //     }
-            // }).then(res => {
-            //     onEnd && onEnd(res)
-            // })
-            // return
-
-            let file = f = res[0]
-
-
-            const option = {
-                dataSize: file.size,
-                fileName: file.name ,
-                fileSha: '9c4de28f4ac0bf5d75a2f537ad61df1e2c0a60e9',
-                fileSize: file.size ,
-                fileType: file.type.split('/')[1].toUpperCase() ,
-                offset: 0,
-            }
-
-
-            const TYPE = file.type
-            this.getKey(option).then(uploadUrl => {
-                console.log('服务器地址', uploadUrl);
-                uploadUrl = uploadUrl.replace('https://', 'http://')
-                let query = this.query(uploadUrl)
-
-                query = this.assign({}, query, {
-                    utype: 1,
-                    notifyUrl: 'http://dev.weipaitang.com/manage/videoCallback',
-                    name: query.fileName,
-                    isScreenshot: 1,
-                    isTranscode: 1,
-                    isWatermark: 1,
-                })
-
-                let search = this.sort(query, ['Action', 'Nonce', 'Region', 'SecretId', 'Timestamp', 'dataSize', 'fileName', 'fileSha', 'fileSize', 'fileType', 'isScreenshot', 'isTranscode', 'isWatermark', 'name', 'notifyUrl', 'offset', 'utype', 'Signature'])
-
-                uploadUrl = uploadUrl.slice(0, uploadUrl.indexOf('?')) + '?' + search
-
-                console.log('文件大小', f.size/1024/1024)
-                // f = f.slice(0, 500)
-                f = f.slice(0, 950*1024 )
-
-                Utils.fetch(uploadUrl, {
-                    method: 'POST',
-                    body: f,
-                    contentType: 'application/octet-stream',
-                    uploadProgress:(percent)=>{
-                        onProgress && onProgress(percent)
-                    }
-                }).then(res => {
-                    onEnd && onEnd(res)
-                })
-
-                // let sth = new FileReader()
-                // sth.readAsArrayBuffer(f)
-                //
-                // sth.onloadend  = function(res){
-                //
-                //     let f = res.target.result
-                //
-                //     console.log(f instanceof ArrayBuffer);
-                //
-                //
-                // }
+            Utils.fetch('/upload', {
+                method: 'POST',
+                body: f,
+                uploadProgress:(percent)=>{
+                    onProgress && onProgress(percent)
+                }
+            }).then(res => {
+                onEnd && onEnd(res)
             })
-
-
+            return
         })
     },
     sort(obj, arr){

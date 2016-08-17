@@ -18,7 +18,7 @@ class Scroll extends Component {
         })
 
         // 获取视窗宽度
-        let windowsWidth = window.innerWidth
+        let windowsWidth = document.body.clientWidth
 
         return <div style={{ height: props.height + 2 * props.rowWidth, 'overflowY': 'hidden'}}>
             <div className="overflow-scrolling" style={{width: windowsWidth , paddingTop: props.rowWidth}}>

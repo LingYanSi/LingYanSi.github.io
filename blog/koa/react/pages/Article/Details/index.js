@@ -13,19 +13,17 @@ class Details extends Component{
         this.state = {
             title: '',
             content: '',
-            time: '',
+            create_time: '',
             tags: [],
             id: 0
         }
     }
     getData(){
-        const url = `./database/article/${this.props.params.id}.json`
-
-        fetch(url)
-            .then( function(response){
-                return response.json()
-            })
-            .then( (data) => {
+        fetch(`/article/${this.props.params.id}`)
+            .then(res => res.json())
+            .then( data => {
+                data = data.result
+                data.tags = data.tags.split(' ')
                 data.content = this.imgTagReplace(data.content)
                 this.setState(data)
                 Utils.scroll.tick()
@@ -104,7 +102,7 @@ class Details extends Component{
             </div>
             { this.getToolBar() }
             <div className="details-content" dangerouslySetInnerHTML={this.rawHtml(state.content)}></div>
-            <div className="details-time">时间：{Utils.time.toString(state.time)}</div>
+            <div className="details-time">时间：{Utils.time.toString(state.create_time)}</div>
         </div>
     }
 }

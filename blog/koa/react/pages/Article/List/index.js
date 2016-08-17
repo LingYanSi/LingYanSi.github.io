@@ -21,8 +21,9 @@ class List extends Component{
                 return response.json()
             })
             .then(function(data){
+                console.log('数据', data);
                 that.setState({
-                    list: data.list
+                    list: data.result.list
                 })
             })
     }
@@ -34,11 +35,14 @@ class List extends Component{
         this.getList()
     }
     rawHtml(str=''){
+        str = str.replace(/\s/, '')
+        str = str.replace(/<[^>]+>/g, '')
         return {
             __html: str
         }
     }
     render(){
+
         const len = this.props.len
         var list = len ? this.state.list.slice(0,len) : this.state.list
 
@@ -56,7 +60,7 @@ class List extends Component{
                                     <h3>{item.title}</h3>
                                     <div className="summary" dangerouslySetInnerHTML={this.rawHtml(item.content)}></div>
                                     <p className="bott">
-                                        <span className="time">{Utils.time.toString(item.time)}</span>
+                                        <span className="time">{Utils.time.toString(item.create_time)}</span>
                                     </p>
                                 </Link>
                             </div>

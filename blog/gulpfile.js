@@ -21,6 +21,9 @@ gulp.task('sass::base', ()=>{
         .pipe( gulp.dest('./koa/static/css') )
 })
 
+gulp.task('watch::sass', ['sass::base'], ()=>{
+    gulp.watch('./koa/react/sass/*.js', ['sass::base'])
+})
 
 gulp.task('default',[], ()=>{
     gulp.start('watch::sass')
@@ -39,7 +42,7 @@ gulp.task('js::router', ()=>{
 })
 
 gulp.task('watch::js', ['js::router'], ()=>{
-    gulp.watch('./build/js/*.js', ['js::router'])
+    // gulp.watch('./build/js/*.js', ['js::router'])
     gulp.watch('./koa/react/util/index.js', ['js::util'])
 })
 

@@ -405,74 +405,16 @@ var Utils = {
             });
 
             onStart && onStart();
-            // Utils.fetch('/upload', {
-            //     method: 'POST',
-            //     body: f,
-            //     uploadProgress:(percent)=>{
-            //         onProgress && onProgress(percent)
-            //     }
-            // }).then(res => {
-            //     onEnd && onEnd(res)
-            // })
-            // return
-
-            var file = f = res[0];
-
-            var option = {
-                dataSize: file.size,
-                fileName: file.name,
-                fileSha: '9c4de28f4ac0bf5d75a2f537ad61df1e2c0a60e9',
-                fileSize: file.size,
-                fileType: file.type.split('/')[1].toUpperCase(),
-                offset: 0
-            };
-
-            var TYPE = file.type;
-            _this2.getKey(option).then(function (uploadUrl) {
-                console.log('服务器地址', uploadUrl);
-                uploadUrl = uploadUrl.replace('https://', 'http://');
-                var query = _this2.query(uploadUrl);
-
-                query = _this2.assign({}, query, {
-                    utype: 1,
-                    notifyUrl: 'http://dev.weipaitang.com/manage/videoCallback',
-                    name: query.fileName,
-                    isScreenshot: 1,
-                    isTranscode: 1,
-                    isWatermark: 1
-                });
-
-                var search = _this2.sort(query, ['Action', 'Nonce', 'Region', 'SecretId', 'Timestamp', 'dataSize', 'fileName', 'fileSha', 'fileSize', 'fileType', 'isScreenshot', 'isTranscode', 'isWatermark', 'name', 'notifyUrl', 'offset', 'utype', 'Signature']);
-
-                uploadUrl = uploadUrl.slice(0, uploadUrl.indexOf('?')) + '?' + search;
-
-                console.log('文件大小', f.size / 1024 / 1024);
-                // f = f.slice(0, 500)
-                f = f.slice(0, 950 * 1024);
-
-                Utils.fetch(uploadUrl, {
-                    method: 'POST',
-                    body: f,
-                    contentType: 'application/octet-stream',
-                    uploadProgress: function uploadProgress(percent) {
-                        onProgress && onProgress(percent);
-                    }
-                }).then(function (res) {
-                    onEnd && onEnd(res);
-                });
-
-                // let sth = new FileReader()
-                // sth.readAsArrayBuffer(f)
-                //
-                // sth.onloadend  = function(res){
-                //
-                //     let f = res.target.result
-                //
-                //     console.log(f instanceof ArrayBuffer);
-                //
-                //
-                // }
+            Utils.fetch('/upload', {
+                method: 'POST',
+                body: f,
+                uploadProgress: function uploadProgress(percent) {
+                    onProgress && onProgress(percent);
+                }
+            }).then(function (res) {
+                onEnd && onEnd(res);
             });
+            return;
         });
     },
     sort: function sort(obj, arr) {

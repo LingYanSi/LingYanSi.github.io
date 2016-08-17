@@ -7,6 +7,7 @@ import Tips from 'module/Tips'
 
 import Scroll from 'module/scroll'
 import Upload from 'module/Upload'
+import Qr from 'module/Qr'
 
 import './index.scss'
 
@@ -65,6 +66,7 @@ class Home extends Component{
 
         return <div id="home">
             <Upload></Upload>
+            <Qr></Qr>
             <div>
                 {
                     state.tips.map((item, index) => <Tips key={item.url} {...item} close={this.tipsClose.bind(this, index)}></Tips>)

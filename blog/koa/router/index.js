@@ -23,6 +23,8 @@ const loadfile = function(path) {
 loadfile.source = source
 loadfile.sourceStr = JSON.stringify(source)
 
+let DB = require('./db/connect')
+
 module.exports = function(router, koaBody) {
     router.get('/', function*() {
             // 是否登录
@@ -79,7 +81,18 @@ module.exports = function(router, koaBody) {
             })
         })
         .get('/article/list', function *() {
-            this.body = JSON.stringify(articleList.data)
+            // this.body = JSON.stringify(articleList.data)
+            let list = yield DB.select()
+            list = (list || []).sort((a, b) => {
+                return b.create_time - a.create_time
+            })
+            this.body = JSON.stringify({status: {code: 1001}, result: {list}})
+        })
+        .get('/article/:id', function *(){
+            console.log('文章id', this.params.id)
+            const id = +this.params.id
+            let data = yield DB.select(`SELECT * from article where id=${id}`)
+            this.body = JSON.stringify({status: {code: 1001}, result: data[0] || {}})
         })
         .post('/article/create', koaBody, function*() {
             if (!check_login(this)) {
@@ -95,16 +108,18 @@ module.exports = function(router, koaBody) {
             // var data = _.cloneDeep( this.request.body.fields || {} , this.request.body.files || {} ,this.query )
             let data = JSON.parse(this.request.body)
             const IS_CREATE = !data.id
-            const filename = data.id || new Date().getTime()
-            data.time = filename
-            data.id = filename
-            data.tags = data.tags.split(' ')
 
-            const FILE_PATH = path.resolve(ARTICLE_LIST_PATH, `${filename}.json`)
-            fs.writeFileSync(FILE_PATH, JSON.stringify(data), 'utf-8');
+            data.author = '灵岩'
+            data.update_time = new Date().getTime()
+            data.create_time = IS_CREATE ? data.update_time : data.create_time
+            data.summary = data.content
 
-            console.log('数据写入完成')
-            IS_CREATE ? articleList.post(data) : articleList.put(data)
+            if(IS_CREATE){
+                let result = yield DB.insert(`INSERT INTO article SET ? `, data)
+            }else {
+                let result = yield DB.update(`UPDATE article SET content = ?, update_time = ?, tags = ?, summary= ?, title = ?  WHERE id = ?`, [data.content, data.update_time, data.tags, data.summary, data.title, data.id])
+            }
+
             // this.body = JSON.stringify( this.request.body )
             // 重定向
             // this.response.redirect('/#/')
@@ -124,10 +139,7 @@ module.exports = function(router, koaBody) {
             let data = JSON.parse(this.request.body)
             var id = data.id
 
-            const FILE_PATH = path.resolve(ARTICLE_LIST_PATH, `${id}.json`)
-            fs.unlinkSync(FILE_PATH)
-
-            articleList.delete(id)
+            yield DB.delete(`DELETE FROM article WHERE id = ${id}`)
 
             this.body = JSON.stringify({
                 status: {
@@ -213,7 +225,7 @@ module.exports = function(router, koaBody) {
                                 const IS_IMG = obj['Content-Type'].startsWith('image')
                                 let ext = obj['Content-Type'].split('/')[1]
                                 // 把quicktime转成MP4
-                                ext = ext == 'quicktime' ? 'mp4' : ''
+                                ext = ext == 'quicktime' ? 'mp4' : ext
                                     // ie post的数据竟然没有filename，卧槽
                                 obj.filename = obj.name
                                 obj.filename += `${new Date().getTime()}${index}`

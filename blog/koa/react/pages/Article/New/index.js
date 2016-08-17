@@ -34,12 +34,12 @@ class New extends React.Component{
     // 获取文章信息
     getData(id){
         let that = this
-        fetch(`/database/article/${id}.json`)
+        fetch(`/article/${id}`)
             .then(function(response){
                 return response.json()
             })
             .then(function(data){
-                that.setState(data)
+                that.setState(data.result)
             })
     }
     // 提交
@@ -82,7 +82,7 @@ class New extends React.Component{
                 <input type="text" name="title" ref="title"
                     placeholder="标题"
                     defaultValue={state.title} /><br/>
-                <input type="text" name="tags" ref="tags" placeholder="标签" defaultValue={state.tags.join(' ')} /><br/>
+                <input type="text" name="tags" ref="tags" placeholder="标签" defaultValue={state.tags } /><br/>
 
                 <div className="btn-toolbar" data-role="editor-toolbar"
                         data-target="#editor">

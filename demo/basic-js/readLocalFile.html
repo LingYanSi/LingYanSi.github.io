@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <input type="file">
+        <script type="text/javascript">
+            var $ = function(s){
+                return document.querySelector(s)
+            }
+
+            $('input').addEventListener('change', function(event){
+                let url = URL.createObjectURL(event.target.files[0])
+                console.log();
+                readFile(`/D:/me/LingYanSi.github.io/demo/basic-js/readLocalFile.html`)
+            })
+
+            function readFile(url){
+                var xml = new XMLHttpRequest()
+                xml.open('GET',`file://${url}`, true)
+                xml.responseType = 'blob'
+                xml.onreadystatechange = function(){
+                    console.log(xml.readyState);
+                    if(xml.readyState == 4){
+                        console.log(xml.response)
+                    }
+                }
+                xml.send()
+            }
+        </script>
+    </body>
+</html>
