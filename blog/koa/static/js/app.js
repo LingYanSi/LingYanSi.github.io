@@ -1379,7 +1379,10 @@
 	        value: function getData() {
 	            var _this2 = this;
 
-	            fetch('/article/' + this.props.params.id).then(function (res) {
+	            Utils.fetch('/article/' + this.props.params.id, {
+	                asynRequest: this.getData,
+	                context: this
+	            }).then(function (res) {
 	                return res.json();
 	            }).then(function (data) {
 	                data = data.result;

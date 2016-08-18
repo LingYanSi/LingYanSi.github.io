@@ -19,7 +19,10 @@ class Details extends Component{
         }
     }
     getData(){
-        fetch(`/article/${this.props.params.id}`)
+        Utils.fetch(`/article/${this.props.params.id}`,{
+            asynRequest: this.getData,
+            context: this
+        })
             .then(res => res.json())
             .then( data => {
                 data = data.result
