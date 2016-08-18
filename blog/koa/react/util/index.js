@@ -3,8 +3,22 @@
 // 加入缓存机制，cache会被放在sessionStorage里面，如果真实请求的数据和缓存数据一样，则不更新视图
 let __fetch = (function(__fetch){
     // 根据 type url data dataType 来作为key
-    let cache = {}
+    const STORAGE_KEY = '__ajax_cache__'
+    let cache = {
+        store: (function(){
+            let store = sessionStorage.getItem(STORAGE_KEY) || `{}`
+            return JSON.parse(store)
+        })(),
+        get(key){
+            return this.store[key] || ''
+        },
+        set(key, value){
+            this.store[key] = value
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(this.store))
+        }
+    }
 
+    let fuck
     // options = {
     //     method: post/get/delete/put/head etc
     //     body: string/formdata/bob/array etc
@@ -16,51 +30,85 @@ let __fetch = (function(__fetch){
     // 请求进度条，可以通过ajax进度条实现
     let ajax = function(url, options = {}){
         // 一般而言，method/body 就够使用了
-        // 因此在这里把cache复写
-        return new Promise((resolve, reject) => {
+        // cache,
+
+        options.method = options.method || 'GET'
+        options.body = options.body || ''
+
+        const KEY = [url, options.method, options.body].join('__wpt_ajax__')
+
+
+        return new Promise((resolve) => {
             let xhr = new XMLHttpRequest()
 
+            // resolve的数据是一个对象
+            let data = {
+                OK: false,
+                origin: undefined,
+                json(){
+                    return new Promise((resolve, reject) => {
+                        resolve(JSON.parse(this.origin) )
+                    })
+                },
+                text(){
+                    return new Promise((resolve, reject) => {
+                        resolve(new String(this.origin) )
+                    })
+                }
+            }
+            if(options.asynRequest && !options.asynRequest.cached){
+                options.asynRequest.cached = true
+                data.OK = true
+                data.fromCache = true
+                data.origin = cache.get(KEY)
+                console.log('数据从缓存中获取');
+                data.origin && resolve(data)
+                console.log('从服务器拉取');
+                options.asynRequest.call(options.context)
+                return
+            }
+
+            // 如果从服务器拉取的话，就把cached = false，以便下一次继续先从cache取数据
+            options.asynRequest && (options.asynRequest.cached = false)
             // 事件监听
             xhr.addEventListener('progress',(event)=>{
                 // 下载进度条
                 options.progress && options.progress(event.loaded/event.total)
-                // console.log('progress', event);
             }, false)
             // 上传停止
             xhr.addEventListener('abort',(xx)=>{
-                // console.log('abort', xx);
-                reject()
+                resolve(data)
             }, false)
             // 上传失败
             xhr.addEventListener('error',(xx)=>{
-                // console.log('error', xx);
-                reject()
+                resolve(data)
             }, false)
             // 上传成功
             xhr.addEventListener('load',(xx)=>{
-                // console.log('load', xx);
             }, false)
 
             // 上传进度条
             xhr.upload.onprogress = function(event){
-                // console.log('文件上传中', event);
                 options.uploadProgress && options.uploadProgress(event.loaded/event.total)
             }
-            xhr.open(options.method || 'GET', url, true)
+
+            xhr.open(options.method , url, true)
             options.contentType && xhr.setRequestHeader("Content-Type", options.contentType);
 
             // 注意，非get请求参数，通过json字符串发送数据
             // 如果是FromData则发送FormData
             let body = options.body
-            // if(! body instanceof window.FormData){
-            //     body = JSON.stringify(body)
-            // }
+
             xhr.responseType = 'text'
             // 监听state变化
             xhr.addEventListener('readystatechange', (state) => {
                 // console.log(xhr.readyState, xhr.responseText, xhr.status);
                 if(xhr.readyState == 4){
-                    resolve(xhr.responseText)
+                    data.OK = true
+                    data.origin = xhr.responseText
+                    options.asynRequest && cache.set(KEY, data.origin)
+                    // 因为字符串会被JSON.stringify因此这里需要先parse一边，恢复成正常的json字符串
+                    resolve(data)
                 }
             })
 
@@ -239,7 +287,7 @@ var Utils = {
             }
         },
         // 设置资源路径
-        setSrc($ele, data){ 
+        setSrc($ele, data){
             switch(data.type){
                 case 'layzImg':
                     $ele.src = data.url

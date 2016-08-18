@@ -16,16 +16,17 @@ class List extends Component{
     getList(){
         var that = this
 
-        fetch('/article/list')
-            .then(function(response){
-                return response.json()
+        Utils.fetch('/article/list', {
+            asynRequest: this.getList,
+            context: this
+        })
+        .then(response => response.json() )
+        .then(function(data){
+            console.log('数据', data);
+            that.setState({
+                list: data.result.list
             })
-            .then(function(data){
-                console.log('数据', data);
-                that.setState({
-                    list: data.result.list
-                })
-            })
+        })
     }
     deleteSwipe(id){
         let list = this.state.list.filter(item => item.id != id)

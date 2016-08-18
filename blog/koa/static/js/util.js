@@ -7,8 +7,22 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 // 加入缓存机制，cache会被放在sessionStorage里面，如果真实请求的数据和缓存数据一样，则不更新视图
 var __fetch = function (__fetch) {
     // 根据 type url data dataType 来作为key
-    var cache = {};
+    var STORAGE_KEY = '__ajax_cache__';
+    var cache = {
+        store: function () {
+            var store = sessionStorage.getItem(STORAGE_KEY) || '{}';
+            return JSON.parse(store);
+        }(),
+        get: function get(key) {
+            return this.store[key] || '';
+        },
+        set: function set(key, value) {
+            this.store[key] = value;
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(this.store));
+        }
+    };
 
+    var fuck = void 0;
     // options = {
     //     method: post/get/delete/put/head etc
     //     body: string/formdata/bob/array etc
@@ -22,51 +36,87 @@ var __fetch = function (__fetch) {
         var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
         // 一般而言，method/body 就够使用了
-        // 因此在这里把cache复写
-        return new Promise(function (resolve, reject) {
+        // cache,
+
+        options.method = options.method || 'GET';
+        options.body = options.body || '';
+
+        var KEY = [url, options.method, options.body].join('__wpt_ajax__');
+
+        return new Promise(function (resolve) {
             var xhr = new XMLHttpRequest();
 
+            // resolve的数据是一个对象
+            var data = {
+                OK: false,
+                origin: undefined,
+                json: function json() {
+                    var _this = this;
+
+                    return new Promise(function (resolve, reject) {
+                        resolve(JSON.parse(_this.origin));
+                    });
+                },
+                text: function text() {
+                    var _this2 = this;
+
+                    return new Promise(function (resolve, reject) {
+                        resolve(new String(_this2.origin));
+                    });
+                }
+            };
+            if (options.asynRequest && !options.asynRequest.cached) {
+                options.asynRequest.cached = true;
+                data.OK = true;
+                data.fromCache = true;
+                data.origin = cache.get(KEY);
+                console.log('数据从缓存中获取');
+                data.origin && resolve(data);
+                console.log('从服务器拉取');
+                options.asynRequest.call(options.context);
+                return;
+            }
+
+            // 如果从服务器拉取的话，就把cached = false，以便下一次继续先从cache取数据
+            options.asynRequest && (options.asynRequest.cached = false);
             // 事件监听
             xhr.addEventListener('progress', function (event) {
                 // 下载进度条
                 options.progress && options.progress(event.loaded / event.total);
-                // console.log('progress', event);
             }, false);
             // 上传停止
             xhr.addEventListener('abort', function (xx) {
-                // console.log('abort', xx);
-                reject();
+                resolve(data);
             }, false);
             // 上传失败
             xhr.addEventListener('error', function (xx) {
-                // console.log('error', xx);
-                reject();
+                resolve(data);
             }, false);
             // 上传成功
-            xhr.addEventListener('load', function (xx) {
-                // console.log('load', xx);
-            }, false);
+            xhr.addEventListener('load', function (xx) {}, false);
 
             // 上传进度条
             xhr.upload.onprogress = function (event) {
-                // console.log('文件上传中', event);
                 options.uploadProgress && options.uploadProgress(event.loaded / event.total);
             };
-            xhr.open(options.method || 'GET', url, true);
+
+            xhr.open(options.method, url, true);
             options.contentType && xhr.setRequestHeader("Content-Type", options.contentType);
 
             // 注意，非get请求参数，通过json字符串发送数据
             // 如果是FromData则发送FormData
             var body = options.body;
-            // if(! body instanceof window.FormData){
-            //     body = JSON.stringify(body)
-            // }
+
             xhr.responseType = 'text';
             // 监听state变化
             xhr.addEventListener('readystatechange', function (state) {
                 // console.log(xhr.readyState, xhr.responseText, xhr.status);
                 if (xhr.readyState == 4) {
-                    resolve(xhr.responseText);
+                    data.OK = true;
+                    data.origin = xhr.responseText;
+                    options.asynRequest && cache.set(KEY, data.origin);
+                    // 因为字符串会被JSON.stringify因此这里需要先parse一边，恢复成正常的json字符串
+                    resolve(data);
                 }
             });
 
@@ -262,7 +312,6 @@ var Utils = {
 
         // 设置资源路径
         setSrc: function setSrc($ele, data) {
-            console.log(data.type);
             switch (data.type) {
                 case 'layzImg':
                     $ele.src = data.url;
@@ -313,7 +362,7 @@ var Utils = {
     },
     // 加载图片
     loadImage: function loadImage() {
-        var _this = this;
+        var _this3 = this;
 
         console.log(Utils.__webp_surport__);
         // 优化
@@ -323,7 +372,7 @@ var Utils = {
         }
 
         $eles.some(function ($ele) {
-            var data = _this.loadImageUtil.data($ele);
+            var data = _this3.loadImageUtil.data($ele);
 
             var src = data.url;
             if (!src) {
@@ -349,24 +398,24 @@ var Utils = {
                 $img.onload = $img.onerror = $img.onabort = null;
                 $img = null;
                 // console.log('loaded====>',data);
-                _this.loadImageUtil.setSrc($ele, data);
+                _this3.loadImageUtil.setSrc($ele, data);
             };
             // 移除掉class，下一次就不加载了
             $ele.classList.remove('lazy-load-img');
 
             // 根据是不是支持webp， 对图片做一些处理，加载图片
-            _this.loadImageUtil.webp().then(function (webp) {
+            _this3.loadImageUtil.webp().then(function (webp) {
                 var options = {
                     format: webp ? 'webp' : ''
                 };
                 // 修改文件路径
-                $img.src = data.url = _this.getImageCDNSrc(src, options);
+                $img.src = data.url = _this3.getImageCDNSrc(src, options);
                 // 图片已经加载过
                 if ($img.width || $img.height || $img.complete) {
                     // console.log('fuck');
                     $img.onload = $img.onerror = $img.onabort = null;
                     $img = null;
-                    _this.loadImageUtil.setSrc($ele, data);
+                    _this3.loadImageUtil.setSrc($ele, data);
                 }
             });
         });
@@ -385,7 +434,7 @@ var Utils = {
         });
     },
     upload: function upload() {
-        var _this2 = this;
+        var _this4 = this;
 
         var files = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
         var fn = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
@@ -396,7 +445,7 @@ var Utils = {
 
         var f = new FormData();
         Promise.all(Array.from(files).map(function (file) {
-            return _this2.zip(file, 1);
+            return _this4.zip(file, 1);
         })).then(function (res) {
             res.forEach(function (file, index) {
                 // 对文件名进行编码，避免中文乱码

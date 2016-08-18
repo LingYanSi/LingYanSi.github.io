@@ -1658,7 +1658,10 @@
 	        value: function getList() {
 	            var that = this;
 
-	            fetch('/article/list').then(function (response) {
+	            Utils.fetch('/article/list', {
+	                asynRequest: this.getList,
+	                context: this
+	            }).then(function (response) {
 	                return response.json();
 	            }).then(function (data) {
 	                console.log('数据', data);
