@@ -112,9 +112,9 @@ var __fetch = function (__fetch) {
             xhr.addEventListener('readystatechange', function (state) {
                 // console.log(xhr.readyState, xhr.responseText, xhr.status);
                 if (xhr.readyState == 4) {
-                    data.OK = true;
+                    data.OK = xhr.status == 200;
                     data.origin = xhr.responseText;
-                    options.asynRequest && cache.set(KEY, data.origin);
+                    xhr.status == 200 && options.asynRequest && cache.set(KEY, data.origin);
                     // 因为字符串会被JSON.stringify因此这里需要先parse一边，恢复成正常的json字符串
                     resolve(data);
                 }
@@ -557,6 +557,50 @@ var Utils = {
             $img.src = url;
         });
     },
+
+    loadFile: function () {
+        var cache = {};
+        return function () {
+            var url = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+
+            if (cache[url] instanceof Promise) {
+                return cache[url];
+            }
+
+            var promise = new Promise(function (res, rej) {
+
+                if (cache[url]) {
+                    res();
+                    return;
+                }
+
+                var SRC = window.__fileMaps[url];
+                var TYPE = SRC.endsWith('.js') ? 'js' : 'css';
+
+                if (TYPE) {
+                    var script = document.createElement('script');
+                    script.onload = function () {
+                        cache[url] = 'done';
+                        res();
+                        script = null;
+                    };
+                    script.onerror = script.onabort = function () {
+                        rej();
+                    };
+                    script.src = SRC;
+                    document.head.appendChild(script);
+                } else {
+                    var link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = SRC;
+                    cache[url] = 'done';
+                }
+            });
+
+            cache[url] = promise;
+            return promise;
+        };
+    }(),
     init: function init() {
         return new Promise(function (res) {
             Utils.loadImageUtil.webp().then(function (webp) {

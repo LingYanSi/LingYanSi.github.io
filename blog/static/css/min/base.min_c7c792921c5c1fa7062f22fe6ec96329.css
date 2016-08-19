@@ -1,3 +1,43 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background: transparent; }
+
+::-webkit-scrollbar-thumb {
+  background: #f79b9b; }
+
+ul, ol, li {
+  list-style: none; }
+
+a {
+  color: inherit;
+  text-decoration: none; }
+
+button, input, textarea {
+  outline: none;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  box-shadow: none; }
+
+button, .btn {
+  display: inline-block;
+  background: inherit;
+  padding: 0 1em;
+  line-height: 2;
+  border-width: 1px;
+  cursor: pointer;
+  border: 1px solid #dfdcd8; }
+
+body {
+  overflow-x: hidden;
+  font-size: 14px;
+  overflow-y: scroll; }
+
 .hide {
   display: none; }
 

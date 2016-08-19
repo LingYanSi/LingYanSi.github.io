@@ -34,6 +34,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.3",
     "image-size": "^0.5.0",
+    "immutable": "^3.8.1",
     "jade": "^1.11.0",
     "jquery": "^1.12.4",
     "koa": "^1.2.0",

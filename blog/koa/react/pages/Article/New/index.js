@@ -16,14 +16,18 @@ class New extends React.Component{
     }
     componentDidMount(){
         let id = this.props.params.id
-        if( id!== undefined ){
-            this.getData(id)
-        }
 
-        setTimeout(function(){
-            $('#editor').wysiwyg()
-        },1000)
-
+        // 依次加载需要的文件
+        Utils.loadFile('/lib/js/jquery.min.js')
+            .then(msg => Utils.loadFile('/lib/js/jquery.hotkeys.js'))
+            .then(msg => Utils.loadFile('/lib/js/bootstrap-wysiwyg.js'))
+            .then(res => {
+                if( id!== undefined ){
+                    this.getData(id)
+                }else{
+                    $('#editor').wysiwyg()
+                }
+            })
     }
     // 卸载前
     componentWillUnmount(){
@@ -40,6 +44,7 @@ class New extends React.Component{
             })
             .then(function(data){
                 that.setState(data.result)
+                $('#editor').wysiwyg()
             })
     }
     // 提交

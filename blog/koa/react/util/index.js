@@ -104,9 +104,9 @@ let __fetch = (function(__fetch){
             xhr.addEventListener('readystatechange', (state) => {
                 // console.log(xhr.readyState, xhr.responseText, xhr.status);
                 if(xhr.readyState == 4){
-                    data.OK = true
+                    data.OK = xhr.status == 200
                     data.origin = xhr.responseText
-                    options.asynRequest && cache.set(KEY, data.origin)
+                    xhr.status == 200 && options.asynRequest && cache.set(KEY, data.origin)
                     // 因为字符串会被JSON.stringify因此这里需要先parse一边，恢复成正常的json字符串
                     resolve(data)
                 }
@@ -508,6 +508,47 @@ var Utils = {
             $img.src = url
         })
     },
+    loadFile: (()=>{
+        let cache = {}
+        return function(url = ''){
+            if(cache[url] instanceof Promise){
+                return cache[url]
+            }
+
+            let promise = new Promise((res, rej) => {
+
+                if(cache[url]){
+                    res()
+                    return
+                }
+
+                const SRC = window.__fileMaps[url]
+                const TYPE = SRC.endsWith('.js') ? 'js' : 'css'
+
+                if(TYPE){
+                    let script = document.createElement('script')
+                    script.onload = function(){
+                        cache[url] = 'done'
+                        res()
+                        script = null
+                    }
+                    script.onerror = script.onabort = function(){
+                        rej()
+                    }
+                    script.src = SRC
+                    document.head.appendChild(script)
+                }else{
+                    let link = document.createElement('link')
+                    link.rel = 'stylesheet'
+                    link.href = SRC
+                    cache[url] = 'done'
+                }
+            })
+
+            cache[url] = promise
+            return promise
+        }
+    })(),
     init(){
         return new Promise(res => {
              Utils.loadImageUtil.webp().then(webp => {

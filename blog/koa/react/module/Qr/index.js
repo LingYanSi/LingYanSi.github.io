@@ -23,7 +23,7 @@ class QrLogin extends Component {
     }
     render(){
         // 渲染一个二维码
-        return <div ref="qrcode"></div>
+        return <div ref="qrcode" style={{height: 128, width: 128}}></div>
     }
 }
 

@@ -19,10 +19,7 @@ gulp minify::app
 echo '--> 生成map'
 node util/getMap.js production
 
-echo '--》复制database文件'
-
-rm -r ./database/
-cp -r ./static1/database/ ./database/
-
 echo '-->渲染jade文件到index.html'
 node util/render_index.js
+
+node app.js

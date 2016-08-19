@@ -197,7 +197,7 @@
 	        key: 'render',
 	        value: function render() {
 	            // 渲染一个二维码
-	            return React.createElement('div', { ref: 'qrcode' });
+	            return React.createElement('div', { ref: 'qrcode', style: { height: 128, width: 128 } });
 	        }
 	    }]);
 
@@ -1832,14 +1832,22 @@
 	    _createClass(New, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var id = this.props.params.id;
-	            if (id !== undefined) {
-	                this.getData(id);
-	            }
+	            var _this2 = this;
 
-	            setTimeout(function () {
-	                $('#editor').wysiwyg();
-	            }, 1000);
+	            var id = this.props.params.id;
+
+	            // 依次加载需要的文件
+	            Utils.loadFile('/lib/js/jquery.min.js').then(function (msg) {
+	                return Utils.loadFile('/lib/js/jquery.hotkeys.js');
+	            }).then(function (msg) {
+	                return Utils.loadFile('/lib/js/bootstrap-wysiwyg.js');
+	            }).then(function (res) {
+	                if (id !== undefined) {
+	                    _this2.getData(id);
+	                } else {
+	                    $('#editor').wysiwyg();
+	                }
+	            });
 	        }
 	        // 卸载前
 
@@ -1860,6 +1868,7 @@
 	                return response.json();
 	            }).then(function (data) {
 	                that.setState(data.result);
+	                $('#editor').wysiwyg();
 	            });
 	        }
 	        // 提交
