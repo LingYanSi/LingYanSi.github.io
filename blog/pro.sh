@@ -20,6 +20,4 @@ echo '--> 生成map'
 node util/getMap.js production
 
 echo '-->渲染jade文件到index.html'
-node util/render_index.js
-
-node app.js
+node util/render_index.js 
