@@ -2,9 +2,10 @@
 var mysql = require('mysql');
 var pool  = mysql.createPool({
   connectionLimit : 10,
-  host            : '127.0.0.1',
+  host            : '119.28.99.123',
   user            : 'root',
-  database        : 'blog'
+  database        : 'blog',
+   port: 3306
 });
 
 // 插入数据

@@ -1,5 +1,7 @@
-import React,{Component} from 'react'
-import { Router, Route, Link, browserHistory } from 'react-router'
+import {Component} from 'react'
+import { Link } from 'react-router'
+import Login from 'pages/Login'
+import Modal from 'module/Modal'
 
 import './index.scss'
 
@@ -47,6 +49,9 @@ class Sidebar extends Component{
             location.reload()
         })
     }
+    login(){
+        Modal.open(<Login />)
+    }
     componentDidMount(){
         this.setCurrent(this.props)
     }
@@ -69,9 +74,6 @@ class Sidebar extends Component{
         })
 
         return <div id="sidebar" className={props.sidebar ? 'show' : ''}>
-                    <button className={props.sidebar ? 'show' : ''}
-                            onClick={props.handleSidebarChange}>三</button>
-
                     <div className="sidebar-content">
                         <div className={avatar_class} style={{backgroundImage: `url(${state.avatar})`}} ></div>
                         <ul>
@@ -81,9 +83,9 @@ class Sidebar extends Component{
                                 </li>
                             })}
                         </ul>
-
-                        <Link to='/login' className="btn">登录</Link>
-                        <button onClick={this.signout}>退出</button>
+                        <div className="tool">
+                            {__global__.login && 0 ? <button onClick={this.signout}>退出</button> : <button onClick={this.login}>登录</button>}
+                        </div>
                     </div>
                 </div>
     }

@@ -425,8 +425,10 @@ var Utils = {
                 uploadProgress:(percent)=>{
                     onProgress && onProgress(percent)
                 }
-            }).then(res => {
-                onEnd && onEnd(res)
+            })
+            .then(res => res.json())
+            .then(data => {
+                onEnd && onEnd(data)
             })
             return
         })

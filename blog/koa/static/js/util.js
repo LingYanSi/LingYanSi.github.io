@@ -461,7 +461,9 @@ var Utils = {
                     onProgress && onProgress(percent);
                 }
             }).then(function (res) {
-                onEnd && onEnd(res);
+                return res.json();
+            }).then(function (data) {
+                onEnd && onEnd(data);
             });
             return;
         });

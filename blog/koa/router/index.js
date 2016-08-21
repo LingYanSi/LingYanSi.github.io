@@ -10,6 +10,7 @@ let pug = require('pug')
 let jadeTpl = fs.readFileSync('./koa/jade/index.jade', 'utf8')
 let check_login = require('./util/check_login')
 let cdn = require('./util/cdn')
+let IP = require('./util/ip')()
 
 const ROOT_PATH = path.resolve(__dirname, './../../')
 const ARTICLE_LIST_PATH = path.resolve(ROOT_PATH, `./static1/database/article/`)
@@ -24,6 +25,8 @@ loadfile.source = source
 loadfile.sourceStr = JSON.stringify(source)
 
 let DB = require('./db/connect')
+
+console.log(`打开 http://${IP}:3000`);
 
 module.exports = function(router, koaBody) {
     router.get('/', function*() {
@@ -49,7 +52,7 @@ module.exports = function(router, koaBody) {
         .post('/login', koaBody, function*() {
             let data = JSON.parse(this.request.body)
                 // 登录
-            if (data.password === 'xiaofan223!@#') {
+            if (data.password === 'lingyan1023!@#') {
                 this.cookies.set('__fuck_you__', 'fuck__you__xijinping', {
                     maxAge: 1000 * 60 * 60 * 24,
                     httpOnly: false,
@@ -58,9 +61,12 @@ module.exports = function(router, koaBody) {
                 })
                 this.body = JSON.stringify({
                     status: {
-                        code: 1001
+                        code: 1001,
+                        msg: '登陆成功'
                     },
-                    result: '登陆成功'
+                    result: {
+
+                    }
                 })
                 return
             }

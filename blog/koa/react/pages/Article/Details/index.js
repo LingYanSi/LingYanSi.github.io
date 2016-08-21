@@ -103,7 +103,7 @@ class Details extends Component{
                     return <a href="javascript:0;" className="tag tag-pink cursor" key={item} title={item}>{item}</a>
                 }) }
             </div>
-            { this.getToolBar() }
+            { __global__.login && this.getToolBar()  }
             <div className="details-content" dangerouslySetInnerHTML={this.rawHtml(state.content)}></div>
             <div className="details-time">时间：{Utils.time.toString(state.create_time)}</div>
         </div>

@@ -21,33 +21,41 @@ class Modal extends Component{
     }
     pipe(arr){
         return arr.map(item => {
+            let Item = null
             switch(item.type) {
                 case 'tips':
-                    return <div className="modal-item modal-item-tips" key={`modal_${item.id}`}>
-                        <p>{item.component}</p>
+                    Item = <div className="modal-item modal-item-tips" key={`modal_${item.id}`}>
+                        <p style={{textAlign: 'center'}}>{item.component}</p>
                     </div>
+                    break
                 case 'alert':
-                    return <div className="modal-item modal-item-alert" key={`modal_${item.id}`}>
+                    Item = <div className="modal-item modal-item-alert" key={`modal_${item.id}`}>
                         <p>{item.component}</p>
                         <div className="modal-item-btns">
                             <button onClick={item.success}>确认</button>
                             <button onClick={item.cancel}>取消</button>
                         </div>
                     </div>
+                    break
                 case 'confirm':
-                    return <div className="modal-item modal-item-confirm" key={`modal_${item.id}`}>
+                    Item = <div className="modal-item modal-item-confirm" key={`modal_${item.id}`}>
                         <p>{item.component}</p>
                         <div className="modal-item-btns">
                             <button onClick={item.success}>确认</button>
                             <button onClick={item.cancel}>取消</button>
                         </div>
                     </div>
+                    break
                 case 'open':
-                    return <div className="modal-item modal-item-open" key={`modal_${item.id}`}>
+                    Item = <div className="modal-item modal-item-open" key={`modal_${item.id}`}>
                         {item.component}
                     </div>
             }
 
+            return <div key={item.id}>
+                {item.layer && <div className="layer" onClick={()=>{Modal.close(item.id)}}></div>}
+                {Item}
+            </div>
         })
     }
     render(){
@@ -59,7 +67,7 @@ class Modal extends Component{
 }
 
 // 新建弹框
-Modal.open = function(component=''){
+Modal.open = function(component='', options={}){
     let _this = this.self
     let queue = this.self.state.queue
     const id = this.id++
@@ -67,7 +75,9 @@ Modal.open = function(component=''){
     queue.push({
         type: 'open',
         component: component,
-        id: id
+        id: id,
+        layer: options,
+        layerClose: true
     })
 
     _this.setState({
@@ -86,7 +96,8 @@ Modal.tips = function(str='', time=3000){
     queue.push({
         type: 'tips',
         component: str,
-        id: id
+        id: id,
+        layer: false
     })
 
     _this.setState({
@@ -110,6 +121,7 @@ Modal.alert = function(str='', success, cancel){
         type: 'alert',
         component: str,
         id: id,
+        layer: false,
         success(){
             success && success()
             Modal.close(id)
@@ -176,6 +188,6 @@ Modal.closeAll = function(){
 }
 
 // 放到全局
-// window.Modal = Modal
+window.Modal = Modal
 
 export default Modal

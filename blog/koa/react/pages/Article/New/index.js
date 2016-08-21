@@ -13,6 +13,9 @@ class New extends React.Component{
             content: '',
             tags: []
         }
+
+        this.submit = this.submit.bind(this)
+        this.insertImage = this.insertImage.bind(this)
     }
     componentDidMount(){
         let id = this.props.params.id
@@ -75,6 +78,9 @@ class New extends React.Component{
     rawHtml(str=''){
         return {__html: str}
     }
+    insertImage(){
+        this.refs.insertImage.click()
+    }
     render(){
         const state = this.state
 
@@ -83,25 +89,27 @@ class New extends React.Component{
         }
 
         return <div className="article-new">
-            <form action="/newArticle?name=ssss" method="POST" id="fd">
+            <div  id="fd">
                 <input type="text" name="title" ref="title"
                     placeholder="标题"
                     defaultValue={state.title} /><br/>
                 <input type="text" name="tags" ref="tags" placeholder="标签" defaultValue={state.tags } /><br/>
 
-                <div className="btn-toolbar" data-role="editor-toolbar"
-                        data-target="#editor">
-                     <a data-edit="bold" className="btn">B</a>
-                     <a data-edit="underline" className="btn">_</a>
-                     <input type="text" data-edit="createLink" placeholder="插入url" />
-                     <input type="file" data-edit="insertImage" />
+                <div>
+                    <div className="btn-toolbar" data-role="editor-toolbar"
+                            data-target="#editor">
+                         <a data-edit="bold" className="btn">B</a>
+                         <a data-edit="underline" className="btn">_</a>
+                        <button onClick={this.insertImage}>图片</button>
+                         <input type="file" ref="insertImage" data-edit="insertImage" className="hide" />
+                    </div>
+
+                    <div id="editor" data-placeholder="fuck u please write sth " dangerouslySetInnerHTML={ this.rawHtml(state.content) } >
+                    </div>
                 </div>
 
-                <div id="editor" data-placeholder="fuck u please write sth " dangerouslySetInnerHTML={ this.rawHtml(state.content) } >
-                </div>
-
-                <button type="submit" onClick={this.submit.bind(this)}>提交</button>
-            </form>
+                <button type="submit" onClick={this.submit}>提交</button>
+            </div>
         </div>
     }
 }

@@ -414,19 +414,21 @@
 	        key: 'pipe',
 	        value: function pipe(arr) {
 	            return arr.map(function (item) {
+	                var Item = null;
 	                switch (item.type) {
 	                    case 'tips':
-	                        return _react2.default.createElement(
+	                        Item = _react2.default.createElement(
 	                            'div',
 	                            { className: 'modal-item modal-item-tips', key: 'modal_' + item.id },
 	                            _react2.default.createElement(
 	                                'p',
-	                                null,
+	                                { style: { textAlign: 'center' } },
 	                                item.component
 	                            )
 	                        );
+	                        break;
 	                    case 'alert':
-	                        return _react2.default.createElement(
+	                        Item = _react2.default.createElement(
 	                            'div',
 	                            { className: 'modal-item modal-item-alert', key: 'modal_' + item.id },
 	                            _react2.default.createElement(
@@ -449,8 +451,9 @@
 	                                )
 	                            )
 	                        );
+	                        break;
 	                    case 'confirm':
-	                        return _react2.default.createElement(
+	                        Item = _react2.default.createElement(
 	                            'div',
 	                            { className: 'modal-item modal-item-confirm', key: 'modal_' + item.id },
 	                            _react2.default.createElement(
@@ -473,13 +476,23 @@
 	                                )
 	                            )
 	                        );
+	                        break;
 	                    case 'open':
-	                        return _react2.default.createElement(
+	                        Item = _react2.default.createElement(
 	                            'div',
 	                            { className: 'modal-item modal-item-open', key: 'modal_' + item.id },
 	                            item.component
 	                        );
 	                }
+
+	                return _react2.default.createElement(
+	                    'div',
+	                    { key: item.id },
+	                    item.layer && _react2.default.createElement('div', { className: 'layer', onClick: function onClick() {
+	                            Modal.close(item.id);
+	                        } }),
+	                    Item
+	                );
 	            });
 	        }
 	    }, {
@@ -502,6 +515,7 @@
 
 	Modal.open = function () {
 	    var component = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+	    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
 	    var _this = this.self;
 	    var queue = this.self.state.queue;
@@ -510,7 +524,9 @@
 	    queue.push({
 	        type: 'open',
 	        component: component,
-	        id: id
+	        id: id,
+	        layer: options,
+	        layerClose: true
 	    });
 
 	    _this.setState({
@@ -532,7 +548,8 @@
 	    queue.push({
 	        type: 'tips',
 	        component: str,
-	        id: id
+	        id: id,
+	        layer: false
 	    });
 
 	    _this.setState({
@@ -560,6 +577,7 @@
 	        type: 'alert',
 	        component: str,
 	        id: id,
+	        layer: false,
 	        success: function success() {
 	            _success && _success();
 	            Modal.close(id);
@@ -630,7 +648,7 @@
 	};
 
 	// 放到全局
-	// window.Modal = Modal
+	window.Modal = Modal;
 
 	exports.default = Modal;
 
@@ -1292,20 +1310,20 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_Modal2.default, null),
-	                _react2.default.createElement(_Header2.default, { sidebar: state.sidebar }),
+	                _react2.default.createElement(_Header2.default, { sidebar: state.sidebar,
+	                    handleSidebarChange: this.handleSidebarChange.bind(this) }),
+	                _react2.default.createElement(_Sidebar2.default, _extends({}, props, { sidebar: state.sidebar })),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'main' },
-	                    _react2.default.createElement(_Sidebar2.default, _extends({}, props, { sidebar: state.sidebar,
-	                        handleSidebarChange: this.handleSidebarChange.bind(this) })),
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: (state.sidebar ? '' : 'sidebar-hide') + ' content' },
 	                        this.props.children ? this.props.children : _react2.default.createElement(_Home2.default, null)
 	                    )
 	                ),
-	                _react2.default.createElement(_Footer2.default, null)
+	                _react2.default.createElement(_Footer2.default, null),
+	                _react2.default.createElement(_Modal2.default, null)
 	            );
 	        }
 	    }]);
@@ -1500,7 +1518,7 @@
 	                        );
 	                    })
 	                ),
-	                this.getToolBar(),
+	                __global__.login && this.getToolBar(),
 	                _react2.default.createElement('div', { className: 'details-content', dangerouslySetInnerHTML: this.rawHtml(state.content) }),
 	                _react2.default.createElement(
 	                    'div',
@@ -1577,7 +1595,7 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'tool' },
-	                    _react2.default.createElement(
+	                    __global__.login && _react2.default.createElement(
 	                        _reactRouter.Link,
 	                        { to: 'article/new' },
 	                        _react2.default.createElement(
@@ -1659,7 +1677,7 @@
 	    _createClass(List, [{
 	        key: 'getList',
 	        value: function getList() {
-	            var that = this;
+	            var _this2 = this;
 
 	            Utils.fetch('/article/list', {
 	                asynRequest: this.getList,
@@ -1668,7 +1686,7 @@
 	                return response.json();
 	            }).then(function (data) {
 	                console.log('数据', data);
-	                that.setState({
+	                !_this2.UNMOUNT && _this2.setState({
 	                    list: data.result.list
 	                });
 	            });
@@ -1687,6 +1705,12 @@
 	            this.getList();
 	        }
 	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            // 销毁所有异步任务
+	            this.UNMOUNT = true;
+	        }
+	    }, {
 	        key: 'rawHtml',
 	        value: function rawHtml() {
 	            var str = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
@@ -1700,7 +1724,7 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this2 = this;
+	            var _this3 = this;
 
 	            var len = this.props.len;
 	            var list = len ? this.state.list.slice(0, len) : this.state.list;
@@ -1735,7 +1759,7 @@
 	                                                null,
 	                                                item.title
 	                                            ),
-	                                            _react2.default.createElement('div', { className: 'summary', dangerouslySetInnerHTML: _this2.rawHtml(item.content) }),
+	                                            _react2.default.createElement('div', { className: 'summary', dangerouslySetInnerHTML: _this3.rawHtml(item.content) }),
 	                                            _react2.default.createElement(
 	                                                'p',
 	                                                { className: 'bott' },
@@ -1749,7 +1773,7 @@
 	                                    ),
 	                                    _react2.default.createElement(
 	                                        'div',
-	                                        { className: 'side', onClick: _this2.deleteSwipe.bind(_this2, item.id) },
+	                                        { className: 'side', onClick: _this3.deleteSwipe.bind(_this3, item.id) },
 	                                        'Delete'
 	                                    )
 	                                )
@@ -1826,6 +1850,9 @@
 	            content: '',
 	            tags: []
 	        };
+
+	        _this.submit = _this.submit.bind(_this);
+	        _this.insertImage = _this.insertImage.bind(_this);
 	        return _this;
 	    }
 
@@ -1907,6 +1934,11 @@
 	            return { __html: str };
 	        }
 	    }, {
+	        key: 'insertImage',
+	        value: function insertImage() {
+	            this.refs.insertImage.click();
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var state = this.state;
@@ -1919,8 +1951,8 @@
 	                'div',
 	                { className: 'article-new' },
 	                _react2.default.createElement(
-	                    'form',
-	                    { action: '/newArticle?name=ssss', method: 'POST', id: 'fd' },
+	                    'div',
+	                    { id: 'fd' },
 	                    _react2.default.createElement('input', { type: 'text', name: 'title', ref: 'title',
 	                        placeholder: '标题',
 	                        defaultValue: state.title }),
@@ -1929,25 +1961,33 @@
 	                    _react2.default.createElement('br', null),
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'btn-toolbar', 'data-role': 'editor-toolbar',
-	                            'data-target': '#editor' },
+	                        null,
 	                        _react2.default.createElement(
-	                            'a',
-	                            { 'data-edit': 'bold', className: 'btn' },
-	                            'B'
+	                            'div',
+	                            { className: 'btn-toolbar', 'data-role': 'editor-toolbar',
+	                                'data-target': '#editor' },
+	                            _react2.default.createElement(
+	                                'a',
+	                                { 'data-edit': 'bold', className: 'btn' },
+	                                'B'
+	                            ),
+	                            _react2.default.createElement(
+	                                'a',
+	                                { 'data-edit': 'underline', className: 'btn' },
+	                                '_'
+	                            ),
+	                            _react2.default.createElement(
+	                                'button',
+	                                { onClick: this.insertImage },
+	                                '图片'
+	                            ),
+	                            _react2.default.createElement('input', { type: 'file', ref: 'insertImage', 'data-edit': 'insertImage', className: 'hide' })
 	                        ),
-	                        _react2.default.createElement(
-	                            'a',
-	                            { 'data-edit': 'underline', className: 'btn' },
-	                            '_'
-	                        ),
-	                        _react2.default.createElement('input', { type: 'text', 'data-edit': 'createLink', placeholder: '插入url' }),
-	                        _react2.default.createElement('input', { type: 'file', 'data-edit': 'insertImage' })
+	                        _react2.default.createElement('div', { id: 'editor', 'data-placeholder': 'fuck u please write sth ', dangerouslySetInnerHTML: this.rawHtml(state.content) })
 	                    ),
-	                    _react2.default.createElement('div', { id: 'editor', 'data-placeholder': 'fuck u please write sth ', dangerouslySetInnerHTML: this.rawHtml(state.content) }),
 	                    _react2.default.createElement(
 	                        'button',
-	                        { type: 'submit', onClick: this.submit.bind(this) },
+	                        { type: 'submit', onClick: this.submit },
 	                        '提交'
 	                    )
 	                )
@@ -2066,6 +2106,12 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'header', className: props.sidebar ? '' : 'sidebar-hide' },
+	                _react2.default.createElement(
+	                    'button',
+	                    { className: props.sidebar ? 'show' : '',
+	                        onClick: props.handleSidebarChange },
+	                    '三'
+	                ),
 	                '灵岩寺'
 	            );
 	        }
@@ -2212,8 +2258,6 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'home' },
-	                _react2.default.createElement(_Upload2.default, null),
-	                _react2.default.createElement(_Qr2.default, null),
 	                _react2.default.createElement(
 	                    'div',
 	                    null,
@@ -2300,7 +2344,8 @@
 	            }).then(function (data) {
 	                if (data.status.code == 1001) {
 	                    // Modal.tips('登陆成功')
-	                    history.back();
+	                    // history.back()
+	                    location.reload();
 	                }
 	                _Modal2.default.tips(data.result);
 	            });
@@ -2310,7 +2355,7 @@
 	        value: function render() {
 	            return React.createElement(
 	                'div',
-	                { style: { paddingTop: '40vh', textAlign: 'center' } },
+	                { style: { textAlign: 'center' } },
 	                React.createElement('input', { type: 'password', ref: 'password' }),
 	                React.createElement(
 	                    'button',
@@ -2393,9 +2438,15 @@
 
 	var _react = __webpack_require__(12);
 
-	var _react2 = _interopRequireDefault(_react);
-
 	var _reactRouter = __webpack_require__(6);
+
+	var _Login = __webpack_require__(33);
+
+	var _Login2 = _interopRequireDefault(_Login);
+
+	var _Modal = __webpack_require__(7);
+
+	var _Modal2 = _interopRequireDefault(_Modal);
 
 	__webpack_require__(36);
 
@@ -2462,6 +2513,11 @@
 	            });
 	        }
 	    }, {
+	        key: 'login',
+	        value: function login() {
+	            _Modal2.default.open(React.createElement(_Login2.default, null));
+	        }
+	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.setCurrent(this.props);
@@ -2488,27 +2544,21 @@
 	                login: __global__.login
 	            });
 
-	            return _react2.default.createElement(
+	            return React.createElement(
 	                'div',
 	                { id: 'sidebar', className: props.sidebar ? 'show' : '' },
-	                _react2.default.createElement(
-	                    'button',
-	                    { className: props.sidebar ? 'show' : '',
-	                        onClick: props.handleSidebarChange },
-	                    '三'
-	                ),
-	                _react2.default.createElement(
+	                React.createElement(
 	                    'div',
 	                    { className: 'sidebar-content' },
-	                    _react2.default.createElement('div', { className: avatar_class, style: { backgroundImage: 'url(' + state.avatar + ')' } }),
-	                    _react2.default.createElement(
+	                    React.createElement('div', { className: avatar_class, style: { backgroundImage: 'url(' + state.avatar + ')' } }),
+	                    React.createElement(
 	                        'ul',
 	                        null,
 	                        state.list.map(function (item, index) {
-	                            return _react2.default.createElement(
+	                            return React.createElement(
 	                                'li',
 	                                { className: index == state.current ? 'current' : '', key: item.url },
-	                                _react2.default.createElement(
+	                                React.createElement(
 	                                    _reactRouter.Link,
 	                                    { to: item.url },
 	                                    item.title
@@ -2516,15 +2566,18 @@
 	                            );
 	                        })
 	                    ),
-	                    _react2.default.createElement(
-	                        _reactRouter.Link,
-	                        { to: '/login', className: 'btn' },
-	                        '登录'
-	                    ),
-	                    _react2.default.createElement(
-	                        'button',
-	                        { onClick: this.signout },
-	                        '退出'
+	                    React.createElement(
+	                        'div',
+	                        { className: 'tool' },
+	                        __global__.login && 0 ? React.createElement(
+	                            'button',
+	                            { onClick: this.signout },
+	                            '退出'
+	                        ) : React.createElement(
+	                            'button',
+	                            { onClick: this.login },
+	                            '登录'
+	                        )
 	                    )
 	                )
 	            );

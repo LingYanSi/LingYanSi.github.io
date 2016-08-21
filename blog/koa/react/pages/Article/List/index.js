@@ -14,16 +14,15 @@ class List extends Component{
         }
     }
     getList(){
-        var that = this
 
         Utils.fetch('/article/list', {
             asynRequest: this.getList,
             context: this
         })
         .then(response => response.json() )
-        .then(function(data){
+        .then( data =>{
             console.log('数据', data);
-            that.setState({
+            !this.UNMOUNT && this.setState({
                 list: data.result.list
             })
         })
@@ -34,6 +33,10 @@ class List extends Component{
     }
     componentDidMount(){
         this.getList()
+    }
+    componentWillUnmount(){
+        // 销毁所有异步任务
+        this.UNMOUNT = true
     }
     rawHtml(str=''){
         str = str.replace(/\s/, '')

@@ -78,8 +78,8 @@
         //  在此处做图片上传的处理
         var loader = $.Deferred()
         Utils.upload(fileInfo, {
-                onEnd: function(url) {
-                    var data = JSON.parse(url)
+                onEnd: function(data) {
+                    console.log('图片地址', data);
                     loader.resolve( Utils.CDN() + data.url[0] || '')
                 }
             })

@@ -5,12 +5,12 @@
     background: $header_color;
     color: #fff;
     font-size: 1.2em;
-    padding-left: 40px;
     box-sizing: border-box;
     position: fixed;
-    width: 100%;
+    width: calc(100% + #{$sidebar_width} );
     top: 0;
-    left: 0;
+    left: -$sidebar_width;
+    padding-left: $sidebar_width;
     z-index: 10000;
     transform: translateX(0);
 
@@ -20,5 +20,23 @@
 
     &.sidebar-hide {
         transform: translateX(0);
+    }
+
+
+    &>button {
+        opacity: .8;
+        height: $header_height;
+        display: inline-block;
+        background: none;
+        border: 0;
+        width: 40px;
+        box-sizing: border-box;
+        padding: 0;
+        transition: 1s;
+        transform: rotateZ(0deg);
+
+        &.show {
+            transform: rotateZ(270deg);
+        }
     }
 }

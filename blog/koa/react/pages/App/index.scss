@@ -5,12 +5,14 @@
 .main {
     padding-top: $header_height;
     display: flex;
+    // width: calc(100% + #{$sidebar_width});
 
     .content {
         flex: 1;
         overflow: hidden;
         min-height: 100vh;
         box-sizing: border-box;
+        position: relative;
         transition: transform  .2s;
         transform: translateX($sidebar_width);
 

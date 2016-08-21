@@ -64,9 +64,9 @@ class Home extends Component{
     render(){
         let state = this.state
 
-        return <div id="home">
-            <Upload></Upload>
-            <Qr></Qr>
+        return <div id="home"> 
+            {/* <Upload></Upload> */}
+            {/* <Qr></Qr> */}
             <div>
                 {
                     state.tips.map((item, index) => <Tips key={item.url} {...item} close={this.tipsClose.bind(this, index)}></Tips>)

@@ -9,9 +9,11 @@ class Article extends React.Component{
     render(){
         return <div>
             <div className="tool">
-                <Link to="article/new">
-                    <button>新建</button>
-                </Link>
+                { __global__.login &&
+                    <Link to="article/new">
+                        <button>新建</button>
+                    </Link>
+                }
                 <button>管理</button>
             </div>
             <List></List>

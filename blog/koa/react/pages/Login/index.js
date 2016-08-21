@@ -17,13 +17,14 @@ class Login extends Component{
         .then(data => {
             if(data.status.code == 1001){
                 // Modal.tips('登陆成功')
-                history.back()
+                // history.back()
+                location.reload()
             }
             Modal.tips(data.result)
         })
     }
     render(){
-        return <div style={{paddingTop: '40vh', textAlign: 'center'}}>
+        return <div style={ { textAlign: 'center'}}>
             <input type="password" ref="password"/>
             <button onClick={this.login}>登录</button>
         </div>

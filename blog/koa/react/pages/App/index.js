@@ -26,16 +26,16 @@ class Main extends Component{
         let props = this.props
 
         return <div>
-            <Modal></Modal>
-            <Header sidebar={state.sidebar} />
-            <div className="main">
-                <Sidebar {...props} sidebar={state.sidebar}
-                        handleSidebarChange={this.handleSidebarChange.bind(this)} />
+            <Header sidebar={state.sidebar}
+                    handleSidebarChange={this.handleSidebarChange.bind(this)}/>
+            <Sidebar {...props} sidebar={state.sidebar} />
+            <div className={`main`} >
                 <div className={`${state.sidebar?'':'sidebar-hide'} content`}>
                     {this.props.children ? this.props.children : <Home/> }
                 </div>
             </div>
             <Footer/>
+            <Modal></Modal>
         </div>
     }
 }

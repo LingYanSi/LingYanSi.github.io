@@ -6,8 +6,9 @@
     input {
         height: 2em;
         padding: 0 $padding;
-        width: 300px;
-        max-width: 100%;
+        width: 100%;
+        max-width: 500px;
+        box-sizing: border-box;
         // display: block;
         border: 1px solid rgb(191, 187, 188);
     }
@@ -25,6 +26,12 @@
         display: inline-block;
         line-height: 2;
         padding: 0 .5em;
+    }
+}
+
+#fd {
+    &>*{
+        margin-bottom: $padding;
     }
 }
 
