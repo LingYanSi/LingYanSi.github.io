@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+        <title></title>
+        <style media="screen">
+            * {
+                padding: 0;
+                margin: 0;
+            }
+            .hidden {
+                overflow: hidden;
+                box-sizing: border-box;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <div class="fuck">
+            <div class="some">
+                <div style="height: 120vh; background:pink;"></div>
+                <div class="log">sss</div>
+                <input type="text" name="name" value="">
+                <div>
+                    我是叫v本
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var $ = function(s){
+                return document.querySelector(s)
+            }
+
+            var $body = $('body')
+            var $ele = $('input')
+            var $log = $('.log')
+
+            var PREVENT_SCROLL = false
+            var scrollTop = 0
+            // 获取焦点
+            $('input').addEventListener('focus', function(){
+                $log.textContent = '获得焦点'
+                PREVENT_SCROLL = true
+                // 阻止滑动
+                $('body').addEventListener('touchmove', stopMove)
+
+                // 修改最小高度，scrollTop
+                $body.style.minHeight =  $body.scrollTop + $ele.getBoundingClientRect().top + window.innerHeight  - 200 - $ele.clientHeight + 'px'
+                scrollTop = $body.scrollTop
+                $body.scrollTop =  scrollTop + $ele.getBoundingClientRect().top - 200
+            })
+            // 失去焦点
+            $('input').addEventListener('blur', blur)
+
+            function blur(){
+                $log.textContent = '失去焦点'
+                PREVENT_SCROLL = false
+                $body.style.minHeight = '0px'
+                $body.scrollTop = scrollTop
+                // 删除事情
+                $('body').removeEventListener('touchmove', stopMove)
+            }
+            function stopMove(event){
+                PREVENT_SCROLL && event.preventDefault()
+            }
+
+            // 页面切换
+            document.addEventListener("visibilitychange", function() { 
+                document.hidden && $('input').blur()
+            });
+
+
+        </script>
+    </body>
+</html>

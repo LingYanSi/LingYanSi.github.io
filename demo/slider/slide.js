@@ -415,4 +415,3 @@ var S = new Slider({
         // console.log(prevIndex,currentIndex,len);
     }.bind(this),
 });
-
