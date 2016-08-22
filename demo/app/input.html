@@ -14,19 +14,23 @@
                 box-sizing: border-box;
             }
 
-
+            .header {
+                position: fixed;
+                height: 50px;
+                width: 100%;
+                bottom: 0;
+                left: 0;
+                background: green;
+            }
         </style>
     </head>
     <body>
-        <div class="fuck">
-            <div class="some">
-                <div style="height: 120vh; background:pink;"></div>
-                <div class="log">sss</div>
-                <input type="text" name="name" value="">
-                <div>
-                    我是叫v本
-                </div>
-            </div>
+        <div class="header"></div>
+        <div style="height: 140vh; background:pink;"></div>
+        <div class="log">sss</div>
+        <input type="text" name="name" value="">
+        <div style="height: 50vh">
+            我是叫v本
         </div>
 
         <script>
@@ -42,6 +46,9 @@
             var scrollTop = 0
             // 获取焦点
             $('input').addEventListener('focus', function(){
+                // 浏览器都支持，使用这个更方便
+                $('input').scrollIntoView();
+
                 $log.textContent = '获得焦点'
                 PREVENT_SCROLL = true
                 // 阻止滑动
@@ -51,6 +58,7 @@
                 $body.style.minHeight =  $body.scrollTop + $ele.getBoundingClientRect().top + window.innerHeight  - 200 - $ele.clientHeight + 'px'
                 scrollTop = $body.scrollTop
                 $body.scrollTop =  scrollTop + $ele.getBoundingClientRect().top - 200
+                $body.classList.add('hidden')
             })
             // 失去焦点
             $('input').addEventListener('blur', blur)
@@ -68,7 +76,7 @@
             }
 
             // 页面切换
-            document.addEventListener("visibilitychange", function() { 
+            document.addEventListener("visibilitychange", function() {
                 document.hidden && $('input').blur()
             });
 
