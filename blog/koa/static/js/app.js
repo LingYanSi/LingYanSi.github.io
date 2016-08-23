@@ -48,15 +48,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(11);
+	var _reactDom = __webpack_require__(6);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactRouter = __webpack_require__(6);
+	var _reactRouter = __webpack_require__(7);
 
 	var _App = __webpack_require__(17);
 
@@ -152,230 +152,11 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // 二维码登录
-
-	var QrLogin = function (_Component) {
-	    _inherits(QrLogin, _Component);
-
-	    function QrLogin() {
-	        _classCallCheck(this, QrLogin);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(QrLogin).apply(this, arguments));
-	    }
-
-	    _createClass(QrLogin, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            //
-	            this.toQR('https://www.baidu.com');
-	        }
-	    }, {
-	        key: 'getQrId',
-	        value: function getQrId() {
-	            // 想后端请求一个 id
-	            fetch();
-	        }
-	    }, {
-	        key: 'toQR',
-	        value: function toQR(text) {
-	            var qrcode = new QRCode(this.refs.qrcode, {
-	                text: text,
-	                width: 128,
-	                height: 128,
-	                colorDark: "#000000",
-	                colorLight: "#ffffff",
-	                correctLevel: QRCode.CorrectLevel.H
-	            });
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            // 渲染一个二维码
-	            return React.createElement('div', { ref: 'qrcode', style: { height: 128, width: 128 } });
-	        }
-	    }]);
-
-	    return QrLogin;
-	}(_react.Component);
-
-	exports.default = QrLogin;
-
-/***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(12);
-
-	__webpack_require__(3);
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Scroll = function (_Component) {
-	    _inherits(Scroll, _Component);
-
-	    function Scroll() {
-	        _classCallCheck(this, Scroll);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Scroll).apply(this, arguments));
-	    }
-
-	    _createClass(Scroll, [{
-	        key: 'render',
-	        value: function render() {
-	            // width num height rowidth
-	            var props = this.props;
-
-	            // 计算宽度
-	            var innerWidth = props.num * (props.width + props.rowWidth) + props.rowWidth;
-
-	            // 设置row
-	            var children = React.Children.map(props.children, function (item) {
-	                return React.createElement(
-	                    'div',
-	                    { style: { display: 'inline-block', 'marginLeft': props.rowWidth } },
-	                    item
-	                );
-	            });
-
-	            // 获取视窗宽度
-	            var windowsWidth = document.body.clientWidth;
-
-	            return React.createElement(
-	                'div',
-	                { style: { height: props.height + 2 * props.rowWidth, 'overflowY': 'hidden' } },
-	                React.createElement(
-	                    'div',
-	                    { className: 'overflow-scrolling', style: { width: windowsWidth, paddingTop: props.rowWidth } },
-	                    React.createElement(
-	                        'div',
-	                        { style: { width: innerWidth, 'boxSizing': 'border-box', height: props.height + 2 * props.rowWidth + 40 } },
-	                        children
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return Scroll;
-	}(_react.Component);
-
-	exports.default = Scroll;
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	__webpack_require__(5);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Tips = function (_Component) {
-	    _inherits(Tips, _Component);
-
-	    function Tips() {
-	        _classCallCheck(this, Tips);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Tips).call(this));
-	    }
-
-	    _createClass(Tips, [{
-	        key: 'render',
-	        value: function render() {
-	            var props = this.props;
-
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'tips' },
-	                _react2.default.createElement(
-	                    'a',
-	                    { href: props.url ? props.url : 'javascript:0;', target: '_blank' },
-	                    props.content
-	                ),
-	                _react2.default.createElement(
-	                    'button',
-	                    { onClick: props.close },
-	                    'x'
-	                )
-	            );
-	        }
-	    }]);
-
-	    return Tips;
-	}(_react.Component);
-
-	exports.default = Tips;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-	module.exports = window.ReactRouter;
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(12);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	__webpack_require__(8);
+	__webpack_require__(2);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -413,6 +194,10 @@
 	    }, {
 	        key: 'pipe',
 	        value: function pipe(arr) {
+	            var _this3 = this;
+
+	            // 清空ref缓存
+	            this.__ref = '';
 	            return arr.map(function (item) {
 	                var Item = null;
 	                switch (item.type) {
@@ -478,9 +263,12 @@
 	                        );
 	                        break;
 	                    case 'open':
+	                        _this3.__ref = 'tb' + item.id;
 	                        Item = _react2.default.createElement(
 	                            'div',
-	                            { className: 'modal-item modal-item-open', key: 'modal_' + item.id },
+	                            { className: 'modal-item modal-item-open', ref: _this3.__ref, key: 'modal_' + item.id, tabIndex: item.id, onKeyUp: function onKeyUp(event) {
+	                                    event.keyCode == 27 && Modal.close(item.id);
+	                                } },
 	                            item.component
 	                        );
 	                }
@@ -494,6 +282,11 @@
 	                    Item
 	                );
 	            });
+	        }
+	    }, {
+	        key: 'componentDidUpdate',
+	        value: function componentDidUpdate() {
+	            this.__ref && this.refs[this.__ref].focus();
 	        }
 	    }, {
 	        key: 'render',
@@ -653,10 +446,173 @@
 	exports.default = Modal;
 
 /***/ },
-/* 8 */
+/* 2 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(8);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // 二维码登录
+
+	var QrLogin = function (_Component) {
+	    _inherits(QrLogin, _Component);
+
+	    function QrLogin() {
+	        _classCallCheck(this, QrLogin);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(QrLogin).apply(this, arguments));
+	    }
+
+	    _createClass(QrLogin, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            //
+	            this.toQR('https://www.baidu.com');
+	        }
+	    }, {
+	        key: 'getQrId',
+	        value: function getQrId() {
+	            // 想后端请求一个 id
+	            fetch();
+	        }
+	    }, {
+	        key: 'toQR',
+	        value: function toQR(text) {
+	            var qrcode = new QRCode(this.refs.qrcode, {
+	                text: text,
+	                width: 128,
+	                height: 128,
+	                colorDark: "#000000",
+	                colorLight: "#ffffff",
+	                correctLevel: QRCode.CorrectLevel.H
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            // 渲染一个二维码
+	            return React.createElement('div', { ref: 'qrcode', style: { height: 128, width: 128 } });
+	        }
+	    }]);
+
+	    return QrLogin;
+	}(_react.Component);
+
+	exports.default = QrLogin;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(8);
+
+	__webpack_require__(5);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Scroll = function (_Component) {
+	    _inherits(Scroll, _Component);
+
+	    function Scroll() {
+	        _classCallCheck(this, Scroll);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Scroll).apply(this, arguments));
+	    }
+
+	    _createClass(Scroll, [{
+	        key: 'render',
+	        value: function render() {
+	            // width num height rowidth
+	            var props = this.props;
+
+	            // 计算宽度
+	            var innerWidth = props.num * (props.width + props.rowWidth) + props.rowWidth;
+
+	            // 设置row
+	            var children = React.Children.map(props.children, function (item) {
+	                return React.createElement(
+	                    'div',
+	                    { style: { display: 'inline-block', 'marginLeft': props.rowWidth } },
+	                    item
+	                );
+	            });
+
+	            // 获取视窗宽度
+	            var windowsWidth = document.body.clientWidth;
+
+	            return React.createElement(
+	                'div',
+	                { style: { height: props.height + 2 * props.rowWidth, 'overflowY': 'hidden' } },
+	                React.createElement(
+	                    'div',
+	                    { className: 'overflow-scrolling', style: { width: windowsWidth, paddingTop: props.rowWidth } },
+	                    React.createElement(
+	                        'div',
+	                        { style: { width: innerWidth, 'boxSizing': 'border-box', height: props.height + 2 * props.rowWidth + 40 } },
+	                        children
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Scroll;
+	}(_react.Component);
+
+	exports.default = Scroll;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	module.exports = window.ReactDOM;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	module.exports = window.ReactRouter;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = window.React;
 
 /***/ },
 /* 9 */
@@ -670,7 +626,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	__webpack_require__(10);
 
@@ -863,15 +819,71 @@
 
 /***/ },
 /* 11 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = window.ReactDOM;
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(8);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	__webpack_require__(12);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Tips = function (_Component) {
+	    _inherits(Tips, _Component);
+
+	    function Tips() {
+	        _classCallCheck(this, Tips);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Tips).call(this));
+	    }
+
+	    _createClass(Tips, [{
+	        key: 'render',
+	        value: function render() {
+	            var props = this.props;
+
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'tips' },
+	                _react2.default.createElement(
+	                    'a',
+	                    { href: props.url ? props.url : 'javascript:0;', target: '_blank' },
+	                    props.content
+	                ),
+	                _react2.default.createElement(
+	                    'button',
+	                    { onClick: props.close },
+	                    'x'
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Tips;
+	}(_react.Component);
+
+	exports.default = Tips;
 
 /***/ },
 /* 12 */
 /***/ function(module, exports) {
 
-	module.exports = window.React;
+	// removed by extract-text-webpack-plugin
 
 /***/ },
 /* 13 */
@@ -885,7 +897,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	var _UploadCore = __webpack_require__(14);
 
@@ -990,7 +1002,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1089,7 +1101,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -1244,11 +1256,11 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(6);
+	var _reactRouter = __webpack_require__(7);
 
 	var _Header = __webpack_require__(29);
 
@@ -1266,7 +1278,7 @@
 
 	var _Home2 = _interopRequireDefault(_Home);
 
-	var _Modal = __webpack_require__(7);
+	var _Modal = __webpack_require__(1);
 
 	var _Modal2 = _interopRequireDefault(_Modal);
 
@@ -1351,13 +1363,13 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(6);
+	var _reactRouter = __webpack_require__(7);
 
-	var _Modal = __webpack_require__(7);
+	var _Modal = __webpack_require__(1);
 
 	var _Modal2 = _interopRequireDefault(_Modal);
 
@@ -1553,15 +1565,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(11);
+	var _reactDom = __webpack_require__(6);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactRouter = __webpack_require__(6);
+	var _reactRouter = __webpack_require__(7);
 
 	var _List = __webpack_require__(23);
 
@@ -1638,11 +1650,11 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(6);
+	var _reactRouter = __webpack_require__(7);
 
 	var _swipe = __webpack_require__(9);
 
@@ -1668,16 +1680,16 @@
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(List).call(this));
 
-	        _this.state = {
+	        _this.state = Immutable.Map({
 	            list: []
-	        };
+	        });
 	        return _this;
 	    }
 
 	    _createClass(List, [{
 	        key: 'getList',
 	        value: function getList() {
-	            var _this2 = this;
+	            var that = this;
 
 	            Utils.fetch('/article/list', {
 	                asynRequest: this.getList,
@@ -1685,8 +1697,10 @@
 	            }).then(function (response) {
 	                return response.json();
 	            }).then(function (data) {
-	                console.log('数据', data);
-	                !_this2.UNMOUNT && _this2.setState({
+	                // console.log('数据', data);
+	                var list = data.result.list;
+	                Immutable.Map({ list: list });
+	                that.setState({
 	                    list: data.result.list
 	                });
 	            });
@@ -1705,12 +1719,6 @@
 	            this.getList();
 	        }
 	    }, {
-	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {
-	            // 销毁所有异步任务
-	            this.UNMOUNT = true;
-	        }
-	    }, {
 	        key: 'rawHtml',
 	        value: function rawHtml() {
 	            var str = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
@@ -1724,7 +1732,7 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this3 = this;
+	            var _this2 = this;
 
 	            var len = this.props.len;
 	            var list = len ? this.state.list.slice(0, len) : this.state.list;
@@ -1759,7 +1767,7 @@
 	                                                null,
 	                                                item.title
 	                                            ),
-	                                            _react2.default.createElement('div', { className: 'summary', dangerouslySetInnerHTML: _this3.rawHtml(item.content) }),
+	                                            _react2.default.createElement('div', { className: 'summary', dangerouslySetInnerHTML: _this2.rawHtml(item.content) }),
 	                                            _react2.default.createElement(
 	                                                'p',
 	                                                { className: 'bott' },
@@ -1773,7 +1781,7 @@
 	                                    ),
 	                                    _react2.default.createElement(
 	                                        'div',
-	                                        { className: 'side', onClick: _this3.deleteSwipe.bind(_this3, item.id) },
+	                                        { className: 'side', onClick: _this2.deleteSwipe.bind(_this2, item.id) },
 	                                        'Delete'
 	                                    )
 	                                )
@@ -1813,17 +1821,17 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(11);
+	var _reactDom = __webpack_require__(6);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactRouter = __webpack_require__(6);
+	var _reactRouter = __webpack_require__(7);
 
-	var _Modal = __webpack_require__(7);
+	var _Modal = __webpack_require__(1);
 
 	var _Modal2 = _interopRequireDefault(_Modal);
 
@@ -2018,7 +2026,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -2075,7 +2083,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -2142,25 +2150,25 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(6);
+	var _reactRouter = __webpack_require__(7);
 
 	var _List = __webpack_require__(23);
 
 	var _List2 = _interopRequireDefault(_List);
 
-	var _Modal = __webpack_require__(7);
+	var _Modal = __webpack_require__(1);
 
 	var _Modal2 = _interopRequireDefault(_Modal);
 
-	var _Tips = __webpack_require__(4);
+	var _Tips = __webpack_require__(11);
 
 	var _Tips2 = _interopRequireDefault(_Tips);
 
-	var _scroll = __webpack_require__(2);
+	var _scroll = __webpack_require__(4);
 
 	var _scroll2 = _interopRequireDefault(_scroll);
 
@@ -2168,7 +2176,7 @@
 
 	var _Upload2 = _interopRequireDefault(_Upload);
 
-	var _Qr = __webpack_require__(1);
+	var _Qr = __webpack_require__(3);
 
 	var _Qr2 = _interopRequireDefault(_Qr);
 
@@ -2304,9 +2312,9 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
-	var _Modal = __webpack_require__(7);
+	var _Modal = __webpack_require__(1);
 
 	var _Modal2 = _interopRequireDefault(_Modal);
 
@@ -2383,11 +2391,11 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(6);
+	var _reactRouter = __webpack_require__(7);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2436,15 +2444,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(12);
+	var _react = __webpack_require__(8);
 
-	var _reactRouter = __webpack_require__(6);
+	var _reactRouter = __webpack_require__(7);
 
 	var _Login = __webpack_require__(33);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _Modal = __webpack_require__(7);
+	var _Modal = __webpack_require__(1);
 
 	var _Modal2 = _interopRequireDefault(_Modal);
 

@@ -9,20 +9,23 @@ class List extends Component{
     constructor(){
         super()
         // console.log(this)
-        this.state = {
+        this.state = Immutable.Map({
             list: []
-        }
+        })
     }
     getList(){
+        var that = this
 
         Utils.fetch('/article/list', {
             asynRequest: this.getList,
             context: this
         })
         .then(response => response.json() )
-        .then( data =>{
-            console.log('数据', data);
-            !this.UNMOUNT && this.setState({
+        .then(function(data){
+            // console.log('数据', data);
+            let list = data.result.list
+            Immutable.Map({list})
+            that.setState({
                 list: data.result.list
             })
         })
@@ -33,10 +36,6 @@ class List extends Component{
     }
     componentDidMount(){
         this.getList()
-    }
-    componentWillUnmount(){
-        // 销毁所有异步任务
-        this.UNMOUNT = true
     }
     rawHtml(str=''){
         str = str.replace(/\s/, '')

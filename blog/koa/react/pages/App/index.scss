@@ -5,6 +5,7 @@
 .main {
     padding-top: $header_height;
     display: flex;
+    overflow: hidden;
     // width: calc(100% + #{$sidebar_width});
 
     .content {

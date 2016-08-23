@@ -63,7 +63,8 @@
   -webkit-transform: translate3D(-50%, -50%, 0);
   transform: translate3D(-50%, -50%, 0);
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 4px; }
+  border-radius: 4px;
+  outline: none; }
   .modal .modal-item.modal-item-tips {
     height: auto;
     padding: 10px;
@@ -235,7 +236,8 @@
   padding-top: 35px;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex; }
+  display: flex;
+  overflow: hidden; }
   .main .content {
     -webkit-box-flex: 1;
     -ms-flex: 1;

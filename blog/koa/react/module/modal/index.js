@@ -20,6 +20,8 @@ class Modal extends Component{
         Modal.id = 0
     }
     pipe(arr){
+        // 清空ref缓存
+        this.__ref = ''
         return arr.map(item => {
             let Item = null
             switch(item.type) {
@@ -47,7 +49,8 @@ class Modal extends Component{
                     </div>
                     break
                 case 'open':
-                    Item = <div className="modal-item modal-item-open" key={`modal_${item.id}`}>
+                    this.__ref = `tb${item.id}`
+                    Item = <div className="modal-item modal-item-open" ref={this.__ref} key={`modal_${item.id}`} tabIndex={item.id} onKeyUp={function(event){ event.keyCode==27 && Modal.close(item.id)}}>
                         {item.component}
                     </div>
             }
@@ -57,6 +60,9 @@ class Modal extends Component{
                 {Item}
             </div>
         })
+    }
+    componentDidUpdate(){
+        this.__ref && this.refs[this.__ref].focus()
     }
     render(){
         var modalItems = this.pipe(this.state.queue)
@@ -77,7 +83,7 @@ Modal.open = function(component='', options={}){
         component: component,
         id: id,
         layer: options,
-        layerClose: true
+        layerClose: true,
     })
 
     _this.setState({
