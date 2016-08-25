@@ -1,27 +1,15 @@
+# Gulp
+基于文件流的前端构建工具
 
-'use strict' ;
+[api在此](http://www.gulpjs.com.cn/docs/api/)
 
-var gulp = require('gulp');
+## 核心API
+- task 任务
+- src 输入文件
+- dest 输出文件
+- pipe 文件流
 
-// var less = require('gulp-less');
-var sass = require('gulp-sass');
-// var stylus = require('gulp-stylus');
-
-var postcss = require('gulp-postcss');
-var autoprefixer = require('gulp-autoprefixer');
-var minify = require('gulp-minify-css');
-var sourcemaps = require('gulp-sourcemaps');
-
-gulp.task('less', ()=>{
-    gulp.src('./less/*.less')
-        .pipe(sourcemaps.init()) // sourcemaps
-        .pipe( less() )
-        .pipe( postcss([require('autoprefixer')]) )
-        .pipe( minify() )
-        .pipe(sourcemaps.write())
-        .pipe( gulp.dest('./less/') )
-});
-
+```js
 gulp.task('sass', ()=>{
     gulp.src('./sass/**/*.scss')
         .pipe( sass() )
@@ -39,6 +27,7 @@ gulp.task('sass', ()=>{
         }) )
 })
 
+// stylus任务 gulp stylus会执行
 gulp.task('stylus', ()=>{
     gulp.src('./stylus/*.styl')
         .pipe( sass() )
@@ -46,3 +35,13 @@ gulp.task('stylus', ()=>{
         .pipe( minify() )
         .pipe( gulp.dest('./stylus/') )
 })
+
+gulp.task('watch::sass',['sass'], ()=>{
+    gulp.watch('./sass/**/*.scss',['sass'])
+})
+
+// 默认任务 gulp
+gulp.task('default', ()=>{
+    gulp.start('watch::sass')
+})
+```
