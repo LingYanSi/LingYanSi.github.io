@@ -1,3 +1,4 @@
+
 function router() {
     let router
     return router = {
@@ -45,8 +46,9 @@ function router() {
             console.log('没有定义？', cb);
 
             // 执行参数
+            cb.__next = next
             yield cb
-            yield next
+            // yield next
         }
     }
 }

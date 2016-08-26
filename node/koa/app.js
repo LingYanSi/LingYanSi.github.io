@@ -1,21 +1,48 @@
 let app = require('./lib/index')()
 let router = require('./lib/router')()
+let static = require('./lib/static')
+let url = require('url')
+let queryParse = require('./lib/query')
 
 
+app.use(static('src', {
+    maxAge: 60*60*24*30
+}))
+
+let fs = require('fs')
+let html = fs.readFileSync('./index.html').toString('utf8')
+
+
+// 使用react router
 router.get('/', function *(next){
-    this.body = '主页'
+    console.log(this.url);
+    this.body = html
+    yield next
+})
+.get('/ip', function *(next) {
+    this.body = this.ip
 })
 .get('/sex', function *(next) {
     this.body = 'fuck huangcheng'
 })
-.get('/r', function *(){
+.get('/r', function *(next){
     this.redirect('http://www.baidu.com')
 })
-.all('*', function *(){
+.all('*', function *(next){
+    console.log('没有到这里？');
+    const query = queryParse( url.parse('http://www.a.com' + this.url).query )
+    let list = query.projectIdListJson
+    try{
+        list = JSON.parse(query.projectIdListJson)
+        console.log(list);
+    }catch(err){
+
+    }
+
     this.body = 'icon'
 })
 
-console.log(Object.prototype.toString.call(router.routers) );
+
 app.use(router.routers )
 //
 // app.use(function*(next) {
@@ -63,7 +90,8 @@ app.use(router.routers )
 app.use(function*(next) {
     // console.log('第二层', this.user);
     let he = yield next
-    // console.log('回到-->第二层', he);
+
+    console.log('回到-->第二层', he);
 
     return '孙小飞'
 })

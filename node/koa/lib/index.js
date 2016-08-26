@@ -7,6 +7,7 @@ module.exports = function(){
         // 新建一个上下文
         let ctx = new Ctx(req, res)
         ctx.url = req.url
+        // 用户ip地址
         ctx.ip = req.connection.remoteAddress ||  req.socket.remoteAddress || req.connection.socket.remoteAddress
         // 自动执行Generator函数
         co.call(ctx, app.mix())
@@ -53,6 +54,8 @@ function Ctx(req, res){
             return 'fuck you'
         },
         set(value){
+            // value只能是String JSON_Object， Content-Length必须要是buffer的长度
+            this.res.setHeader('Content-Length', Buffer.byteLength(value, 'utf8'))
             this.res.write(value)
             this.end()
         }
