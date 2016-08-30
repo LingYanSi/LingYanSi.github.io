@@ -3,14 +3,14 @@ let co = require('./co')
 let cookie = require('./cookie')
 
 module.exports = function(){
-    let server = http.Server((req, res) => {
+    let server = http.Server((req, res) => { 
         // 新建一个上下文
         let ctx = new Ctx(req, res)
         ctx.url = req.url
         // 用户ip地址
         ctx.ip = req.connection.remoteAddress ||  req.socket.remoteAddress || req.connection.socket.remoteAddress
         // 自动执行Generator函数
-        co.call(ctx, app.mix())
+        co.call(ctx, app.middleware)
     })
 
     let app = {
@@ -19,21 +19,20 @@ module.exports = function(){
         },
         // 存储中间价
         mds: [],
-        // 将所有的中间件转成一个Generator函数，以交给co执行
-        mix(){
-            if (!app.reversed) {
-                app.reversed = true
-                // 把next参数，存储到__next上
-                app.mds.reverse()
-                app.handle = app.mds.reduce((prev, current) => {
-                    current.__next = prev
-                    return current
+        // compose中间件
+        fuck(){
+            let mds = this.mds
+            mds.reverse()
+            return function *(next){
+                mds.forEach(md => {
+                    next = md.call(this, next)
                 })
+                yield next
             }
-            return app.handle
         },
         // 启动服务
         listen(...args){
+            this.middleware = this.fuck()
             server.listen(...args)
         }
     }

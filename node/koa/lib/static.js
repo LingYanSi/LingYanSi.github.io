@@ -1,6 +1,7 @@
 let fs = require('fs')
 let path = require('path')
 
+// Content-Type
 const CT = {
     js: 'application/javascript; charset=utf-8',
     css: 'text/css; charset=utf-8',

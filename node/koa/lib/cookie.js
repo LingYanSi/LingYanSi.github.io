@@ -1,5 +1,5 @@
 module.exports = function *(next){
-    let cookie = this.req.headers.cookie
+    let cookie = this.req.headers.cookie || ''
 
     let cache = {}
     cookie.split(';').forEach(item => {

@@ -1,4 +1,5 @@
 module.exports = function(url = ''){
+    url = url || ''
     let query = {}
     try{
         url.split('&').forEach(item => {
