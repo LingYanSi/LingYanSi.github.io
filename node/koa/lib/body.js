@@ -5,25 +5,40 @@ let path = require('path')
 let fs = require('fs')
 
 // 图片上传
-var upload =  function(req, ENCODE, DIR){
-    let data = ''
+var upload =  function(req, DIR){
+    let data = []
     return new Promise(res => {
-        console.log('开始接收文件');
         let urlArr = []
         // 文件为二进制流
         try{
-            req.setEncoding(ENCODE)
-            req.on('data', (chunck) => {
-                data += chunck
+            req.on('data', chunk => {
+                data.push(chunk)
                 console.log('上传中。。。。');
             })
 
             req.on('end', () => {
                 // this.body 写在这里会报错
-                let str = data
+                let str = ''
+                // 如果是
+                const CT = req.headers['content-type'] || ''
 
-                // console.log(str, ENCODE);
-                if (ENCODE == 'utf8') {
+                // from表单上传，文本
+                if (CT.startsWith('application/x-www-form-urlencoded') ) {
+                    str = Buffer.concat(data).toString('binary')
+                    res(str)
+                    return
+                }
+
+                // 文本类型
+                if (CT.startsWith('text/plain')) {
+                    str = Buffer.concat(data).toString('utf8')
+                    res(str)
+                    return
+                }
+
+                // 没有json类型
+                if (CT.startsWith('text/json')) {
+                    str = Buffer.concat(data).toString('utf8')
                     res(str)
                     return
                 }
@@ -35,22 +50,21 @@ var upload =  function(req, ENCODE, DIR){
 
                     ------WebKitFormBoundaryUXitzBkPaZRnyeXg--
                     */
+                // form-data上传
+                if(!CT.startsWith('multipart/form-data')){
+                    res(Buffer.concat(data).toString('utf8'))
+                    return
+                }
 
-                // var BIAOZHI = (str.match(/-{6}[^\n]+/) || [])[0] 
-
-
-                const BIAOZHI = str.slice(0, str.indexOf('\n'))
-                let regexp = new RegExp(`-*${BIAOZHI}-*[^\n]*`, 'g');
-
-                let arr = str.split(regexp).map(item => item.trim()).filter(item => item)
-                // console.log(arr);
-                // return
-
-
-                let NUM_CDN_UPLOADED = 0
-                const ARR_LEN = arr.length
-                // let sth = yield Promise.all(
-                arr = arr.map((item, index) => {
+                // 我就是一个大傻逼，不知道把标志符号trim一下
+                str = Buffer.concat(data).toString('binary')
+                const BIAOZHI = str.slice(0, str.indexOf('\n')).trim()
+                let regexp = new RegExp(`[^\n]*${BIAOZHI}[^\n]*`)
+                // 分割/过滤数据
+                let arr = str.split(regexp)
+                    .map(item => item.trim())
+                    .filter(item => item)
+                    .map((item, index) => {
                         let line1_arr = item.match(/Content-Disposition[^\n]+/)
                         let line1_str = line1_arr ? line1_arr[0] : ''
                         let line2_arr = item.match(/Content-Type[^\n]+/)
@@ -82,7 +96,7 @@ var upload =  function(req, ENCODE, DIR){
 
                         // 异步
                         // return new Promise(res => {
-                        if (obj['Content-Type']) {
+                        if (obj['Content-Type'] && obj.content) {
                             const IS_IMG = obj['Content-Type'].startsWith('image')
                             let ext = obj['Content-Type'].split('/')[1]
                             // 把quicktime转成MP4
@@ -93,21 +107,36 @@ var upload =  function(req, ENCODE, DIR){
 
                             const FILE_PATH = path.resolve('', `${DIR}/${obj.filename}.${ext}`)
                                 // 本地缓存一份
-                            fs.writeFileSync(FILE_PATH, obj.content, ENCODE)
+                            fs.writeFileSync(FILE_PATH, obj.content, 'binary')
                             // console.log(obj.content);
-                            obj.path = FILE_PATH
-                            delete obj.content
+                            obj.path = obj.content = FILE_PATH
                         }
-
-                        console.log(obj);
 
                         return obj
                         // console.log('看看最终数据： ========================》', obj);
                     })
+                    .filter(item => item.content && item.name)
 
+                let obj = {
+                    files: {},
+                    text: {}
+                }
 
+                arr.forEach(item => {
+                    const key = item.path ? 'files' : 'text'
+                    let store = obj[key]
+                    const name = item.name
 
-                res(arr)
+                    // 如果是文件的话，默认是数组
+                    if(key == 'files') {
+                        store[name] = store[name] || []
+                        store[name].push(item.content)
+                    }else {
+                        store[name] = item.content
+                    }
+                })
+
+                res(obj)
             })
         }catch(err) {
             console.log(err);
@@ -119,15 +148,22 @@ var upload =  function(req, ENCODE, DIR){
 module.exports = function *(next){
 
     let req = this.req
-    console.log(Object.keys(req));
-    const contentType = this.req.headers['content-type']
+    // console.log(Object.keys(req));
+    const contentType = this.req.headers['content-type'] || ''
 
     let ENCODE = 'uft8'
     console.log('content-type', contentType);
-    if(contentType.startsWith('multipart') || contentType.startsWith('application/x-www-form-urlencoded')){
-        ENCODE = 'binary'
+
+    // 可接受的content-type
+    const CTS = [
+        'multipart/form-data',
+        'text/plain',
+        'application/x-www-form-urlencoded'
+    ]
+
+    if(CTS.some(item => contentType.startsWith(item))){
+        this.req.body = yield upload(req, './src/')
     }
-    this.req.body = yield upload(req, ENCODE, './src/')
 
     console.log('内容', this.req.body);
 

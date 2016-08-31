@@ -7,6 +7,7 @@ require('./about')
 // 使用react router
 router.post('/r', body, function *(next){
     // this.redirect('http://www.baidu.com')
+    this.body = 'fuck'
 })
 
 router.get('*', function *(next){

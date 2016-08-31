@@ -55,6 +55,4 @@ app.use(function*(next) {
 app.listen(10240, () => {
     console.log(new Date().toString(), 'listen 10240 port');
 })
-
-// user userid password avatar username summary sex age
-// 采用邀请码制度，没有邀请码
+ 

@@ -5,8 +5,7 @@ let html = fs.readFileSync(`${global.FUCK.base}/index.html`).toString('utf8')
 
 // 使用react router
 router.get('/', function *(next){
-    console.log('什么歌', next, this.url);
-    this.body = html
+    this.body = fs.readFileSync(`${global.FUCK.base}/index.html`).toString('utf8')
     yield next
 })
 .get('/ip', function *(next) {
@@ -16,7 +15,8 @@ router.get('/', function *(next){
     this.body = 'fuck huangcheng'
 })
 .get('/r', function *(next){
-    this.redirect('http://www.baidu.com')
+    // this.redirect('http://www.baidu.com')
+    this.body = 'good boy'
 })
 
 module.exports = router
