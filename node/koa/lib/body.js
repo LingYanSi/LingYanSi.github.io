@@ -8,11 +8,14 @@ let fs = require('fs')
 var upload =  function(req, DIR){
     let data = []
     return new Promise(res => {
-        let urlArr = []
+        let urlArr = [] , requestSize = 0
         // 文件为二进制流
         try{
             req.on('data', chunk => {
                 data.push(chunk)
+                requestSize += chunk.length/1024/1024
+
+                // requestSize记录了接受了多大的文件流，可以做limit限制
                 console.log('上传中。。。。');
             })
 
@@ -24,17 +27,35 @@ var upload =  function(req, DIR){
 
                 // from表单上传，文本
                 if (CT.startsWith('application/x-www-form-urlencoded') ) {
+                    let obj = {}
                     str = Buffer.concat(data).toString('binary')
-                    res(str)
+
+                    // 字符串转json
+                    str.split('&').filter(item => item.trim()).forEach(item => {
+                        let [key, value] = item.split('=').filter(item => item.trim())
+                        key && value && (obj[key] = value)
+                    })
+
+                    res(obj)
                     return
                 }
 
                 // 文本类型
                 if (CT.startsWith('text/plain')) {
                     str = Buffer.concat(data).toString('utf8')
-                    res(str)
+                    // 字符串转json
+                    let obj = {}
+                    try{
+                        obj = JSON.parse(str)
+                    }catch(err){
+                        console.log('数据不合法');
+                        obj = {}
+                    }
+                    res(obj)
                     return
                 }
+
+                // blob image/video/txt etc
 
                 // 没有json类型
                 if (CT.startsWith('text/json')) {
@@ -58,8 +79,12 @@ var upload =  function(req, DIR){
 
                 // 我就是一个大傻逼，不知道把标志符号trim一下
                 str = Buffer.concat(data).toString('binary')
+                console.log('数据文件大小', Buffer.concat(data).length/1024/1024, requestSize);
+
                 const BIAOZHI = str.slice(0, str.indexOf('\n')).trim()
+
                 let regexp = new RegExp(`[^\n]*${BIAOZHI}[^\n]*`)
+
                 // 分割/过滤数据
                 let arr = str.split(regexp)
                     .map(item => item.trim())
@@ -73,10 +98,12 @@ var upload =  function(req, DIR){
                         line1_str && (item = item.replace(line1_str, ''))
                         line2_str && (item = item.replace(line2_str, ''))
 
-
+                        item = item.trim()
                         let obj = {
-                            content: item.trim()
+                            content: item,
                         }
+
+
                         line1_str && line1_str.split(';').forEach(item => {
                             let arr = item.split(/=|:/)
                             if (arr.length != 2) return
@@ -94,19 +121,21 @@ var upload =  function(req, DIR){
                             obj[key] = value
                         })
 
-                        // 异步
-                        // return new Promise(res => {
+                        // 内容不为空，写入文件
                         if (obj['Content-Type'] && obj.content) {
                             const IS_IMG = obj['Content-Type'].startsWith('image')
                             let ext = obj['Content-Type'].split('/')[1]
                             // 把quicktime转成MP4
-                            ext = ext == 'quicktime' ? 'mp4' : ext
+                            obj.ext = ext = ext == 'quicktime' ? 'mp4' : ext
                                 // ie post的数据竟然没有filename，卧槽
-                            obj.filename += `${new Date().getTime()}${index}`
+                            obj.filename = `${new Date().getTime()}${index}` + obj.filename
                             obj.content = obj.content.trim()
 
+                            // 文件大小
+                            obj.size = new Buffer(item, 'binary').length/1024/1024
+
                             const FILE_PATH = path.resolve('', `${DIR}/${obj.filename}.${ext}`)
-                                // 本地缓存一份
+                            // 本地缓存一份
                             fs.writeFileSync(FILE_PATH, obj.content, 'binary')
                             // console.log(obj.content);
                             obj.path = obj.content = FILE_PATH
@@ -122,6 +151,7 @@ var upload =  function(req, DIR){
                     text: {}
                 }
 
+                // 数组转对象
                 arr.forEach(item => {
                     const key = item.path ? 'files' : 'text'
                     let store = obj[key]
@@ -130,7 +160,11 @@ var upload =  function(req, DIR){
                     // 如果是文件的话，默认是数组
                     if(key == 'files') {
                         store[name] = store[name] || []
-                        store[name].push(item.content)
+                        store[name].push({
+                            path: item.content,
+                            type: item['Content-Type'],
+
+                        })
                     }else {
                         store[name] = item.content
                     }
@@ -161,6 +195,8 @@ module.exports = function *(next){
         'application/x-www-form-urlencoded'
     ]
 
+    // 如果是合法的content-type 就接受并解析数据
+    // 我们还需要限制文件大小，不然容易被攻击吧，那如何确定文件大小呢？
     if(CTS.some(item => contentType.startsWith(item))){
         this.req.body = yield upload(req, './src/')
     }
