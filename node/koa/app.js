@@ -12,6 +12,9 @@ let static = require('./lib/static')
 let url = require('url')
 let queryParse = require('./lib/query')
 
+// 设置文件流大小限制
+let body = require('./lib/body').option({limit: 1})
+
 
 
 // 默认的 request.url /axx?aaa=www 这显然与我们所期望的路径是不一样，因此需要重新解析一下
@@ -55,4 +58,3 @@ app.use(function*(next) {
 app.listen(10240, () => {
     console.log(new Date().toString(), 'listen 10240 port');
 })
- 
