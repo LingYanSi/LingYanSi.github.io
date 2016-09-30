@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style media="screen">
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            .main {
+                background: rgb(147, 223, 228);
+                font-size: 30px;
+                position: relative;
+            }
+
+            .main:after {
+                display: block;
+                content: "";
+                height: 2px;
+                width: 100%;
+                position: absolute;
+                top: 50%;
+                margin-top: -1px;
+                background: red;
+                left: 0;
+            }
+
+            .test {
+                line-height: 2;
+                display: inline-block;
+                font-size: 12px;
+                border: 1px solid red;
+                padding: 10px;
+            }
+            .main:before {
+                content: "111";
+                line-height: 20px;
+                font-size: 10px;
+                display: inline-block;
+                border: 1px solid green;
+                vertical-align: middle;
+            }
+            span {
+                vertical-align: middle;
+            }
+            .imtg{
+                height: 70px;
+                width: auto;
+            }
+            img {
+                 vertical-align: middle;
+            }
+
+            .fuck {
+                width: 20%;
+                background: pink;
+                display: inline-block;
+                vertical-align: middle;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main">
+                <span>阿斯顿噶似的打算</span>
+                <span class="test">阿斯顿噶似的打算</span>
+                <div class="fuck" style="height: 100px;"></div>
+                <div class="fuck" style="height: 200px;"></div>
+                <div class="fuck" style="height: 300px;"></div>
+                <div class="fuck" style="width: 0px; height: 400px;"></div>
+                <div class="fuck" style="width: 10px; height: 500px;"></div>
+        </div>
+    </body>
+</html>
