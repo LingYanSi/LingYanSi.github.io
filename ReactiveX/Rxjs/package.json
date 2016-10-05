@@ -10,5 +10,8 @@
     "rxjs"
   ],
   "author": "lingyan",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "rxjs-es": "^5.0.0-beta.12"
+  }
 }

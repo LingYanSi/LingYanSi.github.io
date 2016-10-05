@@ -81,68 +81,17 @@ alter table 表名 change 列名称 列新名称 新数据类型;
 ### 添加列
 alter table 表名 add 列名 列数据类型 [after 插入位置];
 
-### 使用node-mysql
+# 数据库迁移
+### 保存
+mysqldump -u root -p password --databases dbname > beifen.sql
 
-```js
-var sql = require('node-mysql')
+### 下载
+scp root@127.0.0.1/beifen.sql /path
 
-const config = {
-    which:{
-        host: '', // 主机ip
-        user: '', // 用户名
-        password: '', // 密码
-        database: '', // 库名
-        port: 3306  // 端口
-    }
-}
+### 恢复
+mysql -u root < pathofbeifen.sql
 
-function mySql(name){
-    // name用来对应不同数据库配置
+## 坑
+- 不要给单独的某个字段设置character，应该是给表设置
 
-    var self = this
-    this.config = config[name]
-
-    this.query = function(sql){
-        return new Promise(function(resolve, reject){
-            // 去查询
-            self.connect.query(sql , function(error, row){
-                if(error){
-                    // console.log('查询错误', error)
-                    reject(error)
-                }else{
-                    // 返回查询结果
-                    resolve( row)
-                }
-            })
-
-            // 因为mysql会有链接限制，因此在查询结束的时候，应该关闭链接
-            // 或者使用 createPool，但这里有个蛋疼之处，每一次查询都是 new mySql()
-            // 这样会导致，每次查询结束还是要手动关闭connect
-            // 我想createPool的作用，在于，在启动服务器的时候就createPool
-            // 如果想要查询，直接调用便是，不要每次都新建一个查询对象
-            setTimeout(function(){ self.connect.distory() }, 1000)
-        })
-
-    }
-
-}
-
-mySql.prototype = {
-    init: function(){
-        var self = this
-
-        this.connect = sql.createConnect( this.config )
-        // If you using the node-mysql module, just remove the .connect and .end. Just solved the problem myself. Apparently they pushed in unnecessary code in their last iteration that is also bugged. You don't need to connect if you have already ran the createConnection call
-        // 监听错误
-        this.connect.on('error', function(){
-            // 如果连接丢失，从新连接
-            console.log('db error', err);
-            if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-              self.init();                                // lost due to either server restart, or a
-            } else {                                      // connnection idle timeout (the wait_timeout
-              throw err;                                  // server variable configures this)
-            }
-        })
-    }
-}
-```
+## 设置编码类型
