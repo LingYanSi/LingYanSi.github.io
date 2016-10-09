@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0,user-scalable=no">
+        <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
         <title></title>
         <style media="screen">
             * {
@@ -10,19 +10,32 @@
                 padding: 0;
             }
             img {
-                transform-origin: left top;
-                width: 400px;
+                /*transform-origin: left top;*/
+                width: 100%;
                 height: auto;
                 display: block;
             }
 
             body {
                 background: #000;
+                overflow: hidden;
+                width: 100%;
             }
+            #log {
+                position: absolute;
+                z-index: 1000;
+                font-size: 16px;
+                width: 100%;
+                overflow: hidden;
+                color: #fff;
+                pointer-events: none;
+            }
+
         </style>
     </head>
     <body>
-        <img src="https://odj7gwx6q.qnssl.com/img/2016/file014726541070320.1920x2560.jpeg" alt="" />
+        <img src="http://ww4.sinaimg.cn/mw690/a716fd45jw1f8d6v3bw36j20fk09tdgx.jpg" width="1920" height="2560" alt="" />
+        <div id="log"></div>
         <script src="./index.js" charset="utf-8"></script>
 
     </body>

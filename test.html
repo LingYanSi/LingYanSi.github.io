@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=false" name="viewport" />
+        <style media="screen">
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            button {
+                font-size: .30rem;
+            }
+            div {
+                width: 7.5rem;
+                height: 200px;
+                background: red;
+                /*position: absolute;*/
+                /*width: 100%;*/
+            }
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript">
+            (function(){
+                if(!document.body){
+                    console.error('body还未被加载，请在在body标签内引用代码')
+                    return
+                }
+
+                function setFontSize(){
+                    // 如果移动端就满屏显示吧
+                    var IS_PC = !window.navigator.userAgent.toLowerCase().match(/phone|android|ipad|ipod/)
+
+                    var maxWidth = IS_PC ? Math.min(750, window.innerWidth) : window.innerWidth
+                    maxWidth = Math.max(320, maxWidth)
+
+                    var fs = maxWidth / 750 * 100
+                    var style = document.querySelector('html').style
+                    style.fontSize = fs + 'px'
+
+                    // 新增一个div，校验其clientWidth与window.innerWidth的关系，然后对fontSize做一个二次校正
+                    // 我想如果页面是基于vw布局的话，应该就没有这个问题了
+                    var div = document.createElement('div')
+                    div.style.width = '7.50rem'
+                    document.body.appendChild(div)
+
+                    // 如果字体被缩小就增大fontSize，反则缩小FontSize,
+                    style.fontSize = fs * maxWidth / div.clientWidth + 'px'
+
+                    document.body.removeChild(div)
+                }
+
+                window.addEventListener('resize', setFontSize)
+
+                setFontSize()
+            })()
+        </script>
+        <button type="button" name="button" onclick=" location.reload()">reload</button>
+        <input style="height: 100px;" type="search" />
+    </body>
+</html>
