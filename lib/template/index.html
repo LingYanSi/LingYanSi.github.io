@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script src="./index.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var template =
+            `
+                <div><% $data + 1 %></div>
+                <%-
+                    var sth = 1000;
+                    var c = 2000;
+                    var time = new Date().toString()
+                %>
+                <%= 你说什么呢 %>
+                <h1>
+                    <% time + (sth + c) %>
+                </h1>
+                <% if( $hei ){ %>
+                    <div><% $niu + (sth+c) %></div>
+                    <% for(var i=0; i< $list.length ; i++) { %>
+                        <%- var item=$list[i] %>
+                        <li><% item.title %></li>
+                    <% } %>
+                <% } %>
+            `
+        var data = {
+            data: '胡锦涛',
+            hei: true,
+            niu: '啥都看法开始交电话费卡上的积分',
+            list: [{
+                title: 'fuck'
+            }, {
+                title: '习近平'
+            }]
+        }
+
+        document.querySelector('#app').innerHTML = Parser(template, data)
+
+    </script>
+</body>
+
+</html>
