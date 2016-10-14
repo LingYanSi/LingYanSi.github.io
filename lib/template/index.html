@@ -4,45 +4,190 @@
 <head>
     <meta charset="utf-8">
     <title></title>
+    <style media="screen">
+        .test {
+            background: red;
+        }
+        img {
+            /*vertical-align: middle;*/
+            height: 30px;
+        }
+    </style>
 </head>
 
 <body>
     <div id="app"></div>
-    <script src="./index.js" charset="utf-8"></script>
+    <div id="app1"></div>
+    <div class="test">
+        <img src="https://odj7gwx6q.qnssl.com/img/2016/file014721802041240.960x960.jpeg?imageView2/2/q/75/format/webp" alt="">
+    </div>
+
+    <script src="./parser.js" charset="utf-8"></script>
+    <script src="./mvc.js" charset="utf-8"></script>
+    <script src="./zepto.min.js" charset="utf-8"></script>
     <script type="text/javascript">
-        var template =
-            `
-                <div><% $data + 1 %></div>
-                <%-
-                    var sth = 1000;
-                    var c = 2000;
-                    var time = new Date().toString()
-                %>
-                <%= 你说什么呢 %>
-                <h1>
-                    <% time + (sth + c) %>
-                </h1>
-                <% if( $hei ){ %>
-                    <div><% $niu + (sth+c) %></div>
-                    <% for(var i=0; i< $list.length ; i++) { %>
-                        <%- var item=$list[i] %>
-                        <li><% item.title %></li>
+        // 可以配置OPEN_TAG, CLOSE_TAG
+        var Child = Ent.createClass({
+            template: `<div class="child">我是子组件 <% $num %> <% @name %> <button class="mount">卸载</button></div>`,
+            getState(){
+                return {
+                    num: 0
+                }
+            },
+            events: {
+                'click .child': 'click',
+                'click .mount': 'mount',
+            },
+            click(){
+                this.setState({
+                    num:  100 + this.state.num
+                })
+
+                this.props.add()
+            },
+            mount(){
+                console.log(this);
+                this.destory()
+            }
+        })
+
+        // backbone更多是根据id/ele去渲染元素
+        // 我们需要父组件来手动调用 render(ele, Component, props)
+        var Test = Ent.createClass({
+            // $ele: document.querySelector('#app'),
+            template:  `
+                    <%-
+                        var sth = 1000;
+                        var c = 2000;
+                        var time = new Date().toString()
+                    %>
+                    <%= 可以使用js %>
+                    <div style="height: 70vh;">
+                        <% time + (sth + c) %>
+                    </div>
+                    <div class="hah">
+                        <% $data + $num %>
+                        <button class="add">加一</button>
+                    </div>
+                    props:<% @props %> <br />
+                    <input type="text" /><button class="add-list">添加一条</button>
+                    <% if( $hei ){ %>
+                        <div><% $niu + (sth+c) %></div>
+                        <% for(var i=0; i< $list.length ; i++) { %>
+                            <%- var item=$list[i] %>
+                            <li>
+                                <% if(!item.edit){ %>
+                                    <% item.title %>
+                                    <button data-id="<% i %>" class="del">del</button>
+                                    <button data-id="<% i %>" class="edit">edit</button>
+                                <% } else { %>
+                                    <input type="text" class="title" value="<% item.title %>" />
+                                    <button data-id="<% i %>" class="save">save</button>
+                                <% } %>
+                            </li>
+                        <% } %>
+                    <% } else { %>
+                        我怎么知道呢？
                     <% } %>
-                <% } %>
-            `
-        var data = {
-            data: '胡锦涛',
-            hei: true,
-            niu: '啥都看法开始交电话费卡上的积分',
-            list: [{
-                title: 'fuck'
-            }, {
-                title: '习近平'
-            }]
-        }
 
-        document.querySelector('#app').innerHTML = Parser(template, data)
+                    <% switch($type) {%>
+                        <% case '傻逼': %>
+                            <div>我是switch</div>
+                            <% break; %>
+                    <% } %>
+                    <button class="destory">卸载</button>
+                    <h2>子组件</h2>
+                    <div class="fuck1"></div>
+                    <div class="fuck2"></div>
+                `,
+            // 使用函数返回state的原因，在于保证每个组件实例state的独立性
+            getState(){
+                return {
+                    data: '计数',
+                    num: 0,
+                    hei: true,
+                    niu: '啥都看法开始交电话费卡上的积分',
+                    list: '0'.repeat(10).split('').map(()=>{return {title: 'list test'}}) ,
+                    type: '傻逼'
+                }
+            },
+            // state: state,
+            events: {
+                'click .hah': 'fuck',
+                'click .destory': 'unmount',
+                'click .add': 'add',
+                'click .add-list': 'addList',
+                'click .del': 'del',
+                'click .edit': 'edit',
+                'click .save': 'save'
+            },
+            fuck(){
+                console.log('或的发生的符合')
+            },
+            addList(event){
+                var str = $(this.$ele).find('input').val()
+                this.state.list.push({title: str})
+                str && this.setState({
+                    list: this.state.list
+                })
+            },
+            edit(event){
+                var id = $(event.target).data('id')
+                var list = this.state.list.map((item, index) => {
+                    item.edit = index == +id
+                    console.log(item.edit)
+                    return item
+                })
 
+                this.setState({list})
+            },
+            save(event){
+                var id = $(event.target).data('id')
+                var title = $(event.target).prev().val()
+                var list = this.state.list.map((item, index) => {
+                    index == id && (item.title = title, item.edit = false)
+                    return item
+                })
+                this.setState({list})
+            },
+            add(){
+                this.setState({
+                    num: ++this.state.num
+                }, this.added)
+            },
+            del(event){
+                var id = $(event.target).data('id')
+                var list = this.state.list.filter((item, index) => index != id )
+                this.setState({list})
+            },
+            added(){
+                console.log('fuck u', this.state.num)
+            },
+            unmount(){
+                this.destory()
+            },
+            componentDidMount(){
+                console.log('可以在这一渲染子组件')
+            },
+            // 使用函数返回子组件数组，其用意在于可以使用this
+            Components(){
+                return [
+                    {ele: '.fuck1', component: Child, props: {name: '杜拉拉', num: this.state.num, add: this.add} },
+                    {ele: '.fuck2', component: Child, props: {name: '反派影评', num: this.state.num, add: this.add} },
+                ]
+            }
+        })
+
+        // 这个过程应该是一个new的过程
+        var App = Ent.render(document.querySelector('#app'), Test, {props: '我是props'})
+        // Ent.render(document.querySelector('#app1'), Test, {props: '我是props'})
+
+        setTimeout(()=>{
+            App.destory()
+            setTimeout(()=>{
+                Ent.render(document.querySelector('#app'), Test, {props: '我是props'})
+            },0)
+        }, 3000)
     </script>
 </body>
 

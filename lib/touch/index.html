@@ -1,43 +1,119 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,user-scalable=no">
-        <title></title>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-            }
-            img {
-                transform-origin: left top;
-                width: 100%;
-                height: auto;
-                display: block;
-            }
 
-            body {
-                background: #000;
-                overflow: hidden;
-                width: 100%;
-                height: 700px;
-            }
-            #log {
-                position: absolute;
-                z-index: 1000;
-                font-size: 16px;
-                width: 100%;
-                overflow: hidden;
-                color: #fff;
-                pointer-events: none;
-            }
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
 
-        </style>
-    </head>
-    <body>
-        <img src="http://ww4.sinaimg.cn/mw690/a716fd45jw1f8d6v3bw36j20fk09tdgx.jpg" width="1920" height="2560" alt="" />
-        <div id="log"></div>
-        <script src="./index.js" charset="utf-8"></script>
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
 
-    </body>
+        body {
+            background: #000;
+            width: 100%;
+        }
+
+        #log {
+            position: fixed;
+            /*height: 100vh;*/
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            font-size: 16px;
+            width: 100%;
+            overflow: hidden;
+            color: #fff;
+            pointer-events: none;
+        }
+        /*.img {
+                height: 300px;
+                width: 100%;
+                background: pink;
+                line-height: 300px;
+                text-align: center;
+                font-size: 3em;
+            }*/
+
+        .center {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .preview {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        .preview-item {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            transform: translateY(-50%);
+        }
+
+        .current {
+            transform: translate3d(100%, -50%, 0);
+        }
+
+        img {
+            vertical-align: middle;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="log"></div>
+    <div class="preview">
+        <div class="preview-item"><img src="" alt=""></div>
+        <div class="preview-item"><img src="" alt=""></div>
+        <div class="preview-item"><img src="" alt=""></div>
+    </div>
+    <script type="text/javascript">
+    var $ = function(s){
+        return document.querySelector(s)
+    }
+    window.$log = $('#log')
+    </script>
+    <script src="./pinch.js" charset="utf-8"></script>
+    <script src="./tap.js" charset="utf-8"></script>
+    <script src="./slider.js" charset="utf-8"></script>
+    <script type="text/javascript">
+
+        // 阻止系统缩放
+        var $body = document.body
+        $body.addEventListener('touchstart', function(event){
+            event.preventDefault()
+        })
+
+        var arr = [
+            `http://tc.sinaimg.cn/maxwidth.2048/tc.service.weibo.com/pic_36krcnd_com/de4a8803f4997b07df9fe2c88377070e.jpg`,
+            `http://tc.sinaimg.cn/maxwidth.2048/tc.service.weibo.com/pic_36krcnd_com/7d8752ed59bc387e115d1c1fa9d4bf6e.jpg`,
+                `http://tc.sinaimg.cn/maxwidth.2048/tc.service.weibo.com/pic_36krcnd_com/de4a8803f4997b07df9fe2c88377070e.jpg`,
+                `http://tc.sinaimg.cn/maxwidth.2048/tc.service.weibo.com/pic_36krcnd_com/7d8752ed59bc387e115d1c1fa9d4bf6e.jpg`,
+        ]
+        new Slider($('.preview'), arr, arr[0])
+    </script>
+</body>
+
 </html>
