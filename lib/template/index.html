@@ -17,10 +17,7 @@
 
 <body>
     <div id="app"></div>
-    <div id="app1"></div>
-    <div class="test">
-        <img src="https://odj7gwx6q.qnssl.com/img/2016/file014721802041240.960x960.jpeg?imageView2/2/q/75/format/webp" alt="">
-    </div>
+    <div id="app1"></div> 
 
     <script src="./parser.js" charset="utf-8"></script>
     <script src="./mvc.js" charset="utf-8"></script>
@@ -62,7 +59,7 @@
                         var time = new Date().toString()
                     %>
                     <%= 可以使用js %>
-                    <div style="height: 70vh;">
+                    <div>
                         <% time + (sth + c) %>
                     </div>
                     <div class="hah">
@@ -182,12 +179,12 @@
         var App = Ent.render(document.querySelector('#app'), Test, {props: '我是props'})
         // Ent.render(document.querySelector('#app1'), Test, {props: '我是props'})
 
-        setTimeout(()=>{
-            App.destory()
-            setTimeout(()=>{
-                Ent.render(document.querySelector('#app'), Test, {props: '我是props'})
-            },0)
-        }, 3000)
+        // setTimeout(()=>{
+        //     App.destory()
+        //     setTimeout(()=>{
+        //         Ent.render(document.querySelector('#app'), Test, {props: '我是props'})
+        //     },0)
+        // }, 3000)
     </script>
 </body>
 
