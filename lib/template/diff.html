@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script src="./diff.js" charset="utf-8"></script>
+        <script src="./element.js" charset="utf-8"></script>
+        <script src="./patch.js" charset="utf-8"></script>
+        <script type="text/javascript">
+        var Tree = {
+            tagName: 'div',
+            props: {
+
+            },
+            children: [
+                {
+                    tagName: '__text__',
+                    props: {
+                        value: 'fuck'
+                    }
+                },
+                {
+                    tagName: 'div',
+                    props: {
+                        class: '11',
+                        id: '22',
+                        onClick: 'click'
+                    }
+                }, {
+                    tagName: 'a'
+                }, {
+                    tagName: 'p'
+                }
+            ]
+        }
+
+        var $app = document.querySelector('#app')
+        var node = render(Tree)
+        $app.appendChild(node)
+
+
+        var newTree = {
+            tagName: 'div',
+            props: {
+                style: 'background: red'
+            },
+            children: [
+                {
+                    tagName: '__text__',
+                    props: {
+                        value: '日你大爷'
+                    }
+                },
+                {
+                    tagName: 'pre',
+                    children: ['你说时的手势点符号是东方红']
+                },
+                {
+                    tagName: 'div',
+                    props: {
+                        class: '11',
+                        id: '22',
+                        onClick: 'click'
+                    },
+                    children: ['去你大爷的']
+                }
+            ]
+        }
+
+        let diffResult = diff([Tree], [newTree])
+        patch($app, diffResult)
+        </script>
+    </body>
+</html>
