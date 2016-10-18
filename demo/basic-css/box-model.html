@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style media="screen">
+        </style>
+    </head>
+    <body>
+        <h1>盒模型</h1>
+        <div class="fuck" style=" background: rgb(105, 97, 84);">
+            <h2>边框合并</h2>
+            <div style="margin-top: 20px; margin-bottom: 20px;">
+                <div style="margin-top: 20px; margin-bottom: 20px; background: pink;">margin-top会与父元素的margin-top合并 margin-bottom会和nextElementSibling的margin-top合并</div>
+                <div style="margin-top: 20px; margin-bottom: 20px; background: rgb(81, 128, 118);">margin-bottom会和父元素的margin-bottom合并</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 50px;">
+            ssss
+        </div>
+        父元素设置这些属性border: 1px solid red; padding: 1px; position: absolute; float: left; overflow: hidden;
+        可以阻止子元素的margin与与父元素的合并
+    </body>
+</html>
