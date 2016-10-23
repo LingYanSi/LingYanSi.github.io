@@ -1,0 +1,12 @@
+{
+    "host": "115.159.124.175",
+    "port": 8009,
+    "user": "wangyong",
+    "password": "xxxddoo3tt4Lg19",
+    "remotePath": "webApp/ftptest/",
+    "upload": {
+        "default": [""],
+        "chat": ["wptFtp/not/test/a.txt", "wptFtp/not/test2/灯火阑珊.js"],
+        "lys": ["lys/bin"]
+    }
+}

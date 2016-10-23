@@ -16,6 +16,29 @@
 
 ### Emmet
 
+### docblockr
+DocBlockr is a package for Atom which is designed to make writing documentation faster and easier.
+``` /**
+```
++ Enter 即可，如果是在function上面，则可根据参数生成如下字符串，恩很方便
+
+```js
+/**
+ * [Core description]
+ * @param {[type]} ftp      [description]
+ * @param {[type]} rootPath [description]
+ */
+```
+
+### git-time-machine
+查看单文件git提交记录，选择后可以和历史版本diff
+
+### git-blame
+显示每行的最近提交信息
+
+### git-plus
+基本囊括了所有的git操作
+
 ### sync-setting
 插件同步
 Personal Access Token
