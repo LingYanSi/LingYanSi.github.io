@@ -17,10 +17,11 @@
 
 <body>
     <div id="app"></div>
-    <div id="app1"></div> 
+    <div id="app1"></div>
 
     <script src="./parser.js" charset="utf-8"></script>
     <script src="./mvc.js" charset="utf-8"></script>
+    <script src="./VDParser.js" charset="utf-8"></script>
     <script src="./zepto.min.js" charset="utf-8"></script>
     <script type="text/javascript">
         // 可以配置OPEN_TAG, CLOSE_TAG
@@ -53,6 +54,7 @@
         var Test = Ent.createClass({
             // $ele: document.querySelector('#app'),
             template:  `
+                <div>
                     <%-
                         var sth = 1000;
                         var c = 2000;
@@ -70,19 +72,21 @@
                     <input type="text" /><button class="add-list">添加一条</button>
                     <% if( $hei ){ %>
                         <div><% $niu + (sth+c) %></div>
-                        <% for(var i=0; i< $list.length ; i++) { %>
-                            <%- var item=$list[i] %>
-                            <li>
-                                <% if(!item.edit){ %>
-                                    <% item.title %>
-                                    <button data-id="<% i %>" class="del">del</button>
-                                    <button data-id="<% i %>" class="edit">edit</button>
-                                <% } else { %>
-                                    <input type="text" class="title" value="<% item.title %>" />
-                                    <button data-id="<% i %>" class="save">save</button>
-                                <% } %>
-                            </li>
-                        <% } %>
+                        <ul>
+                            <% for(var i=0; i< $list.length ; i++) { %>
+                                <%- var item=$list[i] %>
+                                <li>
+                                    <% if(!item.edit){ %>
+                                        <% item.title %>
+                                        <button dataid="<% i %>" class="del">del</button>
+                                        <button dataid="<% i %>" class="edit">edit</button>
+                                    <% } else { %>
+                                        <input type="text" class="title" value="<% item.title %>" />
+                                        <button dataid="<% i %>" class="save">save</button>
+                                    <% } %>
+                                </li>
+                            <% } %>
+                        </ul>
                     <% } else { %>
                         我怎么知道呢？
                     <% } %>
@@ -96,6 +100,7 @@
                     <h2>子组件</h2>
                     <div class="fuck1"></div>
                     <div class="fuck2"></div>
+                </div>
                 `,
             // 使用函数返回state的原因，在于保证每个组件实例state的独立性
             getState(){
