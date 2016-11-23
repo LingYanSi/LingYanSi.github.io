@@ -30,6 +30,17 @@ npm update -g npm
 npm uninstall -g npm
 
 ```
+## npm install
+[这里](http://www.cnblogs.com/chyingp/p/npm-install-difference-between-local-global.html)
+本地安装 npm
+1. 将安装包放在 ./node_modules 下（运行npm时所在的目录）
+2. 可以通过 require() 来引入本地安装的包
+
+全局安装 npm i -g
+1. 将安装包放在 /usr/local 下
+2. 可以直接在命令行里使用
+
+这就是为什么webpack/gulp之类的需要全局安装也需要本地安装的原因了
 
 ## 发布npm包
 
@@ -84,3 +95,34 @@ node-sass的一个坑，直接使用npm安装后，还需要对原文件进行�
 - yum install gcc
 - yum install gcc-c++
 - 再去make install 这时候可以去看集美剧，回来就安装好了
+
+
+
+## node安装
+
+### 下载该版本：
+[淘宝镜像](https://npm.taobao.org/mirrors/node)
+node的下载文件有三种
+- node.exe/dmg 等点击安装包
+- node-v7.1.0.tar.gz   源码，未编译
+- node-v7.1.0-linux-x64.tar.gz  已编译，只需下载下来设置soft link即可
+
+wget 任意版本
+
+### 解压缩：
+tar xf node-v0.10.36-linux-x64.tar.gz
+
+### 更改目录名称
+mv node-v0.10.36-linux-x64 nodejs
+
+### 移动到指定目录
+mv nodejs /data/
+
+cd /data/nodejs/bin
+
+### 设置软链接
+ln -s /data/nodejs/bin/node /usr/local/bin/node
+ln -s /data/nodejs/bin/npm /usr/local/bin/npm
+
+### 查看当前安装的Node的版本：
+node -v

@@ -21,7 +21,7 @@
     "webpack": "^1.12.15"
   },
   "scripts": {
-    "fuck": "webpack --progress --profile --colors --display-error-details --display-cached",
+    "pack": "webpack --progress --profile --colors --display-error-details --display-cached",
     "dev": "",
     "build": ""
   }

@@ -20,21 +20,22 @@
             if(selector==document || selector==window) return selector ;
             return document.querySelector(selector);
         }
-        $('#main').addEventListener('click',function(){
+        $('#main').addEventListener('click',function(event){
+            // event.stopPropagation()
             console.log('事件捕获','main')
-        },false);
+        },true);
 
         $('#child').addEventListener('click',function(){
             console.log('事件捕获','child')
-        },true);
-
-        $(document).addEventListener('click',function(){
-            console.log('事件捕获','document')
-        },true);
-
-        $(window).addEventListener('click',function(){
-            console.log('事件捕获','window')
         },false);
+
+        // $(document).addEventListener('click',function(){
+        //     console.log('事件捕获','document')
+        // },true);
+        //
+        // $(window).addEventListener('click',function(){
+        //     console.log('事件捕获','window')
+        // },false);
 
     </script>
 </body>

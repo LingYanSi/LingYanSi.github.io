@@ -10,9 +10,9 @@ var notifier = require('node-notifier');
 
 var path = require('path')
 
-const entrys = require('./get_dir')
+var getRouter = require('./getRouter')
 
-console.log(entrys);
+const entry = require('./get_dir')
 
 function webpackDone(title, message, sound){
     notifier.notify({
@@ -34,12 +34,12 @@ module.exports = {
     // 删除
     clearBeforeBuild: true,
     // 入口配置
-    entry: entrys,
+    entry: entry,
     // 输出配置
     output: {
         // 输出路径
-        path: './dist/js/pages/',
-        filename: "[name].js",
+        path: './dist/',
+        filename: "[name].[chunkhash:8].js",
         // 块文件名称？
         chunkFilename: "[name].js",
     },
@@ -83,6 +83,9 @@ module.exports = {
         new WebpackOnBuildPlugin(function(stats) {
             var compilation = stats.compilation;
             var errors = compilation.errors;
+
+            getRouter(compilation, entry)
+
             if (errors.length > 0) {
                 var error = errors[0];
                 webpackDone(error.name, error.message, 'Glass');

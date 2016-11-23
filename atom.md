@@ -39,6 +39,20 @@ DocBlockr is a package for Atom which is designed to make writing documentation 
 ### git-plus
 基本囊括了所有的git操作
 
+### atom-ternjs
+js代码 autocomplete
+
+### atom-completeplus
+
+### autocomplete-modules.
+require/module引用文件，自动补全
+
+### color-picker
+选择颜色
+
+### pigments
+显示颜色
+
 ### sync-setting
 插件同步
 Personal Access Token

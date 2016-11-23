@@ -95,3 +95,11 @@ mysql -u root < pathofbeifen.sql
 - 不要给单独的某个字段设置character，应该是给表设置
 
 ## 设置编码类型
+
+
+create table imgs
+(
+    url char(255) NOT NULL,
+    id int(11) AUTO_INCREMENT,
+    PRIMARY KEY ( id )
+);
