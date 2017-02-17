@@ -18,3 +18,14 @@ ssh-copy-id user@host
 ```
 
 ## 高级功能
+
+## 添加到git账户中
+```
+cat /Users/wangyong/.ssh/id_rsa.pub
+
+ssh-rsa axxbbxxxcvfgfgdfgdfgdfgdfg/qM754YYRd4w1s/sasddsfsdfsdfsdf/zZoueuWGIc6YMNtEyBDgdngkfD8IpNhSsZXQEoO1tfZ+2/TRNGdh6P8btb9ZZ3cr5Unrs3HNbhGoZYCcM17UTMqODy50ujreg7XtaQtbIYtl0X+ifQyo5IhcuU4W0xFIcUyf23g2F9ga4Dk8RBPTBVDHVo3TIRhe7p9km5J3BtdamfTJFdk/+3Jk099Ant8r671bRGshZ7yX/cFoGJfRPVKt/2fUm4yaaV+LyOjpbt wangyong@wangyongdeMacBook-Pro.local
+```
+把id_rsa.pub添加到秘钥里
+
+### notice
+在github上，似乎不用添加后面的 ** wangyong@wangyongdeMacBook-Pro.local ** , 而在gitlab上则必须要添加上，不然会导致git操作频繁失败 😁🐶

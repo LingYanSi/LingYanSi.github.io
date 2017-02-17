@@ -94,12 +94,83 @@ mysql -u root < pathofbeifen.sql
 ## 坑
 - 不要给单独的某个字段设置character，应该是给表设置
 
+## 安全性与设置密码
+```mysql
+use mysql;
+update user set password=PASSWORD('newpassword') where user="root"；
+flush PRIVILEGES;
+exit;
+```
+除了设置密码外，我们还应该禁止远程连接数据库
+如果要远程登录的话
+``mysql
+use mysql;
+update user set host='%' where host="localhost"；
+flush PRIVILEGES;
+exit;
+```
+
 ## 设置编码类型
 
 
-create table imgs
+create table photo
 (
     url char(255) NOT NULL,
     id int(11) AUTO_INCREMENT,
     PRIMARY KEY ( id )
 );
+
+create table article(
+    author char(30) NOT NULL,
+    content text NOT NULL,
+    tags text NOT NULL,
+    create_time bigint NOT NULL,
+    update_time bigint NOT NULL,
+    scan_num int(11),
+    summary text,
+    title char(255) NOT NULL,
+    comments_num int(11),
+    id int(11) AUTO_INCREMENT,
+    PRIMARY KEY ( id )
+);
+
+create table comment(
+    content text NOT NULL,
+    uid int(11) NOT NULL,
+    comments_id int(11),
+    create_time bigint NOT NULL,
+    update_time bigint NOT NULL,
+    id int(11) AUTO_INCREMENT,
+    PRIMARY KEY ( id )
+);
+
+create table user(
+    username char(255) NOT NULL,
+    summary char(255),
+    avatar text,
+    age int(11),
+    sex int(2),
+    id int(11) AUTO_INCREMENT,
+    PRIMARY KEY ( id )
+);
+
+create table movie(
+    name char(255) NOT NULL,
+    summary char(255),
+    poster text NOT NULL,
+    star int(5),
+    id int(11) AUTO_INCREMENT,
+    PRIMARY KEY ( id )
+);
+
+create table vote(
+    showId int(11),
+    userId int(11),
+    id int(11) AUTO_INCREMENT,
+    PRIMARY KEY ( id )
+);
+
+alter table imgs add type char(255);
+ update imgs set type="photo" where type=NULL;
+
+insert into movie (name, summary, poster, star) values('Before Sunrise', '爱在黎明破晓前 Before Sunrise', 'http://ww1.sinaimg.cn/mw1024/69b8b46egw1fan7h7v7c6j20m80eojus.jpg', 5);

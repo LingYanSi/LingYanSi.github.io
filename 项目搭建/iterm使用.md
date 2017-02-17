@@ -134,13 +134,14 @@ node app
 
 ## vim配色，显示
 $ vim ~/.vimrc
+```
 "语法高亮
 syntax on
 "显示行号
 set number
 "显示光标所在行列
 set ruler
-
+```
 ## zsh: command not found: xxxx
 ls命令基本每个linux shell都会存在，因为这是基本的应用命令。就好比，手机接打电话、短信内容一样，这是最基本的，所以不可能是没有这个命令。
 
@@ -153,3 +154,18 @@ whereis ls
 export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
 
 ## which/whereis command
+
+## 在新窗口打开时，保存当前窗口路径
+Profiles -> General -> Working Directory -> Reuse previous session's directory
+
+## 快捷切换 option + space
+Keys -> Hot Keys
+
+## 自动提示 zsh-autosuggestions
+会模糊匹配历史命令
+
+安装步骤
+```bash
+git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+```
+在~/.zshrc -> plugins中添加zsh-autosuggestions

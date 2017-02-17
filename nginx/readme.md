@@ -27,6 +27,14 @@
     - 其他命令如上
     - 可以看得出来nginx被安装在/usr/local/nginx-1xxx
 
+- mac
+    Docroot is: /usr/local/var/www
+
+    The default port has been set in /usr/local/etc/nginx/nginx.conf to 8080 so that
+    nginx can run without sudo.
+
+    nginx will load all files in /usr/local/etc/nginx/servers/.
+
 ## 遇到的坑
 nginx配置正确，却无法把请求转发出去
 一般而言，如果配置正确，却出现与预期不符的现象，都是因为端口被占用

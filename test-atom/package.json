@@ -1,0 +1,33 @@
+{
+    "bugs": {
+    "url": "https://github.com/davidlgoldberg/qolor/issues"
+  },
+  "dependencies": { },
+  "description": "An atom package demo",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/lingyansi/Rv#readme",
+  "keywords": [
+    "sql",
+    "query",
+    "semantic",
+    "highlight",
+    "color",
+    "tables",
+    "joins",
+    "syntax"
+  ],
+  "license": "MIT",
+  "main": "./lib/qolor",
+  "name": "fuck",
+  "optionalDependencies": {},
+  "readme": "",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lingyansi/Rv.git"
+  },
+  "version": "0.0.2"
+}

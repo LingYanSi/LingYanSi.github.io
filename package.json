@@ -1,6 +1,6 @@
 {
-  "name": "Hybrid",
-  "version": "1.0.0",
+  "name": "webpack2-demo",
+  "version": "0.0.1",
   "description": "混合项目",
   "devDependencies": {
     "autoprefixer": "^6.3.1",
@@ -41,7 +41,8 @@
     "path-order-webpack-plugin": "^0.1.1",
     "postcss-loader": "^0.6.0",
     "react-native": "^0.16.0",
-    "style-loader": "^0.13.0"
+    "style-loader": "^0.13.0",
+    "webpack": "^2.1.0-beta.27"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -51,5 +52,16 @@
   },
   "dependencies": {
     "imagemin-jpegoptim": "^4.1.0"
-  }
+  },
+  "main": "gulpfile.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LingYanSi/LingYanSi.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LingYanSi/LingYanSi.github.io/issues"
+  },
+  "homepage": "https://github.com/LingYanSi/LingYanSi.github.io#readme"
 }

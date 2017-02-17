@@ -83,6 +83,12 @@ npm uninstall -g npm
 node-sass的一个坑，直接使用npm安装后，还需要对原文件进行编译，这两个尝试安装一直提示 download form http://xxxx 失败
 后来看到cnpm把node-sass也镜像了，然后使用cnpm安装，速度挺快
 
+## npm升级包
+```
+npm i npm-check -g
+```
+使用三方包``` npm-check -u ```来升级安装包
+
 ## centos安装node
 
 在linux下，用yum安装的一般是稳定版本，如果要安装最新版本的话，需要使用自己编译
@@ -126,3 +132,17 @@ ln -s /data/nodejs/bin/npm /usr/local/bin/npm
 
 ### 查看当前安装的Node的版本：
 node -v
+
+### 安装beta版本
+安装最版本
+npm i packagename@beta
+
+### npm包位置
+本地安装包的位置就在当前目录下的node_modules内
+```bash
+# 全局安装包使用--save，如此，在安装pack的时候，也会把依赖包安装进去
+npm i xx --save  
+# 一般业务用--save-dev
+npm i xx --save-dev
+```
+全局安装包在 ~/.npm/下，对于cnpm来说，其位置在包安装结束的时候会被打印出来

@@ -8,7 +8,6 @@
 |其他|etc|
 
 ```makefile
-
 ISTANBUL=./node_modules/.bin/istanbul
 _MOCHA=./node_modules/.bin/_mocha
 create:
@@ -19,5 +18,13 @@ test:
     $(ISTANBUL) cover $(_MOCHA) # $()对变量的引用
 relay:create # create执行后relay才执行
     mv a.js b.js
+```
 
+在makefile中$是特殊符号，如果要使用可以用$$来替代$
+```makefile
+stopwebp:
+    # bad
+    # ps aux | grep webpack | grep -v "grep" | awk '{print $2}' | xargs kill -9
+    # good
+    ps aux | grep webpack | grep -v "grep" | awk '{print $$2}' | xargs kill -9
 ```

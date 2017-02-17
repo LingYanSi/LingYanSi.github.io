@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+
+    </style>
+</head>
+
+<body>
+    <div>
+        sdahbfahdf dgdfbgsdbfgsdfgm
+    </div>
+    <script type="text/javascript">
+        let ele = document.createElement('div')
+        ele.style.cssText += `position: absolute; top: 200px; left: 100px; font-size: 50px;`
+        ele.textContent = '大事发生地方'
+
+        let ele2 = document.createElement('div')
+        ele2.style.cssText += `position: absolute; top: 800px; left: 100px; font-size: 50px;`
+        ele2.textContent = '大事发生地方'
+        createTips(window.innerWidth, window.innerHeight, [{
+            left: 300,
+            top: 300,
+            width: 200,
+            height: 100,
+            tipElement: ele
+        }, {
+            left: 300,
+            top: 800,
+            width: 100,
+            height: 50,
+            tipElement: ele2
+        }])
+
+        function createTips(width, height, options = []) {
+            //  left, top, width, height, tipElement
+            var parent = document.createElement('div')
+            parent.style.cssText = ';position: absolute; top: 0; left: 0; height: 100%; width: 100%;'
+
+            var canvas = document.createElement('canvas')
+            canvas.width = width
+            canvas.height = height
+
+            var ctx = canvas.getContext('2d')
+
+            ctx.save()
+            ctx.fillStyle = "rgba(0, 0, 0, .3)";
+            ctx.fillRect(0, 0, width, height);
+            ctx.restore()
+
+            options.forEach(item => {
+                let {
+                    left,
+                    top,
+                    width,
+                    height,
+                    tipElement
+                } = item
+                createEllipse(ctx, left, top, width, height)
+                parent.appendChild(tipElement)
+            })
+
+            parent.appendChild(canvas)
+            document.body.appendChild(parent)
+
+            // 画一个椭圆
+            function createEllipse(context, x, y, a, b) {
+                ctx.save();
+                var step = (a > b) ? 1 / a : 1 / b;
+                ctx.beginPath();
+                ctx.moveTo(x + a, y);
+                for (var i = 0; i < 2 * Math.PI; i += step) {
+                    ctx.lineTo(x + a * Math.cos(i), y + b * Math.sin(i));
+                }
+                ctx.closePath();
+                ctx.globalCompositeOperation = 'destination-out'
+                context.fill()
+                addShaows(x, y, a, b)
+                ctx.restore();
+            }
+
+            // 添加阴影
+            function addShaows(x, y, a, b) {
+                var color = 'rgba(0, 0, 0, .3)'
+                var div = document.createElement('div')
+                div.style.cssText += '' +
+                    'height: ' + (b * 2) + 'px;' +
+                    'width:' + (a * 2) + 'px;' +
+                    'position: absolute;' +
+                    'left:' + (x - a) + 'px;' +
+                    'top:' + (y - b) + 'px;' +
+                    'border-radius: 100%;' +
+                    'box-shadow: inset 0 0 6px 6px ' + (color) + ';' +
+                    'margin: 0;' +
+                    'padding: 0;'
+                parent.appendChild(div)
+            }
+        }
+    </script>
+</body>
+
+</html>

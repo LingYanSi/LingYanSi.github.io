@@ -33,3 +33,18 @@ node file.js
 2. ejs
 
 ### 跑在服务器上
+
+### 使用harmony
+node --harmony xx.js
+
+对于全局安装包需要在bin文件中
+```js
+#!/usr/bin/env node --harmony
+// do sth
+```
+
+但是在服务器上运行有些问题，如果node不是正常安装，就需要手动指定可执行node的位置
+```js
+#!/usr/local/bin/node --harmony
+// do sth
+```

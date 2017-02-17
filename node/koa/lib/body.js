@@ -70,9 +70,16 @@ var upload =  function(ctx, DIR, LIMIT){
             // blob image/video/txt etc
 
             // 没有json类型
-            if (CT.startsWith('text/json')) {
+            if (CT.startsWith('application/json')) {
                 str = Buffer.concat(data).toString('utf8')
-                res(str)
+                let data = {}
+                try {
+                    data = JSON.parse(str)
+                } catch (e) {
+
+                } finally {
+                    res(data)
+                }
                 return
             }
                 // 截取有用字段

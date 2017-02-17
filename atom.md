@@ -63,3 +63,6 @@ Gist Id
 
 Gist Description
 新建Gist的时候，会输入描述
+
+## 全屏模式下command + shift + n
+是在原有界面上，新开一个工程项目
